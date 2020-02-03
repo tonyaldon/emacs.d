@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: mysql query
+# key: q
+# group: tony aldon
+# --
+${1:db}.query(${2:sql},${3:values}, (error, results) => {
+if (error) throw error;
+$0
+});

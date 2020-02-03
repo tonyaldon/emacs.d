@@ -1,0 +1,33 @@
+# -*- mode: snippet -*-
+# name: setuptools
+# key: setuptools
+# group: tony aldon
+# --
+import os
+import setuptools
+
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
+setuptools.setup(
+    name="${1:name}",
+    version="${2:0.0.1}",
+    author="tony aldon",
+    author_email="aldon.tony@gmail.com",
+    description="${3:description}",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/tonyaldon",
+    packages=setuptools.find_packages(),
+    install_requires=[
+        '${7:package-name-1}',
+        '${8:package-name-2}'
+    ],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    entry_points={'console_scripts': ['${4:name} = ${5:package}:${6:main}']},
+)
+$0

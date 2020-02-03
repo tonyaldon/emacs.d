@@ -1,0 +1,20 @@
+(setq browse-url-browser-function 'browse-url-chromium)
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
+
+(setq-default tab-width 2)
+
+(set-language-environment "UTF-8")
+(pending-delete-mode t)
+
+(setenv "PATH" (concat "~/.local/bin:" (getenv "PATH")))
+(add-to-list 'exec-path "~/.local/bin")
+
+
+;; TODO: to dispatch in appropriate setup files 
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-save-file "~/.emacs.d/recentf")
+(setq recentf-max-saved-items 25)
+
+
+(provide 'setup-init)
