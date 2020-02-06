@@ -1,5 +1,6 @@
 (require 'kb)
 (require 'org)
+(require 'util-mathstyle)
 
 (setq save-place-file "~/emacs.d/places")
 
@@ -12,7 +13,7 @@
 
 (defun ta-find-directory-settings ()
   (interactive)
-  (dired "~/Documents/settings/dotfiles/emacs/.emacs.d/settings/"))
+  (dired "~/Documents/settings/emacs.d/.emacs.d/settings/"))
 
 (defun ta-find-file-variable-costs ()
   (interactive)
@@ -20,7 +21,15 @@
 
 (defun ta-find-file-i3-config ()
   (interactive)
-  (find-file "~/Documents/settings/dotfiles/user-config-file/.config/i3/config"))
+  (find-file "~/Documents/settings/i3/.config/i3/config"))
+
+(defun ta-find-file-tricks ()
+  (interactive)
+  (find-file "~/Documents/learning/tricks/org/tricks.org"))
+
+(defun ta-find-file-emacs-app ()
+  (interactive)
+  (find-file "~/Documents/apps/emacs/"))
 
 (defun rename-current-buffer-file ()
   "Renames current buffer and file it is visiting.
@@ -54,11 +63,14 @@ Printed in the message area"
    :pre (hydra-color-pre)
    :post (hydra-color-post)
    :hint nil)
+	("i" ta-find-file-i3-config :color blue)
+	("e" ta-find-file-emacs-app :color blue)
 	("c" ta-find-file-variable-costs :color blue)
-	("d" ta-find-file-i3-config :color blue)
+	("t" ta-find-file-tricks :color blue)
 	("s" ta-find-directory-settings :color blue)
 	("r" rename-current-buffer-file :color blue)
 	("l" ta-number-lines-whole-buffer :color blue)
+	("d" ms-dashboard)
   ;; ---
   ("M--" undo)
   ("q" nil))

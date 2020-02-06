@@ -28,6 +28,7 @@
 				hydra-lines/forward-word
 				hydra-lines/hydra-sp-reshape/body-and-exit
 				hydra-lines/hydra-sp/body-and-exit
+				hydra-lines/join-line
 				hydra-lines/kill-line
 				hydra-lines/kill-whole-line
 				hydra-lines/lambda-l
@@ -76,15 +77,18 @@
 				hydra-sp/sp-backward-down-sexp
 				hydra-sp/sp-backward-kill-sexp
 				hydra-sp/sp-backward-sexp
+				hydra-sp/sp-beginning-of-sexp
 				hydra-sp/sp-down-sexp
 				hydra-sp/sp-end-of-sexp
 				hydra-sp/sp-forward-sexp
+				hydra-sp/sp-kill-sexp
 				hydra-sp/sp-kill-whole-line
 				hydra-sp/sp-next-sexp
 				hydra-sp/sp-rewrap-sexp
 				hydra-sp/sp-up-sexp
 				hydra-sp/sp-wrap-curly
 				hydra-sp/sp-wrap-round
+				hydra-sp/sp-wrap-square
 				hydra-ss/body
 				hydra-ss/ta-ss-s-capitalize-and-exit
 				hydra-ss/ta-ss-s-upcase-and-exit
@@ -112,6 +116,7 @@
 				org-yank
 				picture-self-insert
 				python-indent-shift-left
+				reindent-then-newline-and-indent
 				save-buffers-kill-terminal
 				sgml-slash
 				sh-assignment
@@ -147,6 +152,7 @@
 				ace-jump-move
 				ace-window
 				avy-goto-char
+				avy-goto-line
 				backward-kill-sentence
 				beginning-of-buffer
 				c-electric-semi&comma
@@ -175,7 +181,6 @@
 				hydra-lines/drag-stuff-down
 				hydra-lines/drag-stuff-up
 				hydra-lines/hydra-scrolling/body-and-exit
-				hydra-lines/join-line
 				hydra-lines/nil
 				hydra-lines/previous-logical-line
 				hydra-lines/ta-avy-mark-region

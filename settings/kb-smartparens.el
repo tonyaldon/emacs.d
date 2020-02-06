@@ -165,8 +165,6 @@
 (setq sp-highlight-wrap-overlay nil)
 (setq sp-highlight-wrap-tag-overlay nil)
 (setq sp-show-pair-from-inside nil)
-(sp-local-pair 'org-mode "/" nil :actions :rem)
-(sp-local-pair 'org-mode "~" nil :actions :rem)
 
 (defun ta-drag-sexp-to-left ()
   "Drag next sexp to the left of the previous sexp.
