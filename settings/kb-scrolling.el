@@ -22,6 +22,18 @@
   (interactive)
   (scroll-other-window-down 1))
 
+(defun ta-scroll-down-half-window ()
+  "Scroll down of half window."
+  (interactive)
+  (let ((window-middle (/ (window-body-height) 2)))
+		(scroll-up-line window-middle)))
+
+(defun ta-scroll-up-half-window ()
+  "Scroll up of half window."
+  (interactive)
+  (let ((window-middle (/ (window-body-height) 2)))
+		(scroll-up-line (- 0 window-middle))))
+
 (defhydra hydra-scrolling
   (
    :pre (hydra-color-pre-scrolling)
@@ -36,6 +48,8 @@
   (">" end-of-buffer)
   ("<backspace>" scroll-down-command)
   ("SPC" scroll-up-command)
+  ("s" ta-scroll-down-half-window)
+  ("d" ta-scroll-up-half-window)
   ("p" ta-scroll-down-line)
   ("n" ta-scroll-up-line)
   ("f" scroll-left)
