@@ -301,7 +301,7 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
   ("M--" undo)
   ("q" nil))
 
-(key-chord-define-global "sr" 'hydra-sp/body)
+(key-chord-define-global "-n" 'hydra-sp/body)
 (key-chord-define-global "-0" 'hydra-sp-reshape/body)
 
 
