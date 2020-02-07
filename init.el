@@ -35,6 +35,7 @@
 (require 'setup-python-mode)
 (require 'setup-emacs-lisp-mode)
 (require 'setup-latex-mode)
+(require 'setup-gmake-makefile-mode)
 
 
 (require 'kb)
