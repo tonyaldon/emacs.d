@@ -29,7 +29,7 @@
 
 (defun hydra-color-pre-sp ()
   "Here, the used color matches with d-yellow-1 defined in `discreet-theme'"
-	(set-cursor-color "#ffd500"))
+	(set-cursor-color "#f92672"))
 
 (defun hydra-color-pre-sp-reshape ()
   "Here, the used color matches with d-blue-1 defined in `discreet-theme'"
