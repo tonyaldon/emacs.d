@@ -225,6 +225,7 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
   ("DEL" sp-backward-kill-sexp)
   ("c" sp-copy-sexp)
   ("@" sp-backward-copy-sexp)
+	("C-y" sp-clone-sexp)
   (";" sp-comment)
   ("N" sp-narrow-to-sexp)
   ;; sp-motion
@@ -301,7 +302,7 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
   ("M--" undo)
   ("q" nil))
 
-(key-chord-define-global "-n" 'hydra-sp/body)
+(global-set-key (kbd "M-i") 'hydra-sp/body)
 (key-chord-define-global "-0" 'hydra-sp-reshape/body)
 
 

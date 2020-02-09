@@ -29,7 +29,7 @@
 	  (-max (--map (length (-last-item (s-split "/" it)))
 								 (dired-utils-get-all-files)))))
 
-(defun ta-dired-current-buffer-file-toggle ()
+(defun ta-sidebar ()
   "Pop a buffer on the left of the frame in `dired-mode'
 
 with the parent directory of the current `buffer-file-name' if not `nil' and
@@ -107,7 +107,7 @@ that `dired-mode' is displaying."
 (define-key dired-mode-map (kbd "/") 'dired-narrow)
 (define-key dired-mode-map (kbd ".") 'dired-hide-dotfiles-mode)
 
-(global-set-key (kbd "M-i") 'ta-dired-current-buffer-file-toggle)
+(global-set-key (kbd "M-]") 'ta-sidebar)
 
 
 
