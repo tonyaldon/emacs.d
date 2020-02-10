@@ -4,8 +4,8 @@
 # --
 *** ${1:Tricks name}
 		- Problem :: ${2:How can I}$3?
-		- ${4:Use the} ${5:option/command}
-		- ${6:One line description}
+		- ${4:Use} ${5:~command~ command.}
+		- ${6:One line description.}
 		- ${7:See examples} ${8:link}.
 		- If you want to $9:
 			#+BEGIN_SRC ${10:language}
