@@ -144,6 +144,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+				Info-exit
 				LaTeX-babel-insert-hyphen
 				TeX-insert-quote
 				ace-jump-done
