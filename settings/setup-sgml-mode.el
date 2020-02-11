@@ -37,6 +37,23 @@
             (goto-char (match-beginning 0))
             (forward-char 1)))))))
 
+(defun ta-previous-attribute ()
+  "Move forward to the next attribute"
+  (interactive)
+  (save-excursion
+    (setq inside-tag (sgml-beginning-of-tag))
+    (if inside-tag (setq beg-of-tag (point))))
+  (if inside-tag
+      (if (search-backward-regexp ta-sgml-attr-re beg-of-tag t)
+          (forward-char 1)
+        (goto-char beg-of-tag))
+    (search-backward-regexp ">" nil t)
+		(save-excursion (setq tag-type
+													(sgml-tag-type (car (sgml-get-context)))))
+		(cond
+		 ((equal tag-type 'empty) (backward-char 1))
+		 ((equal tag-type 'close) (sgml-beginning-of-tag)))))
+
 
 
 (provide 'setup-sgml-mode)
