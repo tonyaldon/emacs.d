@@ -36,6 +36,7 @@
 (require 'setup-emacs-lisp-mode)
 (require 'setup-latex-mode)
 (require 'setup-gmake-makefile-mode)
+(require 'setup-sgml-mode)
 
 
 (require 'kb)

@@ -12,6 +12,7 @@
 				c-electric-colon
 				csv-align-fields
 				dired-toggle-read-only
+				electric-newline-and-maybe-indent
 				emmet-wrap-with-markup
 				end-of-visual-line
 				er/mark-inside-quotes
@@ -63,12 +64,14 @@
 				hydra-sp-reshape/body
 				hydra-sp-reshape/hydra-lines/body-and-exit
 				hydra-sp-reshape/hydra-sp/body-and-exit
+				hydra-sp-reshape/sp-add-to-previous-sexp
 				hydra-sp-reshape/sp-backward-slurp-sexp
 				hydra-sp-reshape/sp-emit-sexp
 				hydra-sp-reshape/sp-kill-sexp
 				hydra-sp-reshape/sp-splice-sexp
 				hydra-sp-reshape/sp-splice-sexp-and-exit
 				hydra-sp-reshape/ta-drag-sexp-to-left
+				hydra-sp-reshape/ta-drag-sexp-to-right
 				hydra-sp-reshape/undo
 				hydra-sp/body
 				hydra-sp/hydra-lines/body-and-exit
@@ -243,6 +246,7 @@
 				suspend-frame
 				swiper
 				swiper-mc
+				swiper-thing-at-point
 				ta-dired-current-buffer-file-toggle
 				ta-find-file-notes
 				undefined
