@@ -52,8 +52,10 @@
 (require 'kb-search)
 (require 'kb-smartparens)
 (require 'kb-string)
+(require 'kb-sgml)
 (require 'kb-term)
 (require 'kb-windows)
+
 
 (require 'util-learning)
 (require 'util-mathstyle)

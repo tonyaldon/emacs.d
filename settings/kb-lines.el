@@ -192,6 +192,8 @@ Preserve the column position of the cursor."
   ;; drag stuff
   ("d" drag-stuff-up)
   ("s" drag-stuff-down)
+  ("<left>" drag-stuff-left)
+  ("<right>" drag-stuff-right)
   ;; clean/undo/nil
   ("g" cleanup-buffer)
   ("M--" undo)
