@@ -83,4 +83,4 @@
 	(should (equal
            (setup-sgml-test--dummy-buffer 74
              (call-interactively #'ta-previous-attribute))
-           '("<tag att1=\"some value\" att2=\"another value\"><tag att=\"some value\"/>" . "</tag>")))))
+           '("<tag att1=\"some value\" att2=\"another value\"><tag att=\"some value\"/>" . "</tag>"))))
