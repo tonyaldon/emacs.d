@@ -10,15 +10,15 @@ My `emacs` configuration.
 
 To run the `tests` perform with `ert`, run the command:
 
-```
-make test
-```
+	make test
 
 To test the whole emacs setting, run the command:
 
-```
-make test_all
-```
+	make test_all
+
+Install the pre-commit hook, so that the tests are always running:
+
+    cp pre-commit .git/hooks/pre-commit
 
 # License
 Project under MIT license
