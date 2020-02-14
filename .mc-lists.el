@@ -94,6 +94,7 @@
 				hydra-sp/sp-wrap-square
 				hydra-ss/body
 				hydra-ss/ta-ss-s-capitalize-and-exit
+				hydra-ss/ta-ss-s-downcase-and-exit
 				hydra-ss/ta-ss-s-upcase-and-exit
 				hydra-toggle/ta-w-finish-edit-and-exit
 				indent-new-comment-line
@@ -167,6 +168,7 @@
 				describe-key
 				dired-do-redisplay
 				dired-mark
+				dired-narrow
 				dired-next-line
 				dired-previous-line
 				dired-unmark-all-files
