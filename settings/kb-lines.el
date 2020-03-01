@@ -2,7 +2,7 @@
 (require 'avy)
 (require 'adaptive-wrap)
 (require 'drag-stuff)
-(load "~/.emacs.d/elpa/drag-stuff-20161108.749/drag-stuff.el")
+(load "~/.emacs.d/.cask/28.0/elpa/drag-stuff-20161108.749/drag-stuff.el")
 
 (defvar hydra-lines-active nil)
 

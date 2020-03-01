@@ -15,3 +15,5 @@ session.*
 
 .python-environments/
 srecode-map.el
+
+.cask

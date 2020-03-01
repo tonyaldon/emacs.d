@@ -2,6 +2,7 @@
 (require 'swiper)
 (require 'grep)
 (require 'wgrep)
+(require 'counsel)
 
 (ivy-mode 1)
 (counsel-mode 1)

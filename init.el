@@ -1,13 +1,16 @@
+;; Specifically, to silence warning about package-initialize
+(setq warning-minimum-level :emergency)
+
 (require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")))
-(package-initialize)
+
+(require 'cask "~/.cask/cask.el")
+(cask-initialize)
 
 (add-to-list 'load-path "~/.emacs.d/settings/")
 (add-to-list 'load-path "~/.emacs.d/plugins/")
-(add-to-list 'load-path "~/.emacs.d/plugins/color-theme/")
-(add-to-list 'load-path "~/.emacs.d/plugins/ivy-posframe/")
 (add-to-list 'load-path "~/.emacs.d/plugins/php-extras/")
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
@@ -34,7 +37,7 @@
 (require 'setup-css-mode)
 (require 'setup-python-mode)
 (require 'setup-emacs-lisp-mode)
-(require 'setup-latex-mode)
+;;(require 'setup-latex-mode)
 (require 'setup-gmake-makefile-mode)
 (require 'setup-sgml-mode)
 

@@ -39,6 +39,7 @@
 				hydra-lines/next-logical-line
 				hydra-lines/open-line
 				hydra-lines/set-mark-command
+				hydra-lines/ta-above-new-indent-and-exit
 				hydra-lines/ta-add-space-and-exit
 				hydra-lines/ta-back-to-indent-split-line-and-exit
 				hydra-lines/ta-comment-line
