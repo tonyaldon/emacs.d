@@ -6,6 +6,13 @@ My `emacs` configuration.
 2. Be really effective at coding and writing.
 3. Share my emacs configuration.
 
+# Install
+
+To install `emacs` (snapshot), `cask` and all the dependencies of my
+emacs configuration, run the command:
+
+	make install
+
 # Install Emacs
 
 They are several ways to install Emacs on Linux (I'm running Ubuntu

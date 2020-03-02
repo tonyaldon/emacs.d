@@ -4,7 +4,9 @@ LOAD_ELPA = -l elpa.el
 LOADTEST = $(foreach file,$(wildcard test/settings/*),-l $(file))
 LOAD = $(LOADTEST:test/settings/%-test.el=settings/%.el)
 
-.PHONY: all test test_all install_emacs uninstall_emacs
+.PHONY: all test test_all install_emacs uninstall_emacs \
+        install_cask uninstall_cask install_cask_dependencies \
+        install
 
 all: test_all
 
@@ -38,3 +40,5 @@ uninstall_cask:
 
 install_cask_dependencies:
 	@cask install
+
+install: install_emacs install_cask install_cask_dependencies
