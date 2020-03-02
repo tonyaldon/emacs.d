@@ -1,7 +1,7 @@
 (require 'ivy-posframe)
 
 ;; if screen size 1280x1024
-(set-face-attribute 'default nil :height 160)
+;; (set-face-attribute 'default nil :height 160)
 ;; if screen size 1366x768
 ;; (set-face-attribute 'default nil :height 190)
 ;; to record video if screen size 1366x768

@@ -91,11 +91,11 @@ and use `make`. To do so, run the following commands:
 
 2. To install Emacs, in the top-level Emacs source directory, run the command:
 
-                sudo make install
+		sudo make install
 
 3. To uninstall Emacs, in the top-level Emacs source directory, run the command:
 
-                sudo make uninstall
+		sudo make uninstall
 
 	Note: If you've installed `emacs` by running `make install`, you can't
 	remove `emacs` neither with `apt` nor `dpkg`. Specifically, neither commands
@@ -138,6 +138,52 @@ To do so, run the following commands:
 4. If you've installed Emacs successfully, you no longer need the Emacs source directory
 to use `emacs`.
 
+# Cask
+
+[Cask](https://github.com/cask/cask)  is a project management tool for
+Emacs that helps automate the package development cycle; development,
+dependencies, testing, building, packaging and more.
+
+Cask can also be used to manage dependencies for your local Emacs
+configuration.
+
+## Install
+
+To install `cask`, run the command:
+
+	curl -fsSL https://raw.githubusercontent.com/cask/cask/master/go | python
+
+Note: `cask` is written both in `emacs-lisp` and `python`, so be sure
+to have python (python 2) and emacs installed before installing
+`cask`.
+
+Add `cask` to your `$PATH` by putting this following command into
+your `~/.bashrc` file:
+
+	export PATH="$HOME/.cask/bin:$PATH"
+
+## Usage
+
+Into your project root, you can produce a `Cask` file containing
+boilerplate code by running the command:
+
+	cask init.
+
+Then fill the `Cask` file with the packages your project depends
+on. Finally, to install all dependencies, run the command:
+
+	cask install
+
+This will create a `.cask` directory and install all the dependencies
+into it.
+
+If you are using `cask` for your emacs configuration, add this to your
+`~/.emacs.d/init.el` file:
+
+	(require 'cask "~/.cask/cask.el")
+	(cask-initialize)
+
+To show the help about `cask`, run the command `cask help`.
 
 # Tests
 
