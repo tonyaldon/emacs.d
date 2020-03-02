@@ -26,3 +26,15 @@ install_emacs:
 uninstall_emacs:
 	@sudo apt remove emacs-snapshot ; \
 	sudo rm /etc/apt/sources.list.d/ubuntu-elisp-ubuntu-ppa-bionic.list*
+
+install_cask:
+	@curl -fsSL https://raw.githubusercontent.com/cask/cask/master/go | python ; \
+	if [ -z "$$(grep .cask $$HOME/.bashrc)" ]; then \
+	  printf '\nexport PATH="$$HOME/.cask/bin:$$PATH"' >> $$HOME/.bashrc ; \
+	fi
+
+uninstall_cask:
+	@rm -rf $$HOME/.cask
+
+install_cask_dependencies:
+	@cask install
