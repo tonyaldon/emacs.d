@@ -33,7 +33,8 @@ install_cask:
 	@curl -fsSL https://raw.githubusercontent.com/cask/cask/master/go | python ; \
 	if [ -z "$$(grep .cask $$HOME/.bashrc)" ]; then \
 	  printf '\nexport PATH="$$HOME/.cask/bin:$$PATH"' >> $$HOME/.bashrc ; \
-	fi
+	fi ; \
+	export PATH="$$HOME/.cask/bin:$$PATH"
 
 uninstall_cask:
 	@rm -rf $$HOME/.cask
