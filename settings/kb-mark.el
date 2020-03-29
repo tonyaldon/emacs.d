@@ -110,5 +110,6 @@ Return nil if PT isn't inside a string. See the function `ta-point-in-string-p'"
 (global-set-key (kbd "<up>") 'ta-mark-sexp-at-point)
 ;; (global-set-key (kbd "M-]") 'er/expand-region)
 (global-set-key (kbd "M-[") 'er/mark-word)
+(global-set-key (kbd "M-à") 'er/mark-word)
 
 (provide 'kb-mark)

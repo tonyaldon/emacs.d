@@ -1,5 +1,6 @@
 (require 'hydra)
 (require 'key-chord)
+(require 'iso-transl)
 
 (setq-default hydra-hint-display-type  'message)
 

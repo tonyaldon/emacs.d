@@ -96,6 +96,7 @@ Call command `wdired-finish-edit' if `major-mode' is
 (global-set-key (kbd "M-s") 'swiper)
 (global-set-key (kbd "M-r") 'rgrep)
 (global-set-key (kbd "M-<dead-acute>") 'hydra-replace/body)
+(global-set-key (kbd "M-é") 'hydra-replace/body)
 (global-set-key (kbd "M-.") 'swiper-thing-at-point)
 
 (define-key grep-mode-map (kbd "M-p") 'windmove-up)

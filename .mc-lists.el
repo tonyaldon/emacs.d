@@ -10,6 +10,7 @@
 				backward-sexp
 				beginning-of-visual-line
 				c-electric-colon
+				counsel-yank-pop
 				csv-align-fields
 				default-indent-new-line
 				dired-toggle-read-only
