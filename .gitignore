@@ -11,7 +11,10 @@ ido.last
 .lsp-session-v1
 places
 recentf
+\#recentf\#
 session.*
+.org-id-locations
+tramp
 
 .python-environments/
 srecode-map.el
