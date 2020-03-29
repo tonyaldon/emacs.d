@@ -9,27 +9,35 @@
 
 (defun ta-find-file-notes ()
   (interactive)
-  (find-file "~/Documents/notes.org"))
+  (find-file "~/work/notes.org"))
+
+(defun ta-find-directory-emacs-settings ()
+  (interactive)
+  (dired "~/work/settings/emacs.d/.emacs.d/settings/"))
 
 (defun ta-find-directory-settings ()
   (interactive)
-  (dired "~/Documents/settings/emacs.d/.emacs.d/settings/"))
-
-(defun ta-find-file-variable-costs ()
-  (interactive)
-  (find-file "~/Documents/life/household/household-expenses/variable-costs.csv"))
+  (dired "~/work/settings/"))
 
 (defun ta-find-file-i3-config ()
   (interactive)
-  (find-file "~/Documents/settings/i3/.config/i3/config"))
+  (find-file "~/work/settings/i3/.config/i3/config"))
 
 (defun ta-find-file-tricks ()
   (interactive)
-  (find-file "~/Documents/learning/tricks/org/tricks.org"))
+  (find-file "~/work/learning/tricks/org/tricks.org"))
 
 (defun ta-find-file-emacs-app ()
   (interactive)
-  (find-file "~/Documents/apps/emacs/"))
+  (find-file "~/work/apps/emacs/"))
+
+(defun ta-find-file-videos ()
+  (interactive)
+  (find-file "~/work/learning/videos/videos.csv"))
+
+(defun ta-find-file-expenses ()
+  (interactive)
+  (find-file "~/life/home/expenses/expenses.csv"))
 
 (defun rename-current-buffer-file ()
   "Renames current buffer and file it is visiting.
@@ -65,9 +73,11 @@ Printed in the message area"
    :hint nil)
 	("i" ta-find-file-i3-config :color blue)
 	("e" ta-find-file-emacs-app :color blue)
-	("c" ta-find-file-variable-costs :color blue)
+	("E" ta-find-file-expenses :color blue)
 	("t" ta-find-file-tricks :color blue)
-	("s" ta-find-directory-settings :color blue)
+	("s" ta-find-directory-emacs-settings :color blue)
+	("S" ta-find-directory-settings :color blue)
+	("v" ta-find-file-videos :color blue)
 	("r" rename-current-buffer-file :color blue)
 	("l" ta-number-lines-whole-buffer :color blue)
 	("d" ms-dashboard)
