@@ -64,7 +64,7 @@
   ("x" ta-scroll-other-window-down-line)
   ("q" nil))
 
-(key-chord-define-global "q-" 'hydra-scrolling/body)
+(key-chord-define-global "sr" 'hydra-scrolling/body)
 
 
 (provide 'kb-scrolling)

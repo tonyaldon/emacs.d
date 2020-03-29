@@ -56,7 +56,7 @@
 (global-set-key (kbd "<f3>") 'kill-region)
 (global-set-key (kbd "<f4>") 'yank)
 
-(key-chord-define-global "sr" 'ert)
+;; (key-chord-define-global "sr" 'ert)
 (global-set-key (kbd "<f1>") 'eval-defun)
 (key-chord-define-global "pf" 'eval-last-sexp)
 
