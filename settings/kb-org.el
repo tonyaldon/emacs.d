@@ -19,6 +19,8 @@
 	 (file . find-file)
 	 (wl . wl-other-frame))))
 
+(add-to-list 'org-file-apps '(directory . emacs))
+
 (defhydra hydra-org
   (
    :pre (hydra-color-pre-org)
