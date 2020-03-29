@@ -11,6 +11,7 @@
 				beginning-of-visual-line
 				c-electric-colon
 				csv-align-fields
+				default-indent-new-line
 				dired-toggle-read-only
 				electric-newline-and-maybe-indent
 				emmet-wrap-with-markup
@@ -42,6 +43,7 @@
 				hydra-lines/ta-above-new-indent-and-exit
 				hydra-lines/ta-add-space-and-exit
 				hydra-lines/ta-back-to-indent-split-line-and-exit
+				hydra-lines/ta-below-new-indent-and-exit
 				hydra-lines/ta-comment-line
 				hydra-lines/ta-mark-current-line
 				hydra-lines/ta-newline-after-end-of-visual-line-and-exit
@@ -168,6 +170,7 @@
 				delete-window
 				describe-key
 				dired-do-redisplay
+				dired-hide-details-mode
 				dired-mark
 				dired-narrow
 				dired-next-line

@@ -3,6 +3,7 @@
 (require 'company-tern)
 (require 'company-jedi)
 (require 'company-web-html)
+(require 'company-emoji)
 
 (eval-after-load 'company
   '(progn
