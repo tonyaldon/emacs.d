@@ -6,6 +6,8 @@
 ;; (set-face-attribute 'default nil :height 190)
 ;; to record video if screen size 1366x768
 ;; (set-face-attribute 'default nil :height 260)
+;; to record video if screen size 1920x1080
+;; (set-face-attribute 'default nil :height 260)
 
 (setq inhibit-startup-screen t)
 (setq frame-title-format
