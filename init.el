@@ -1,6 +1,3 @@
-;; Specifically, to silence warning about package-initialize
-(setq warning-minimum-level :emergency)
-
 (require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")
