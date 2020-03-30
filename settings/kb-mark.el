@@ -83,10 +83,13 @@ Return nil if PT isn't inside a string. See the function `ta-point-in-string-p'"
   (exchange-point-and-mark))
 
 (defun ta-toggle-mark ()
-  "Bind M-[ to `er/mark-word' when emacs not use in terminal"
+  "Toggle binding for M-[.
+
+Possible values are `ta-mark-inside-pairs' and `nil'."
   (interactive)
-	(unless (lookup-key global-map (kbd "M-["))
-		(global-set-key (kbd "M-[") 'er/mark-word)))
+	(if (string= (lookup-key global-map (kbd "M-[")) 'ta-mark-inside-pairs)
+			(global-set-key (kbd "M-[") nil)
+		(global-set-key (kbd "M-[") 'er/mark-inside-pairs)))
 
 (defhydra hydra-mc (
                     :pre (hydra-color-pre-mc)
@@ -111,12 +114,11 @@ Return nil if PT isn't inside a string. See the function `ta-point-in-string-p'"
 
 (key-chord-define-global ">p" 'iedit-mode)
 
-(global-set-key (kbd "<prior>") 'ta-mark-inside-pairs)
+(global-set-key (kbd "<prior>") 'er/expand-region)
 (global-set-key (kbd "<next>") 'er/mark-inside-quotes)
 (global-set-key (kbd "<up>") 'ta-mark-sexp-at-point)
-;; (global-set-key (kbd "M-]") 'er/expand-region)
-(global-set-key (kbd "M-[") 'er/mark-word)
-(global-set-key (kbd "M-à") 'er/mark-word)
+(global-set-key (kbd "M-[") 'ta-mark-inside-pairs)
+(global-set-key (kbd "M-à") 'ta-mark-inside-pairs)
 
 (global-set-key (kbd "<f7>") 'ta-toggle-mark)
 
