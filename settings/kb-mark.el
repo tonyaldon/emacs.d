@@ -18,7 +18,7 @@ and :op non empty. See `sp-get-thing'."
   (let ((ok (sp-get-thing)))
     (when ok
       (when (and (eq (point) (sp-get ok :beg))
-								 (not (string-empty-p (sp-get ok :op))))
+                 (not (string-empty-p (sp-get ok :op))))
         (point)))))
 
 (defun ta--mark-sexp-at-point ()
@@ -33,7 +33,7 @@ and :op non empty. See `sp-get-thing'."
   "Mark the `sexp' at point. See `sexp-at-point' and `sp-mark-sexp'."
   (interactive)
   (if (or (ta--point-at-beginnig-sp-sexp-p)
-					(eq (following-char) ?<))
+          (eq (following-char) ?<))
       (sp-mark-sexp)
     (if (eq (preceding-char) ?\")
         (progn
@@ -47,13 +47,13 @@ and :op non empty. See `sp-get-thing'."
 ;; TODO
 ;; ta-mark-attribute -> thing like this: text="blabla"
 ;; - if inside the string -> goto to beginning (outside the first double quote)
-;; - goto backward to [[:space]] 
+;; - goto backward to [[:space]]
 ;; - ?? see the case where cursor is after the second double quote "
 ;; this regexp ----> "[[:space:]]\\{1\\}[a-z]*=[\"][[:alnum:].&:?,= /-]*[\"]"
 ;; matches all the attributes in the piece of html below
 ;; <meta charset="UTF-8"/>
 ;; <meta name="viewport"
-;; 			 content="width=device-width, initial-scale=1.0"/>
+;;       content="width=device-width, initial-scale=1.0"/>
 ;; <link href="css/style.css" rel="stylesheet"/>
 ;; <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
 
@@ -81,6 +81,12 @@ Return nil if PT isn't inside a string. See the function `ta-point-in-string-p'"
   (exchange-point-and-mark)
   (sp-backward-down-sexp)
   (exchange-point-and-mark))
+
+(defun ta-toggle-mark ()
+  "Bind M-[ to `er/mark-word' when emacs not use in terminal"
+  (interactive)
+	(unless (lookup-key global-map (kbd "M-["))
+		(global-set-key (kbd "M-[") 'er/mark-word)))
 
 (defhydra hydra-mc (
                     :pre (hydra-color-pre-mc)
@@ -111,5 +117,7 @@ Return nil if PT isn't inside a string. See the function `ta-point-in-string-p'"
 ;; (global-set-key (kbd "M-]") 'er/expand-region)
 (global-set-key (kbd "M-[") 'er/mark-word)
 (global-set-key (kbd "M-à") 'er/mark-word)
+
+(global-set-key (kbd "<f7>") 'ta-toggle-mark)
 
 (provide 'kb-mark)
