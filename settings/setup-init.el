@@ -9,10 +9,9 @@
 (setenv "PATH" (concat "~/.local/bin:" (getenv "PATH")))
 (add-to-list 'exec-path "~/.local/bin")
 
-(add-to-list `auto-mode-alist '("config\\'" . shell-script-mode))
 (add-to-list `auto-mode-alist '("\\.svg\\'" . xml-mode))
 
-;; TODO: to dispatch in appropriate setup files 
+;; TODO: to dispatch in appropriate setup files
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-save-file "~/.emacs.d/recentf")

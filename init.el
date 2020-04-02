@@ -37,7 +37,7 @@
 ;;(require 'setup-latex-mode)
 (require 'setup-gmake-makefile-mode)
 (require 'setup-sgml-mode)
-
+(require 'setup-i3)
 
 (require 'kb)
 (require 'kb-company)
