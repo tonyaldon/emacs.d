@@ -26,6 +26,7 @@
 				hydra-lines/body
 				hydra-lines/delete-backward-char
 				hydra-lines/delete-horizontal-space
+				hydra-lines/drag-stuff-left
 				hydra-lines/exchange-point-and-mark
 				hydra-lines/forward-char
 				hydra-lines/forward-word
@@ -53,6 +54,12 @@
 				hydra-mutiple-cursors/nil
 				hydra-org/body
 				hydra-org/org-ctrl-c-star
+				hydra-sgml/body
+				hydra-sgml/emmet-expand-line
+				hydra-sgml/emmet-expand-yas
+				hydra-sgml/emmet-next-edit-point
+				hydra-sgml/emmet-wrap-with-markup
+				hydra-sgml/sgml-delete-tag
 				hydra-smartparens-motion/body
 				hydra-smartparens-motion/nil
 				hydra-smartparens-motion/sp-backward-sexp
@@ -98,6 +105,7 @@
 				hydra-sp/sp-wrap-square
 				hydra-ss/body
 				hydra-ss/ta-ss-s-capitalize-and-exit
+				hydra-ss/ta-ss-s-collapse-whitespace-and-exit
 				hydra-ss/ta-ss-s-downcase-and-exit
 				hydra-ss/ta-ss-s-upcase-and-exit
 				hydra-toggle/ta-w-finish-edit-and-exit
