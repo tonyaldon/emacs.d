@@ -26,10 +26,10 @@
  '(font-latex-fontify-sectioning 'color)
  '(frame-resize-pixelwise t)
  '(global-hl-line-mode t)
- '(ivy-posframe-border-width 3)
- '(ivy-posframe-height 8)
- '(ivy-posframe-mode t nil (ivy-posframe))
- '(ivy-posframe-width 75)
+ ;; '(ivy-posframe-border-width 3)
+ ;; '(ivy-posframe-height 8)
+ ;; '(ivy-posframe-mode t nil (ivy-posframe))
+ ;; '(ivy-posframe-width 75)
  '(linum-format " %7i ")
  '(minimap-always-recenter t)
  '(minimap-minimum-width 12)
@@ -40,7 +40,7 @@
  '(org-export-backends '(ascii beamer html icalendar latex md))
  '(package-selected-packages
 	 '(list-packages-ext company-emoji company-lsp lsp-mode company-anaconda anaconda-mode gnu-elpa-keyring-update jedi-core company-jedi ace-window iedit avy eterm-256color abyss-theme abs-mode dired-hide-dotfiles ivy-hydra wgrep minions moody posframe ivy-posframe yasnippet-snippets web-mode vue-mode vlf use-package transpose-frame sublimity sqlup-mode sql-indent smartparens request-deferred rainbow-mode pydoc py-autopep8 pos-tip php-auto-yasnippets org-bullets org-babel-eval-in-repl multiple-cursors minimap math-symbol-lists markdown-preview-mode key-chord json-mode js2-mode iy-go-to-char image+ expand-region evil-iedit-state eval-sexp-fu emmet-mode elpy drag-stuff dired-subtree dired-quick-sort dired-open dired-narrow dired-collapse csv-mode counsel company-web company-tern company-php command-log-mode cl-generic avy-flycheck auto-complete auctex async adaptive-wrap ace-jump-mode))
- '(posframe-inhibit-double-buffering nil)
+ ;; '(posframe-inhibit-double-buffering nil)
  '(pydoc-command "python3 -m pydoc")
  '(scroll-preserve-screen-position 1))
 
