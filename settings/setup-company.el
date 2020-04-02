@@ -15,6 +15,15 @@
 
 (make-variable-buffer-local 'company-minimum-prefix-length)
 
+(defun ta-company-sh-mode ()
+  "Setup `company-mode' for `org-mode-hook'"
+  (set (make-local-variable 'company-backends)
+       '((company-capf
+					company-yasnippet
+					company-dabbrev-code
+					company-files)
+				 company-dabbrev)))
+
 (defun ta-company-org-mode ()
   "Setup `company-mode' for `org-mode-hook'"
   (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
@@ -72,6 +81,7 @@
 (add-hook 'php-mode-hook 'ta-company-php-mode)
 (add-hook 'python-mode-hook 'ta-company-python-mode)
 (add-hook 'org-mode-hook 'ta-company-org-mode)
+(add-hook 'sh-mode-hook 'ta-company-sh-mode)
 
 
 ;; --- html / css ...
