@@ -129,8 +129,8 @@ The function `windmove-left', `windmove-right', `windmove-up' and
 (define-key dired-mode-map (kbd "C-o") nil)
 (define-key ibuffer-mode-map (kbd "C-o") nil)
 (global-set-key (kbd "C-o") 'delete-other-windows)
-(global-set-key (kbd "C-`") 'delete-window)
-
+(global-set-key (kbd "M-o") 'delete-window)
+(define-key term-mode-map (kbd "M-o") 'delete-window)
 
 
 (provide 'kb-windows)

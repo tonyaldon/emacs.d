@@ -78,26 +78,13 @@ Call command `wdired-finish-edit' if `major-mode' is
   ("M--" undo)
   ("q" nil))
 
-(defhydra hydra-replace
-  (
-   :pre (hydra-color-pre)
-   :post (hydra-color-post)
-   :hint nil)
-	("d" replace-string :color blue)
-	("l" replace-regexp :color blue)
-	("s" query-replace :color blue)
-	("r" query-replace-regexp :color blue)
-  ;; ---
-  ("M--" undo)
-  ("q" nil))
-
 (global-set-key (kbd "M-t") 'hydra-toggle/body)
 
 (global-set-key (kbd "M-s") 'swiper)
 (global-set-key (kbd "M-r") 'rgrep)
-(global-set-key (kbd "M-<dead-acute>") 'hydra-replace/body)
-(global-set-key (kbd "M-é") 'hydra-replace/body)
 (global-set-key (kbd "M-.") 'swiper-thing-at-point)
+(global-set-key (kbd "M-S") 'query-replace)
+(global-set-key (kbd "M-R") 'query-replace-regexp)
 
 (define-key grep-mode-map (kbd "M-p") 'windmove-up)
 (define-key grep-mode-map (kbd "M-n") 'windmove-down)
@@ -108,7 +95,6 @@ Call command `wdired-finish-edit' if `major-mode' is
 (define-key ivy-minibuffer-map (kbd "M-s") 'ivy-occur)
 (define-key swiper-map (kbd "M-q") 'minibuffer-keyboard-quit)
 (define-key swiper-map (kbd "M-c") 'swiper-mc)
-
 
 
 

@@ -27,8 +27,6 @@
 (define-key term-raw-map (kbd "M-n") nil)
 (define-key term-raw-map (kbd "M-u") nil)
 (define-key term-raw-map (kbd "C-o") nil)
-(define-key term-raw-map (kbd "C-`") nil)
-(define-key term-raw-map (kbd "C-`") nil)
 (define-key term-raw-map (kbd "<left>") nil)
 (define-key term-raw-map (kbd "<right>") nil)
 (define-key term-raw-map (kbd "C-x") nil)

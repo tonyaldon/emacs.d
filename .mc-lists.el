@@ -184,6 +184,7 @@
 				dired-narrow
 				dired-next-line
 				dired-previous-line
+				dired-subtree-remove
 				dired-unmark-all-files
 				dired-unmark-backward
 				drag-stuff-lines-up
