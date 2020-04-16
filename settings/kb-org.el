@@ -43,7 +43,7 @@
   ("u" org-down-element)
   ("y" org-up-element)
   ;; ("c RET" org-insert-heading-after-current)
-  ("RET" org-meta-return :color blue)
+  ("RET" org-meta-return)
   ("i" org-ctrl-c-minus)
   ("*" org-ctrl-c-star)
   (">" org-metaright)
