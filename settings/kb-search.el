@@ -3,6 +3,7 @@
 (require 'grep)
 (require 'wgrep)
 (require 'counsel)
+(require 'iy-go-to-char)
 
 (ivy-mode 1)
 (counsel-mode 1)
@@ -96,6 +97,8 @@ Call command `wdired-finish-edit' if `major-mode' is
 (define-key swiper-map (kbd "M-q") 'minibuffer-keyboard-quit)
 (define-key swiper-map (kbd "M-c") 'swiper-mc)
 
+(key-chord-define-global "ii" 'iy-go-to-char)
+(key-chord-define-global "uu" 'iy-go-to-char-backward)
 
 
 (provide 'kb-search)
