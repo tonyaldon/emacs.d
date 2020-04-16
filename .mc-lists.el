@@ -27,6 +27,7 @@
 				hydra-lines/delete-backward-char
 				hydra-lines/delete-horizontal-space
 				hydra-lines/drag-stuff-left
+				hydra-lines/drag-stuff-right
 				hydra-lines/exchange-point-and-mark
 				hydra-lines/forward-char
 				hydra-lines/forward-word
@@ -99,6 +100,7 @@
 				hydra-sp/sp-kill-whole-line
 				hydra-sp/sp-next-sexp
 				hydra-sp/sp-rewrap-sexp
+				hydra-sp/sp-swap-enclosing-sexp
 				hydra-sp/sp-up-sexp
 				hydra-sp/sp-wrap-curly
 				hydra-sp/sp-wrap-round
@@ -107,6 +109,7 @@
 				hydra-ss/ta-ss-s-capitalize-and-exit
 				hydra-ss/ta-ss-s-collapse-whitespace-and-exit
 				hydra-ss/ta-ss-s-downcase-and-exit
+				hydra-ss/ta-ss-s-snake-case-and-exit
 				hydra-ss/ta-ss-s-upcase-and-exit
 				hydra-toggle/ta-w-finish-edit-and-exit
 				indent-new-comment-line
