@@ -49,6 +49,7 @@
 				hydra-lines/ta-below-new-indent-and-exit
 				hydra-lines/ta-comment-line
 				hydra-lines/ta-mark-current-line
+				hydra-lines/ta-mark-end-of-line
 				hydra-lines/ta-newline-after-end-of-visual-line-and-exit
 				hydra-mc/mc/mark-next-like-this-word
 				hydra-mc/nil
