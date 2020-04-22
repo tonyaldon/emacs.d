@@ -43,6 +43,12 @@ see: https://github.com/magnars/.emacs.d/blob/master/defuns/buffer-defuns.el#L14
   (set-mark (point))
   (beginning-of-line))
 
+(defun ta-mark-end-of-line ()
+  "Mark from point to end of line."
+  (interactive)
+  (set-mark (point))
+  (end-of-line))
+
 
 (defun ta-copy-current-line-yank-below ()
   "copy current line and yank it to the next line.
@@ -154,7 +160,9 @@ Preserve the column position of the cursor."
   ("DEL" delete-backward-char)
   ("." set-mark-command)
   ("t" exchange-point-and-mark)
-  ;; action on line(s)
+  ("D" display-line-numbers-mode)
+  ("L" goto-line)
+	;; action on line(s)
   (":" ta-avy-mark-region)
   ("c" avy-copy-line)
   ("@" avy-kill-whole-line)
@@ -164,6 +172,7 @@ Preserve the column position of the cursor."
   ("?" keep-lines)
   ;; current line
   ("/" ta-mark-current-line)
+  (")" ta-mark-end-of-line)
   ("k" kill-line)
   ("l" (kill-line 0))
   ("x" ta-kill-whole-line)
