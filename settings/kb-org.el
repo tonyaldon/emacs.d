@@ -12,14 +12,25 @@
 (setq system-time-locale "C")
 
 (set-default 'org-link-frame-setup
- (quote
-	((vm . vm-visit-folder-other-frame)
-	 (vm-imap . vm-visit-imap-folder-other-frame)
-	 (gnus . org-gnus-no-new-news)
-	 (file . find-file)
-	 (wl . wl-other-frame))))
+             (quote
+              ((vm . vm-visit-folder-other-frame)
+               (vm-imap . vm-visit-imap-folder-other-frame)
+               (gnus . org-gnus-no-new-news)
+               (file . find-file)
+               (wl . wl-other-frame))))
 
 (add-to-list 'org-file-apps '(directory . emacs))
+
+(defun ta-company-file-/ ()
+  (interactive)
+  (insert "/")
+  (company-begin-backend 'company-files))
+
+(defun ta-company-file-~ ()
+  (interactive)
+  (insert "~")
+  (insert "/")
+  (company-begin-backend 'company-files))
 
 (defhydra hydra-org
   (
@@ -33,7 +44,7 @@
   ("m" hydra-scrolling/body :color blue)
   ;; ---
   ("M-l" org-mark-ring-goto)
-	("c" org-copy-subtree)
+  ("c" org-copy-subtree)
   ("k" org-kill-line)
   ("p" outline-previous-visible-heading)
   ("n" outline-next-visible-heading)
@@ -57,8 +68,10 @@
   ("^" org-sort)
   ("[" org-narrow-to-subtree)
   ("]" widen)
+  ("/" ta-company-file-/ :color blue)
+  ("~" ta-company-file-~ :color blue)
   ("<tab>" org-cycle)
-	("o" org-open-at-point)
+  ("o" org-open-at-point)
   ("q" nil))
 
 
