@@ -1,6 +1,7 @@
 (require 'kb)
 (require 'org)
 (require 'util-mathstyle)
+(require 'ibuffer)
 
 (setq save-place-file "~/emacs.d/places")
 

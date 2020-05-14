@@ -1,3 +1,4 @@
+(require 'ibuffer)
 (defalias 'list-buffers 'ibuffer) 
 (setq ibuffer-expert t)
 (setq ibuffer-show-empty-filter-groups nil)

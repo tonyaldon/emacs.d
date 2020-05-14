@@ -4,10 +4,12 @@
 (require 'wgrep)
 (require 'counsel)
 (require 'iy-go-to-char)
+(require 'ibuffer)
 
 (ivy-mode 1)
 (counsel-mode 1)
 (setq ivy-use-virtual-buffers t)
+(setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
 (setq wgrep-auto-save-buffer t)
 
 (defun ta-toggle-write-mode ()
@@ -82,6 +84,8 @@ Call command `wdired-finish-edit' if `major-mode' is
 (global-set-key (kbd "M-t") 'hydra-toggle/body)
 
 (global-set-key (kbd "M-s") 'swiper)
+(define-key ibuffer-mode-map (kbd "M-s") 'swiper)
+(define-key dired-mode-map (kbd "M-s") 'swiper)
 (global-set-key (kbd "M-r") 'rgrep)
 (global-set-key (kbd "M-.") 'swiper-thing-at-point)
 (global-set-key (kbd "M-S") 'query-replace)
