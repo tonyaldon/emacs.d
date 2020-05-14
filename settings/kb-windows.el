@@ -125,6 +125,10 @@ The function `windmove-left', `windmove-right', `windmove-up' and
 (global-set-key (kbd "M-f") 'windmove-right)
 (global-set-key (kbd "M-p") 'windmove-up)
 (global-set-key (kbd "M-n") 'windmove-down)
+(define-key markdown-mode-map (kbd "M-b") 'windmove-left)
+(define-key markdown-mode-map (kbd "M-f") 'windmove-right)
+(define-key markdown-mode-map (kbd "M-p") 'windmove-up)
+(define-key markdown-mode-map (kbd "M-n") 'windmove-down)
 
 (define-key dired-mode-map (kbd "C-o") nil)
 (define-key ibuffer-mode-map (kbd "C-o") nil)

@@ -230,7 +230,7 @@ Preserve the column position of the cursor."
 (global-set-key (kbd "C-v") 'visual-line-mode)
 (global-set-key (kbd "M-v") 'ta-visual-line-mode-other-window)
 (define-key global-map (kbd "M-m") 'avy-goto-line)
-(define-key global-map (kbd "<down>") 'avy-goto-word-1)
+(define-key global-map (kbd "<down>") 'avy-goto-char)
 
 
 (provide 'kb-lines)

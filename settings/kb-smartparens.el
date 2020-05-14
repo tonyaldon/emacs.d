@@ -216,7 +216,7 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
   ;; ---
   ("S" smartparens-global-strict-mode :color blue)
   ;; ---
-  ("}" set-mark-command)
+  ("." set-mark-command)
   ("t" exchange-point-and-mark)
   ("r" join-line)
   ;; ---
