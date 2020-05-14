@@ -25,6 +25,7 @@
 				hydra-lines/backward-word
 				hydra-lines/body
 				hydra-lines/delete-backward-char
+				hydra-lines/delete-blank-lines
 				hydra-lines/delete-horizontal-space
 				hydra-lines/drag-stuff-left
 				hydra-lines/drag-stuff-right
@@ -48,6 +49,7 @@
 				hydra-lines/ta-back-to-indent-split-line-and-exit
 				hydra-lines/ta-below-new-indent-and-exit
 				hydra-lines/ta-comment-line
+				hydra-lines/ta-copy-current-line-yank-below
 				hydra-lines/ta-mark-current-line
 				hydra-lines/ta-mark-end-of-line
 				hydra-lines/ta-newline-after-end-of-visual-line-and-exit
@@ -174,6 +176,7 @@
 				ace-window
 				avy-goto-char
 				avy-goto-line
+				avy-goto-word-1
 				backward-kill-sentence
 				beginning-of-buffer
 				c-electric-semi&comma
@@ -189,6 +192,7 @@
 				dired-next-line
 				dired-previous-line
 				dired-subtree-remove
+				dired-subtree-toggle
 				dired-unmark-all-files
 				dired-unmark-backward
 				drag-stuff-lines-up
@@ -208,7 +212,6 @@
 				hydra-lines/nil
 				hydra-lines/previous-logical-line
 				hydra-lines/ta-avy-mark-region
-				hydra-lines/ta-copy-current-line-yank-below
 				hydra-lines/undo
 				hydra-mc/body
 				hydra-mc/mc/mark-next-like-this
@@ -254,6 +257,7 @@
 				kmacro-start-macro
 				mouse-buffer-menu
 				mouse-save-then-kill
+				mouse-set-region
 				multiple-cursors-mode
 				next-buffer
 				org-ctrl-c-ret

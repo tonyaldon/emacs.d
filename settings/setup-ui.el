@@ -1,5 +1,9 @@
 ;; (require 'ivy-posframe)
 
+
+(set-face-attribute 'default nil :family "DejaVu Sans Mono")
+(set-fontset-font t 'unicode "Symbola" nil 'prepend)
+
 ;; if screen size 1280x1024
 ;; (set-face-attribute 'default nil :height 160)
 ;; if screen size 1366x768
