@@ -1,13 +1,10 @@
 (require 'package)
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
-
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
 
 (add-to-list 'load-path "~/.emacs.d/settings/")
 (add-to-list 'load-path "~/.emacs.d/packages/")
+(add-to-list 'load-path "~/.emacs.d/packages/company-emoji/")
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'discreet t)
