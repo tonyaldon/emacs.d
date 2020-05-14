@@ -7,8 +7,7 @@
 (cask-initialize)
 
 (add-to-list 'load-path "~/.emacs.d/settings/")
-(add-to-list 'load-path "~/.emacs.d/plugins/")
-(add-to-list 'load-path "~/.emacs.d/plugins/php-extras/")
+(add-to-list 'load-path "~/.emacs.d/packages/")
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'discreet t)
