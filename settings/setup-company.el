@@ -7,7 +7,7 @@
 
 (eval-after-load 'company
   '(progn
-     (setq company-idle-delay 0.2
+     (setq company-idle-delay 0
            company-dabbrev-downcase nil
            company-dabbrev-ignore-case t
            company-dabbrev-code-ignore-case t
@@ -16,7 +16,7 @@
 (make-variable-buffer-local 'company-minimum-prefix-length)
 
 (defun ta-company-sh-mode ()
-  "Setup `company-mode' for `org-mode-hook'"
+  "Setup `company-mode' for `sh-mode-hook'"
   (set (make-local-variable 'company-backends)
        '((company-capf
 					company-yasnippet

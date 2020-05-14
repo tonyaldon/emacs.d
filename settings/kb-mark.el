@@ -4,8 +4,8 @@
 (require 'iedit)
 (require 'smartparens)
 
-(setq mark-ring-max 4)
-(setq global-mark-ring-max 4)
+(setq mark-ring-max 8)
+(setq global-mark-ring-max 8)
 
 (defun ta-pop-local-mark-ring ()
   (interactive)
