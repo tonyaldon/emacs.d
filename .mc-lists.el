@@ -205,6 +205,7 @@
 				handle-switch-frame
 				hydra--digit-argument
 				hydra--negative-argument
+				hydra-files/body
 				hydra-lines/cleanup-buffer
 				hydra-lines/drag-stuff-down
 				hydra-lines/drag-stuff-up
@@ -251,6 +252,7 @@
 				iedit-switch-to-mc-mode
 				indent-for-tab-command
 				ivy-switch-buffer
+				iy-go-to-char
 				iy-go-to-char-quit
 				kill-sentence
 				kmacro-set-counter

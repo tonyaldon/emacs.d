@@ -101,8 +101,8 @@ Call command `wdired-finish-edit' if `major-mode' is
 (define-key swiper-map (kbd "M-q") 'minibuffer-keyboard-quit)
 (define-key swiper-map (kbd "M-c") 'swiper-mc)
 
-(key-chord-define-global "''" 'iy-go-to-char)
-(key-chord-define-global ";;" 'iy-go-to-char-backward)
+(global-set-key "´" 'iy-go-to-char)
+(key-chord-define-global "''" 'iy-go-to-char-backward)
 
 
 (provide 'kb-search)

@@ -8,6 +8,11 @@
 
 (setq-default truncate-lines t)
 
+(defun ta-cycle-spacing ()
+  "Wrapper on `cycle-spacing' to call it in \"fast\" mode."
+  (interactive)
+  (cycle-spacing nil nil 'fast))
+
 (defun ta-visual-line-mode-other-window ()
   "Toggle `visual-line-mode' in the other-window"
   (interactive)
@@ -162,6 +167,7 @@ Preserve the column position of the cursor."
   ("t" exchange-point-and-mark)
   ("D" display-line-numbers-mode)
   ("L" goto-line)
+	(">" zap-up-to-char)
 	;; action on line(s)
   (":" ta-avy-mark-region)
   ("c" avy-copy-line)
@@ -180,8 +186,8 @@ Preserve the column position of the cursor."
   ("y" ta-copy-current-line-yank-below)
   ("r" join-line)
   ("o" open-line)
-  ("'" delete-blank-lines)
-  ("," delete-horizontal-space)
+  ("O" delete-blank-lines)
+  ("," ta-cycle-spacing)
   ;; to insert text
   ("u" ta-above-new-indent :color blue)
   ("]" ta-below-new-indent :color blue)
@@ -198,7 +204,9 @@ Preserve the column position of the cursor."
   ("i" back-to-indentation)
   ("a" move-beginning-of-line)
   ("e" move-end-of-line)
-  ;; drag stuff
+	("´" iy-go-to-char :color blue)
+	("'" iy-go-to-char-backward :color blue)
+	;; drag stuff
   ("d" drag-stuff-up)
   ("s" drag-stuff-down)
   ("<left>" drag-stuff-left)
