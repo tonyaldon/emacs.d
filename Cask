@@ -45,4 +45,5 @@
 (depends-on "csv-mode")
 (depends-on "iy-go-to-char")
 (depends-on "magit")
+(depends-on "pyvenv")
 (depends-on "outline-magic")
