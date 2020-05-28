@@ -53,6 +53,7 @@
 (define-key key-translation-map (kbd "M-q") (kbd "C-g"))
 (global-set-key [escape] 'kill-this-buffer)
 (global-set-key (kbd "M--") 'undo)
+(global-set-key (kbd "M-+") 'undo-redo)
 (global-set-key (kbd "<f2>") 'kill-ring-save)
 (global-set-key (kbd "<f3>") 'kill-region)
 (global-set-key (kbd "<f4>") 'yank)

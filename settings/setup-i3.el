@@ -1,7 +1,3 @@
-(add-to-list `auto-mode-alist '("config\\'" . i3-conf-mode))
-(add-to-list `auto-mode-alist '("i3status.conf\\'" . i3-conf-mode))
-
-
 (defvar i3-font-lock-keywords
   '(("bindsym" . font-lock-keyword-face)
     ("^set" . font-lock-keyword-face)
