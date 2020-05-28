@@ -45,3 +45,4 @@
 (depends-on "csv-mode")
 (depends-on "iy-go-to-char")
 (depends-on "magit")
+(depends-on "outline-magic")
