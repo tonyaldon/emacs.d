@@ -5,6 +5,9 @@
 (require 'zoom-frm)
 (require 'ibuffer)
 
+(setq aw-char-position 'top-left)
+(setq aw-ignore-current t)
+(setq aw-leading-char-style 'char)
 (setq aw-background nil)
 (setq aw-keys '(?s ?r ?d ?l))
 

@@ -14,9 +14,6 @@
  '(avy-keys
 	 '(97 117 105 101 121 120 111 119 98 110 102 112 107 116 115 114 113 100 108 106 109 99 103 104 40 41 91 93 60 62 44 59 46 58))
  '(avy-style 'at-full)
- '(aw-char-position 'left)
- '(aw-ignore-current t)
- '(aw-leading-char-style 'char)
  '(blink-cursor-mode nil)
  '(csv-separators '(","))
  '(custom-safe-themes
