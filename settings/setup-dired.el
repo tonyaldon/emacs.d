@@ -6,6 +6,7 @@
 (require 's)
 (require 'dash)
 (require 'dired-hacks-utils)
+(require 'dired-toggle-sudo)
 
 
 (setq dired-dwim-target t)
@@ -103,6 +104,9 @@ that `dired-mode' is displaying."
 (define-key dired-mode-map (kbd "<up>") 'dired-subtree-up)
 (define-key dired-mode-map (kbd "/") 'dired-narrow)
 (define-key dired-mode-map (kbd ".") 'dired-hide-dotfiles-mode)
+
+(define-key dired-mode-map (kbd "C-c C-s") 'dired-toggle-sudo)
+
 
 (global-set-key (kbd "M-]") 'ta-sidebar)
 

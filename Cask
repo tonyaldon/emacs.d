@@ -45,3 +45,4 @@
 (depends-on "magit")
 (depends-on "pyvenv")
 (depends-on "bicycle")
+(depends-on "dired-toggle-sudo")
