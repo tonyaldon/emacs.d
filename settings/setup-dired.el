@@ -1,5 +1,4 @@
 (require 'dired)
-(require 'dired-details)
 (require 'dired-subtree)
 (require 'dired-narrow)
 (require 'dired-hide-dotfiles)
@@ -11,7 +10,6 @@
 
 (setq dired-dwim-target t)
 (setq dired-recursive-copies 'always)
-(setq-default dired-details-hidden-string "")
 (setq-default dired-listing-switches "-lhA --group-directories-first")
 (setq dired-open-extensions
       '(("pdf" . "evince")
@@ -20,7 +18,6 @@
 (setq-default dired-subtree-line-prefix "  ")
 (setq-default dired-subtree-use-backgrounds nil)
 
-(dired-details-install)
 (dired-hide-dotfiles-mode)
 
 (defun ta-size-bigger-file-or-directory-in-dired ()
