@@ -46,3 +46,4 @@
 (depends-on "pyvenv")
 (depends-on "bicycle")
 (depends-on "dired-toggle-sudo")
+(depends-on "dired-collapse")

@@ -7,7 +7,7 @@
 (require 'dash)
 (require 'dired-hacks-utils)
 (require 'dired-toggle-sudo)
-
+(require 'dired-collapse)
 
 (setq dired-dwim-target t)
 (setq dired-recursive-copies 'always)
@@ -96,19 +96,23 @@ that `dired-mode' is displaying."
 (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1)))
 (add-hook 'dired-before-readin-hook 'dired-header-line-mode)
 
-(define-key dired-mode-map (kbd "]") 'dired-hide-details-mode)
+(define-key dired-mode-map (kbd "[") 'dired-hide-details-mode)
 (define-key dired-mode-map (kbd "<tab>") 'dired-subtree-toggle)
 (define-key dired-mode-map (kbd "<backspace>") 'dired-subtree-remove)
-(define-key dired-mode-map (kbd "(") 'dired-subtree-previous-sibling)
-(define-key dired-mode-map (kbd ")") 'dired-subtree-next-sibling)
+;; (define-key dired-mode-map (kbd "(") 'dired-subtree-previous-sibling)
+;; (define-key dired-mode-map (kbd ")") 'dired-subtree-next-sibling)
 (define-key dired-mode-map (kbd "<up>") 'dired-subtree-up)
 (define-key dired-mode-map (kbd "/") 'dired-narrow)
 (define-key dired-mode-map (kbd ".") 'dired-hide-dotfiles-mode)
 
-(define-key dired-mode-map (kbd "C-c C-s") 'dired-toggle-sudo)
-
-
 (global-set-key (kbd "M-]") 'ta-sidebar)
+
+;; new bindings
+(define-key dired-mode-map (kbd "C-c C-s") 'dired-toggle-sudo)
+(define-key dired-mode-map (kbd ")") 'dired-subtree-cycle)
+(define-key dired-mode-map (kbd "C-c C-c") 'dired-collapse-mode)
+
+
 
 
 
