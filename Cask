@@ -41,7 +41,6 @@
 (depends-on "eterm-256color")
 (depends-on "ace-window")
 (depends-on "transpose-frame")
-(depends-on "minimap")
 (depends-on "csv-mode")
 (depends-on "iy-go-to-char")
 (depends-on "magit")

@@ -4,16 +4,9 @@
 (require 'transpose-frame)
 (require 'zoom-frm)
 (require 'ibuffer)
-(require 'minimap)
 
 (setq aw-background nil)
 (setq aw-keys '(?s ?r ?d ?l))
-
-(setq minimap-always-recenter t)
-(setq minimap-minimum-width 12)
-(setq minimap-recenter-type (quote relative))
-(setq minimap-window-location (quote right))
-(add-to-list 'minimap-major-modes 'latex-mode)
 
 ;; remember window's display
 (winner-mode t)
