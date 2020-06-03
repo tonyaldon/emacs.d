@@ -1,6 +1,3 @@
-;; (require 'ivy-posframe)
-
-
 (set-face-attribute 'default nil :family "DejaVu Sans Mono")
 (set-fontset-font t 'unicode "Symbola" nil 'prepend)
 
@@ -22,37 +19,28 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (global-linum-mode -1)
-
 (setq-default cursor-type '(bar . 2))
 (blink-cursor-mode -1)
 (global-hl-line-mode t)
 (make-variable-buffer-local 'global-hl-line-mode)
 
-;; (defun ta-posframe-poshandler-frame-below-top-center (info)
-;;   "Posframe's position handler.
-
-;; structure of INFO can be found in docstring of `posframe-show'."
-;;   (cons (/ (- (plist-get info :parent-frame-width)
-;;               (plist-get info :posframe-width))
-;;            2)
-;;         180))
-
-;; (defun ta-ivy-posframe-display-at-frame-below-top-center (str)
-;;   (ivy-posframe--display str #'ta-posframe-poshandler-frame-below-top-center))
-
-;; (setq ivy-posframe-display-functions-alist
-;;       '((swiper . nil)
-;; 				(swiper-thing-at-point . nil)
-;;         ;; (t . ta-ivy-posframe-display-at-frame-below-top-center)
-;; 				;; (t . ivy-posframe-display-at-frame-top-center)))
-;; 				(t . ivy-posframe-display-at-frame-center)))
-
-;; (setq ivy-height 11)
-;; (setq ivy-posframe-height 11)
-;; (add-hook 'ivy-mode-hook 'ivy-posframe-enable)
-
-
-;; (ivy-posframe-mode 1)
+(add-hook 'help-mode-hook (lambda () (visual-line-mode t)))
+(setq
+ display-buffer-alist
+ '(("\\*Help.*"
+    (display-buffer-in-side-window)
+    (window-width . 0.3)
+    (side . left)
+    (slot . -1))
+   ("\\*Messages.*\\|\\*info.*\\|\\*Warnings.*"
+    (display-buffer-in-side-window)
+    (window-width . 0.3)
+    (side . left)
+    (slot . 1))
+	 ("\\*.*occur.*\\|\\*grep.*"
+    (display-buffer-in-direction)
+		(direction . left)
+		(window-width . 0.3))))
 
 
 (provide 'setup-ui)
