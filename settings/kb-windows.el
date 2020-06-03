@@ -2,7 +2,6 @@
 (require 'kb-term)
 (require 'ace-window)
 (require 'transpose-frame)
-(require 'zoom-frm)
 (require 'ibuffer)
 
 (setq aw-char-position 'top-left)

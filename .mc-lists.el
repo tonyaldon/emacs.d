@@ -108,6 +108,7 @@
 				hydra-sp/sp-wrap-curly
 				hydra-sp/sp-wrap-round
 				hydra-sp/sp-wrap-square
+				hydra-sp/ta-add-space-and-exit
 				hydra-ss/body
 				hydra-ss/ta-ss-s-capitalize-and-exit
 				hydra-ss/ta-ss-s-collapse-whitespace-and-exit
