@@ -58,10 +58,10 @@
   ("u" recenter-top-bottom)
   ("a" move-to-window-line-top-bottom)
   ;; ---
-  ("e" scroll-other-window)
+  ("x" scroll-other-window)
   ("i" scroll-other-window-down)
   ("o" ta-scroll-other-window-line)
-  ("x" ta-scroll-other-window-down-line)
+  ("e" ta-scroll-other-window-down-line)
   ("q" nil))
 
 (key-chord-define-global "sr" 'hydra-scrolling/body)

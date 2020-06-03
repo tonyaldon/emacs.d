@@ -8,9 +8,19 @@
 (require 'dired-hacks-utils)
 (require 'dired-toggle-sudo)
 (require 'dired-collapse)
+(require 'wdired)
+(require 'dired-x)
+
+(setq dired-keep-marker-rename t)
+(setq wdired-allow-to-change-permissions nil)
+(setq wdired-create-parent-directories t)
+(setq dired-narrow-exit-when-one-left t)
+(setq dired-clean-up-buffers-too t)
+(setq dired-clean-confirm-killing-deleted-buffers t)
 
 (setq dired-dwim-target t)
 (setq dired-recursive-copies 'always)
+(setq dired-recursive-deletes 'always)
 (setq-default dired-listing-switches "-lhA --group-directories-first")
 (setq dired-open-extensions
       '(("pdf" . "evince")
