@@ -10,6 +10,7 @@
 (require 'dired-collapse)
 (require 'wdired)
 (require 'dired-x)
+(require 'diredfl)
 (require 'peep-dired)
 
 (dired-hide-dotfiles-mode)
@@ -108,6 +109,7 @@ that `dired-mode' is displaying."
  'wdired-mode
  '(("\\(^.*:$\\)" . 'ta-dired-header-face)))
 
+(add-hook 'dired-mode-hook 'diredfl-mode)
 (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1)))
 (add-hook 'dired-before-readin-hook 'dired-header-line-mode)
 
