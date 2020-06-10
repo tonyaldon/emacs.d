@@ -1,3 +1,6 @@
 [submodule "packages/company-emoji"]
 	path = packages/company-emoji
 	url = git@github.com:tonyaldon/company-emoji.git
+[submodule "packages/peep-dired"]
+	path = packages/peep-dired
+	url = git@github.com:tonyaldon/peep-dired.git
