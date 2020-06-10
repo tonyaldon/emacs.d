@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: setq-local
+# key: sl
+# --
+(setq-local $1 $2)$0

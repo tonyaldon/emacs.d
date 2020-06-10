@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: regexp-opt
+# key: ro
+# --
+(regexp-opt '("$1"$0))
