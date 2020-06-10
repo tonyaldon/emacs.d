@@ -93,6 +93,7 @@ Return nil if PT isn't inside a string. See the function `ta-point-in-string-p'"
   ("s" mc/unmark-previous-like-this)
   ("d" mc/unmark-next-like-this)
   ("t" mc/mark-sgml-tag-pair)
+	("i" mc/insert-numbers)
   ("q" nil))
 
 (defadvice mc/keyboard-quit (after ta-mc/keyboard-quit-advice activate)

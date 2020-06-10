@@ -66,6 +66,10 @@ Printed in the message area"
   (message "Buffer's number of lines: %s"
            (int-to-string (count-lines (point-min) (point-max)))))
 
+(defun ta-copy-buffer-file-name ()
+  "Push current `buffer-file-name' to the `kill-ring'."
+  (interactive)
+  (kill-new (buffer-file-name)))
 
 (defhydra hydra-files
   (
@@ -82,6 +86,7 @@ Printed in the message area"
 	("r" rename-current-buffer-file :color blue)
 	("l" ta-number-lines-whole-buffer :color blue)
 	("d" ms-dashboard)
+	("p" ta-copy-buffer-file-name)
   ;; ---
   ("M--" undo)
   ("q" nil))
