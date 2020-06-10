@@ -2,18 +2,19 @@
 (require 'term)
 (require 'eterm-256color)
 
-(defun ta-term-bash ()
-  (interactive)
-  (split-window-below -12)
-  (other-window 1)
-  (term "/bin/bash"))
+(defun ta-term (program)
+  "This is a copy of `term' command where `switch-to-buffer'
 
-(defun ta-term-yank ()
-  "Yank in `term-raw-map'."
-  (interactive)
-  (read-only-mode -1)
-  (call-interactively 'yank)
-  (read-only-mode t))
+is replaced by `switch-to-buffer-other-window'. It fits better
+my use of `display-buffer-alist'."
+  (interactive (list (read-from-minibuffer "Run program: "
+					   (or explicit-shell-file-name
+					       (getenv "ESHELL")
+					       shell-file-name))))
+  (set-buffer (make-term "terminal" program))
+  (term-mode)
+  (term-char-mode)
+  (switch-to-buffer-other-window "*terminal*"))
 
 
 (defun ta-term-hl-line-mode ()
