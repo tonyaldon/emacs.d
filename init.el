@@ -19,11 +19,11 @@
 (require 'setup-ibuffer)
 
 (require 'setup-init)
-(require 'setup-yasnippet)
 (require 'setup-company)
 (require 'setup-emmet-mode)
 (require 'setup-flycheck)
 
+(require 'setup-org)
 (require 'setup-php-mode)
 (require 'setup-sql-mode)
 (require 'setup-js-mode)
@@ -37,13 +37,13 @@
 (require 'setup-i3)
 
 (require 'kb)
+(require 'kb-yasnippet)
 (require 'kb-company)
 (require 'kb-describe)
 (require 'kb-files)
 (require 'kb-lines)
 (require 'kb-kmacro)
 (require 'kb-mark)
-(require 'kb-org)
 (require 'kb-scrolling)
 (require 'kb-search)
 (require 'kb-smartparens)
