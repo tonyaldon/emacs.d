@@ -42,7 +42,6 @@
 (require 'kb-lines)
 (require 'kb-kmacro)
 (require 'kb-mark)
-(require 'kb-narrow)
 (require 'kb-org)
 (require 'kb-scrolling)
 (require 'kb-search)

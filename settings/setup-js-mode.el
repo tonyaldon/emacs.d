@@ -15,9 +15,7 @@ the variable `outline-regexp'."
                         "const\\|"
                         "[[:space:]]*app\\|"
                         "[[:space:]]*axios\\|"
-                        "[[:space:]]*const"))
-  (define-key outline-minor-mode-map (kbd "<tab>") 'bicycle-cycle)
-  (define-key outline-minor-mode-map (kbd "C-<tab>") 'bicycle-cycle-global))
+                        "[[:space:]]*const")))
 
 (add-hook 'js-mode-hook 'ta-tern-js-mode-hook)
 (add-hook 'js-mode-hook 'ta-outline-js-mode-hook)

@@ -1,5 +1,4 @@
 (require 'make-mode)
-(require 'kb-org)
 
 (defun ta-newline-smart ()
   "Perform `newline-and-indent' or `newline' depending of the context."
@@ -32,12 +31,7 @@
 (define-key makefile-gmake-mode-map (kbd "RET") 'ta-newline-smart)
 (define-key makefile-gmake-mode-map (kbd "M-n") 'windmove-down)
 (define-key makefile-gmake-mode-map (kbd "M-p") 'windmove-up)
-(define-key makefile-gmake-mode-map
-  [remap hydra-org/outline-next-visible-heading]
-  'makefile-next-dependency)
-(define-key makefile-gmake-mode-map
-  [remap hydra-org/outline-previous-visible-heading]
-  'makefile-previous-dependency)
+
 
 
 (provide 'setup-gmake-makefile-mode)

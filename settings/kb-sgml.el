@@ -8,12 +8,6 @@
    :pre (hydra-color-pre-sgml)
    :post (hydra-color-post)
    :hint nil)
-  ("<prior>" hydra-sp-reshape/body :color blue)
-  ("<next>" hydra-lines/body :color blue)
-  ("." hydra-sp/body :color blue)
-  ("j" hydra-org/body :color blue)
-  ("m" hydra-scrolling/body :color blue)
-  ;; ---
 	("DEL" sgml-delete-tag)
   ("p" ta-previous-attribute)
   ("n" ta-next-attribute)
@@ -31,10 +25,5 @@
 
 (defadvice sgml-delete-tag (after sgml-delete-tag-advice activate)
 	(indent-buffer))
-
-(define-key sgml-mode-map
-  [remap hydra-org/body]
-  'hydra-sgml/body)
-
 
 (provide 'kb-sgml)
