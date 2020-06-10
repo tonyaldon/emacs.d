@@ -32,15 +32,36 @@
     (window-width . 0.3)
     (side . left)
     (slot . -1))
-   ("\\*Messages.*\\|\\*info.*\\|\\*Warnings.*"
+   ("\\*Messages.*\\|\\*Warnings.*\\|\\*Backtrace.*\\|*Apropos.*"
     (display-buffer-in-side-window)
     (window-width . 0.3)
     (side . left)
     (slot . 1))
+	 ("\\*info.*"
+    (display-buffer-in-side-window)
+    (window-width . 0.36)
+    (side . left)
+    (slot . 1))
+	 ("*scratch.*\\|*YASnippet Tables by NAMEHASH*\\|*YASnippet Tables*"
+    (display-buffer-in-side-window)
+    (window-width . 0.3)
+    (side . left)
+    (slot . 2))
 	 ("\\*.*occur.*\\|\\*grep.*"
+    (display-buffer-in-side-window)
+		(window-height . 0.3)
+		(side . top)
+		(slot . 1))
+	 ("\\*terminal.*"
+    (display-buffer-in-side-window)
+    (window-height . 0.25)
+    (side . top)
+    (slot . -1))
+	 ("magit:.*\\|magit-diff:.*"
     (display-buffer-in-direction)
-		(direction . left)
-		(window-width . 0.3))))
+    (direction . left))
+	 ("magit-log:.*"
+    (display-buffer-below-selected))))
 
 
 (provide 'setup-ui)
