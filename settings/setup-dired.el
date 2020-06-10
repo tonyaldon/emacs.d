@@ -10,6 +10,9 @@
 (require 'dired-collapse)
 (require 'wdired)
 (require 'dired-x)
+(require 'peep-dired)
+
+(dired-hide-dotfiles-mode)
 
 (setq dired-keep-marker-rename t)
 (setq wdired-allow-to-change-permissions nil)
@@ -17,7 +20,6 @@
 (setq dired-narrow-exit-when-one-left t)
 (setq dired-clean-up-buffers-too t)
 (setq dired-clean-confirm-killing-deleted-buffers t)
-
 (setq dired-dwim-target t)
 (setq dired-recursive-copies 'always)
 (setq dired-recursive-deletes 'always)
@@ -28,8 +30,11 @@
         ("png" . "eog")))
 (setq-default dired-subtree-line-prefix "  ")
 (setq-default dired-subtree-use-backgrounds nil)
-
-(dired-hide-dotfiles-mode)
+(setq peep-dired-cleanup-on-disable t)
+(setq peep-dired-cleanup-eagerly nil)
+(setq peep-dired-enable-on-directories nil)
+(setq peep-dired-ignored-extensions
+        '("mkv" "webm" "mp4" "mp3" "ogg" "iso" "pdf"))
 
 (defun ta-size-bigger-file-or-directory-in-dired ()
   "Return the number of characters of the bigger FILE-OR-DIRECTORY in current dired buffer."
@@ -121,11 +126,7 @@ that `dired-mode' is displaying."
 (define-key dired-mode-map (kbd "C-c C-s") 'dired-toggle-sudo)
 (define-key dired-mode-map (kbd ")") 'dired-subtree-cycle)
 (define-key dired-mode-map (kbd "C-c C-c") 'dired-collapse-mode)
-
-
-
-
-
+(define-key dired-mode-map (kbd "P") 'peep-dired)
 
 
 (provide 'setup-dired)
