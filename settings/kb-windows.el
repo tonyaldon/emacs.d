@@ -1,18 +1,16 @@
-(require 'kb)
-(require 'kb-term)
 (require 'ace-window)
 (require 'framer)
+(require 'kb)
 (require 'transpose-frame)
-(require 'ibuffer)
+
+(winner-mode t)
 
 (setq aw-char-position 'top-left)
-(setq aw-ignore-current t)
+(setq aw-ignore-current nil)
 (setq aw-leading-char-style 'char)
 (setq aw-background nil)
-(setq aw-keys '(?s ?r ?d ?l))
+(setq aw-keys '(?s ?r ?d ?l ?t))
 
-;; remember window's display
-(winner-mode t)
 (declare-function ta-term "ext:kb-term")
 
 (defun enable-zoom-one-shot-keybindings ()
@@ -47,23 +45,36 @@
   "Chain `split-window-right' and `windmove-right'."
   (interactive)
   (split-window-right)
-  (windmove-right))
+	(recenter)
+	(windmove-right)
+  (recenter))
 
 (defun ta-split-window-down ()
   "Chain `split-window-below' and `windmove-down'."
   (interactive)
-  (split-window-below)
-  (windmove-down))
+	(split-window-below)
+  (recenter)
+	(windmove-down)
+	(recenter))
+
+(defun ta-ace-kill-buffer ()
+  "Kill buffer in other window.
+
+Other window is selected with `ace-window'."
+  (interactive)
+  (ace-select-window)
+  (kill-this-buffer)
+  (other-window))
 
 (defhydra hydra-windows-size
   (
    :pre (hydra-color-pre-windows)
    :post (hydra-color-post)
    :hint nil)
-  ("b" shrink-window-horizontally)
-  ("f" enlarge-window-horizontally)
-  ("p" enlarge-window)
-  ("n" shrink-window)
+  ("b" (shrink-window-horizontally 5))
+  ("f" (enlarge-window-horizontally 5))
+  ("p" (shrink-window 5))
+  ("n" (enlarge-window 5))
   ("q" nil))
 
 (defhydra hydra-windows
@@ -82,6 +93,7 @@
   ("o" ta-split-window-right :color blue)
   (";" ta-split-window-down :color blue)
 	("d" ace-delete-window)
+  ("D" ta-ace-kill-buffer :color blue)
   ("u" winner-undo)
   ("]" winner-redo :color blue)
   (">" make-frame :color blue)
