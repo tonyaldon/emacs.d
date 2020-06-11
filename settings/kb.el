@@ -16,9 +16,9 @@
   "Here, the used color matches with d-green-2 defined in `discreet-theme.'"
 	(set-cursor-color "#26f9ad"))
 
-(defun hydra-color-pre-scrolling ()
+(defun hydra-color-pre-browse ()
   "Here, the used color matches with d-white-1 defined in `discreet-theme'"
-	(set-cursor-color "#dedede"))
+	(set-cursor-color "#ffffff"))
 
 (defun hydra-color-pre-windows ()
   "Here, the used color matches with d-yellow-1 defined in `discreet-theme'"

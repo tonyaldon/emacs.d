@@ -44,7 +44,7 @@
 (require 'kb-lines)
 (require 'kb-kmacro)
 (require 'kb-mark)
-(require 'kb-scrolling)
+(require 'kb-browse)
 (require 'kb-search)
 (require 'kb-smartparens)
 (require 'kb-string)

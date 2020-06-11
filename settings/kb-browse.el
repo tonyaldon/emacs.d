@@ -5,6 +5,7 @@
 
 (declare-function ta-pop-local-mark-ring "ext:kb-mark")
 (declare-function counsel-outline "ext:counsel")
+(declare-function ace-window "ext:ace-window")
 (declare-function outline-previous-visible-heading "outline")
 (declare-function outline-next-visible-heading "outline")
 (declare-function org-narrow-to-subtree "org")
@@ -81,13 +82,53 @@ level less."
       (bicycle--message "TREES")
       (setq this-command 'outline-cycle-trees)))))
 
+(defun ta-aw-other-window-scroll-buffer ()
+  "Use `ace-window' to set `other-window-scroll-buffer'."
+  (interactive)
+  (let ((initial-window (selected-window)))
+    (save-excursion
+      (call-interactively 'ace-window)
+      (setq other-window-scroll-buffer (current-buffer)))
+    (select-window initial-window)))
+
+(defun ta-aw-reset-other-window-scroll-buffer ()
+  "Reset `other-window-scroll-buffer' to nil when not a displayed buffer.
+
+Use this function to advice `scroll-other-window' and `scroll-other-window-down'
+before. This prevent to popup the buffer `other-window-scroll-buffer' if it
+was not being displayed."
+  (when (and other-window-scroll-buffer
+						 (not (get-buffer-window other-window-scroll-buffer)))
+		(setq other-window-scroll-buffer nil)))
+
+(defadvice scroll-other-window
+		(before ta-aw-reset-other-window-scroll-buffer-advice activate)
+	"Reset `other-window-scroll-buffer' to nil when not a displayed buffer.
+
+This prevent to popup the buffer `other-window-scroll-buffer' if it
+was not being displayed.
+
+See `ta-aw-other-window-scroll-buffer'."
+  (ta-aw-reset-other-window-scroll-buffer))
+
+(defadvice scroll-other-window-down
+		(before ta-aw-reset-other-window-scroll-buffer-advice activate)
+	"Reset `other-window-scroll-buffer' to nil when not a displayed buffer.
+
+This prevent to popup the buffer `other-window-scroll-buffer' if it
+was not being displayed.
+
+See `ta-aw-other-window-scroll-buffer'."
+  (ta-aw-reset-other-window-scroll-buffer))
+
 (defhydra hydra-browse
   (:pre (hydra-color-pre-browse)
         :post (hydra-color-post)
         :hint nil)
   ("t" hydra-lines/body :color blue)
   ("M-l" ta-pop-local-mark-ring)
-  ("b" beginning-of-buffer)
+  ("c" ta-aw-other-window-scroll-buffer)
+	("b" beginning-of-buffer)
   ("f" end-of-buffer)
   ("<backspace>" scroll-down-command)
   ("SPC" scroll-up-command)

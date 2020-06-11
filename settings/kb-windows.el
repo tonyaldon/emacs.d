@@ -78,17 +78,17 @@ Other window is selected with `ace-window'."
   ("q" nil))
 
 (defhydra hydra-windows
-  (
-   :pre (hydra-color-pre-windows)
+  (:pre (hydra-color-pre-windows)
    :post (hydra-color-post)
    :hint nil)
-  ("p" ta-drag-window-above)
+  ("t" hydra-browse/body :color blue)
+	("p" ta-drag-window-above)
   ("n" ta-drag-window-below)
   ("b" ta-drag-window-left)
   ("f" ta-drag-window-right)
+  ("e" transpose-frame)
   ("/" ace-swap-window :color blue)
-  ("T" transpose-frame)
-  ("t" window-toggle-side-windows)
+  ("SPC" window-toggle-side-windows)
   ("i" clone-indirect-buffer-other-window :color blue)
   ("o" ta-split-window-right :color blue)
   (";" ta-split-window-down :color blue)
