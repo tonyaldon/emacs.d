@@ -1,6 +1,7 @@
 (require 'kb)
 (require 'kb-term)
 (require 'ace-window)
+(require 'framer)
 (require 'transpose-frame)
 (require 'ibuffer)
 
@@ -86,6 +87,9 @@
   (">" make-frame :color blue)
   ("s" hydra-windows-size/body :color blue)
   ("+" text-scale-adjust :color blue)
+  ("." framer-push :color blue)
+  ("x" framer-undo)
+  (":" framer-redo)
   ("r" (ta-term "/bin/bash") :color blue)
   ;; ---
   ("c" ace-window :color blue)
