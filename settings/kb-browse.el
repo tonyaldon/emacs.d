@@ -47,13 +47,47 @@
   (let ((window-middle (/ (window-body-height) 2)))
     (scroll-up-line (- 0 window-middle))))
 
+(defun ta-outline-toggle-global ()
+  "Toggle visibility of all outline (see `outline-mode') sections.
+
+This command toggle between this following levels:
+1. TREES:    Show all headings, treaing top-level code blocks
+             as sections (i.e. their first line is treated as
+             a heading).
+2. ALL:      Show everything, except code blocks that have been
+             collapsed individually (using a `hideshow' command
+             or function).
+
+This is a variant off the `bicycle-cycle-global' with two
+level less."
+  (interactive)
+  (setq deactivate-mark t)
+  (save-excursion
+    (goto-char (point-min))
+    (unless (re-search-forward outline-regexp nil t)
+      (user-error "Found no heading"))
+    (cond
+     ((eq last-command 'outline-cycle-trees)
+      (outline-show-all)
+      (bicycle--message "ALL"))
+     (t
+      (outline-hide-sublevels (bicycle--level))
+      (outline-map-region
+       (lambda ()
+         (when (bicycle--top-level-p)
+           (outline-show-branches)))
+       (point-min)
+       (point-max))
+      (bicycle--message "TREES")
+      (setq this-command 'outline-cycle-trees)))))
+
 (defhydra hydra-browse
   (:pre (hydra-color-pre-browse)
         :post (hydra-color-post)
         :hint nil)
   ("t" hydra-lines/body :color blue)
   ("M-l" ta-pop-local-mark-ring)
-	("b" beginning-of-buffer)
+  ("b" beginning-of-buffer)
   ("f" end-of-buffer)
   ("<backspace>" scroll-down-command)
   ("SPC" scroll-up-command)
@@ -70,7 +104,7 @@
   ("o" ta-scroll-other-window-line)
   ("e" ta-scroll-other-window-down-line)
   ("." ta-toggle-narrow)
-  ("]" bicycle-cycle-global)
+  ("]" ta-outline-toggle-global)
   ("TAB" bicycle-cycle)
   ("p" outline-previous-visible-heading)
   ("n" outline-next-visible-heading)
