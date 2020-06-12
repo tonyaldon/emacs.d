@@ -147,6 +147,7 @@ See `ta-aw-other-window-scroll-buffer'."
   ("." ta-toggle-narrow)
   ("]" ta-outline-toggle-global)
   ("TAB" bicycle-cycle)
+  ("/" org-cycle)
   ("p" outline-previous-visible-heading)
   ("n" outline-next-visible-heading)
   ("M-s" counsel-outline)
