@@ -46,7 +46,7 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
   (interactive)
   (let ((initial-window (selected-window)))
     (save-excursion
-      (call-interactively 'avy-goto-char)
+      (call-interactively 'avy-goto-word-or-subword-1)
       (sp-copy-sexp))
     (select-window initial-window)
     (yank)))
@@ -56,7 +56,7 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
   (interactive)
   (let ((initial-window (selected-window)))
     (save-excursion
-      (call-interactively 'avy-goto-char)
+      (call-interactively 'avy-goto-word-or-subword-1)
       (sp-kill-sexp))
     (select-window initial-window)
 		(yank)))
