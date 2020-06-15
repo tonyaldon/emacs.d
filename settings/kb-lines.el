@@ -54,6 +54,15 @@ see: https://github.com/magnars/.emacs.d/blob/master/defuns/buffer-defuns.el#L14
   (set-mark (point))
   (end-of-line))
 
+(defun ta-avy-kill-yank-whole-line ()
+  "Call `avy-kill-whole-line' and yank it at point."
+  (interactive)
+	(call-interactively 'avy-kill-whole-line)
+	(beginning-of-line)
+	(open-line 1)
+	(yank)
+	(delete-backward-char 1)
+	(beginning-of-line))
 
 (defun ta-copy-current-line-yank-below ()
   "copy current line and yank it to the next line.
@@ -160,14 +169,15 @@ Preserve the column position of the cursor."
 	(";" ta-comment-line)
   ("DEL" delete-backward-char)
   ("." set-mark-command)
-  ("T" exchange-point-and-mark)
+  ("m" exchange-point-and-mark)
   ("D" display-line-numbers-mode)
   ("L" goto-line)
 	(">" zap-up-to-char)
 	;; action on line(s)
   (":" ta-avy-mark-region)
+  ("'" mark-paragraph)
   ("c" avy-copy-line)
-  ("@" avy-kill-whole-line)
+  ("@" ta-avy-kill-yank-whole-line)
   ("C" avy-copy-region)
   ("%" avy-kill-region)
   ("!" flush-lines)
