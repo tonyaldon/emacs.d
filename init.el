@@ -42,7 +42,6 @@
 (require 'kb-describe)
 (require 'kb-files)
 (require 'kb-lines)
-(require 'kb-kmacro)
 (require 'kb-mark)
 (require 'kb-browse)
 (require 'kb-search)
