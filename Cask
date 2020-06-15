@@ -48,3 +48,5 @@
 (depends-on "dired-toggle-sudo")
 (depends-on "dired-collapse")
 (depends-on "diredfl")
+(depends-on "feature-mode")
+(depends-on "keycast")
