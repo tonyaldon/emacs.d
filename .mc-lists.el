@@ -50,6 +50,7 @@
 				hydra-lines/ta-below-new-indent-and-exit
 				hydra-lines/ta-comment-line
 				hydra-lines/ta-copy-current-line-yank-below
+				hydra-lines/ta-cycle-spacing
 				hydra-lines/ta-mark-current-line
 				hydra-lines/ta-mark-end-of-line
 				hydra-lines/ta-newline-after-end-of-visual-line-and-exit
@@ -96,6 +97,8 @@
 				hydra-sp/sp-backward-kill-sexp
 				hydra-sp/sp-backward-sexp
 				hydra-sp/sp-beginning-of-sexp
+				hydra-sp/sp-change-enclosing-and-exit
+				hydra-sp/sp-change-inner-and-exit
 				hydra-sp/sp-down-sexp
 				hydra-sp/sp-end-of-sexp
 				hydra-sp/sp-forward-sexp
@@ -109,6 +112,7 @@
 				hydra-sp/sp-wrap-round
 				hydra-sp/sp-wrap-square
 				hydra-sp/ta-add-space-and-exit
+				hydra-sp/ta-avy-copy-sexp-and-exit
 				hydra-ss/body
 				hydra-ss/ta-ss-s-capitalize-and-exit
 				hydra-ss/ta-ss-s-collapse-whitespace-and-exit
@@ -137,6 +141,8 @@
 				org-return-indent
 				org-self-insert-command
 				org-yank
+				orgtbl-hijacker-command-109
+				orgtbl-self-insert-command
 				picture-self-insert
 				python-indent-shift-left
 				reindent-then-newline-and-indent
@@ -216,6 +222,8 @@
 				hydra-lines/ta-avy-mark-region
 				hydra-lines/undo
 				hydra-mc/body
+				hydra-mc/hydra-lines/body
+				hydra-mc/hydra-lines/body-and-exit
 				hydra-mc/mc/mark-next-like-this
 				hydra-mc/mc/mark-next-like-this-word
 				hydra-mc/mc/mark-previous-like-this
@@ -266,6 +274,7 @@
 				org-ctrl-c-ret
 				org-open-at-mouse
 				previous-buffer
+				push-button
 				query-replace
 				replace-string
 				revert-buffer
