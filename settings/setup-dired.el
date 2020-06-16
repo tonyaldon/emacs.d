@@ -35,13 +35,71 @@
 (setq peep-dired-cleanup-eagerly nil)
 (setq peep-dired-enable-on-directories nil)
 (setq peep-dired-ignored-extensions
-        '("mkv" "webm" "mp4" "mp3" "ogg" "iso" "pdf"))
+      '("mkv" "webm" "mp4" "mp3" "ogg" "iso" "pdf"))
+
+(declare-function ace-window "ext:ace-window")
+
+(defun ta-dired-aw-find-file ()
+  "Open file at point in window selected with `ace-window'."
+  (interactive)
+  (let ((file-at-point (dired-file-name-at-point)))
+    (call-interactively 'ace-window)
+    (if file-at-point (find-file (expand-file-name file-at-point)))))
+
+(defun ta-dired-aw-find-file-split-down ()
+  "Open file at point in the part below window selected after
+
+spliting it verticaly."
+  (interactive)
+  (let ((file-at-point (dired-file-name-at-point)))
+    (call-interactively 'ace-window)
+    (split-window-below)
+    (recenter)
+    (windmove-down)
+    (recenter)
+    (if file-at-point (find-file (expand-file-name file-at-point)))))
+
+(defun ta-dired-aw-find-file-split-up ()
+  "Open file at point in the part up window selected after
+
+spliting it verticaly."
+  (interactive)
+  (let ((file-at-point (dired-file-name-at-point)))
+    (call-interactively 'ace-window)
+    (split-window-below)
+    (recenter)
+    (if file-at-point (find-file (expand-file-name file-at-point)))))
+
+(defun ta-dired-aw-find-file-split-right ()
+  "Open file at point in window at the right selected with `ace-window'
+
+and splited horizontaly."
+  (interactive)
+  (let ((file-at-point (dired-file-name-at-point)))
+    (call-interactively 'ace-window)
+    (split-window-right)
+    (recenter)
+    (windmove-right)
+    (recenter)
+    (if file-at-point (find-file (expand-file-name file-at-point)))))
+
+(defun ta-dired-aw-find-file-split-left ()
+  "Open file at point in window at the left selected with `ace-window'
+
+and splited horizontaly."
+  (interactive)
+  (let ((file-at-point (dired-file-name-at-point)))
+    (call-interactively 'ace-window)
+    (split-window-right)
+    (recenter)
+    (if file-at-point (find-file (expand-file-name file-at-point)))))
+
 
 (defun ta-size-bigger-file-or-directory-in-dired ()
   "Return the number of characters of the bigger FILE-OR-DIRECTORY in current dired buffer."
   (with-current-buffer (current-buffer)
-	  (-max (--map (length (-last-item (s-split "/" it)))
-								 (dired-utils-get-all-files)))))
+    (-max (--map (length (-last-item (s-split "/" it)))
+                 (dired-utils-get-all-files)))))
 
 (defun ta-sidebar ()
   "Pop a buffer on the left of the frame in `dired-mode'
