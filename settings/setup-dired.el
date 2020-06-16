@@ -1,4 +1,5 @@
 (require 'dired)
+(require 'dired-hacks-utils)
 (require 'dired-subtree)
 (require 'dired-narrow)
 (require 'dired-hide-dotfiles)
@@ -94,6 +95,40 @@ and splited horizontaly."
     (recenter)
     (if file-at-point (find-file (expand-file-name file-at-point)))))
 
+(defun ta-dired-subtree-toggle-all ()
+  "Apply `dired-subtree-toggle' to all root directories
+
+in the dired buffer"
+  (interactive)
+  (setq deactivate-mark t)
+  (save-excursion
+    (cond
+     ((eq last-command 'dired-subtree-toggle-overview)
+      (goto-char (point-min))
+      (next-line)
+      (while (not (eobp))
+        (if (dired-utils-is-dir-p) (dired-subtree-toggle))
+        (dired-subtree-next-sibling))
+      (message "ALL"))
+     ((eq last-command 'ta-dired-subtree-toggle-all)
+      (goto-char (point-min))
+      (next-line)
+      (while (not (eobp))
+        (if (dired-utils-is-dir-p) (dired-subtree-toggle))
+        (dired-subtree-next-sibling))
+      (message "ALL"))
+     (t
+      (goto-char (point-max))
+      (previous-line)
+      (setq number-line-before-remove (line-number-at-pos))
+      (dired-subtree-remove)
+      (while (not (bobp))
+        (while (not (equal number-line-before-remove (line-number-at-pos)))
+          (setq number-line-before-remove (line-number-at-pos))
+          (dired-subtree-remove))
+        (previous-line))
+      (message "OVERVIEW")
+      (setq this-command 'dired-subtree-toggle-overview)))))
 
 (defun ta-size-bigger-file-or-directory-in-dired ()
   "Return the number of characters of the bigger FILE-OR-DIRECTORY in current dired buffer."
