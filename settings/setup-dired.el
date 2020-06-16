@@ -81,23 +81,14 @@ that `dired-mode' is displaying."
     (error "You must be in Dired or a mode derived from it to use this command"))
   (if dired-header-line-mode
       (progn
-        (setq path-len
-              (length
-               (s-split
-                "/"
-                (expand-file-name dired-directory))))
+        (setq path-len (length (s-split "/" (expand-file-name dired-directory))))
         (setq header-line-directories
-              (car
-               (last
-                (s-split-up-to
-                 "/"
-                 (expand-file-name dired-directory)
-                 (- path-len 3)))))
-        (setq header-line-format (concat "..." header-line-directories)))
+              (car (last (s-split-up-to "/" (expand-file-name dired-directory)
+																				(- path-len 3)))))
+        (setq header-line-format (concat " ↪[" header-line-directories "]")))
     (setq header-line-format  (default-value 'header-line-format))))
 
-(defface ta-dired-header-face
-  nil
+(defface ta-dired-header-face nil
   "Face for dired header, first line of buffer in `dired-mode'"
   :group 'dired)
 
