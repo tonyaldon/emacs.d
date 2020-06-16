@@ -13,6 +13,30 @@
 
 (declare-function ta-term "ext:kb-term")
 
+(defun ta--dired-side-by-side (current-directory)
+  "Do the layout job of `ta-dired-side-by-side'."
+  (delete-other-windows)
+  (dired current-directory)
+  (split-window-right))
+
+(defun ta-dired-side-by-side ()
+  "Pop two dired buffer side by side.
+
+If `current-buffer' is visiting a file, the root directory of this
+file becomes `dired-directory' of the popped dired buffers. If not
+visiting a file, the $HOME directory is chosen to be the
+`dired-directory'"
+  (interactive)
+  (let ((current-buffer-file-name (buffer-file-name))
+        (current-dired-directory dired-directory))
+    (cond
+     (current-buffer-file-name
+      (ta--dired-side-by-side (file-name-directory current-buffer-file-name)))
+     (current-dired-directory
+      (ta--dired-side-by-side current-dired-directory))
+     (t
+      (ta--dired-side-by-side (expand-file-name "~/"))))))
+
 (defun enable-zoom-one-shot-keybindings ()
   (set-transient-map
    (let ((map (make-sparse-keymap)))
@@ -88,7 +112,7 @@ Other window is selected with `ace-window'."
   ("f" ta-drag-window-right)
   ("e" transpose-frame)
   ("/" ace-swap-window :color blue)
-  ("SPC" window-toggle-side-windows)
+  ("<next>" window-toggle-side-windows)
   ("i" clone-indirect-buffer-other-window :color blue)
   ("o" ta-split-window-right :color blue)
   (";" ta-split-window-down :color blue)
@@ -103,6 +127,7 @@ Other window is selected with `ace-window'."
   ("x" framer-undo)
   (":" framer-redo)
   ("r" (ta-term "/bin/bash") :color blue)
+	("l" ta-dired-side-by-side)
   ;; ---
   ("c" ace-window :color blue)
   ("'" aw-flip-window :color blue)
@@ -121,7 +146,6 @@ The function `windmove-left', `windmove-right', `windmove-up' and
 	(recenter))
 
 (global-set-key (kbd "M-u") 'hydra-windows/body)
-(global-set-key (kbd "C-<tab>") 'ace-window)
 
 (global-set-key (kbd "M-b") 'windmove-left)
 (global-set-key (kbd "M-f") 'windmove-right)
