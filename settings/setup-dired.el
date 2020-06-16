@@ -11,8 +11,8 @@
 (require 'dired-collapse)
 (require 'wdired)
 (require 'dired-x)
-(require 'diredfl)
 (require 'peep-dired)
+(require 'dired-rainbow)
 
 (dired-hide-dotfiles-mode)
 
@@ -25,7 +25,7 @@
 (setq dired-dwim-target t)
 (setq dired-recursive-copies 'always)
 (setq dired-recursive-deletes 'always)
-(setq-default dired-listing-switches "-lhA --group-directories-first")
+(setq-default dired-listing-switches "-lhAX --group-directories-first")
 (setq dired-open-extensions
       '(("pdf" . "evince")
         ("jpg" . "eog")
@@ -193,7 +193,19 @@ that `dired-mode' is displaying."
  'wdired-mode
  '(("\\(^.*:$\\)" . 'ta-dired-header-face)))
 
-(add-hook 'dired-mode-hook 'diredfl-mode)
+;; see discreet-theme.el
+(dired-rainbow-define-chmod executable-unix "#7fffd4" "-.*x.*")
+(dired-rainbow-define media "#d4fbcb"
+											("mp3" "mp4" "MP3" "MP4" "avi" "mpg" "flv" "ogg" "m4a"))
+(dired-rainbow-define image "#a4c30d" ("jpg" "jpeg" "png"))
+(dired-rainbow-define svg "#8a510f" ("svg"))
+(dired-rainbow-define media-editing "#e421e8" ("kdenlive" "aup"))
+(dired-rainbow-define plain-text "#ffd500" ("org" "md"))
+(dired-rainbow-define emacs-lisp "#00bdd6" ("el"))
+(dired-rainbow-define python "#d16500" ("py"))
+(dired-rainbow-define js "#bb8415" ("js"))
+(dired-rainbow-define shadow (:inherit shadow) "\\.git.*" )
+
 (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1)))
 (add-hook 'dired-before-readin-hook 'dired-header-line-mode)
 
