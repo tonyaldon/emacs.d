@@ -40,6 +40,7 @@
 (require 'kb-yasnippet)
 (require 'kb-company)
 (require 'kb-describe)
+(require 'kb-dired)
 (require 'kb-files)
 (require 'kb-lines)
 (require 'kb-mark)
