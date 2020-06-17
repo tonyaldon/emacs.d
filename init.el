@@ -18,6 +18,7 @@
 (require 'setup-mode-line)
 (require 'setup-dired)
 (require 'setup-ibuffer)
+(require 'setup-search)
 
 (require 'setup-init)
 (require 'setup-company)

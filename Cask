@@ -3,6 +3,7 @@
 
 (depends-on "cask")
 (depends-on "ivy-posframe")
+(depends-on "ivy-rich")
 (depends-on "moody")
 (depends-on "minions")
 (depends-on "dired-subtree")
