@@ -4,3 +4,6 @@
 [submodule "packages/peep-dired"]
 	path = packages/peep-dired
 	url = git@github.com:tonyaldon/peep-dired.git
+[submodule "packages/posframe"]
+	path = packages/posframe
+	url = git@github.com:tonyaldon/posframe.git
