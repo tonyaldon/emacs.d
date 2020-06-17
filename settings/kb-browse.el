@@ -2,7 +2,7 @@
 (require 'bicycle)
 
 (setq scroll-conservatively 100)
-(setq recenter-positions '(top bottom middle))
+(setq recenter-positions '(top middle bottom))
 
 (declare-function ta-pop-local-mark-ring "ext:kb-mark")
 (declare-function counsel-outline "ext:counsel")
@@ -158,6 +158,8 @@ See `ta-aw-other-window-scroll-buffer'."
 
 (define-key Info-mode-map (kbd "d") 'ta-scroll-up-half-window)
 (define-key Info-mode-map (kbd "s") 'ta-scroll-down-half-window)
+(define-key help-mode-map (kbd "d") 'ta-scroll-up-half-window)
+(define-key help-mode-map (kbd "s") 'ta-scroll-down-half-window)
 
 
 (provide 'kb-browse)
