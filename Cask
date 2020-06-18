@@ -51,3 +51,5 @@
 (depends-on "dired-rainbow")
 (depends-on "feature-mode")
 (depends-on "keycast")
+(depends-on "htmlize")
+

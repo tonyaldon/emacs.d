@@ -51,6 +51,7 @@
 				hydra-lines/ta-comment-line
 				hydra-lines/ta-copy-current-line-yank-below
 				hydra-lines/ta-cycle-spacing
+				hydra-lines/ta-kill-ring-save-current-line-and-exit
 				hydra-lines/ta-mark-current-line
 				hydra-lines/ta-mark-end-of-line
 				hydra-lines/ta-newline-after-end-of-visual-line-and-exit
@@ -106,6 +107,7 @@
 				hydra-sp/sp-kill-whole-line
 				hydra-sp/sp-next-sexp
 				hydra-sp/sp-rewrap-sexp
+				hydra-sp/sp-splice-sexp
 				hydra-sp/sp-swap-enclosing-sexp
 				hydra-sp/sp-up-sexp
 				hydra-sp/sp-wrap-curly
