@@ -130,41 +130,37 @@ in the dired buffer"
       (message "OVERVIEW")
       (setq this-command 'dired-subtree-toggle-overview)))))
 
-(defun ta-size-bigger-file-or-directory-in-dired ()
-  "Return the number of characters of the bigger FILE-OR-DIRECTORY in current dired buffer."
-  (with-current-buffer (current-buffer)
+(defun ta-dired-width (dir)
+  "Return the number of characters of the bigger file or directory in
+
+a dired buffer generate with DIR as `dired-directory'."
+  (with-current-buffer (dired-noselect dir)
     (-max (--map (length (-last-item (s-split "/" it)))
                  (dired-utils-get-all-files)))))
 
 (defun ta-sidebar ()
   "Pop a buffer on the left of the frame in `dired-mode'
 
-with the parent directory of the current `buffer-file-name' if not `nil' and
-if the frame contains any buffer in `dired-mode'. If the frame contains buffers
-in `dired-mode', delete them.
-"
+with the parent directory of the current `buffer-file-name' if non-nil
+or, your home directory \"~/\".
+
+If the frame contains buffers in `dired-mode', delete them."
   (interactive)
-  ;; TODO: - check the case of buffer-file-name is nil
-  ;; TODO: - check the case of the is only one buffer in dired-mode
-  (setq current-window (car (avy-window-list)))
-  (setq window-list (avy-window-list))
-  (setq dired-buffer-into-frame-p nil)
-  (while window-list
-    (select-window (car window-list))
-    (if (string-equal major-mode "dired-mode")
-        (progn
-          (setq dired-buffer-into-frame-p t)
-          (delete-window)))
-    (setq window-list (cdr window-list)))
-  (if dired-buffer-into-frame-p
-      nil
-    (select-window current-window)
-    (delete-other-windows)
-    (let ((width (with-current-buffer
-                     (dired-noselect (file-name-directory (buffer-file-name)))
-                   (ta-size-bigger-file-or-directory-in-dired))))
-      (split-window-right (+ 10 width))) ; 10 is arbitrary
-    (dired (file-name-directory (buffer-file-name)))))
+  (let ((initial-window (selected-window))
+				dired-window-deleted-p
+				buff-file-name)
+		(--each (window-list)
+			(select-window it)
+			(if (string-equal major-mode "dired-mode")
+					(progn (delete-window) (setq dired-window-deleted-p t))))
+		(unless dired-window-deleted-p
+			(select-window initial-window)
+			(delete-other-windows)
+			(setq buff-file-name
+						(file-name-directory (cond (buffer-file-name) ("~/"))))
+			(let ((width (ta-dired-width buff-file-name)))
+				(split-window-right (+ 10 width))) ; 10 is arbitrary
+			(dired buff-file-name))))
 
 (define-minor-mode dired-header-line-mode
   "Show only the last two directories of the path to the current directory
@@ -177,7 +173,7 @@ that `dired-mode' is displaying."
         (setq path-len (length (s-split "/" (expand-file-name dired-directory))))
         (setq header-line-directories
               (car (last (s-split-up-to "/" (expand-file-name dired-directory)
-																				(- path-len 3)))))
+                                        (- path-len 3)))))
         (setq header-line-format (concat " ↪[" header-line-directories "]")))
     (setq header-line-format  (default-value 'header-line-format))))
 
@@ -196,7 +192,7 @@ that `dired-mode' is displaying."
 ;; see discreet-theme.el
 (dired-rainbow-define-chmod executable-unix "#7fffd4" "-.*x.*")
 (dired-rainbow-define media "#d4fbcb"
-											("mp3" "mp4" "MP3" "MP4" "avi" "mpg" "flv" "ogg" "m4a"))
+                      ("mp3" "mp4" "MP3" "MP4" "avi" "mpg" "flv" "ogg" "m4a"))
 (dired-rainbow-define image "#a4c30d" ("jpg" "jpeg" "png"))
 (dired-rainbow-define svg "#8a510f" ("svg"))
 (dired-rainbow-define media-editing "#e421e8" ("kdenlive" "aup"))
