@@ -17,6 +17,8 @@
 (setq recentf-save-file "~/.emacs.d/recentf")
 (setq recentf-max-saved-items 25)
 
+(setq csv-separators '(","))
+
 (require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 

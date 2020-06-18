@@ -10,6 +10,7 @@
   (not (string= lang "emacs-lisp")))  ; don't ask for ditaa
 (setq org-confirm-babel-evaluate 'ta-org-confirm-babel-evaluate)
 (setq system-time-locale "C")
+(setq org-export-backends '(ascii beamer html icalendar latex md))
 
 (set-default 'org-link-frame-setup
              (quote

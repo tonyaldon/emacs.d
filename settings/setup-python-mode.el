@@ -5,6 +5,7 @@
 (require 'pyvenv)
 
 (setq python-shell-interpreter "python3")
+(setq pydoc-command "python3 -m pydoc")
 
 (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
 

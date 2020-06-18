@@ -1,12 +1,19 @@
 (require 'hydra)
 (require 'key-chord)
 (require 'iso-transl)
-
-(setq-default hydra-hint-display-type  'message)
+(require 'avy)
 
 (key-chord-mode t)
+
+(setq-default hydra-hint-display-type  'message)
 (setq key-chord-two-keys-delay 0.1)
 (setq key-chord-one-key-delay 0.2)
+(setq avy-highlight-first t)
+(setq avy-keys '(97 117 105 101 121 120 111 119 98 110 102 112 107 116 115
+										114 113 100 108 106 109 99 103 104 40 41 91 93 60 62 44
+										59 46 58))
+(setq avy-style 'at-full)
+
 
 (defun hydra-color-pre ()
   "Here, the used color matches with d-green-2 defined in `discreet-theme'"

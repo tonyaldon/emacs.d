@@ -1,6 +1,7 @@
 (require 'kb)
 (require 'bicycle)
 
+(setq scroll-preserve-screen-position 1)
 (setq scroll-conservatively 100)
 (setq recenter-positions '(top middle bottom))
 

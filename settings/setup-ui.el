@@ -19,10 +19,12 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (global-linum-mode -1)
+(setq linum-format " %7i ")
 (setq-default cursor-type '(bar . 2))
 (blink-cursor-mode -1)
 (global-hl-line-mode t)
 (make-variable-buffer-local 'global-hl-line-mode)
+(setq frame-resize-pixelwise t)
 
 (add-hook 'help-mode-hook (lambda () (visual-line-mode t)))
 (setq

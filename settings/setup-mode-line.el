@@ -5,6 +5,7 @@
 (setq x-underline-at-descent-line t)
 (setq minions-mode-line-lighter "")
 (setq minions-mode-line-delimiters '("" . ""))
+(setq moody-mode-line-height 30)
 (setq keycast-separator-width 2)
 (setq keycast-insert-after 'moody-mode-line-buffer-identification)
 (setq keycast-window-predicate  'moody-window-active-p)
