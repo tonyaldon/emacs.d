@@ -212,7 +212,7 @@ Call command `wdired-finish-edit' if `major-mode' is
 
 
 (defvar ta-ivy-aw-caller
-  '(ivy-switch-buffer counsel-find-file ta-counsel-quick-access)
+  '(ivy-switch-buffer counsel-find-file ta-counsel-quick-access projectile-completing-read)
   "List of ivy or counsel commands that \"open\" file, buffer or quick-access.")
 
 (defun ta--ivy-aw-find (buffer-or-file caller)

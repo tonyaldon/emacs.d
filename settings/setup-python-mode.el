@@ -4,6 +4,8 @@
 (require 'anaconda-mode)
 (require 'pyvenv)
 
+(declare-function projectile-grep "ext:projectile")
+
 (setq python-shell-interpreter "python3")
 (setq pydoc-command "python3 -m pydoc")
 
@@ -11,7 +13,8 @@
 
 (define-key pydoc-mode-map (kbd "C-c C-o") 'org-open-at-point)
 (define-key python-mode-map (kbd "C-c C-a") 'pyvenv-activate)
-(define-key anaconda-mode-map (kbd "M-r") 'rgrep)
+;; (define-key anaconda-mode-map (kbd "M-r") 'rgrep)
+(define-key anaconda-mode-map (kbd "M-r") 'projectile-grep)
 
 ;; TODO
 ;; Can’t guess python-indent-offset, using defaults: 4
