@@ -2,43 +2,32 @@
 (require 'org)
 (require 'util-mathstyle)
 (require 'ibuffer)
+(require 'quick-access)
 
 (setq save-place-file "~/emacs.d/places")
 
 (save-place-mode t)
 (global-auto-revert-mode 1)
 
+(setq quick-access-alist
+			'(("notes" . "~/work/notes.org")
+				("extra" . "~/work/extra.org")
+				("i3 config" . "~/work/settings/i3/.config/i3/config")
+				("settings emacs" . "~/work/settings/emacs.d/.emacs.d/settings/")
+				("settings linux" . "~/work/settings/")
+				("tricks emacs" . "~/work/learning/tricks/org/emacs.org")
+				("tricks linux" . "~/work/learning/tricks/org/linux.org")
+				("tricks git" . "~/work/learning/tricks/org/git.org")
+				("tricks miscellaneous" . "~/work/learning/tricks/org/miscellaneous.org")
+				("tricks video" . "~/work/learning/tricks/org/video.org")
+				("tricks image" . "~/work/learning/tricks/org/image.org")
+				("emacs source code" . "~/work/apps/emacs/")
+				("csv - my videos" . "~/work/learning/videos/videos.csv")
+				("csv - my expenses" . "~/life/home/expenses/expenses.csv")))
+
 (defun ta-find-file-notes ()
   (interactive)
   (find-file "~/work/notes.org"))
-
-(defun ta-find-directory-emacs-settings ()
-  (interactive)
-  (dired "~/work/settings/emacs.d/.emacs.d/settings/"))
-
-(defun ta-find-directory-settings ()
-  (interactive)
-  (dired "~/work/settings/"))
-
-(defun ta-find-file-i3-config ()
-  (interactive)
-  (find-file "~/work/settings/i3/.config/i3/config"))
-
-(defun ta-find-file-tricks ()
-  (interactive)
-  (find-file "~/work/learning/tricks/org/tricks.org"))
-
-(defun ta-find-file-emacs-app ()
-  (interactive)
-  (find-file "~/work/apps/emacs/"))
-
-(defun ta-find-file-videos ()
-  (interactive)
-  (find-file "~/work/learning/videos/videos.csv"))
-
-(defun ta-find-file-expenses ()
-  (interactive)
-  (find-file "~/life/home/expenses/expenses.csv"))
 
 (defun rename-current-buffer-file ()
   "Renames current buffer and file it is visiting.
@@ -71,28 +60,6 @@ Printed in the message area"
   (interactive)
   (kill-new (buffer-file-name)))
 
-(defhydra hydra-files
-  (
-   :pre (hydra-color-pre)
-   :post (hydra-color-post)
-   :hint nil)
-	("i" ta-find-file-i3-config :color blue)
-	("e" ta-find-file-emacs-app :color blue)
-	("E" ta-find-file-expenses :color blue)
-	("t" ta-find-file-tricks :color blue)
-	("s" ta-find-directory-emacs-settings :color blue)
-	("S" ta-find-directory-settings :color blue)
-	("v" ta-find-file-videos :color blue)
-	("r" rename-current-buffer-file :color blue)
-	("l" ta-number-lines-whole-buffer :color blue)
-	("d" ms-dashboard)
-	("p" ta-copy-buffer-file-name)
-  ;; ---
-  ("M--" undo)
-  ("q" nil))
-
-(global-set-key (kbd "M->") 'hydra-files/body)
-
 (global-set-key (kbd "<f5>") 'ta-find-file-notes)
 (global-set-key (kbd "<f6>") 'save-buffer)
 (global-set-key (kbd "<left>") 'previous-buffer)
@@ -103,6 +70,7 @@ Printed in the message area"
 (define-key org-mode-map (kbd "C-a") nil)
 (define-key org-mode-map (kbd "M-a") nil)
 
+(global-set-key (kbd "M->") 'counsel-quick-access)
 (global-set-key (kbd "C-e") 'counsel-find-file)
 (global-set-key (kbd "M-e") 'find-file-other-window)
 (global-set-key (kbd "C-a") 'ivy-switch-buffer)
