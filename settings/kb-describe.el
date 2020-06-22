@@ -37,7 +37,7 @@ nor a variable."
   ("q" nil))
 
 (key-chord-define-global "xo" 'hydra-describe/body)
-(key-chord-define-global "bn" 'ta-describe-thing-at-point)
+(global-set-key (kbd "M-u") 'ta-describe-thing-at-point )
 
 
 

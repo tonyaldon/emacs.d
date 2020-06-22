@@ -103,9 +103,11 @@
 				hydra-sp/sp-down-sexp
 				hydra-sp/sp-end-of-sexp
 				hydra-sp/sp-forward-sexp
+				hydra-sp/sp-forward-slurp-sexp
 				hydra-sp/sp-kill-sexp
 				hydra-sp/sp-kill-whole-line
 				hydra-sp/sp-next-sexp
+				hydra-sp/sp-raise-sexp
 				hydra-sp/sp-rewrap-sexp
 				hydra-sp/sp-splice-sexp
 				hydra-sp/sp-swap-enclosing-sexp

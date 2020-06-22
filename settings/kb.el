@@ -52,6 +52,7 @@
 	(set-cursor-color "#87cefa"))
 
 
+(declare-function 'counsel-M-x "ext:counsel")
 
 (define-key key-translation-map (kbd "M-q") (kbd "C-g"))
 (global-set-key [escape] 'kill-this-buffer)
@@ -60,6 +61,7 @@
 (global-set-key (kbd "<f2>") 'kill-ring-save)
 (global-set-key (kbd "<f3>") 'kill-region)
 (global-set-key (kbd "<f4>") 'yank)
+(key-chord-define-global ";;" 'counsel-M-x)
 
 ;; (key-chord-define-global "sr" 'ert)
 (global-set-key (kbd "<f1>") 'eval-defun)

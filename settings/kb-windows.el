@@ -5,6 +5,8 @@
 
 (winner-mode t)
 
+(setq windmove-wrap-around t)
+
 (setq aw-char-position 'top-left)
 (setq aw-ignore-current nil)
 (setq aw-leading-char-style 'char)
@@ -69,17 +71,17 @@ visiting a file, the $HOME directory is chosen to be the
   "Chain `split-window-right' and `windmove-right'."
   (interactive)
   (split-window-right)
-	(recenter)
-	(windmove-right)
+  (recenter)
+  (windmove-right)
   (recenter))
 
 (defun ta-split-window-down ()
   "Chain `split-window-below' and `windmove-down'."
   (interactive)
-	(split-window-below)
+  (split-window-below)
   (recenter)
-	(windmove-down)
-	(recenter))
+  (windmove-down)
+  (recenter))
 
 (defun ta-ace-kill-buffer ()
   "Kill buffer in other window.
@@ -103,20 +105,25 @@ Other window is selected with `ace-window'."
 
 (defhydra hydra-windows
   (:pre (hydra-color-pre-windows)
-   :post (hydra-color-post)
-   :hint nil)
-  ("t" hydra-browse/body :color blue)
-	("p" ta-drag-window-above)
-  ("n" ta-drag-window-below)
-  ("b" ta-drag-window-left)
-  ("f" ta-drag-window-right)
-  ("e" transpose-frame)
+				:post (hydra-color-post)
+				:hint nil)
+  ("v" hydra-lines/body :color blue)
+	("t" hydra-browse/body :color blue)
+  ("C-p" ta-drag-window-above)
+  ("C-n" ta-drag-window-below)
+  ("C-b" ta-drag-window-left)
+  ("C-f" ta-drag-window-right)
+  ("b" windmove-left)
+  ("f" windmove-right)
+	("p" windmove-up)
+	("n" windmove-down)
+	("e" transpose-frame)
   ("/" ace-swap-window :color blue)
   ("<next>" window-toggle-side-windows)
   ("i" clone-indirect-buffer-other-window :color blue)
   ("o" ta-split-window-right :color blue)
   (";" ta-split-window-down :color blue)
-	("d" ace-delete-window)
+  ("d" ace-delete-window)
   ("D" ta-ace-kill-buffer :color blue)
   ("u" winner-undo)
   ("]" winner-redo :color blue)
@@ -127,7 +134,7 @@ Other window is selected with `ace-window'."
   ("x" framer-undo)
   (":" framer-redo)
   ("r" (ta-term "/bin/bash") :color blue)
-	("l" ta-dired-side-by-side)
+  ("l" ta-dired-side-by-side)
   ;; ---
   ("c" ace-window :color blue)
   ("'" aw-flip-window :color blue)
@@ -142,10 +149,10 @@ The function `windmove-left', `windmove-right', `windmove-up' and
   (aw--push-window (selected-window)))
 
 (defadvice clone-indirect-buffer-other-window
-		(after ta-clone-indirect-buffer-other-window-advice activate)
-	(recenter))
+    (after ta-clone-indirect-buffer-other-window-advice activate)
+  (recenter))
 
-(global-set-key (kbd "M-u") 'hydra-windows/body)
+(key-chord-define-global "nb" 'hydra-windows/body)
 
 (global-set-key (kbd "M-b") 'windmove-left)
 (global-set-key (kbd "M-f") 'windmove-right)

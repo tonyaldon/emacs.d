@@ -72,7 +72,8 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
    :pre (hydra-color-pre-sp)
    :post (hydra-color-post)
    :hint nil)
-  ("t" hydra-lines/body :color blue)
+  ("v" hydra-browse/body :color blue)
+	("t" hydra-lines/body :color blue)
   ;; miscellaneous
   ("." set-mark-command)
 	("M-." ta-sp-toggle-narrow)
@@ -135,6 +136,7 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
   ("q" nil))
 
 (global-set-key (kbd "M-i") 'hydra-sp/body)
-
+(key-chord-define-global "-0" 'hydra-sp/body)
+(key-chord-define-global "sr" 'ta-avy-copy-sexp)
 
 (provide 'kb-smartparens)

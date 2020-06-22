@@ -4,5 +4,4 @@
 (define-key yas-keymap (kbd "M-d") (yas-filtered-definition yas-maybe-skip-and-clear-field))
 
 
-
 (provide 'kb-yasnippet)
