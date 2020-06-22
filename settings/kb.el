@@ -61,9 +61,10 @@
 (global-set-key (kbd "<f2>") 'kill-ring-save)
 (global-set-key (kbd "<f3>") 'kill-region)
 (global-set-key (kbd "<f4>") 'yank)
+(global-set-key (kbd "<f6>") 'save-buffer)
+(global-set-key (kbd "<left>") 'previous-buffer)
+(global-set-key (kbd "<right>") 'next-buffer)
 (key-chord-define-global ";;" 'counsel-M-x)
-
-;; (key-chord-define-global "sr" 'ert)
 (global-set-key (kbd "<f1>") 'eval-defun)
 (key-chord-define-global "pf" 'eval-last-sexp)
 

@@ -53,4 +53,5 @@
 (depends-on "feature-mode")
 (depends-on "keycast")
 (depends-on "htmlize")
+(depends-on "projectile")
 
