@@ -45,7 +45,7 @@
 
 (defun hydra-color-pre-sgml ()
   "Here, the used color matches with d-white-0 defined in `discreet-theme'"
-	(set-cursor-color "#ffffff"))
+	(set-cursor-color "#02eaf3"))
 
 (defun hydra-color-pre-mc ()
   "Here, the used color matches with d-blue-1 defined in `discreet-theme'"
