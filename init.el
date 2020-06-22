@@ -30,7 +30,6 @@
 (require 'setup-sql-mode)
 (require 'setup-js-mode)
 (require 'setup-html-mode)
-(require 'setup-css-mode)
 (require 'setup-python-mode)
 (require 'setup-emacs-lisp-mode)
 ;;(require 'setup-latex-mode)
