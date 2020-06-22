@@ -23,6 +23,8 @@
 (global-set-key (kbd "M-R") 'query-replace-regexp)
 (define-key grep-mode-map (kbd "M-p") 'windmove-up)
 (define-key grep-mode-map (kbd "M-n") 'windmove-down)
+(define-key ivy-minibuffer-map (kbd "<left>") 'ivy-previous-history-element)
+(define-key ivy-minibuffer-map (kbd "<right>") 'ivy-next-history-element)
 (define-key ivy-minibuffer-map (kbd "<up>") 'ivy-previous-line)
 (define-key ivy-minibuffer-map (kbd "<down>") 'ivy-next-line)
 (define-key ivy-minibuffer-map (kbd "M-e") 'ivy-immediate-done)

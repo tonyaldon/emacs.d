@@ -14,39 +14,39 @@
 (ivy-posframe-mode 1)
 
 (setq ivy-wrap t)
-(setq ivy-extra-directories '())
+(setq ivy-extra-directories '("./"))
 (setq ivy-use-virtual-buffers t)
 (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
 (setq wgrep-auto-save-buffer t)
 (setq counsel-outline-display-style 'path)
 (setq counsel-outline-path-separator "/")
 (setq counsel-outline-settings
-  '((emacs-lisp-mode
-     :outline-regexp ";;;\\(;* [^ \t\n]\\|###autoload\\)\\|(" 
-     :outline-level lisp-outline-level
-		 :outline-title ta-counsel-outline-title-emacs-lisp-mode
-		 :display-style title)
-    (org-mode
-     :outline-title counsel-outline-title-org
-     :action counsel-org-goto-action
-     :history counsel-org-goto-history
-     :caller counsel-org-goto
-		 :display-style path)))
+      '((emacs-lisp-mode
+         :outline-regexp ";;;\\(;* [^ \t\n]\\|###autoload\\)\\|("
+         :outline-level lisp-outline-level
+         :outline-title ta-counsel-outline-title-emacs-lisp-mode
+         :display-style title)
+        (org-mode
+         :outline-title counsel-outline-title-org
+         :action counsel-org-goto-action
+         :history counsel-org-goto-history
+         :caller counsel-org-goto
+         :display-style path)))
 
 (ivy-set-occur 'swiper 'swiper-occur)
 (ivy-set-occur 'swiper-isearch 'swiper-occur)
 (setq-local posframe--truncate-lines t)
 (setq ivy-posframe-height-alist
       '((swiper . 8)
-				(counsel-outline . 8)
-				(counsel-org-goto . 8)
+        (counsel-outline . 8)
+        (counsel-org-goto . 8)
         (t . 10)))
 (setq ivy-posframe-width 80)
 (setq ivy-posframe-display-functions-alist
       '((swiper . ivy-display-function-fallback)
-				(counsel-outline . ivy-posframe-display-at-point)
-				(counsel-org-goto . ivy-posframe-display-at-point)
-				(counsel-yank-pop . ivy-posframe-display-at-point)
+        (counsel-outline . ivy-posframe-display-at-point)
+        (counsel-org-goto . ivy-posframe-display-at-point)
+        (counsel-yank-pop . ivy-posframe-display-at-point)
         (t . ta-ivy-posframe-display-at-frame-below-top-center)))
 
 (defadvice ivy-posframe-cleanup
@@ -54,7 +54,7 @@
   (setq ivy-posframe-width 80))
 
 (defadvice counsel-outline (before ta-counsel-outline-posframe-width-advice activate)
-	(setq-local ivy-posframe-width 50))
+  (setq-local ivy-posframe-width 50))
 
 (defun ta-posframe-poshandler-frame-below-top-center (info)
   "Posframe's position handler."
@@ -82,7 +82,7 @@
 (defun counsel-outline-candidates (&optional settings prefix)
   "Little changes in the function from the package.
 
-Allow to define the text faces directly in the function 
+Allow to define the text faces directly in the function
 `:outline-title'. Very handy when it comes to get the text
 properties of the current buffer.
 
@@ -143,11 +143,11 @@ PREFIX is a string prepended to all candidates."
                  (when (eq display-style 'headline)
                    (setq name (concat (make-string level ?*) " " name)))
                  ;; COMMENT this part in order to define the face directly
-								 ;; in the `outline-title' function (very handy to get the
-								 ;; text property of the current buffer)
-								 ;; (setq name (counsel-outline--add-face
+                 ;; in the `outline-title' function (very handy to get the
+                 ;; text property of the current buffer)
+                 ;; (setq name (counsel-outline--add-face
                  ;;             name level face-style custom-faces))
-								 ))
+                 ))
           (push (cons name marker) cands))
         (unless (or (string= name "")
                     (< orig-point marker))
@@ -209,6 +209,113 @@ Call command `wdired-finish-edit' if `major-mode' is
          (call-interactively 'wgrep-finish-edit))
         (t (message "You have to be in either in `wdired-mode' or
 `grep-mode' to execute this command"))))
+
+
+(defvar ta-ivy-aw-caller
+  '(ivy-switch-buffer counsel-find-file ta-counsel-quick-access)
+  "List of ivy or counsel commands that \"open\" file, buffer or quick-access.")
+
+(defun ta--ivy-aw-find (buffer-or-file caller)
+  "Function to be used within ivy actions."
+  (cond
+   ((equal 'ta-counsel-quick-access caller)
+    (find-file (ta-quick-access-get-filename buffer-or-file)))
+   ((equal 'ivy-switch-buffer caller)
+    (ivy--switch-buffer-action buffer-or-file))
+   (t
+    (find-file (expand-file-name buffer-or-file ivy--directory)))))
+
+(defun ta--ivy-aw-find-action (buffer-or-file)
+  "Action to be used in `ta-ivy-aw-find'."
+  (let ((caller (ivy-state-caller ivy-last)))
+    (if (not (member caller ta-ivy-aw-caller))
+        (message "caller (%s) not listed in ta-ivy-aw-caller" caller)
+      (call-interactively 'ace-window)
+      (ta--ivy-aw-find buffer-or-file caller))))
+
+(defun ta-ivy-aw-find ()
+  "Ivy command that use ace-window to select a window and \"open\"
+
+the selected thing. This command must be bind in ivy-minibuffer-map."
+  (interactive)
+  (ivy-set-action 'ta--ivy-aw-find-action)
+  (ivy-done))
+
+(defun ta--ivy-aw-find-split-up (buffer-or-file)
+  "Action to be used in `ta-ivy-aw-find-split-up'."
+  (let ((caller (ivy-state-caller ivy-last)))
+    (if (not (member caller ta-ivy-aw-caller))
+        (message "caller (%s) not listed in ta-ivy-aw-caller" caller)
+      (call-interactively 'ace-window)
+			(split-window-below)
+      (ta--ivy-aw-find buffer-or-file caller))))
+
+(defun ta-ivy-aw-find-split-up ()
+  "Open ivy selection in the up part window selected with `ace-window'
+
+after spliting it verticaly."
+  (interactive)
+  (ivy-set-action 'ta--ivy-aw-find-split-up)
+  (ivy-done))
+
+(defun ta--ivy-aw-find-split-down (buffer-or-file)
+  "Action to be used in `ta-ivy-aw-find-split-down'."
+  (let ((caller (ivy-state-caller ivy-last)))
+    (if (not (member caller ta-ivy-aw-caller))
+        (message "caller (%s) not listed in ta-ivy-aw-caller" caller)
+      (call-interactively 'ace-window)
+			(split-window-below)
+			(windmove-down)
+      (ta--ivy-aw-find buffer-or-file caller))))
+
+(defun ta-ivy-aw-find-split-down ()
+  "Open ivy selection in the down part window selected with `ace-window'
+
+after spliting it verticaly."
+  (interactive)
+  (ivy-set-action 'ta--ivy-aw-find-split-down)
+  (ivy-done))
+
+(defun ta--ivy-aw-find-split-left (buffer-or-file)
+  "Action to be used in `ta-ivy-aw-find-split-left'."
+  (let ((caller (ivy-state-caller ivy-last)))
+    (if (not (member caller ta-ivy-aw-caller))
+        (message "caller (%s) not listed in ta-ivy-aw-caller" caller)
+      (call-interactively 'ace-window)
+			(split-window-right)
+      (ta--ivy-aw-find buffer-or-file caller))))
+
+(defun ta-ivy-aw-find-split-left ()
+  "Open ivy selection in the left part window selected with `ace-window'
+
+after spliting it horizontaly."
+  (interactive)
+  (ivy-set-action 'ta--ivy-aw-find-split-left)
+  (ivy-done))
+
+(defun ta--ivy-aw-find-split-right (buffer-or-file)
+  "Action to be used in `ta-ivy-aw-find-split-right'."
+  (let ((caller (ivy-state-caller ivy-last)))
+    (if (not (member caller ta-ivy-aw-caller))
+        (message "caller (%s) not listed in ta-ivy-aw-caller" caller)
+      (call-interactively 'ace-window)
+			(split-window-right)
+			(windmove-right)
+      (ta--ivy-aw-find buffer-or-file caller))))
+
+(defun ta-ivy-aw-find-split-right ()
+  "Open ivy selection in the righ part window selected with `ace-window'
+
+after spliting it horizontaly."
+  (interactive)
+  (ivy-set-action 'ta--ivy-aw-find-split-right)
+  (ivy-done))
+
+(define-key ivy-minibuffer-map (kbd "C-e") 'ta-ivy-aw-find)
+(define-key ivy-minibuffer-map (kbd "C-p") 'ta-ivy-aw-find-split-up)
+(define-key ivy-minibuffer-map (kbd "C-n") 'ta-ivy-aw-find-split-down)
+(define-key ivy-minibuffer-map (kbd "C-b") 'ta-ivy-aw-find-split-left)
+(define-key ivy-minibuffer-map (kbd "C-f") 'ta-ivy-aw-find-split-right)
 
 (add-hook 'ivy-mode-hook 'ivy-posframe-enable)
 (add-hook 'minibuffer-setup-hook 'ta-ivy-resize--minibuffer-setup-hook)
