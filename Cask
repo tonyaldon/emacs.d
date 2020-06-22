@@ -16,6 +16,7 @@
 (depends-on "company-web")
 (depends-on "company-tern")
 (depends-on "company-jedi")
+(depends-on "company-fuzzy")
 (depends-on "lsp-mode")
 (depends-on "company-lsp")
 (depends-on "emmet-mode")

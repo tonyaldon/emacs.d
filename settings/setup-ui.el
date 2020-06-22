@@ -29,7 +29,7 @@
 (add-hook 'help-mode-hook (lambda () (visual-line-mode t)))
 (setq
  display-buffer-alist
- '(("\\*Help.*"
+ '(("\\*Help.*\\|*company-documentation*"
     (display-buffer-in-side-window)
     (window-width . 0.3)
     (side . left)
