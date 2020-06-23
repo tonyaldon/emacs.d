@@ -16,6 +16,7 @@
       '(("notes" . "~/work/notes.org")
         ("extra" . "~/work/extra.org")
 				("tmp" . "~/work/tmp/")
+				("Jack Inside - private" . "~/work/jackinside/private/")
         ("i3 config" . "~/work/settings/i3/.config/i3/config")
         ("settings emacs" . "~/work/settings/emacs.d/.emacs.d/settings/")
         ("settings linux" . "~/work/settings/")
@@ -55,6 +56,14 @@
 (defadvice magit-commit-create (before ta-magit-commit-create-advice activate)
   (delete-other-windows))
 
+(defun ta-pre-format-git-tag ()
+  "Pre-Format git-tag. In a buffer with the output of \"git log\" up
+to the last tag remove no relevant information and bad indentation."
+  (interactive)
+  (beginning-of-buffer)
+	(flush-lines "^\\(commit\\|Author\\|Date\\)")
+	(replace-regexp "^    " "" nil (point-min) (point-max))
+	(replace-regexp "\n\n\n" "\n\n" nil (point-min) (point-max)))
 
 
 (provide 'setup-projects)
