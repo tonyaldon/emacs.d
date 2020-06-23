@@ -49,6 +49,9 @@
         (counsel-yank-pop . ivy-posframe-display-at-point)
         (t . ta-ivy-posframe-display-at-frame-below-top-center)))
 
+(declare-function counsel-quick-access "ext:quick-access")
+(declare-function quick-access-get-filename "ext:quick-access")
+
 (defadvice ivy-posframe-cleanup
     (after ta-ivy-posframe-width-default-advice activate)
   (setq ivy-posframe-width 80))
@@ -212,14 +215,14 @@ Call command `wdired-finish-edit' if `major-mode' is
 
 
 (defvar ta-ivy-aw-caller
-  '(ivy-switch-buffer counsel-find-file ta-counsel-quick-access projectile-completing-read)
+  '(ivy-switch-buffer counsel-find-file counsel-quick-access projectile-completing-read)
   "List of ivy or counsel commands that \"open\" file, buffer or quick-access.")
 
 (defun ta--ivy-aw-find (buffer-or-file caller)
   "Function to be used within ivy actions."
   (cond
-   ((equal 'ta-counsel-quick-access caller)
-    (find-file (ta-quick-access-get-filename buffer-or-file)))
+   ((equal 'counsel-quick-access caller)
+    (find-file (quick-access-get-filename buffer-or-file)))
    ((equal 'ivy-switch-buffer caller)
     (ivy--switch-buffer-action buffer-or-file))
    (t
