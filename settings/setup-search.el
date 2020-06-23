@@ -311,11 +311,18 @@ after spliting it horizontaly."
   (ivy-set-action 'ta--ivy-aw-find-split-right)
   (ivy-done))
 
+(defun ta-ivy-switch-to-buffer ()
+  "Wrapper on `switch-to-buffer' to be used in `ivy-minibuffer-map'."
+  (interactive)
+	(ivy-set-action 'switch-to-buffer)
+	(ivy-done))
+
 (define-key ivy-minibuffer-map (kbd "C-e") 'ta-ivy-aw-find)
 (define-key ivy-minibuffer-map (kbd "C-p") 'ta-ivy-aw-find-split-up)
 (define-key ivy-minibuffer-map (kbd "C-n") 'ta-ivy-aw-find-split-down)
 (define-key ivy-minibuffer-map (kbd "C-b") 'ta-ivy-aw-find-split-left)
 (define-key ivy-minibuffer-map (kbd "C-f") 'ta-ivy-aw-find-split-right)
+(define-key ivy-minibuffer-map (kbd "C-a") 'ta-ivy-switch-to-buffer)
 
 (add-hook 'ivy-mode-hook 'ivy-posframe-enable)
 (add-hook 'minibuffer-setup-hook 'ta-ivy-resize--minibuffer-setup-hook)

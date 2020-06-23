@@ -13,12 +13,11 @@
 (define-key org-mode-map (kbd "M-a") nil)
 (global-set-key (kbd "C-e") 'projectile-find-file)
 (global-set-key (kbd "M-e") 'counsel-find-file)
-(global-set-key (kbd "C-a") 'ivy-switch-buffer)
+(global-set-key (kbd "C-a") 'projectile-switch-to-buffer)
 (global-set-key (kbd "M-a") 'ivy-switch-buffer-other-window)
 (key-chord-define-global "::" 'ibuffer)
 (global-set-key (kbd "M-<next>") 'projectile-command-map)
 
-;; b - #'projectile-switch-to-buffer
 ;; d - #'projectile-find-dir
 ;; D - #'projectile-dired
 ;; f - #'projectile-find-file
