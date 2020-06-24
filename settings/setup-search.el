@@ -215,7 +215,11 @@ Call command `wdired-finish-edit' if `major-mode' is
 
 
 (defvar ta-ivy-aw-caller
-  '(ivy-switch-buffer counsel-find-file counsel-quick-access projectile-completing-read)
+  '(ivy-switch-buffer
+		ivy-switch-buffer-other-window
+    counsel-find-file
+    counsel-quick-access
+    projectile-completing-read)
   "List of ivy or counsel commands that \"open\" file, buffer or quick-access.")
 
 (defun ta--ivy-aw-find (buffer-or-file caller)
@@ -223,7 +227,7 @@ Call command `wdired-finish-edit' if `major-mode' is
   (cond
    ((equal 'counsel-quick-access caller)
     (find-file (quick-access-get-filename buffer-or-file)))
-   ((equal 'ivy-switch-buffer caller)
+   ((member caller '(ivy-switch-buffer ivy-switch-buffer-other-window))
     (ivy--switch-buffer-action buffer-or-file))
    (t
     (find-file (expand-file-name buffer-or-file ivy--directory)))))
@@ -250,7 +254,7 @@ the selected thing. This command must be bind in ivy-minibuffer-map."
     (if (not (member caller ta-ivy-aw-caller))
         (message "caller (%s) not listed in ta-ivy-aw-caller" caller)
       (call-interactively 'ace-window)
-			(split-window-below)
+      (split-window-below)
       (ta--ivy-aw-find buffer-or-file caller))))
 
 (defun ta-ivy-aw-find-split-up ()
@@ -267,8 +271,8 @@ after spliting it verticaly."
     (if (not (member caller ta-ivy-aw-caller))
         (message "caller (%s) not listed in ta-ivy-aw-caller" caller)
       (call-interactively 'ace-window)
-			(split-window-below)
-			(windmove-down)
+      (split-window-below)
+      (windmove-down)
       (ta--ivy-aw-find buffer-or-file caller))))
 
 (defun ta-ivy-aw-find-split-down ()
@@ -285,7 +289,7 @@ after spliting it verticaly."
     (if (not (member caller ta-ivy-aw-caller))
         (message "caller (%s) not listed in ta-ivy-aw-caller" caller)
       (call-interactively 'ace-window)
-			(split-window-right)
+      (split-window-right)
       (ta--ivy-aw-find buffer-or-file caller))))
 
 (defun ta-ivy-aw-find-split-left ()
@@ -302,8 +306,8 @@ after spliting it horizontaly."
     (if (not (member caller ta-ivy-aw-caller))
         (message "caller (%s) not listed in ta-ivy-aw-caller" caller)
       (call-interactively 'ace-window)
-			(split-window-right)
-			(windmove-right)
+      (split-window-right)
+      (windmove-right)
       (ta--ivy-aw-find buffer-or-file caller))))
 
 (defun ta-ivy-aw-find-split-right ()
@@ -317,8 +321,8 @@ after spliting it horizontaly."
 (defun ta-ivy-switch-to-buffer ()
   "Wrapper on `switch-to-buffer' to be used in `ivy-minibuffer-map'."
   (interactive)
-	(ivy-set-action 'switch-to-buffer)
-	(ivy-done))
+  (ivy-set-action 'switch-to-buffer)
+  (ivy-done))
 
 (define-key ivy-minibuffer-map (kbd "C-e") 'ta-ivy-aw-find)
 (define-key ivy-minibuffer-map (kbd "C-p") 'ta-ivy-aw-find-split-up)
