@@ -2,6 +2,7 @@
 (source melpa)
 
 (depends-on "cask")
+(depends-on "tide")
 (depends-on "ivy-posframe")
 (depends-on "ivy-rich")
 (depends-on "moody")
@@ -14,7 +15,6 @@
 (depends-on "yasnippet-snippets")
 (depends-on "company")
 (depends-on "company-web")
-(depends-on "company-tern")
 (depends-on "company-jedi")
 (depends-on "company-fuzzy")
 (depends-on "lsp-mode")

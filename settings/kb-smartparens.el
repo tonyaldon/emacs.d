@@ -10,6 +10,7 @@
 (eval-after-load 'mhtml-mode '(require 'smartparens-html))
 (eval-after-load 'LaTeX '(require 'smartparens-latex))
 (add-to-list 'sp-navigate-consider-sgml-tags 'mhtml-mode)
+(add-to-list 'sp-navigate-consider-sgml-tags 'js-mode)
 
 (setq sp-navigate-interactive-always-progress-point t)
 (setq sp-highlight-pair-overlay nil)

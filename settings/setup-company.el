@@ -1,6 +1,5 @@
 (require 'company)
 (require 'company-web)
-(require 'company-tern)
 (require 'company-jedi)
 (require 'company-web-html)
 (require 'company-emoji)
@@ -92,8 +91,8 @@
   (set (make-local-variable 'company-backends)
        '((company-yasnippet
           :with
-					company-tern
-          company-dabbrev-code
+          company-tide
+					company-dabbrev-code
           company-files)
          company-dabbrev
          company-capf)))

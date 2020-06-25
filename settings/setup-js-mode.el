@@ -1,9 +1,17 @@
-(require 'tern)
 (require 'outline)
+(require 'js)
 
-(defun ta-tern-js-mode-hook ()
-  "Turn `tern-mode' on in `js-mode'"
-  (tern-mode t))
+(declare-function hydra-sp/sgml "ext:kb-sgml")
+
+(defun ta-tide-mode-hook ()
+  "Setup function for tide."
+  (interactive)
+  (tide-setup)
+  ;; (flycheck-mode +1)
+  ;; (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  ;; (eldoc-mode +1)
+  ;; (tide-hl-identifier-mode +1)
+	)
 
 (defun ta-outline-js-mode-hook ()
   "Set up `outline-mode' and `bicycle'.  Specifically,
@@ -17,7 +25,11 @@ the variable `outline-regexp'."
                         "[[:space:]]*axios\\|"
                         "[[:space:]]*const")))
 
-(add-hook 'js-mode-hook 'ta-tern-js-mode-hook)
 (add-hook 'js-mode-hook 'ta-outline-js-mode-hook)
+(add-hook 'js-mode-hook #'ta-tide-mode-hook)
+
+(define-key js-mode-map (kbd "<tab>") 'hydra-sgml/body)
+(define-key js-mode-map (kbd "C-<tab>") 'hydra-sgml/body)
+
 
 (provide 'setup-js-mode)

@@ -16,5 +16,6 @@
 
 (add-hook 'css-mode-hook 'ta-emmet-css-mode-hook)
 (add-hook 'sgml-mode-hook  'emmet-mode)
+(add-hook 'js-mode-hook  'emmet-mode)
 
 (provide 'setup-emmet-mode)
