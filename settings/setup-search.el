@@ -214,29 +214,32 @@ Call command `wdired-finish-edit' if `major-mode' is
 `grep-mode' to execute this command"))))
 
 
-(defvar ta-ivy-aw-caller
+(defvar ta-ivy-aw-callers
   '(ivy-switch-buffer
-		ivy-switch-buffer-other-window
+    ivy-switch-buffer-other-window
     counsel-find-file
     counsel-quick-access
     projectile-completing-read)
-  "List of ivy or counsel commands that \"open\" file, buffer or quick-access.")
+  "List of callers used with ivy.")
 
 (defun ta--ivy-aw-find (buffer-or-file caller)
   "Function to be used within ivy actions."
-  (cond
-   ((equal 'counsel-quick-access caller)
+	(cond
+   ((equal caller 'counsel-quick-access)
     (find-file (quick-access-get-filename buffer-or-file)))
    ((member caller '(ivy-switch-buffer ivy-switch-buffer-other-window))
     (ivy--switch-buffer-action buffer-or-file))
+   ((equal caller 'projectile-completing-read)
+    (find-file (projectile-expand-root buffer-or-file))
+		(run-hooks 'projectile-find-file-hook))
    (t
     (find-file (expand-file-name buffer-or-file ivy--directory)))))
 
 (defun ta--ivy-aw-find-action (buffer-or-file)
   "Action to be used in `ta-ivy-aw-find'."
   (let ((caller (ivy-state-caller ivy-last)))
-    (if (not (member caller ta-ivy-aw-caller))
-        (message "caller (%s) not listed in ta-ivy-aw-caller" caller)
+    (if (not (member caller ta-ivy-aw-callers))
+        (message "caller (%s) not listed in ta-ivy-aw-callers" caller)
       (call-interactively 'ace-window)
       (ta--ivy-aw-find buffer-or-file caller))))
 
@@ -251,8 +254,8 @@ the selected thing. This command must be bind in ivy-minibuffer-map."
 (defun ta--ivy-aw-find-split-up (buffer-or-file)
   "Action to be used in `ta-ivy-aw-find-split-up'."
   (let ((caller (ivy-state-caller ivy-last)))
-    (if (not (member caller ta-ivy-aw-caller))
-        (message "caller (%s) not listed in ta-ivy-aw-caller" caller)
+    (if (not (member caller ta-ivy-aw-callers))
+        (message "caller (%s) not listed in ta-ivy-aw-callers" caller)
       (call-interactively 'ace-window)
       (split-window-below)
       (ta--ivy-aw-find buffer-or-file caller))))
@@ -268,8 +271,8 @@ after spliting it verticaly."
 (defun ta--ivy-aw-find-split-down (buffer-or-file)
   "Action to be used in `ta-ivy-aw-find-split-down'."
   (let ((caller (ivy-state-caller ivy-last)))
-    (if (not (member caller ta-ivy-aw-caller))
-        (message "caller (%s) not listed in ta-ivy-aw-caller" caller)
+    (if (not (member caller ta-ivy-aw-callers))
+        (message "caller (%s) not listed in ta-ivy-aw-callers" caller)
       (call-interactively 'ace-window)
       (split-window-below)
       (windmove-down)
@@ -286,8 +289,8 @@ after spliting it verticaly."
 (defun ta--ivy-aw-find-split-left (buffer-or-file)
   "Action to be used in `ta-ivy-aw-find-split-left'."
   (let ((caller (ivy-state-caller ivy-last)))
-    (if (not (member caller ta-ivy-aw-caller))
-        (message "caller (%s) not listed in ta-ivy-aw-caller" caller)
+    (if (not (member caller ta-ivy-aw-callers))
+        (message "caller (%s) not listed in ta-ivy-aw-callers" caller)
       (call-interactively 'ace-window)
       (split-window-right)
       (ta--ivy-aw-find buffer-or-file caller))))
@@ -303,8 +306,8 @@ after spliting it horizontaly."
 (defun ta--ivy-aw-find-split-right (buffer-or-file)
   "Action to be used in `ta-ivy-aw-find-split-right'."
   (let ((caller (ivy-state-caller ivy-last)))
-    (if (not (member caller ta-ivy-aw-caller))
-        (message "caller (%s) not listed in ta-ivy-aw-caller" caller)
+    (if (not (member caller ta-ivy-aw-callers))
+        (message "caller (%s) not listed in ta-ivy-aw-callers" caller)
       (call-interactively 'ace-window)
       (split-window-right)
       (windmove-right)
@@ -321,7 +324,7 @@ after spliting it horizontaly."
 (defun ta-ivy-switch-to-buffer ()
   "Wrapper on `switch-to-buffer' to be used in `ivy-minibuffer-map'."
   (interactive)
-  (ivy-set-action 'switch-to-buffer)
+  (ivy-set-action 'ivy--switch-buffer-action)
   (ivy-done))
 
 (define-key ivy-minibuffer-map (kbd "C-e") 'ta-ivy-aw-find)
