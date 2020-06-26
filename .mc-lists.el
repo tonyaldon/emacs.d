@@ -97,6 +97,7 @@
 				hydra-sp/sp-backward-down-sexp
 				hydra-sp/sp-backward-kill-sexp
 				hydra-sp/sp-backward-sexp
+				hydra-sp/sp-backward-up-sexp
 				hydra-sp/sp-beginning-of-sexp
 				hydra-sp/sp-change-enclosing-and-exit
 				hydra-sp/sp-change-inner-and-exit
