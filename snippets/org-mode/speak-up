@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: speak-up
+# key: spu
+# --
+*** ${1:date} - part-$2 - ${3:question?}
+    - Question :: $3
+    - Reflexion :: $0
