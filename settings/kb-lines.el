@@ -223,9 +223,6 @@ Preserve the column position of the cursor."
   ("M--" undo)
   ("q" nil))
 
-(defadvice back-to-indentation (before back-to-indentation-advice activate)
-  (if (not mark-active) (push-mark)))
-
 (defadvice move-beginning-of-line (before move-beginning-of-line-advice activate)
   (if (not mark-active) (push-mark)))
 

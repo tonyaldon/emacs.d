@@ -1,6 +1,5 @@
 (require 'avy)
 (require 'kb)
-(require 'kb-lines)
 (require 'smartparens-config)
 
 (smartparens-global-mode t)
@@ -22,6 +21,8 @@
 ;; appears when running sp-forward-sexp in an self-closing tag like
 ;; this <meta charset="utf-8/>".
 (setq sp-message-width nil)
+
+(declare-function 'hydra-lines/body "ext:kb-lines")
 
 (defun ta-drag-sexp-to-up ()
   "Drag next sexp to the left of the previous sexp.
