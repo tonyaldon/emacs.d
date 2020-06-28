@@ -1,7 +1,33 @@
 (require 'outline)
 (require 'js)
 
+(setq js-indent-level 2)
+
 (declare-function hydra-sp/sgml "ext:kb-sgml")
+
+(defun ta-jsx-uncomment-line ()
+  "Comment line of elements or components in js-jsx-mode."
+  (back-to-indentation)
+  (save-excursion
+		(delete-char 3)
+		(end-of-line)
+		(delete-char -3)))
+
+(defun ta-jsx-comment-line ()
+  "Uncomment line of elements or components in js-jsx-mode."
+  (back-to-indentation)
+  (save-excursion
+		(insert "{/*")
+		(end-of-line)
+		(insert "*/}")))
+
+(defun ta-jsx-comment-or-uncomment-line ()
+  "Comment element in js-jsx-mode."
+  (interactive)
+	(back-to-indentation)
+  (if (looking-at "{/\\*")
+      (ta-jsx-uncomment-line)
+    (ta-jsx-comment-line)))
 
 (defun ta-tide-mode-hook ()
   "Setup function for tide."

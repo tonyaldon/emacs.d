@@ -8,6 +8,8 @@
 
 (setq-default truncate-lines t)
 
+(declare-function 'ta-jsx-comment-or-uncomment-line "ext:setup-js-mode")
+
 (defun ta-cycle-spacing ()
   "Wrapper on `cycle-spacing' to call it in \"fast\" mode."
   (interactive)
@@ -168,6 +170,7 @@ Preserve the column position of the cursor."
   ("v" hydra-browse/body :color blue)
   ("t" hydra-sp/body :color blue)
 	(";" ta-comment-line)
+	("&" ta-jsx-comment-or-uncomment-line)
   ("DEL" delete-backward-char)
   ("." set-mark-command)
   ("m" exchange-point-and-mark)
