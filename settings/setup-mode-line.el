@@ -2,6 +2,29 @@
 (require 'minions)
 (require 'keycast)
 
+(defun ta-number-of-lines-mode ()
+  "Return the number of lines in the whole buffer."
+  (interactive)
+  (int-to-string (count-lines (point-min) (point-max))))
+
+(setq-default mode-line-format
+      '("%e"
+       mode-line-front-space
+       mode-line-mule-info
+       mode-line-client
+       mode-line-modified
+       mode-line-remote
+       mode-line-frame-identification
+       mode-line-buffer-identification
+       "   "
+			 (:eval (format "NL%s" (ta-number-of-lines-mode)))
+       " "
+			 mode-line-position
+       (vc-mode vc-mode)
+       "  " mode-line-modes
+			 mode-line-misc-info
+			 mode-line-end-spaces))
+
 (setq x-underline-at-descent-line t)
 (setq minions-mode-line-lighter "")
 (setq minions-mode-line-delimiters '("" . ""))
@@ -17,12 +40,12 @@
 (minions-mode 1)
 
 (defun set-moody-face (frame)
-	(let ((line (face-attribute 'mode-line :underline frame)))
-		(set-face-attribute 'mode-line          frame :overline   line)
-		(set-face-attribute 'mode-line-inactive frame :overline   line)
-		(set-face-attribute 'mode-line-inactive frame :underline  line)
-		(set-face-attribute 'mode-line          frame :box        nil)
-		(set-face-attribute 'mode-line-inactive frame :box        nil)))
+  (let ((line (face-attribute 'mode-line :underline frame)))
+    (set-face-attribute 'mode-line          frame :overline   line)
+    (set-face-attribute 'mode-line-inactive frame :overline   line)
+    (set-face-attribute 'mode-line-inactive frame :underline  line)
+    (set-face-attribute 'mode-line          frame :box        nil)
+    (set-face-attribute 'mode-line-inactive frame :box        nil)))
 
 (add-to-list 'after-make-frame-functions 'set-moody-face t)
 (add-to-list 'keycast-substitute-alist '(self-insert-command "." "Typing…"))

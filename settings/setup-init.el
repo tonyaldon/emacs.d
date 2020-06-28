@@ -30,13 +30,6 @@ see: http://github.com/magnars"
           (message "File '%s' successfully renamed to '%s'"
                    name (file-name-nondirectory new-name)))))))
 
-(defun ta-number-lines-whole-buffer ()
-  "Number of lines in the whole buffer.
-Printed in the message area"
-  (interactive)
-  (message "Buffer's number of lines: %s"
-           (int-to-string (count-lines (point-min) (point-max)))))
-
 (defun ta-copy-buffer-file-name ()
   "Push current `buffer-file-name' to the `kill-ring'."
   (interactive)

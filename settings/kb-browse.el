@@ -154,7 +154,7 @@ See `ta-aw-other-window-scroll-buffer'."
   ("p" outline-previous-visible-heading)
   ("n" outline-next-visible-heading)
   ("M-s" counsel-outline)
-  ("q" nil))
+	("q" nil))
 
 (key-chord-define-global "dp" 'hydra-browse/body)
 
