@@ -4,7 +4,7 @@
 (declare-function ta-scroll-up-half-window "ext:kb-browse")
 (declare-function ta-scroll-down-half-window "ext:kb-browse")
 
-(define-key dired-mode-map (kbd ";") 'dired-mark)
+(define-key dired-mode-map (kbd "'") 'dired-mark)
 (define-key dired-mode-map (kbd "t") 'dired-toggle-marks)
 (define-key dired-mode-map (kbd "u") 'dired-unmark)
 (define-key dired-mode-map (kbd "k") 'dired-do-kill-lines)
@@ -49,7 +49,7 @@
 (define-key ta-dired-find-file-map (kbd "n") 'ta-dired-aw-find-file-split-down)
 (define-key ta-dired-find-file-map (kbd "b") 'ta-dired-aw-find-file-split-left)
 (define-key ta-dired-find-file-map (kbd "f") 'ta-dired-aw-find-file-split-right)
-(define-key ta-dired-find-file-map (kbd ";") 'dired-do-find-marked-files)
+(define-key ta-dired-find-file-map (kbd "'") 'dired-do-find-marked-files)
 (define-key dired-mode-map (kbd "e") 'ta-dired-find-file-map)
 
 (define-key dired-mode-map (kbd "]") 'ta-dired-subtree-toggle-all)

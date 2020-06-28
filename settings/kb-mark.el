@@ -45,21 +45,6 @@ and :op non empty. See `sp-get-thing'."
           (backward-char 1))
       (ta--mark-sexp-at-point))))
 
-;; TODO
-;; ta-mark-attribute -> thing like this: text="blabla"
-;; - if inside the string -> goto to beginning (outside the first double quote)
-;; - goto backward to [[:space]]
-;; - ?? see the case where cursor is after the second double quote "
-;; this regexp ----> "[[:space:]]\\{1\\}[a-z]*=[\"][[:alnum:].&:?,= /-]*[\"]"
-;; matches all the attributes in the piece of html below
-;; <meta charset="UTF-8"/>
-;; <meta name="viewport"
-;;       content="width=device-width, initial-scale=1.0"/>
-;; <link href="css/style.css" rel="stylesheet"/>
-;; <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
-
-
-
 (defun ta-point-in-string-p (pt)
   "Returns t if PT is in a string"
   (eq 'string (syntax-ppss-context (syntax-ppss pt))))
@@ -94,8 +79,10 @@ Return nil if PT isn't inside a string. See the function `ta-point-in-string-p'"
   ("f" mc/mark-next-like-this-word)
   ("s" mc/unmark-previous-like-this)
   ("d" mc/unmark-next-like-this)
-  (">" mc/mark-sgml-tag-pair)
+  ("/" mc/mark-sgml-tag-pair)
 	("i" mc/insert-numbers)
+	("M-c" query-replace :color blue)
+	("c" query-replace-regexp :color blue)
   ("q" nil))
 
 (defadvice mc/keyboard-quit (after ta-mc/keyboard-quit-advice activate)

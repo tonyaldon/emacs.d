@@ -31,6 +31,7 @@
 (define-key ivy-minibuffer-map (kbd "M-e") 'ivy-immediate-done)
 (define-key ivy-minibuffer-map (kbd "M-a") 'ivy-dispatching-done)
 (define-key ivy-minibuffer-map (kbd "M-s") 'ivy-occur)
+(define-key ivy-minibuffer-map (kbd "M-p") 'ivy-reverse-i-search)
 (define-key swiper-map (kbd "M-q") 'minibuffer-keyboard-quit)
 (define-key swiper-map (kbd "M-c") 'swiper-mc)
 (global-set-key (kbd "C-M-a") 'iy-go-to-char-backward)
