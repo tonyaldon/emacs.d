@@ -14,7 +14,7 @@
 (depends-on "yasnippet")
 (depends-on "yasnippet-snippets")
 (depends-on "company")
-(depends-on "company-web")
+(depends-on "web-completion-data")
 (depends-on "company-jedi")
 (depends-on "company-fuzzy")
 (depends-on "lsp-mode")

@@ -7,3 +7,9 @@
 [submodule "packages/posframe"]
 	path = packages/posframe
 	url = git@github.com:tonyaldon/posframe.git
+[submodule "packages/ac-html-csswatcher"]
+	path = packages/ac-html-csswatcher
+	url = git@github.com:tonyaldon/ac-html-csswatcher.git
+[submodule "packages/company-web"]
+	path = packages/company-web
+	url = git@github.com:tonyaldon/company-web.git

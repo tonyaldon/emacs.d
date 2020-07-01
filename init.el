@@ -5,6 +5,7 @@
 (add-to-list 'load-path "~/.emacs.d/settings/")
 (add-to-list 'load-path "~/.emacs.d/packages/")
 (add-to-list 'load-path "~/.emacs.d/packages/company-emoji/")
+(add-to-list 'load-path "~/.emacs.d/packages/company-web/")
 (add-to-list 'load-path "~/.emacs.d/packages/peep-dired/")
 (add-to-list 'load-path "~/.emacs.d/packages/postframe/")
 
