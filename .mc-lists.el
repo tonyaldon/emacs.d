@@ -51,6 +51,7 @@
 				hydra-lines/ta-comment-line
 				hydra-lines/ta-copy-current-line-yank-below
 				hydra-lines/ta-cycle-spacing
+				hydra-lines/ta-jsx-comment-or-uncomment-line
 				hydra-lines/ta-kill-ring-save-current-line-and-exit
 				hydra-lines/ta-mark-current-line
 				hydra-lines/ta-mark-end-of-line
@@ -162,6 +163,7 @@
 				sp-kill-word
 				sp-remove-active-pair-overlay
 				sp-select-next-thing-exchange
+				ta-avy-copy-sexp
 				ta-comment-line
 				ta-mark-inside-pairs
 				ta-mark-sexp-at-point
@@ -237,6 +239,7 @@
 				hydra-mc/mc/unmark-next-like-this
 				hydra-mc/mc/unmark-previous-like-this
 				hydra-mc/nil
+				hydra-mc/query-replace-regexp-and-exit
 				hydra-mostly-visited/body
 				hydra-mostly-visited/nil
 				hydra-mutiple-cursors/mc/mark-next-like-this

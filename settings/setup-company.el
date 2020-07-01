@@ -6,12 +6,15 @@
 (require 'company-fuzzy)
 (require 'lsp-mode)
 (require 'company-lsp)
+(require 'ac-html-csswatcher)
+
+(company-web-csswatcher-setup)
 
 (setq company-fuzzy-show-annotation nil)
 (setq company-dabbrev-downcase nil)
 (setq company-dabbrev-ignore-case nil)
 (setq company-dabbrev-code-ignore-case nil)
-(setq company-dabbrev-code-other-buffers t)
+(setq company-dabbrev-code-other-buffers 'all)
 (setq company-dabbrev-code-everywhere nil)
 (setq company-idle-delay 0)
 (setq company-minimum-prefix-length 1)
@@ -56,7 +59,8 @@
 (defun ta-company-org-mode ()
   "Setup `company-mode' for `org-mode-hook'"
   (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
-  (set (make-local-variable 'company-backends)
+  (setq company-minimum-prefix-length 4)
+	(set (make-local-variable 'company-backends)
        '((company-yasnippet
 					:with
           company-emoji
@@ -93,6 +97,7 @@
           :with
           company-tide
 					company-dabbrev-code
+					company-web-html
           company-files)
          company-dabbrev
          company-capf)))
@@ -112,7 +117,6 @@
   "Setup `company-mode' for `html-mode'"
   (set (make-local-variable 'company-backends)
        '((company-dabbrev-code
-					:with
           company-web-html
           company-yasnippet
           company-files)
@@ -122,7 +126,6 @@
 (add-hook 'after-init-hook 'global-company-mode)
 (setq company-completion-finished-hook 'ta-company-completion-hook)
 (add-hook 'emacs-lisp-mode-hook 'ta-company-emacs-lisp-mode)
-(add-hook 'js-mode-hook 'ta-company-js-mode)
 (add-hook 'php-mode-hook 'ta-company-php-mode)
 (add-hook 'python-mode-hook 'ta-company-python-mode)
 (add-hook 'org-mode-hook 'ta-company-org-mode)
@@ -130,6 +133,9 @@
 (add-hook 'mhtml-mode-hook 'ta-company-html-mode)
 (add-hook 'html-mode-hook 'ta-company-html-mode)
 
+(add-hook 'js-mode-hook 'ta-company-js-mode)
+(add-hook 'js-mode-hook 'ac-html-csswatcher+)
+(add-hook 'js-jsx-mode-hook 'ac-html-csswatcher+)
 
 ;; -- completion for LaTeX-mode
 ;; next few lines adapted from "lsp-clients.el" file

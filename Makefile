@@ -42,4 +42,7 @@ uninstall_cask:
 install_cask_dependencies:
 	@cask install
 
+install_csswatcher:
+	@sudo cpan i CSS::Watcher
+
 install: install_emacs install_cask install_cask_dependencies
