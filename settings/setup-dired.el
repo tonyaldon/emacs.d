@@ -37,6 +37,7 @@
 (setq peep-dired-enable-on-directories nil)
 (setq peep-dired-ignored-extensions
       '("mkv" "webm" "mp4" "mp3" "ogg" "iso" "pdf"))
+(setq peep-dired-with-register nil)
 
 (declare-function ace-window "ext:ace-window")
 
