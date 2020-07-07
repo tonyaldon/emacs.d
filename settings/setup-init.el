@@ -9,6 +9,8 @@
 (setq csv-separators '(","))
 (setq save-interprogram-paste-before-kill t)
 (defalias 'yes-or-no-p 'y-or-n-p)
+(setq fill-column 80)
+
 
 ;; TODO: to dispatch in appropriate setup files
 (defun rename-current-buffer-file ()

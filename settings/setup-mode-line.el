@@ -33,7 +33,7 @@
 (setq keycast-insert-after 'moody-mode-line-buffer-identification)
 (setq keycast-window-predicate  'moody-window-active-p)
 
-(column-number-mode -1)
+(column-number-mode t)
 (line-number-mode t)
 (moody-replace-mode-line-buffer-identification)
 (moody-replace-vc-mode)
