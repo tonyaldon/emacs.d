@@ -1,6 +1,5 @@
 (require 'kb)
 (require 'org)
-(require 'org-bullets)
 
 (setq org-edit-src-content-indentation 0)
 (setq org-return-follows-link t)
@@ -37,7 +36,7 @@
 (define-key org-mode-map (kbd "C-c ~") 'ta-company-file-~)
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
-(add-hook 'org-mode-hook 'org-bullets-mode)
+(add-hook 'text-mode-hook 'org-indent-mode)
 
 
 (provide 'setup-org)
