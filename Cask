@@ -12,7 +12,7 @@
 (depends-on "dired-hide-dotfiles")
 (depends-on "dired-open")
 (depends-on "yasnippet")
-(depends-on "yasnippet-snippets")
+;;(depends-on "yasnippet-snippets")
 (depends-on "company")
 (depends-on "web-completion-data")
 (depends-on "company-jedi")

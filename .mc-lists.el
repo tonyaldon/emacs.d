@@ -231,6 +231,7 @@
 				hydra-mc/body
 				hydra-mc/hydra-lines/body
 				hydra-mc/hydra-lines/body-and-exit
+				hydra-mc/mc/insert-numbers
 				hydra-mc/mc/mark-next-like-this
 				hydra-mc/mc/mark-next-like-this-word
 				hydra-mc/mc/mark-previous-like-this
