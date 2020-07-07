@@ -1,6 +1,8 @@
 (require 'kb)
 (require 'setup-company)
 
+(declare-function ta-company-file-/ "ex:setup-org")
+
 (define-key company-active-map (kbd ">") 'company-filter-candidates)
 (define-key company-active-map (kbd "]") 'ta-company-fuzzy-mode-toggle)
 
@@ -14,5 +16,6 @@
 (define-key company-active-map (kbd "<next>") 'company-next-page)
 (define-key company-active-map (kbd "<tab>") 'company-complete-common)
 
+(global-set-key (kbd "C-c /") 'ta-company-file-/)
 
 (provide 'kb-company)

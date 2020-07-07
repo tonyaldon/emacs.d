@@ -62,8 +62,8 @@
 
 (define-key dired-mode-map (kbd "[") 'dired-hide-details-mode)
 (define-key dired-mode-map (kbd ".") 'dired-hide-dotfiles-mode)
-(define-key dired-mode-map (kbd ">") 'dired-narrow)
-(define-key dired-mode-map (kbd ",") 'dired-collapse-mode)
+(define-key dired-mode-map (kbd ",") 'dired-narrow)
+(define-key dired-mode-map (kbd "%") 'dired-collapse-mode)
 (define-key dired-mode-map (kbd "<down>") 'dired-toggle-sudo)
 (define-key dired-mode-map (kbd "M-s") 'swiper)
 (define-key dired-mode-map (kbd ")") 'ta-aw-other-window-scroll-buffer)

@@ -67,6 +67,7 @@
 (key-chord-define-global ";;" 'counsel-M-x)
 (global-set-key (kbd "<f1>") 'eval-defun)
 (key-chord-define-global "pf" 'eval-last-sexp)
+(global-set-key (kbd "<C-backspace>") 'delete-char)
 
 
 (provide 'kb)

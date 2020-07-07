@@ -177,6 +177,7 @@ Preserve the column position of the cursor."
   ("D" display-line-numbers-mode)
   ("L" goto-line)
 	(">" zap-up-to-char)
+	("C-n" narrow-to-region)
 	;; action on line(s)
   (":" ta-avy-mark-region)
   ("'" mark-paragraph)
