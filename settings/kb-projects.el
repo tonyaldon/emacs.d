@@ -16,7 +16,7 @@
 (global-set-key (kbd "C-a") 'projectile-switch-to-buffer)
 (global-set-key (kbd "M-a") 'ivy-switch-buffer-other-window)
 (key-chord-define-global "::" 'ibuffer)
-(global-set-key (kbd "M-<next>") 'projectile-command-map)
+(global-set-key (kbd "C-c C-p") 'projectile-command-map)
 
 ;; d - #'projectile-find-dir
 ;; D - #'projectile-dired

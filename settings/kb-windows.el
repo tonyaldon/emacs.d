@@ -15,6 +15,10 @@
 
 (declare-function ta-term "ext:kb-term")
 
+(defun ta-term-bash ()
+	(interactive)
+	(ta-term "/bin/bash"))
+
 (defun ta--dired-side-by-side (current-directory)
   "Do the layout job of `ta-dired-side-by-side'."
   (delete-other-windows)
@@ -123,7 +127,7 @@ Other window is selected with `ace-window'."
   ("'" aw-flip-window :color blue)
   ("<next>" window-toggle-side-windows)
   ("i" clone-indirect-buffer-other-window)
-  ("r" (ta-term "/bin/bash") :color blue)
+  ("r" ta-term-bash :color blue)
   ("l" ta-dired-side-by-side)
   ("o" ta-split-window-right)
   (";" ta-split-window-down)
@@ -163,13 +167,15 @@ The function `windmove-left', `windmove-right', `windmove-up' and
 (define-key markdown-mode-map (kbd "M-n") 'windmove-down)
 (define-key Info-mode-map (kbd "M-n") 'windmove-down)
 
-
 (define-key dired-mode-map (kbd "C-o") nil)
 (define-key ibuffer-mode-map (kbd "C-o") nil)
 (global-set-key (kbd "C-o") 'delete-other-windows)
 (global-set-key (kbd "M-o") 'delete-window)
 (define-key term-raw-map (kbd "M-o") 'delete-window)
 (define-key term-mode-map (kbd "M-o") 'delete-window)
+
+(global-set-key (kbd "M-<next>") 'window-toggle-side-windows)
+(global-set-key (kbd "M-(") 'ta-term-bash)
 
 
 (provide 'kb-windows)

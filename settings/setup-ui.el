@@ -29,7 +29,7 @@
 (add-hook 'help-mode-hook (lambda () (visual-line-mode t)))
 (setq
  display-buffer-alist
- '(("\\*Help.*\\|*company-documentation*"
+ '(("\\*Help.*\\|*company-documentation*\\|*terminal*"
     (display-buffer-in-side-window)
     (window-width . 0.3)
     (side . left)
@@ -54,11 +54,6 @@
 		(window-height . 0.3)
 		(side . top)
 		(slot . 1))
-	 ("\\*terminal.*"
-    (display-buffer-in-side-window)
-    (window-height . 0.25)
-    (side . top)
-    (slot . -1))
 	 ("magit:.*\\|magit-diff:.*"
     (display-buffer-in-direction)
     (direction . left))
