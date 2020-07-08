@@ -12,6 +12,7 @@
 (setq aw-leading-char-style 'char)
 (setq aw-background nil)
 (setq aw-keys '(?s ?r ?d ?l ?t))
+(setq aw-dispatch-always t)
 
 (declare-function ta-term "ext:kb-term")
 

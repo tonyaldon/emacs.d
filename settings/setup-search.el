@@ -224,14 +224,16 @@ Call command `wdired-finish-edit' if `major-mode' is
 
 (defun ta--ivy-aw-find (buffer-or-file caller)
   "Function to be used within ivy actions."
-	(cond
+  (cond
    ((equal caller 'counsel-quick-access)
     (find-file (quick-access-get-filename buffer-or-file)))
    ((member caller '(ivy-switch-buffer ivy-switch-buffer-other-window))
     (ivy--switch-buffer-action buffer-or-file))
    ((equal caller 'projectile-completing-read)
-    (find-file (projectile-expand-root buffer-or-file))
-		(run-hooks 'projectile-find-file-hook))
+    (if (bufferp (get-buffer buffer-or-file))
+				(switch-to-buffer buffer-or-file nil 'force-same-window)
+      (find-file (projectile-expand-root buffer-or-file))
+      (run-hooks 'projectile-find-file-hook)))
    (t
     (find-file (expand-file-name buffer-or-file ivy--directory)))))
 
