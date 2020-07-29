@@ -93,6 +93,8 @@ When ARG is 4, mark inside pairs calling `ta-mark-inside-pairs'."
 	("i" mc/insert-numbers)
 	("M-c" query-replace :color blue)
 	("c" query-replace-regexp :color blue)
+	("M-s" replace-string :color blue)
+	("M-r" replace-regexp :color blue)
   ("q" nil))
 
 (defadvice mc/keyboard-quit (after ta-mc/keyboard-quit-advice activate)

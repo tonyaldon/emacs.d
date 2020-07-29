@@ -15,7 +15,8 @@
 
 (setq ivy-wrap t)
 (setq ivy-extra-directories '("./"))
-(setq ivy-use-virtual-buffers t)
+(setq ivy-use-virtual-buffers nil)
+(setq ivy-count-format "(%d/%d) ")
 (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
 (setq wgrep-auto-save-buffer t)
 (setq counsel-outline-display-style 'path)

@@ -66,7 +66,7 @@ see: https://github.com/magnars/.emacs.d/blob/master/defuns/buffer-defuns.el#L14
 	(delete-backward-char 1)
 	(beginning-of-line))
 
-(defun ta-copy-current-line-yank-below ()
+(defun ta-yank-line-below ()
   "copy current line and yank it to the next line.
 Cursor doesn't move."
   (interactive)
@@ -194,7 +194,7 @@ Preserve the column position of the cursor."
   ("l" (kill-line 0))
   ("x" ta-kill-whole-line)
   ("w" ta-kill-ring-save-current-line :color blue)
-  ("y" ta-copy-current-line-yank-below)
+  ("y" ta-yank-line-below)
   ("r" join-line)
   ("o" open-line)
   ("O" delete-blank-lines)

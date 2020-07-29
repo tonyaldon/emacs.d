@@ -166,6 +166,7 @@
 				ta-avy-copy-sexp
 				ta-comment-line
 				ta-mark-inside-pairs
+				ta-mark-inside-quotes-or-pairs
 				ta-mark-sexp-at-point
 				ta-pop-local-mark-ring
 				transpose-words
@@ -292,6 +293,7 @@
 				swiper
 				swiper-mc
 				swiper-thing-at-point
+				ta-avy-goto-end-of-line
 				ta-dired-current-buffer-file-toggle
 				ta-find-file-notes
 				undefined

@@ -83,5 +83,6 @@
 
 (global-set-key (kbd "M-]") 'ta-sidebar)
 
+(define-key wdired-mode-map (kbd "<down>") nil)
 
 (provide 'kb-dired)
