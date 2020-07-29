@@ -32,10 +32,11 @@
 				("videos - programming-sessions" . "~/work/videos/programming-sessions/")
 				("videos - youtube/README" . "~/work/videos/youtube/README.org")))
 
-(projectile-add-known-project "~/work/apps/emacs/")
+(projectile-add-known-project "~/work/learning/apps/emacs")
 (projectile-add-known-project "~/work/learning/tricks/")
 (projectile-add-known-project "~/work/settings/")
 (projectile-add-known-project "~/work/settings/emacs.d/.emacs.d/")
+(projectile-add-known-project "~/work/apps/tricks-app/")
 
 (setq projectile-completion-system 'ivy)
 (setq projectile-find-dir-includes-top-level t)
