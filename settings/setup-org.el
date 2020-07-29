@@ -36,7 +36,7 @@
 (define-key org-mode-map (kbd "C-c ~") 'ta-company-file-~)
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
-(add-hook 'text-mode-hook 'org-indent-mode)
+(add-hook 'org-mode-hook 'org-indent-mode)
 
 
 (provide 'setup-org)

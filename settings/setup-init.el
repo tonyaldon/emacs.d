@@ -54,4 +54,9 @@ see: http://github.com/magnars"
 	(setq create-lockfiles (not create-lockfiles))
 	(message "create-lockfiles set to: %s" create-lockfiles))
 
+;; css and scss
+(setq css-indent-offset 2)
+
+
+
 (provide 'setup-init)
