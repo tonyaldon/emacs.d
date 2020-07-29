@@ -44,7 +44,7 @@
 
    `(highlight ((t (:foreground ,d-white-0 :bold t))))
    `(lazy-highlight ((t (:background ,d-gray-3 :foreground ,d-white-1))))
-   `(region ((t (:background ,d-gray-2 :foreground ,d-white-1))))
+   `(region ((t (:background "#394851"))))
 
    `(isearch ((t (:inherit highlight :underline t))))
    `(isearch-fail ((t (:background ,d-red))))
@@ -156,7 +156,7 @@
    `(font-lock-preprocessor-face ((t (:foreground ,d-pink-2))))
    `(font-lock-comment-delimiter-face ((t (:foreground ,d-gray-3))))
    `(font-lock-comment-face ((t (:foreground ,d-gray-3))))
-   `(font-lock-constant-face ((t (:foreground ,d-yellow-3))))
+   `(font-lock-constant-face ((t (:foreground ,d-blue-1))))
    `(font-lock-reference-face ((t (:foreground ,d-yellow-3))))
    `(font-lock-regexp-grouping-backslash ((t (:foreground ,d-blue-1))))
    `(font-lock-regexp-grouping-construct ((t (:foreground ,d-blue-1))))
