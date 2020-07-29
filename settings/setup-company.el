@@ -8,7 +8,7 @@
 (require 'company-lsp)
 (require 'ac-html-csswatcher)
 
-(company-web-csswatcher-setup)
+;; (company-web-csswatcher-setup)
 
 (setq company-fuzzy-show-annotation nil)
 (setq company-dabbrev-downcase nil)
@@ -123,6 +123,19 @@
          company-dabbrev
          company-capf)))
 
+(defun ta-company-css-mode ()
+  "Setup `company-mode' for `css-mode'"
+  (set (make-local-variable 'company-backends)
+       '((company-yasnippet
+          :with
+					;; company-dabbrev-code
+          company-css
+					company-web-html
+          ;; company-files
+					)
+         company-dabbrev
+         company-capf)))
+
 (add-hook 'after-init-hook 'global-company-mode)
 (setq company-completion-finished-hook 'ta-company-completion-hook)
 (add-hook 'emacs-lisp-mode-hook 'ta-company-emacs-lisp-mode)
@@ -132,6 +145,7 @@
 (add-hook 'sh-mode-hook 'ta-company-sh-mode)
 (add-hook 'mhtml-mode-hook 'ta-company-html-mode)
 (add-hook 'html-mode-hook 'ta-company-html-mode)
+(add-hook 'css-mode-hook 'ta-company-css-mode)
 
 (add-hook 'js-mode-hook 'ta-company-js-mode)
 (add-hook 'js-mode-hook 'ac-html-csswatcher+)
