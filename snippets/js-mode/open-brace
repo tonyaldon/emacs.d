@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: open-brace
+# binding: C-c {
+# --
+\{
+	$0
+\}

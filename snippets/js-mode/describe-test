@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: describe-test
+# key: d
+# --
+describe('$1', () => {
+						 $0
+})

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: import-from
+# key: i
+# --
+import ${2:\{ $1 \}} from '$0'
