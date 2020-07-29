@@ -46,13 +46,21 @@ the variable `outline-regexp'."
   (outline-minor-mode t)
   (setq outline-regexp (concat
                         "//\\|"
-                        "const\\|"
-                        "[[:space:]]*app\\|"
-                        "[[:space:]]*axios\\|"
-                        "[[:space:]]*const")))
+												"const\\|"
+												"class\\|"
+                        "app\\|"
+												"fs\\|"
+												"/\\*\\*\\|"
+												"function\\|"
+												;; testing with jest
+												"[[:space:]]*it\\|"
+												"describe\\|"
+												;; React
+                        "ReactDom")))
 
 (add-hook 'js-mode-hook 'ta-outline-js-mode-hook)
 (add-hook 'js-mode-hook #'ta-tide-mode-hook)
+(add-hook 'js-mode-hook #'subword-mode)
 
 (define-key js-mode-map (kbd "<tab>") 'hydra-sgml/body)
 (define-key js-mode-map (kbd "C-<tab>") 'hydra-sgml/body)
