@@ -43,7 +43,7 @@
    `(mc/cursor-bar-face ((t (:background ,d-white-1 :height 3))))
 
    `(highlight ((t (:foreground ,d-white-0 :bold t))))
-   `(lazy-highlight ((t (:background ,d-gray-3 :foreground ,d-white-1))))
+   `(lazy-highlight ((t (:underline ,d-orange-2 :bold t))))
    `(region ((t (:background "#394851"))))
 
    `(isearch ((t (:inherit highlight :underline t))))

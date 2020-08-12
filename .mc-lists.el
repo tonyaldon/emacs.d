@@ -58,6 +58,7 @@
 				hydra-lines/ta-newline-after-end-of-visual-line-and-exit
 				hydra-mc/mc/mark-next-like-this-word
 				hydra-mc/nil
+				hydra-mc/replace-string-and-exit
 				hydra-mutiple-cursors/nil
 				hydra-org/body
 				hydra-org/org-ctrl-c-star
@@ -119,6 +120,7 @@
 				hydra-sp/sp-wrap-square
 				hydra-sp/ta-add-space-and-exit
 				hydra-sp/ta-avy-copy-sexp-and-exit
+				hydra-sp/ta-drag-sexp-to-down
 				hydra-ss/body
 				hydra-ss/ta-ss-s-capitalize-and-exit
 				hydra-ss/ta-ss-s-collapse-whitespace-and-exit
@@ -271,8 +273,6 @@
 				iedit-switch-to-mc-mode
 				indent-for-tab-command
 				ivy-switch-buffer
-				iy-go-to-char
-				iy-go-to-char-quit
 				kill-sentence
 				kmacro-set-counter
 				kmacro-start-macro
@@ -284,6 +284,7 @@
 				org-ctrl-c-ret
 				org-open-at-mouse
 				previous-buffer
+				projectile-grep
 				push-button
 				query-replace
 				replace-string
