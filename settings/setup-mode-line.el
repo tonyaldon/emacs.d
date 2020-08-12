@@ -8,22 +8,35 @@
   (int-to-string (count-lines (point-min) (point-max))))
 
 (setq-default mode-line-format
-      '("%e"
-       mode-line-front-space
-       mode-line-mule-info
-       mode-line-client
-       mode-line-modified
-       mode-line-remote
-       mode-line-frame-identification
-       mode-line-buffer-identification
-       "   "
-			 (:eval (format "NL%s" (ta-number-of-lines-mode)))
-       " "
-			 mode-line-position
-       (vc-mode vc-mode)
-       "  " mode-line-modes
-			 mode-line-misc-info
-			 mode-line-end-spaces))
+							'("%e"
+								mode-line-front-space
+								mode-line-mule-info
+								mode-line-client
+								mode-line-modified
+								mode-line-remote
+								mode-line-frame-identification
+								mode-line-buffer-identification
+								"   "
+								(:eval (format "NL%s" (ta-number-of-lines-mode)))
+								" "
+								mode-line-position
+								(vc-mode vc-mode)
+								"  " mode-line-modes
+								mode-line-misc-info
+								mode-line-end-spaces))
+
+;; mode-line-format to be used when doing screen cast with keycast
+;; (setq-default mode-line-format
+;; 							'("%e"
+;; 								mode-line-front-space
+;; 								mode-line-mule-info
+;; 								mode-line-client
+;; 								mode-line-modified
+;; 								mode-line-remote
+;; 								mode-line-frame-identification
+;; 								mode-line-buffer-identification
+;; 								"  "
+;; 								mode-line-modes))
 
 (setq x-underline-at-descent-line t)
 (setq minions-mode-line-lighter "")
@@ -32,6 +45,8 @@
 (setq keycast-separator-width 2)
 (setq keycast-insert-after 'moody-mode-line-buffer-identification)
 (setq keycast-window-predicate  'moody-window-active-p)
+(setq keycast-remove-tail-elements nil)
+
 
 (column-number-mode t)
 (line-number-mode t)
