@@ -23,7 +23,6 @@
 (require 'setup-search)
 
 (require 'setup-init)
-(require 'setup-company)
 (require 'setup-emmet-mode)
 (require 'setup-flycheck)
 

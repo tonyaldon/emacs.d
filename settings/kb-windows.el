@@ -2,6 +2,7 @@
 (require 'framer)
 (require 'kb)
 (require 'transpose-frame)
+(require 'markdown-mode)
 
 (winner-mode t)
 
