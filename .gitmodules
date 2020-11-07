@@ -13,3 +13,6 @@
 [submodule "packages/company-web"]
 	path = packages/company-web
 	url = git@github.com:tonyaldon/company-web.git
+[submodule "packages/fzf.el"]
+	path = packages/fzf.el
+	url = git@github.com:tonyaldon/fzf.el.git

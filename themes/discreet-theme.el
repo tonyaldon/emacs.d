@@ -122,9 +122,6 @@
    `(ivy-minibuffer-match-face-2 ((t (:underline "#feb259" :foreground ,d-white-0 :bold t))))
    `(ivy-minibuffer-match-face-3 ((t (:underline "#59feb2" :foreground ,d-white-0 :bold t))))
    `(ivy-minibuffer-match-face-4 ((t (:underline "#59a5fe" :foreground ,d-white-0 :bold t))))
-   `(ivy-posframe ((t (:background ,d-black-3))))
-   `(ivy-posframe-border ((t (:background "#01676b"))))
-   `(ivy-posframe-cursor ((t (:inherit ivy-cursor))))
    `(ivy-prompt-match ((t (:inherit ivy-current-match))))
 
    `(swiper-background-match-face-1 ((t (:underline ,d-orange-2 :bold t))))

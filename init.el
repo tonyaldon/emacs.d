@@ -1,61 +1,47 @@
+;;; Init packages
+
 (require 'package)
 (require 'cask "~/.cask/cask.el")
+
 (cask-initialize)
 
-(add-to-list 'load-path "~/.emacs.d/settings/")
+;;; load-path
+
+(add-to-list 'load-path "~/.emacs.d/settings/settings/")
+(add-to-list 'load-path "~/.emacs.d/settings/utils/")
+(add-to-list 'load-path "~/.emacs.d/settings/key-bindings/")
+(add-to-list 'load-path "~/.emacs.d/settings/packages/")
+
 (add-to-list 'load-path "~/.emacs.d/packages/")
 (add-to-list 'load-path "~/.emacs.d/packages/ac-html-csswatcher/")
 (add-to-list 'load-path "~/.emacs.d/packages/company-emoji/")
 (add-to-list 'load-path "~/.emacs.d/packages/company-web/")
 (add-to-list 'load-path "~/.emacs.d/packages/peep-dired/")
-(add-to-list 'load-path "~/.emacs.d/packages/postframe/")
+(add-to-list 'load-path "~/.emacs.d/packages/fzf.el/")
+
+;;; theme
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'discreet t)
 
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
-
-(require 'setup-ui)
-(require 'setup-mode-line)
-(require 'setup-dired)
-(require 'setup-ibuffer)
-(require 'setup-search)
+;;; setup files
 
 (require 'setup-init)
-(require 'setup-emmet-mode)
-(require 'setup-flycheck)
-
-(require 'setup-org)
-(require 'setup-php-mode)
-(require 'setup-sql-mode)
-(require 'setup-js-mode)
-(require 'setup-html-mode)
-(require 'setup-python-mode)
+(require 'setup-completion)
+(require 'setup-dired)
 (require 'setup-emacs-lisp-mode)
-;;(require 'setup-latex-mode)
-(require 'setup-gmake-makefile-mode)
-(require 'setup-sgml-mode)
-(require 'setup-i3)
-(require 'setup-projects)
+(require 'setup-ibuffer)
+(require 'setup-org)
+(require 'setup-python-mode)
+
+;;; key bindings files
 
 (require 'kb)
-(require 'kb-yasnippet)
-(require 'kb-company)
-(require 'kb-describe)
-(require 'kb-dired)
-(require 'kb-projects)
 (require 'kb-lines)
 (require 'kb-mark)
-(require 'kb-browse)
-(require 'kb-search)
 (require 'kb-smartparens)
 (require 'kb-string)
-(require 'kb-sgml)
 (require 'kb-term)
 (require 'kb-windows)
-
-
-(require 'util-learning)
-(require 'util-mathstyle)
-(require 'util-writing)
+(require 'kb-outline)
+(require 'kb-describe)

@@ -12,6 +12,7 @@
 				c-electric-colon
 				counsel-yank-pop
 				csv-align-fields
+				csv-tab-command
 				default-indent-new-line
 				dired-toggle-read-only
 				electric-newline-and-maybe-indent
@@ -20,6 +21,7 @@
 				er/mark-inside-quotes
 				er/mark-word
 				forward-sexp
+				hydra--universal-argument
 				hydra-lines/back-to-indentation
 				hydra-lines/backward-char
 				hydra-lines/backward-word
@@ -60,7 +62,6 @@
 				hydra-mc/nil
 				hydra-mc/replace-string-and-exit
 				hydra-mutiple-cursors/nil
-				hydra-org/body
 				hydra-org/org-ctrl-c-star
 				hydra-sgml/body
 				hydra-sgml/emmet-expand-line
@@ -113,6 +114,7 @@
 				hydra-sp/sp-raise-sexp
 				hydra-sp/sp-rewrap-sexp
 				hydra-sp/sp-splice-sexp
+				hydra-sp/sp-splice-sexp-killing-backward
 				hydra-sp/sp-swap-enclosing-sexp
 				hydra-sp/sp-up-sexp
 				hydra-sp/sp-wrap-curly
@@ -127,7 +129,6 @@
 				hydra-ss/ta-ss-s-downcase-and-exit
 				hydra-ss/ta-ss-s-snake-case-and-exit
 				hydra-ss/ta-ss-s-upcase-and-exit
-				hydra-toggle/ta-w-finish-edit-and-exit
 				indent-new-comment-line
 				iy-go-to-char--command
 				keyboard-quit
@@ -148,9 +149,12 @@
 				org-open-line
 				org-return-indent
 				org-self-insert-command
+				org-shifttab
+				org-table-blank-field
 				org-yank
 				orgtbl-hijacker-command-109
 				orgtbl-self-insert-command
+				outline-self-insert-command
 				picture-self-insert
 				python-indent-shift-left
 				reindent-then-newline-and-indent
@@ -171,6 +175,7 @@
 				ta-mark-inside-quotes-or-pairs
 				ta-mark-sexp-at-point
 				ta-pop-local-mark-ring
+				ta-zap-back-to-char
 				transpose-words
 				upcase-region
 				wdired-downcase-word
@@ -184,6 +189,7 @@
 (setq mc/cmds-to-run-once
       '(
 				Info-exit
+				Info-mouse-follow-nearest-node
 				LaTeX-babel-insert-hyphen
 				TeX-insert-quote
 				ace-jump-done
@@ -200,6 +206,7 @@
 				comment-dwim
 				counsel-M-x
 				counsel-find-file
+				counsel-quick-access
 				delete-window
 				describe-key
 				dired-do-redisplay
@@ -222,6 +229,7 @@
 				handle-switch-frame
 				hydra--digit-argument
 				hydra--negative-argument
+				hydra--universal-argument
 				hydra-files/body
 				hydra-lines/cleanup-buffer
 				hydra-lines/drag-stuff-down
@@ -254,14 +262,9 @@
 				hydra-scrolling/body
 				hydra-scrolling/nil
 				hydra-scrolling/recenter-top-bottom
-				hydra-scrolling/ta-scroll-line-down
-				hydra-scrolling/ta-scroll-line-up
 				hydra-sp-reshape/nil
 				hydra-sp/nil
 				hydra-sp/undo
-				hydra-toggle/body
-				hydra-toggle/ta-toggle-write-mode-and-exit
-				hydra-toggle/ta-w-abort-changes-and-exit
 				hydra-window/body
 				hydra-window/hydra-window-size/body-and-exit
 				hydra-window/nil
@@ -272,6 +275,7 @@
 				iedit-mode
 				iedit-switch-to-mc-mode
 				indent-for-tab-command
+				insight-mode
 				ivy-switch-buffer
 				kill-sentence
 				kmacro-set-counter
@@ -283,13 +287,14 @@
 				next-buffer
 				org-ctrl-c-ret
 				org-open-at-mouse
+				outline-next-heading
 				previous-buffer
-				projectile-grep
 				push-button
 				query-replace
 				replace-string
 				revert-buffer
 				save-some-buffers
+				scroll-down
 				suspend-frame
 				swiper
 				swiper-mc
@@ -297,7 +302,9 @@
 				ta-avy-goto-end-of-line
 				ta-dired-current-buffer-file-toggle
 				ta-find-file-notes
+				ta-zap-back-to-char
 				undefined
+				undo-redo
 				wdired-next-line
 				wdired-previous-line
 				wdired-upcase-word
