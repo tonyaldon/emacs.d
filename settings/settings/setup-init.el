@@ -210,6 +210,7 @@ This function should called whenever the window configuration changes
 ;;;; Other
 
 (setq create-lockfiles nil)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (setq browse-url-browser-function 'browse-url-chromium)
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
@@ -428,7 +429,10 @@ the variable `outline-regexp'."
 ;;;; mini-frame
 (require 'mini-frame)
 
-(setq mini-frame-ignore-commands '(swiper
+(setq mini-frame-ignore-commands '(dired-do-flagged-delete
+																	 org-ctrl-c-ctrl-c
+																	 org-time-stamp
+																	 swiper
                                    swiper-isearch-toggle
                                    swiper-all
 																	 swiper-thing-at-point
