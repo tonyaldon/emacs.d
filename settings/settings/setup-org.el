@@ -18,10 +18,16 @@
 
 ;;; src and babel
 
+(require 'ob-js)
+;; https://emacs.stackexchange.com/questions/55690/org-babel-javascript-error
+(setq org-babel-js-function-wrapper
+      "console.log(require('util').inspect(function(){\n%s\n}(), { depth: 100 }))")
+
 (setq org-edit-src-content-indentation 0)
 
 (org-babel-do-load-languages
- 'org-babel-load-languages '((shell . t)
+ 'org-babel-load-languages '((js . t)
+														 (shell . t)
 														 (python . t)
 														 (dot . t)))
 
