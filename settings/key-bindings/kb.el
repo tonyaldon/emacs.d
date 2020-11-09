@@ -387,11 +387,11 @@
 (define-key magit-section-mode-map (kbd "C-i") 'magit-section-toggle)
 (define-key magit-section-mode-map [C-tab]     'magit-section-cycle)
 (define-key magit-section-mode-map (kbd "C-SPC") 'magit-section-cycle-global)
-(define-key magit-section-mode-map (kbd   ".") 'magit-section-up)
 (define-key magit-section-mode-map (kbd   "p") 'magit-section-backward)
 (define-key magit-section-mode-map (kbd   "n") 'magit-section-forward)
 (define-key magit-section-mode-map (kbd "M-p") 'magit-section-backward-sibling)
 (define-key magit-section-mode-map (kbd "M-n") 'magit-section-forward-sibling)
+(define-key magit-mode-map (kbd "i") 'magit-section-up)
 
 (define-key magit-status-mode-map (kbd "C-M-p") 'windmove-up)
 (define-key magit-status-mode-map (kbd "C-M-n") 'windmove-down)
