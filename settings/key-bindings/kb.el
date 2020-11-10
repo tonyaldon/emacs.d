@@ -65,6 +65,9 @@
 
 ;;;; dired-mode-map
 
+(define-key dired-mode-map (kbd "C-M-p") nil)
+(define-key dired-mode-map (kbd "C-M-n") nil)
+
 (define-key dired-mode-map (kbd "'") 'dired-mark)
 (define-key dired-mode-map (kbd "t") 'dired-toggle-marks)
 (define-key dired-mode-map (kbd "u") 'dired-unmark)
