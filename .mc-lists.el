@@ -172,7 +172,7 @@
 				ta-avy-copy-sexp
 				ta-comment-line
 				ta-mark-inside-pairs
-				ta-mark-inside-quotes-or-pairs
+				ta-mark-inside-dwim
 				ta-mark-sexp-at-point
 				ta-pop-local-mark-ring
 				ta-zap-back-to-char

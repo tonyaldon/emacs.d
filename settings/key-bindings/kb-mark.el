@@ -68,14 +68,18 @@ Return nil if PT isn't inside a string. See the function `ta-point-in-string-p'"
   (sp-backward-down-sexp)
   (exchange-point-and-mark))
 
-(defun ta-mark-inside-quotes-or-pairs (&optional arg)
-  "Mark inside quotes calling `er/mark-inside-quotes'.
+(defun ta-mark-inside-dwim (&optional arg)
+  "Mark things inside quotes if point is inside a string.
 
-When ARG is 4, mark inside pairs calling `ta-mark-inside-pairs'."
-  (interactive "p")
-  (if (equal arg 4)
-      (call-interactively 'ta-mark-inside-pairs)
-    (call-interactively 'er/mark-inside-quotes)))
+If not inside string, mark things inside pairs.
+If call two times, first mark inside quotes if inside a string,
+second mark inside pairs."
+  (interactive)
+  (when (equal last-command 'ta-mark-inside-dwim)
+		(call-interactively 'ta-mark-inside-pairs))
+	(if (er--point-inside-string-p)
+			(call-interactively 'er/mark-inside-quotes)
+		(call-interactively 'ta-mark-inside-pairs)))
 
 
 (defhydra hydra-mc
@@ -113,7 +117,7 @@ When ARG is 4, mark inside pairs calling `ta-mark-inside-pairs'."
 (key-chord-define-global ">p" 'iedit-mode)
 
 (global-set-key (kbd "<prior>") 'er/expand-region)
-(global-set-key (kbd "<next>") 'ta-mark-inside-quotes-or-pairs)
+(global-set-key (kbd "<next>") 'ta-mark-inside-dwim)
 (global-set-key (kbd "<up>") 'ta-mark-sexp-at-point)
 
 
