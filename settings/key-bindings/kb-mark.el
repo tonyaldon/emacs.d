@@ -27,6 +27,9 @@ and :op non empty. See `sp-get-thing'."
   (let ((sexp-beg (beginning-of-thing 'sexp))
         (sexp-end (end-of-thing 'sexp)))
     (goto-char sexp-end)
+		;; HACK: Have to use both `push-mark' and `set-mark' in this order to
+		;;       expected result.
+    (push-mark sexp-end)
     (set-mark sexp-end)
     (goto-char sexp-beg)))
 
