@@ -262,6 +262,17 @@ of the columns."
 
 
 
+;;;; clojure-mode
+(require 'outline)
+
+(defun ta-outline-clojure-mode-hook ()
+	"Hook to turn on `outline-minor-mode'."
+	(outline-minor-mode t)
+	(outline-speed-commands-mode t)
+	(setq outline-regexp ";;;;* \\|("))
+
+(add-hook 'clojure-mode-hook 'ta-outline-clojure-mode-hook)
+
 ;;;; emmet-mode
 
 (require 'emmet-mode)

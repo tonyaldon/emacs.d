@@ -50,8 +50,9 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
 
 ;;; Key bindings
 
-(define-key emacs-lisp-mode-map (kbd "TAB") 'bicycle-cycle) ; maybe put in global map
-(global-set-key (kbd "C-M-b") 'outline-previous-visible-heading) 
+(define-key emacs-lisp-mode-map (kbd "TAB") 'bicycle-cycle)
+(define-key clojure-mode-map (kbd "TAB") 'bicycle-cycle)
+(global-set-key (kbd "C-M-b") 'outline-previous-visible-heading)
 (global-set-key (kbd "C-M-f") 'outline-next-visible-heading)
 (global-set-key (kbd "C-SPC") 'ta-outline-toggle-global)
 
