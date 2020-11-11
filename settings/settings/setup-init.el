@@ -598,7 +598,8 @@ Note: Modify the internal-border-width of the frame."
         (counsel-find-file . (lambda (file)
                                (find-file (expand-file-name file ivy--directory))))
         (counsel-quick-access . (lambda (selection)
-                                  (find-file (quick-access-get-filename selection))))))
+                                  (find-file (quick-access-get-filename selection))))
+				(counsel-rg . counsel-git-grep-action)))
 
 
 ;;;; dump-jump
