@@ -448,7 +448,8 @@ the variable `outline-regexp'."
 ;;;; mini-frame
 (require 'mini-frame)
 
-(setq mini-frame-ignore-commands '(dired-do-flagged-delete
+(setq mini-frame-ignore-commands '(cider-find-var
+																	 dired-do-flagged-delete
 																	 org-ctrl-c-ctrl-c
 																	 org-time-stamp
 																	 swiper
