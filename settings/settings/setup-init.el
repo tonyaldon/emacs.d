@@ -622,6 +622,8 @@ Note: Modify the internal-border-width of the frame."
         ("settings emacs" . "~/work/settings/emacs.d/.emacs.d/settings/")
         ("settings linux" . "~/work/settings/")
         ("learning" . "~/work/learning/")
+        ("practice clojure" . "~/work/learning/practice/clojure/")
+        ("practice clojure readme" . "~/work/learning/practice/clojure/README.org")
         ("tricks emacs" . "~/work/learning/tricks/org/emacs.org")
         ("tricks clojure" . "~/work/learning/tricks/org/clojure.org")
         ("tricks linux" . "~/work/learning/tricks/org/linux.org")
