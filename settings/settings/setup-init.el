@@ -209,8 +209,16 @@ This function should called whenever the window configuration changes
 
 ;;;; Other
 
+(defun ta-delete-trailing-whitespace ()
+	;; Don't delete trailing whitespace in PDFs to avoid
+	;; corrupting them.
+	(let ((extension (file-name-extension buffer-file-name)))
+		(unless (and extension (string= "pdf" (downcase extension)))
+			(delete-trailing-whitespace))))
+
+(add-hook 'before-save-hook 'ta-delete-trailing-whitespace)
+
 (setq create-lockfiles nil)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (setq browse-url-browser-function 'browse-url-chromium)
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
@@ -784,6 +792,6 @@ echo \"$HINT\" >> $COMMIT_MSG_FILEPATH"))
 
 (shell-command "ls")
 ;; shell-command-to-string
-(global-set-key (kbd "C-<f1>") 'ta-prepare-commit-msg-toggle)
+;; (global-set-key (kbd "C-<f1>") 'ta-prepare-commit-msg-toggle)
 
 (provide 'setup-init)
