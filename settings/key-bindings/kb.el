@@ -235,6 +235,10 @@
 (define-key cider-mode-map (kbd "<f2>") 'cider-eval-last-sexp)
 (define-key cider-mode-map (kbd "<f1>") 'cider-eval-defun-at-point)
 
+(define-key cider-repl-mode-map (kbd "M-n") nil)
+(define-key cider-repl-mode-map (kbd "M-p") nil)
+(define-key cider-repl-mode-map (kbd "<up>") 'cider-repl-previous-input)
+(define-key cider-repl-mode-map (kbd "<down>") 'cider-repl-next-input)
 
 ;;;; emacs-lisp-mod-map
 
