@@ -616,10 +616,13 @@ Note: Modify the internal-border-width of the frame."
 (setq quick-access-alist
       '(("notes" . "~/work/notes.org")
         ("extra" . "~/work/extra.org")
+        ("contact" . "~/work/contact/contact.org")
         ("tmp" . "~/work/tmp/")
         ("Jack Inside - private" . "~/work/jackinside/private/")
         ("i3 config" . "~/work/settings/i3/.config/i3/config")
         ("settings emacs" . "~/work/settings/emacs.d/.emacs.d/settings/")
+        ("settings emacs (setup-init.el)" . "~/work/settings/emacs.d/.emacs.d/settings/settings/setup-init.el")
+        ("settings emacs (kb.el)" . "~/work/settings/emacs.d/.emacs.d/settings/key-bindings/kb.el")
         ("settings linux" . "~/work/settings/")
         ("learning" . "~/work/learning/")
         ("practice clojure" . "~/work/learning/practice/clojure/")
@@ -642,6 +645,7 @@ Note: Modify the internal-border-width of the frame."
         ("Jack Inside" . "~/work/jackinside/")
         ("Jack Inside (handbook)" . "~/work/jackinside/handbook/")
         ("Jack Inside (diary)" . "~/work/jackinside/handbook/diary.org")
+        ("Jack Inside (notes)" . "~/work/jackinside/notes.org")
 				("foreign languages" . "~/work/learning/foreign-languages/")
 				("foreign languages - Anglais Modern" . "~/work/learning/foreign-languages/Anglais-Moderne.csv")))
 
