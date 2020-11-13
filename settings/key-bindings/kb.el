@@ -68,7 +68,7 @@
 (define-key dired-mode-map (kbd "C-M-p") nil)
 (define-key dired-mode-map (kbd "C-M-n") nil)
 
-(define-key dired-mode-map (kbd "'") 'dired-mark)
+(define-key dired-mode-map (kbd ",") 'dired-mark)
 (define-key dired-mode-map (kbd "t") 'dired-toggle-marks)
 (define-key dired-mode-map (kbd "u") 'dired-unmark)
 (define-key dired-mode-map (kbd "k") 'dired-do-kill-lines)
@@ -77,7 +77,7 @@
 (define-key ta-dired-mark-map (kbd "e") 'dired-mark-extension)
 (define-key ta-dired-mark-map (kbd "d") 'dired-mark-directories)
 (define-key ta-dired-mark-map (kbd "u") 'dired-unmark-all-marks)
-(define-key dired-mode-map (kbd ":") 'ta-dired-mark-map)
+(define-key dired-mode-map (kbd "]") 'ta-dired-mark-map)
 
 (define-key dired-mode-map (kbd "v") 'dired-view-file)
 (define-key dired-mode-map (kbd "y") 'dired-show-file-type)
@@ -90,15 +90,12 @@
 (define-key dired-mode-map (kbd "i") 'dired-up-directory)
 (define-key dired-mode-map (kbd "p") 'dired-previous-line)
 (define-key dired-mode-map (kbd "n") 'dired-next-line)
-(define-key dired-mode-map (kbd "C-M-p") 'dired-prev-dirline)
-(define-key dired-mode-map (kbd "C-M-n") 'dired-next-dirline)
 (define-key dired-mode-map (kbd "M-)") 'dired-next-marked-file)
 (define-key dired-mode-map (kbd "M-(") 'dired-next-marked-file)
 
 (define-key dired-mode-map (kbd "+") 'dired-create-directory)
 (define-key dired-mode-map (kbd "r") 'dired-do-rename)
 (define-key dired-mode-map (kbd "c") 'dired-do-copy)
-(define-key dired-mode-map (kbd "<up>") 'dired-flag-file-deletion)
 (define-key dired-mode-map (kbd "x") 'dired-do-flagged-delete)
 (define-key dired-mode-map (kbd "w") 'dired-copy-filename-as-kill)
 (define-key dired-mode-map (kbd "S") 'dired-do-symlink)
@@ -113,17 +110,17 @@
 (define-key ta-dired-find-file-map (kbd "'") 'dired-do-find-marked-files)
 (define-key dired-mode-map (kbd "e") 'ta-dired-find-file-map)
 
-(define-key dired-mode-map (kbd "]") 'ta-dired-subtree-toggle-all)
-(define-key dired-mode-map (kbd "<tab>") 'dired-subtree-toggle)
-(define-key dired-mode-map (kbd "/") 'dired-subtree-cycle)
+(define-key dired-mode-map (kbd "C-SPC") 'ta-dired-subtree-toggle-all)
+(define-key dired-mode-map (kbd "C-<tab>") 'dired-subtree-toggle)
+(define-key dired-mode-map (kbd "<tab>") 'dired-subtree-cycle)
 (define-key dired-mode-map (kbd "<backspace>") 'dired-subtree-remove)
-(define-key dired-mode-map (kbd "(") 'dired-subtree-up)
+(define-key dired-mode-map (kbd ":") 'dired-subtree-up)
 (define-key dired-mode-map (kbd "b") 'dired-subtree-previous-sibling)
 (define-key dired-mode-map (kbd "f") 'dired-subtree-next-sibling)
 
 (define-key dired-mode-map (kbd "[") 'dired-hide-details-mode)
 (define-key dired-mode-map (kbd ".") 'dired-hide-dotfiles-mode)
-(define-key dired-mode-map (kbd ",") 'dired-narrow)
+(define-key dired-mode-map (kbd "/") 'dired-narrow)
 (define-key dired-mode-map (kbd "%") 'dired-collapse-mode)
 (define-key dired-mode-map (kbd "C-c C-s") 'dired-toggle-sudo)
 (define-key dired-mode-map (kbd ")") 'ta-aw-other-window-scroll-buffer)
@@ -143,6 +140,7 @@
 
 (define-key dired-mode-map (kbd "M-s") 'isearch-forward)
 (define-key dired-mode-map (kbd "M-r") 'isearch-backward)
+(define-key dired-mode-map (kbd "(") 'avy-goto-line)
 
 ;;;; eval
 
