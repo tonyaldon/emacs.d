@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: new contact
+# key: nc
+# --
+* ${1:name}
+** Basic Informations
+| name          |$1|
+| skills        |$0|
+| personal_link |  |
+|---------------+--|
+| email         |   |
+| facebook      |   |
+| linkedin      |   |
+| mobile        |   |
+| twitter       |   |
+** First Meeting
+| meet_at_city   |  |
+| meet_at_event  |  |
+| meet_on        |  |
+|----------------+--|
+| who_introduced |  |
+| feeling        |  |
+** History
+- [DATE] ::
