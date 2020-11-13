@@ -171,8 +171,8 @@
 				sp-select-next-thing-exchange
 				ta-avy-copy-sexp
 				ta-comment-line
-				ta-mark-inside-pairs
 				ta-mark-inside-dwim
+				ta-mark-inside-pairs
 				ta-mark-sexp-at-point
 				ta-pop-local-mark-ring
 				ta-zap-back-to-char

@@ -27,8 +27,8 @@ and :op non empty. See `sp-get-thing'."
   (let ((sexp-beg (beginning-of-thing 'sexp))
         (sexp-end (end-of-thing 'sexp)))
     (goto-char sexp-end)
-		;; HACK: Have to use both `push-mark' and `set-mark' in this order to
-		;;       expected result.
+    ;; HACK: Have to use both `push-mark' and `set-mark' in this order to
+    ;;       expected result.
     (push-mark sexp-end)
     (set-mark sexp-end)
     (goto-char sexp-beg)))
@@ -71,24 +71,38 @@ Return nil if PT isn't inside a string. See the function `ta-point-in-string-p'"
   (sp-backward-down-sexp)
   (exchange-point-and-mark))
 
+(defun ta-mark-inside-org-table ()
+  "Mark current field inside org-table."
+  (interactive)
+  (when (org-at-table-p)
+    (push-mark (point))
+		(re-search-forward "|")
+		(backward-char)
+		(skip-chars-backward " ")
+		(push-mark (point))
+		(set-mark (point))
+		(org-table-beginning-of-field 1)))
+
 (defun ta-mark-inside-dwim (&optional arg)
   "Mark things inside quotes if point is inside a string.
 
-If not inside string, mark things inside pairs.
-If call two times, first mark inside quotes if inside a string,
-second mark inside pairs."
+If not inside string, mark inside table field in `org-mode'.
+In other modes, mark things inside pairs.
+If call two times consecutively mark inside pairs."
   (interactive)
-  (when (equal last-command 'ta-mark-inside-dwim)
-		(call-interactively 'ta-mark-inside-pairs))
-	(if (er--point-inside-string-p)
-			(call-interactively 'er/mark-inside-quotes)
-		(call-interactively 'ta-mark-inside-pairs)))
+  (cond ((equal last-command 'ta-mark-inside-dwim)
+				 (call-interactively 'ta-mark-inside-pairs))
+				((er--point-inside-string-p)
+				 (call-interactively 'er/mark-inside-quotes))
+				((and (equal major-mode 'org-mode) (org-at-table-p))
+				 (ta-mark-inside-org-table))
+				(t (call-interactively 'ta-mark-inside-pairs))))
 
 
 (defhydra hydra-mc
   (:pre (progn
-					(if insight-mode (insight-mode -1))
-					(set-cursor-color "#87cefa"))
+          (if insight-mode (insight-mode -1))
+          (set-cursor-color "#87cefa"))
    :post (set-cursor-color "#26f9ad")
    :hint nil)
   ("t" hydra-lines/body :color blue)
@@ -100,9 +114,9 @@ second mark inside pairs."
   ("d" mc/unmark-next-like-this)
   ("/" mc/mark-sgml-tag-pair)
   ("i" mc/insert-numbers)
-	;; TODO: see all cool commands of mc/... all, dwim, defun
+  ;; TODO: see all cool commands of mc/... all, dwim, defun
   ("a" mc/mark-all-in-region)
-	;; FIXME: is it a good place here to have 'replace' commands
+  ;; FIXME: is it a good place here to have 'replace' commands
   ("M-c" query-replace :color blue)
   ("c" query-replace-regexp :color blue)
   ("M-s" replace-string :color blue)
