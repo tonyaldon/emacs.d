@@ -457,13 +457,14 @@ the variable `outline-regexp'."
 (require 'mini-frame)
 
 (setq mini-frame-ignore-commands '(cider-find-var
-																	 dired-do-flagged-delete
-																	 org-ctrl-c-ctrl-c
-																	 org-time-stamp
-																	 swiper
+                                   dired-do-flagged-delete
+                                   org-ctrl-c-ctrl-c
+                                   org-time-stamp
+																	 org-table-create-or-convert-from-region
+                                   swiper
                                    swiper-isearch-toggle
                                    swiper-all
-																	 swiper-thing-at-point
+                                   swiper-thing-at-point
                                    revert-buffer
                                    ta-zap-back-to-char
                                    counsel-outline
