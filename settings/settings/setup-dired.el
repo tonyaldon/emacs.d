@@ -27,7 +27,7 @@
 (setq dired-dwim-target t)
 (setq dired-recursive-copies 'always)
 (setq dired-recursive-deletes 'always)
-(setq-default dired-listing-switches "-lhAX --group-directories-first")
+
 (setq dired-open-extensions
       '(("pdf" . "evince")
         ("jpg" . "eog")
@@ -37,6 +37,21 @@
 
 ;; dired-broken-symlink color??
 
+;;; Dired listing
+
+(setq-default dired-listing-switches "-lhAX --group-directories-first")
+
+(defun ta-toggle-dired-sort ()
+  "Toggle Dired listing between extension or name.
+
+Directories are always listed first."
+  (interactive)
+  (let ((ls-by-extension "-lhAX --group-directories-first")
+				(ls-by-name "-lhA --group-directories-first"))
+		(if (equal dired-listing-switches ls-by-extension)
+				(setq dired-listing-switches ls-by-name)
+		  (setq dired-listing-switches ls-by-extension)))
+	(revert-buffer))
 ;;; auto-revert-mode
 
 (defun ta-dired-auto-revert ()

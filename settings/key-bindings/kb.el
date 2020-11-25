@@ -142,6 +142,8 @@
 (define-key dired-mode-map (kbd "M-r") 'isearch-backward)
 (define-key dired-mode-map (kbd "(") 'avy-goto-line)
 
+(define-key dired-mode-map (kbd "C-t") 'ta-toggle-dired-sort)
+
 ;;;; eval
 
 (global-set-key (kbd "<f1>") 'eval-defun)
