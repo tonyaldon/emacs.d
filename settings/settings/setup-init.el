@@ -249,7 +249,15 @@ This function should called whenever the window configuration changes
 (setq css-indent-offset 2)
 
 (require 'emmet-mode)
-;; bind the command: emmet-expand-line
+(require 'sgml-mode)
+
+(define-key sgml-mode-map (kbd "C-<tab>") 'emmet-expand-line)
+(define-key sgml-mode-map (kbd "C-<f1>") 'ta-previous-attribute)
+(define-key sgml-mode-map (kbd "C-<f3>") 'ta-next-attribute)
+
+(add-hook 'css-mode-hook (lambda ()
+													 (company-mode 1)
+													 (setq company-minimum-prefix-length 1)))
 
 ;;;; csv-mode
 
