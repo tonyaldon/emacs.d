@@ -36,7 +36,7 @@
 
 (global-set-key (kbd "M-)") 'ta-avy-goto-end-of-line)
 (global-set-key (kbd "M-(") 'avy-goto-line)
-(global-set-key (kbd "<down>") 'avy-goto-word-or-subword-1)
+(global-set-key (kbd "<down>") 'avy-goto-char)
 
 ;;;; buffers
 
@@ -254,7 +254,7 @@
 (define-key company-active-map (kbd "<next>") 'company-next-page)
 (define-key company-active-map (kbd "<tab>") 'company-complete-common)
 
-(define-key company-active-map (kbd ",") 'company-filter-candidates)
+(define-key company-active-map (kbd "'") 'company-filter-candidates)
 (define-key company-active-map (kbd "M-t") 'ta-toggle-company-fuzzy)
 (define-key company-active-map (kbd ";") 'company-abort)
 
@@ -426,6 +426,8 @@
 (define-key org-mode-map (kbd "M-e") nil)
 (define-key org-mode-map (kbd "C-a") nil)
 (define-key org-mode-map (kbd "M-a") nil)
+
+(define-key org-mode-map (kbd "C-t") 'org-toggle-inline-images)
 
 (setq org-speed-commands-default nil)
 (setq org-speed-commands-user

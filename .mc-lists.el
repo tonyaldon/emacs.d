@@ -45,6 +45,7 @@
 				hydra-lines/move-end-of-line
 				hydra-lines/next-logical-line
 				hydra-lines/open-line
+				hydra-lines/previous-logical-line
 				hydra-lines/set-mark-command
 				hydra-lines/ta-above-new-indent-and-exit
 				hydra-lines/ta-add-space-and-exit
@@ -58,6 +59,7 @@
 				hydra-lines/ta-mark-current-line
 				hydra-lines/ta-mark-end-of-line
 				hydra-lines/ta-newline-after-end-of-visual-line-and-exit
+				hydra-lines/ta-yank-line-below
 				hydra-mc/mc/mark-next-like-this-word
 				hydra-mc/nil
 				hydra-mc/replace-string-and-exit
@@ -101,6 +103,7 @@
 				hydra-sp/sp-backward-kill-sexp
 				hydra-sp/sp-backward-sexp
 				hydra-sp/sp-backward-up-sexp
+				hydra-sp/sp-beginning-of-next-sexp
 				hydra-sp/sp-beginning-of-sexp
 				hydra-sp/sp-change-enclosing-and-exit
 				hydra-sp/sp-change-inner-and-exit
@@ -123,6 +126,7 @@
 				hydra-sp/ta-add-space-and-exit
 				hydra-sp/ta-avy-copy-sexp-and-exit
 				hydra-sp/ta-drag-sexp-to-down
+				hydra-sp/ta-drag-sexp-to-up
 				hydra-ss/body
 				hydra-ss/ta-ss-s-capitalize-and-exit
 				hydra-ss/ta-ss-s-collapse-whitespace-and-exit
@@ -200,6 +204,7 @@
 				avy-goto-char
 				avy-goto-line
 				avy-goto-word-1
+				avy-goto-word-or-subword-1
 				backward-kill-sentence
 				beginning-of-buffer
 				c-electric-semi&comma
@@ -236,7 +241,6 @@
 				hydra-lines/drag-stuff-up
 				hydra-lines/hydra-scrolling/body-and-exit
 				hydra-lines/nil
-				hydra-lines/previous-logical-line
 				hydra-lines/ta-avy-mark-region
 				hydra-lines/undo
 				hydra-mc/body
@@ -302,6 +306,7 @@
 				ta-avy-goto-end-of-line
 				ta-dired-current-buffer-file-toggle
 				ta-find-file-notes
+				ta-outline-toggle-global
 				ta-zap-back-to-char
 				undefined
 				undo-redo
@@ -312,5 +317,6 @@
 				wgrep-change-to-wgrep-mode
 				wgrep-finish-edit
 				widget-button-click
+				window-toggle-side-windows
 				yank-rectangle
 				))
