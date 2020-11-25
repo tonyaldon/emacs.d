@@ -627,6 +627,7 @@ Note: Modify the internal-border-width of the frame."
         ("extra" . "~/work/extra.org")
         ("contact" . "~/work/contact/contact.org")
         ("tmp" . "~/work/tmp/")
+        ("tonyaldon.com" . "~/work/apps/tonyaldon.com/")
         ("Jack Inside - private" . "~/work/jackinside/private/")
         ("i3 config" . "~/work/settings/i3/.config/i3/config")
         ("settings emacs" . "~/work/settings/emacs.d/.emacs.d/settings/")
