@@ -37,6 +37,10 @@
 
 (setq org-confirm-babel-evaluate 'ta-org-confirm-babel-evaluate)
 
+;;; Tables
+
+(setq org-table-tab-jumps-over-hlines t)
+
 ;;; Hooks
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
