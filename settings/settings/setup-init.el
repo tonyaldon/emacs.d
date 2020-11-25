@@ -210,11 +210,11 @@ This function should called whenever the window configuration changes
 ;;;; Other
 
 (defun ta-delete-trailing-whitespace ()
-	;; Don't delete trailing whitespace in PDFs to avoid
-	;; corrupting them.
-	(let ((extension (file-name-extension buffer-file-name)))
-		(unless (and extension (string= "pdf" (downcase extension)))
-			(delete-trailing-whitespace))))
+  ;; Don't delete trailing whitespace in PDFs to avoid
+  ;; corrupting them.
+  (let ((extension (file-name-extension buffer-file-name)))
+    (unless (and extension (string= "pdf" (downcase extension)))
+      (delete-trailing-whitespace))))
 
 (add-hook 'before-save-hook 'ta-delete-trailing-whitespace)
 
@@ -274,10 +274,10 @@ of the columns."
 (require 'outline)
 
 (defun ta-outline-clojure-mode-hook ()
-	"Hook to turn on `outline-minor-mode'."
-	(outline-minor-mode t)
-	(outline-speed-commands-mode t)
-	(setq outline-regexp ";;;;* \\|("))
+  "Hook to turn on `outline-minor-mode'."
+  (outline-minor-mode t)
+  (outline-speed-commands-mode t)
+  (setq outline-regexp ";;;;* \\|("))
 
 (add-hook 'clojure-mode-hook 'ta-outline-clojure-mode-hook)
 
@@ -646,8 +646,8 @@ Note: Modify the internal-border-width of the frame."
         ("Jack Inside (handbook)" . "~/work/jackinside/handbook/")
         ("Jack Inside (diary)" . "~/work/jackinside/handbook/diary.org")
         ("Jack Inside (notes)" . "~/work/jackinside/notes.org")
-				("foreign languages" . "~/work/learning/foreign-languages/")
-				("foreign languages - Anglais Modern" . "~/work/learning/foreign-languages/Anglais-Moderne.csv")))
+        ("foreign languages" . "~/work/learning/foreign-languages/")
+        ("foreign languages - Anglais Modern" . "~/work/learning/foreign-languages/Anglais-Moderne.csv")))
 
 ;;;; rg
 
@@ -795,7 +795,7 @@ for cached_file in `git diff --cached --name-only | sed 's/ /\\n/g'`;do
     echo \"* $cached_file:\" >> $COMMIT_MSG_FILEPATH;
 done
 echo \"$HINT\" >> $COMMIT_MSG_FILEPATH"))
-			(shell-command (concat "chmod +x " prepare-commit-msg))
+      (shell-command (concat "chmod +x " prepare-commit-msg))
       (message "\"%s\" has been created" (file-name-nondirectory prepare-commit-msg)))))
 
 (shell-command "ls")
