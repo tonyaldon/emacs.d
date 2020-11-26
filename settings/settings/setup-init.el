@@ -759,6 +759,45 @@ see: http://github.com/magnars"
   (interactive)
   (find-file "~/work/notes.org"))
 
+
+(defun ta-inside-emacs-last-video (inside-emacs-dir)
+  "Return the directory of the last Inside Emacs video being edited.
+
+INSIDE-EMACS-DIR is the directory of the video Inside Emacs."
+  (let* ((default-directory inside-emacs-dir)
+				 (ls-list (s-split "\n" (shell-command-to-string "ls"))))
+		(-last-item (--filter (s-contains-p "inside-" it) ls-list))))
+
+;; COMMENTS
+;; (ta-inside-emacs-last-video "~/work/videos/inside-emacs/")
+;; (s-contains-p "inside" "insiemacs")
+;; (--filter (s-contains-p "inside-" it) '("inside-emacs-1" "inside-emacs-2" "uie"))
+;; (-last-item '(1 3 2))
+
+(setq ta-inside-emacs-directory "~/work/videos/inside-emacs/")
+(setq ta-inside-emacs-utils "~/work/videos/inside-emacs/utils/")
+(setq ta-inside-emacs-readme "~/work/videos/inside-emacs/README.org")
+
+(defun ta-inside-emacs-dashboard ()
+  "Emacs layout when editing Inside Emacs videos"
+  (interactive)
+  (delete-other-windows)
+	(let* ((last-video (ta-inside-emacs-last-video ta-inside-emacs-directory))
+				 (last-video-dir (f-join ta-inside-emacs-directory last-video))
+				 (readme (f-join last-video-dir "README.org")))
+		(find-file last-video-dir)
+		(split-window-below)
+		(windmove-down)
+		(find-file ta-inside-emacs-utils)
+		(split-window-right)
+		(windmove-right)
+		(find-file ta-inside-emacs-readme)
+		(windmove-up)
+		(split-window-right)
+		(windmove-right)
+		(find-file readme)
+		(windmove-left)))
+
 ;;;; Git (related to)
 (defun ta-pre-format-git-tag ()
   "Pre-Format git-tag. In a buffer with the output of \"git log\" up
