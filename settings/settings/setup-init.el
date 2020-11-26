@@ -759,6 +759,13 @@ see: http://github.com/magnars"
   (interactive)
   (find-file "~/work/notes.org"))
 
+(defun ta-visite-mini-frame-ignore-commands ()
+  "Visite file \"~/.emacs.d/settings/settings/setup-init.el\" and
+go to the variable `mini-frame-ignore-commands'"
+  (interactive)
+  (find-file "~/.emacs.d/settings/settings/setup-init.el")
+	(goto-line 431)
+	(search-forward "'("))
 
 (defun ta-inside-emacs-last-video (inside-emacs-dir)
   "Return the directory of the last Inside Emacs video being edited.
