@@ -48,6 +48,7 @@
 (depends-on "py-autopep8")
 (depends-on "pydoc")
 (depends-on "pyvenv")
+(depends-on "rainbow-mode")
 (depends-on "request")
 (depends-on "rg")
 (depends-on "simple-call-tree")
