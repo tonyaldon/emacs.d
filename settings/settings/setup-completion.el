@@ -333,7 +333,7 @@ Intend to be bound in `company-active-map'."
   (company-mode 1)
   (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
   (setq company-minimum-prefix-length 4)
-  (setq company-backends '((company-capf company-dabbrev company-files))))
+  (setq company-backends '(company-capf company-files company-dabbrev)))
 
 (add-hook 'org-mode-hook 'ta-company-org-mode)
 
