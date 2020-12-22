@@ -25,9 +25,6 @@
 
 ;;;;; Lines
 
-(global-linum-mode -1)
-(setq linum-format " %7i ")
-
 (global-hl-line-mode t)
 (make-variable-buffer-local 'global-hl-line-mode)
 
