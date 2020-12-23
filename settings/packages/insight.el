@@ -201,7 +201,7 @@ See `insight-ace-window' and
   (if (buffer-narrowed-p) (widen)
     (sp-narrow-to-sexp arg)))
 
-;;; keymap 
+;;; keymap
 
 (defvar insight-mode-map
   (let ((map (make-sparse-keymap)))
