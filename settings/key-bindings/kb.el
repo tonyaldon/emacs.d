@@ -179,6 +179,8 @@
 (global-set-key (kbd "M-l") 'recenter-top-bottom)
 (global-set-key (kbd "C-v") 'visual-line-mode)
 (global-set-key (kbd "<f3>") 'yank)
+(global-set-key (kbd "<C-escape>") 'repeat)
+
 
 (global-set-key (kbd "C-s") 'ta-switch-keyboard-layout)
 (global-set-key (kbd "C-c f") 'ta-copy-buffer-file-name)
@@ -194,7 +196,7 @@
 
 (defhydra hydra-refactor
   (:hint nil)
-  ("t" refactor-write-mode :color blue)
+  ("M-t" refactor-write-mode :color blue)
   ("a" refactor-abort-changes :color blue)
   ("e" refactor-exit :color blue)
   ("f" refactor-finish-edit :color blue)
@@ -409,6 +411,12 @@
 (define-key magit-log-mode-map (kbd "<prior>") 'insight-scroll-down-half-window)
 (define-key magit-log-mode-map (kbd "<next>") 'insight-scroll-up-half-window)
 
+
+;;;; markdown-mode
+
+(require 'markdown-mode)
+
+(define-key markdown-mode-map (kbd "C-M-i") nil)
 
 ;;;; occur-mode
 

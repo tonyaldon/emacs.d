@@ -56,6 +56,7 @@
 				hydra-lines/ta-cycle-spacing
 				hydra-lines/ta-jsx-comment-or-uncomment-line
 				hydra-lines/ta-kill-ring-save-current-line-and-exit
+				hydra-lines/ta-kill-whole-line
 				hydra-lines/ta-mark-current-line
 				hydra-lines/ta-mark-end-of-line
 				hydra-lines/ta-newline-after-end-of-visual-line-and-exit
