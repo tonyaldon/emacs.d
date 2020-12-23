@@ -16,10 +16,13 @@
 (setq ivy-extra-directories '("./"))
 (setq ivy-use-virtual-buffers nil)
 (setq ivy-count-format "(%d/%d) ")
-(setq ivy-re-builders-alist '((swiper . ivy--regex-ignore-order)
-                              (swiper-all . ivy--regex-ignore-order)
-                              (counsel-rg . ivy--regex-ignore-order)
-                              (t . ivy--regex-fuzzy)))
+;; (setq ivy-re-builders-alist '((swiper . ivy--regex-ignore-order)
+;;                               (swiper-all . ivy--regex-ignore-order)
+;;                               (counsel-rg . ivy--regex-ignore-order)
+;;                               (counsel-outline . ivy--regex-ignore-order)
+;;                               (t . ivy--regex-fuzzy)))
+
+(setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
 
 (ivy-set-occur 'swiper 'swiper-occur)
 (ivy-set-occur 'swiper-isearch 'swiper-occur)
