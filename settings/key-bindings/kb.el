@@ -434,6 +434,7 @@
 (define-key org-mode-map (kbd "M-e") nil)
 (define-key org-mode-map (kbd "C-a") nil)
 (define-key org-mode-map (kbd "M-a") nil)
+(define-key org-mode-map (kbd "M-m") 'ta-org-table-previous-row)
 
 (define-key org-mode-map (kbd "C-t") 'org-toggle-inline-images)
 
