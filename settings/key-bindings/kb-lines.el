@@ -218,8 +218,8 @@ Preserve the column position of the cursor."
   ("e" move-end-of-line)
   ("M-f" forward-word)
   ("M-b" backward-word)
-	("M-e" forward-paragraph)
-  ("M-a" backward-paragraph)
+	("M-e" org-forward-sentence)
+	("M-a" org-backward-sentence)
 	("C-M-a" iy-go-to-char-backward :color blue)
 	("C-M-e" iy-go-to-char :color blue)
 	;; drag stuff
