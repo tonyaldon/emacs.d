@@ -69,8 +69,8 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
 				("Outline Structure Editing")
 				("." . org-toggle-narrow-to-subtree)
 				("@" . outline-mark-subtree)
-				(",". outline-move-subtree-up)
-				(";". outline-move-subtree-down)
+				("`". outline-move-subtree-up)
+				(",". outline-move-subtree-down)
 				("+". outline-insert-heading)
 				"The default Outline speed commands."))
 
