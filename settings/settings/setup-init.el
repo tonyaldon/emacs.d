@@ -219,7 +219,8 @@ This function should called whenever the window configuration changes
 
 (setq browse-url-browser-function 'browse-url-chromium)
 (setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
-(add-to-list `auto-mode-alist '("\\.svg\\'" . fundamental-mode))
+(add-to-list `auto-mode-alist '("\\.svg\\'" . nxml-mode))
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (require 'recentf)
@@ -578,6 +579,19 @@ Note: Modify the internal-border-width of the frame."
       '((window-configuration-change-hook . ta-frame-set-display-alist)))
 
 (setq screencast-display-buffer-alist '())
+
+;;;; nxml-mode
+(require 'nxml-mode)
+
+(defun ta-outline-nxml-mode-hook ()
+  "Hook to turn on `outline-minor-mode'."
+  (outline-minor-mode t)
+  (outline-speed-commands-mode t)
+  (setq outline-regexp "<!--"))
+
+(add-hook 'nxml-mode-hook 'ta-outline-nxml-mode-hook)
+
+(define-key nxml-mode-map (kbd "TAB") 'bicycle-cycle)
 
 ;;;; sql-mode
 
