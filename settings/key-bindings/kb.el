@@ -426,16 +426,16 @@
 (define-key occur-mode-map (kbd "M-n") 'nil)
 
 ;;;; org-mode-map
-
-(require 'org)
-(require 'org-keys)
+;; Note that `org' package must be loaded before using org-mode-map
 
 (define-key org-mode-map (kbd "C-e") nil)
 (define-key org-mode-map (kbd "M-e") nil)
 (define-key org-mode-map (kbd "C-a") nil)
 (define-key org-mode-map (kbd "M-a") nil)
-(define-key org-mode-map (kbd "M-m") 'ta-org-table-previous-row)
 
+(define-key org-mode-map (kbd "M-m") 'ta-org-table-previous-row)
+(define-key org-mode-map (kbd "C-<tab>") 'org-shifttab)
+(define-key org-mode-map (kbd "<M-return>") 'ta-org-meta-return)
 (define-key org-mode-map (kbd "C-t") 'org-toggle-inline-images)
 
 (setq org-speed-commands-default nil)
