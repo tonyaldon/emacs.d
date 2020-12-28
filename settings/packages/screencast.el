@@ -45,7 +45,7 @@
 
 (defun screencast-set-minions ()
   "Set `minions' variables used by `screencast-mode'."
-	(if screencast-mode 
+	(if screencast-mode
 			(progn
 				(setq screencast--minions-variables-alist
 							(--map (cons it (symbol-value it)) screencast--minions-variables))
@@ -90,7 +90,7 @@
 
 (defun screencast-set-keycast ()
   "Set `keycast' variables used by `screencast-mode'."
-	(if screencast-mode 
+	(if screencast-mode
 			(progn
 				(setq screencast--keycast-variables-alist
 							(--map (cons it (symbol-value it)) screencast--keycast-variables))
@@ -133,6 +133,8 @@ to a smaller window frame than usual."
   :global t
   (if screencast-mode
       (progn
+				(mini-frame-mode -1)
+				(setq ivy-height 7)
         (--each screencast-hook-to-remove-alist (remove-hook (car it) (cdr it)))
         (setq screencast--display-buffer-alist display-buffer-alist)
         (setq display-buffer-alist screencast-display-buffer-alist)
@@ -143,7 +145,9 @@ to a smaller window frame than usual."
         (setq screencast--mode-line-format mode-line-format)
         (setq-default mode-line-format screencast-mode-line-format)
         (keycast-mode))
-    (--each screencast-hook-to-remove-alist (add-hook (car it) (cdr it)))
+    (mini-frame-mode 1)
+		(setq ivy-height 25)
+		(--each screencast-hook-to-remove-alist (add-hook (car it) (cdr it)))
     (setq display-buffer-alist screencast--display-buffer-alist)
     (setq screencast--display-buffer-alist nil)
 		(setq moody-mode-line-height screencast--moody-mode-line-height)
