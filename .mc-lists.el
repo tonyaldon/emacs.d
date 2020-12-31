@@ -45,6 +45,8 @@
 				hydra-lines/move-end-of-line
 				hydra-lines/next-logical-line
 				hydra-lines/open-line
+				hydra-lines/org-backward-sentence
+				hydra-lines/org-forward-sentence
 				hydra-lines/previous-logical-line
 				hydra-lines/set-mark-command
 				hydra-lines/ta-above-new-indent-and-exit

@@ -781,46 +781,62 @@ see: http://github.com/magnars"
 go to the variable `mini-frame-ignore-commands'"
   (interactive)
   (find-file "~/.emacs.d/settings/settings/setup-init.el")
-	(goto-line 431)
-	(search-forward "'("))
+  (goto-line 431)
+  (search-forward "'("))
 
-(defun ta-inside-emacs-last-video (inside-emacs-dir)
+;;;; Inside Emacs
+
+(setq ie-directory "~/work/videos/inside-emacs/")
+(setq ie-utils "~/work/videos/inside-emacs/utils/")
+(setq ie-readme "~/work/videos/inside-emacs/README.org")
+
+(defun ie-last-video-name (inside-emacs-dir)
   "Return the directory of the last Inside Emacs video being edited.
 
 INSIDE-EMACS-DIR is the directory of the video Inside Emacs."
   (let* ((default-directory inside-emacs-dir)
-				 (ls-list (s-split "\n" (shell-command-to-string "ls"))))
-		(-last-item (--filter (s-contains-p "inside-" it) ls-list))))
+         (ls-list (s-split "\n" (shell-command-to-string "ls"))))
+    (-last-item (--filter (s-contains-p "inside-" it) ls-list))))
 
 ;; COMMENTS
-;; (ta-inside-emacs-last-video "~/work/videos/inside-emacs/")
+;; (ie-last-video-name "~/work/videos/inside-emacs/")
 ;; (s-contains-p "inside" "insiemacs")
 ;; (--filter (s-contains-p "inside-" it) '("inside-emacs-1" "inside-emacs-2" "uie"))
 ;; (-last-item '(1 3 2))
 
-(setq ta-inside-emacs-directory "~/work/videos/inside-emacs/")
-(setq ta-inside-emacs-utils "~/work/videos/inside-emacs/utils/")
-(setq ta-inside-emacs-readme "~/work/videos/inside-emacs/README.org")
+(defun ie-last-video-readme ()
+  "Return the path of the README of the last Inside Emacs being edited."
+  (let* ((last-video (ie-last-video-name ie-directory))
+         (last-video-dir (f-join ie-directory last-video))
+         (readme (f-join last-video-dir "README.org")))
+    readme))
 
-(defun ta-inside-emacs-dashboard ()
+;; COMMENTS
+;; (ie-last-video-readme)
+
+(defun ie-dashboard ()
   "Emacs layout when editing Inside Emacs videos"
   (interactive)
   (delete-other-windows)
-	(let* ((last-video (ta-inside-emacs-last-video ta-inside-emacs-directory))
-				 (last-video-dir (f-join ta-inside-emacs-directory last-video))
-				 (readme (f-join last-video-dir "README.org")))
-		(find-file last-video-dir)
-		(split-window-below)
-		(windmove-down)
-		(find-file ta-inside-emacs-utils)
-		(split-window-right)
-		(windmove-right)
-		(find-file ta-inside-emacs-readme)
-		(windmove-up)
-		(split-window-right)
-		(windmove-right)
-		(find-file readme)
-		(windmove-left)))
+  (find-file (f-join ie-directory (ie-last-video-name ie-directory)))
+  (split-window-below)
+  (windmove-down)
+  (find-file ie-utils)
+  (split-window-right)
+  (windmove-right)
+  (find-file ie-readme)
+  (windmove-up)
+  (split-window-right)
+  (windmove-right)
+  (find-file (ie-last-video-readme))
+  (windmove-left))
+
+(defun ie-find-last-video-readme ()
+  "Find last video readme in the current buffer."
+  (interactive)
+  (find-file (ie-last-video-readme)))
+
+(global-set-key (kbd "M-<f5>") 'ie-find-last-video-readme)
 
 ;;;; Git (related to)
 (defun ta-pre-format-git-tag ()
@@ -874,5 +890,7 @@ echo \"$HINT\" >> $COMMIT_MSG_FILEPATH"))
 (shell-command "ls")
 ;; shell-command-to-string
 ;; (global-set-key (kbd "C-<f1>") 'ta-prepare-commit-msg-toggle)
+
+;;; Footer
 
 (provide 'setup-init)
