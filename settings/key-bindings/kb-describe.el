@@ -29,6 +29,7 @@ that call interactively COMMAND."
        (call-interactively (quote ,command)))))
 
 (ta-transient-define-suffix describe-key)
+(ta-transient-define-suffix describe-keymap)
 (ta-transient-define-suffix describe-function)
 (ta-transient-define-suffix describe-variable)
 (ta-transient-define-suffix describe-mode)
@@ -40,8 +41,9 @@ that call interactively COMMAND."
   "Show menu buffer for describe commands, info commands,
 apropos commands and other information about emacs."
   [["Describe"
-    ("k" "describe-key" describe-key--transient)
-    ("f" "describe-function" describe-function--transient)
+    ("kk" "describe-key" describe-key--transient)
+    ("kl" "describe-keymap" describe-keymap--transient)
+		("f" "describe-function" describe-function--transient)
     ("v" "describe-variable" describe-variable--transient)
     ("m" "describe-mode" describe-mode--transient)]
    ["Other info"
