@@ -15,15 +15,10 @@
     mode-line-modified
     mode-line-remote
     mode-line-frame-identification
-    moody-mode-line-buffer-identification
-    "  "
+    mode-line-buffer-identification
+    " "
     minions-mode-line-modes)
   "`mode-line-format' to be used when `screencast-mode' is enable.")
-
-;;;; moody
-
-(defvar screencast-moody-mode-line-height 30
-  "`moody-mode-line-height' to be used when `screencast-mode' is enable.")
 
 ;;;; minions
 
@@ -37,34 +32,34 @@
   "`minions-mode-line-delimiters' to be used when `screencast-mode' is enable.")
 
 (defvar screencast--minions-variables '(minions-direct
-																				minions-mode-line-lighter
-																				minions-mode-line-delimiters)
+                                        minions-mode-line-lighter
+                                        minions-mode-line-delimiters)
   "List of `minions' variables that are modified when `screencast-mode' is enable.")
 
 (setq screencast--minions-variables-alist nil)
 
 (defun screencast-set-minions ()
   "Set `minions' variables used by `screencast-mode'."
-	(if screencast-mode
-			(progn
-				(setq screencast--minions-variables-alist
-							(--map (cons it (symbol-value it)) screencast--minions-variables))
-				(--each screencast--minions-variables
-					(let ((item it)
-								(item-value (symbol-value
-														 (intern (s-concat "screencast-" (symbol-name it))))))
-						(set item item-value))))
-		(--each screencast--minions-variables
-			(let ((item it)
-						(item-value (cdr (assoc it screencast--minions-variables-alist))))
-				(set item item-value)))))
+  (if screencast-mode
+      (progn
+        (setq screencast--minions-variables-alist
+              (--map (cons it (symbol-value it)) screencast--minions-variables))
+        (--each screencast--minions-variables
+          (let ((item it)
+                (item-value (symbol-value
+                             (intern (s-concat "screencast-" (symbol-name it))))))
+            (set item item-value))))
+    (--each screencast--minions-variables
+      (let ((item it)
+            (item-value (cdr (assoc it screencast--minions-variables-alist))))
+        (set item item-value)))))
 
 ;;;; keycast
 
 (defvar screencast-keycast-separator-width 2
   "`keycast-separator-width' to be used when `screencast-mode' is enable.")
 
-(defvar screencast-keycast-insert-after 'moody-mode-line-buffer-identification
+(defvar screencast-keycast-insert-after 'mode-line-buffer-identification
   "`keycast-insert-after' to be used when `screencast-mode' is enable.")
 
 (defvar screencast-keycast-window-predicate  'moody-window-active-p
@@ -90,19 +85,19 @@
 
 (defun screencast-set-keycast ()
   "Set `keycast' variables used by `screencast-mode'."
-	(if screencast-mode
-			(progn
-				(setq screencast--keycast-variables-alist
-							(--map (cons it (symbol-value it)) screencast--keycast-variables))
-				(--each screencast--keycast-variables
-					(let ((item it)
-								(item-value (symbol-value
-														 (intern (s-concat "screencast-" (symbol-name it))))))
-						(set item item-value))))
-		(--each screencast--keycast-variables
-			(let ((item it)
-						(item-value (cdr (assoc it screencast--keycast-variables-alist))))
-				(set item item-value)))))
+  (if screencast-mode
+      (progn
+        (setq screencast--keycast-variables-alist
+              (--map (cons it (symbol-value it)) screencast--keycast-variables))
+        (--each screencast--keycast-variables
+          (let ((item it)
+                (item-value (symbol-value
+                             (intern (s-concat "screencast-" (symbol-name it))))))
+            (set item item-value))))
+    (--each screencast--keycast-variables
+      (let ((item it)
+            (item-value (cdr (assoc it screencast--keycast-variables-alist))))
+        (set item item-value)))))
 
 ;;; Other
 
@@ -121,7 +116,6 @@ For instance a valid list is:
 
 (setq screencast--mode-line-format nil)
 (setq screencast--display-buffer-alist nil)
-(setq screencast--moody-mode-line-height nil)
 
 (define-minor-mode screencast-mode
   "Toggle Screencast mode on or off.
@@ -133,30 +127,28 @@ to a smaller window frame than usual."
   :global t
   (if screencast-mode
       (progn
-				(mini-frame-mode -1)
-				(setq ivy-height 7)
+        (when mini-frame-mode (mini-frame-mode -1))
+        (setq ivy-height 7)
         (--each screencast-hook-to-remove-alist (remove-hook (car it) (cdr it)))
         (setq screencast--display-buffer-alist display-buffer-alist)
         (setq display-buffer-alist screencast-display-buffer-alist)
-        (setq screencast--moody-mode-line-height moody-mode-line-height)
-				(setq moody-mode-line-height screencast-moody-mode-line-height)
-				(screencast-set-minions)
-				(screencast-set-keycast)
+        (screencast-set-minions)
+        (screencast-set-keycast)
         (setq screencast--mode-line-format mode-line-format)
         (setq-default mode-line-format screencast-mode-line-format)
-        (keycast-mode))
+        (keycast-mode)
+				(set-face-attribute 'mode-line-buffer-id nil :foreground "#151515"))
     (mini-frame-mode 1)
-		(setq ivy-height 25)
-		(--each screencast-hook-to-remove-alist (add-hook (car it) (cdr it)))
+    (setq ivy-height 25)
+    (--each screencast-hook-to-remove-alist (add-hook (car it) (cdr it)))
     (setq display-buffer-alist screencast--display-buffer-alist)
     (setq screencast--display-buffer-alist nil)
-		(setq moody-mode-line-height screencast--moody-mode-line-height)
-    (setq screencast--moody-mode-line-height nil)
-		(screencast-set-minions)
-		(screencast-set-keycast)
+    (screencast-set-minions)
+    (screencast-set-keycast)
     (keycast-mode -1) ; should be called before setting mode-line-format
     (setq-default mode-line-format screencast--mode-line-format)
-    (setq screencast--mode-line-format nil)))
+    (setq screencast--mode-line-format nil)
+		(set-face-attribute 'mode-line-buffer-id nil :foreground "#b3b3b3")))
 
 ;;; Footer
 

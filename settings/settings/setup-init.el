@@ -57,7 +57,7 @@
                 mode-line-modified
                 mode-line-remote
                 mode-line-frame-identification
-                moody-mode-line-buffer-identification
+								moody-mode-line-buffer-identification
                 "   "
                 (:eval (format "NL%s" (ta-number-of-lines-mode)))
                 " "
@@ -78,7 +78,7 @@
 
 (setq keycast-separator-width 2)
 (setq keycast-insert-after 'moody-mode-line-buffer-identification)
-(setq keycast-window-predicate  'moody-window-active-p)
+(setq keycast-window-predicate 'moody-window-active-p)
 (setq keycast-remove-tail-elements nil)
 
 (setq keycast-substitute-alist
@@ -579,6 +579,8 @@ Note: Modify the internal-border-width of the frame."
       '((window-configuration-change-hook . ta-frame-set-display-alist)))
 
 (setq screencast-display-buffer-alist '())
+
+(global-set-key (kbd "C-c s") 'screencast-mode)
 
 ;;;; nxml-mode
 (require 'nxml-mode)
