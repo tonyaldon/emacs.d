@@ -268,39 +268,6 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
 (make-variable-buffer-local 'company-minimum-prefix-length)
 (make-variable-buffer-local 'company-backends)
 
-;;;; company-fuzzy
-(require 'company-fuzzy)
-
-(setq company-fuzzy-prefix-on-top t)
-(setq company-fuzzy-show-annotation nil)
-(setq company-fuzzy-sorting-backend 'alphabetic)
-
-(defun company-fuzzy--insert-candidate (candidate)
-  "Insertion for CANDIDATE.
-
-Redifined to fix a bug (see details in the code)."
-  (when company-fuzzy-mode
-    ;; NOTE: Here we force to change `company-prefix' so the completion
-    ;; will do what we expected.
-    (let ((backend (company-fuzzy--get-backend-by-candidate candidate)))
-      ;; BUG FIX: The prefix of the completion isn't deleted when the
-      ;;          candidate is inserted
-      ;;          dfn --> dfndefun  (in emacs-lisp-mode)
-      (company-fuzzy--backend-prefix backend 'match))))
-
-(defun ta-toggle-company-fuzzy ()
-  "Toggle `company-fuzzy-mode' on/off.
-
-Intend to be bound in `company-active-map'."
-  (interactive)
-  (if company-fuzzy-mode
-      (progn (company-fuzzy-mode -1)
-             (company-abort)
-             (call-interactively 'company-complete))
-    (company-fuzzy-mode 1)
-    (company-abort)
-    (call-interactively 'company-complete)))
-
 
 ;;;; Per mode
 ;;;;; emacs-lisp-mode
@@ -309,9 +276,7 @@ Intend to be bound in `company-active-map'."
   "Setup `company-mode' for `emacs-lisp-mode-hook'"
   (company-mode 1)
   (setq company-backends '((company-capf company-files)))
-  (setq company-minimum-prefix-length 4)
-  ;; `company-fuzzy-mode' must be turn on after `company-mode'
-  (company-fuzzy-mode 1))
+  (setq company-minimum-prefix-length 4))
 
 (add-hook 'emacs-lisp-mode-hook 'ta-company-emacs-lisp-mode)
 
@@ -324,8 +289,7 @@ Intend to be bound in `company-active-map'."
 (defun ta-company-sh-mode ()
   "Setup `company-mode' for `sh-mode-hook'"
   (company-mode 1)
-  (setq company-backends '((company-capf company-files)))
-  (company-fuzzy-mode 1))
+  (setq company-backends '((company-capf company-files))))
 
 (add-hook 'sh-mode-hook 'ta-company-sh-mode)
 

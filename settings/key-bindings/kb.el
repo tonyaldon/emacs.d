@@ -257,7 +257,6 @@
 (define-key company-active-map (kbd "<tab>") 'company-complete-common)
 
 (define-key company-active-map (kbd "'") 'company-filter-candidates)
-(define-key company-active-map (kbd "M-t") 'ta-toggle-company-fuzzy)
 (define-key company-active-map (kbd ";") 'company-abort)
 
 ;;;; grep-mode-map, rg-mode-map
