@@ -34,8 +34,8 @@ my use of `display-buffer-alist'."
 (define-key term-raw-map (kbd "M-x") nil)
 (define-key term-raw-map (kbd "C-y") nil)
 (define-key term-raw-map (kbd "C-y") 'ta-term-yank)
-(define-key term-raw-map (kbd "C-M-b") 'windmove-left)
-(define-key term-raw-map (kbd "C-M-f") 'windmove-right)
+(define-key term-raw-map (kbd "C-M-b") 'ta-windmove-left)
+(define-key term-raw-map (kbd "C-M-f") 'ta-windmove-right)
 
 (define-key term-raw-map (kbd "M-t") 'term-line-mode)
 (define-key term-mode-map (kbd "M-t") 'term-char-mode)

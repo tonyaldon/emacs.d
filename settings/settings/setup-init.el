@@ -994,6 +994,33 @@ thought I've no external webcam."
 
 (global-set-key (kbd "C-c o") 'ta-toggle-laptop-output)
 
+;;;; window movements
+;; negative argument (C--) is not much accesible in my keyboard layout,
+;; but (C--) is really handy when used with the commands windmove-up, windmove-down...
+;; The simple solution to use the behaviour of windmove-up with (C-u) instead of (C--)
+;; is to define the following commands, so that:
+;; C-u M-x ta-windmove-up behave as C-- M-x windmove-up
+
+(defun ta-windmove-left (&optional arg)
+  "Select the window to the left of the current one."
+  (interactive "P")
+  (windmove-do-window-select 'left (and arg -1)))
+
+(defun ta-windmove-up (&optional arg)
+  "Select the window above the current one."
+  (interactive "P")
+  (windmove-do-window-select 'up (and arg -1)))
+
+(defun ta-windmove-right (&optional arg)
+  "Select the window to the right of the current one."
+  (interactive "P")
+  (windmove-do-window-select 'right (and arg -1)))
+
+(defun ta-windmove-down (&optional arg)
+  "Select the window below the current one."
+  (interactive "P")
+  (windmove-do-window-select 'down (and arg -1)))
+
 ;;; Footer
 
 (provide 'setup-init)
