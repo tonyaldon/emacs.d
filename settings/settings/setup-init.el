@@ -951,6 +951,49 @@ echo \"$HINT\" >> $COMMIT_MSG_FILEPATH"))
 ;; shell-command-to-string
 ;; (global-set-key (kbd "C-<f1>") 'ta-prepare-commit-msg-toggle)
 
+;;;; i3 config file
+
+(setq ta-i3-config-file "~/work/settings/i3/.config/i3/config")
+
+(defun ta-goto-laptop-output-line ()
+	"Move the cursor to the config line responsible for the laptop output visibility.
+
+Return cursor position if this config line exist.
+Return nil, if no laptop configuration line is found."
+	(beginning-of-buffer)
+	(when (search-forward "laptop monitor" nil t)
+		(next-line)
+		(beginning-of-line)
+		(point)))
+
+(defun ta-toggle-laptop-output ()
+  "Toggle on/off the laptop monitor output.
+
+This is done via the i3 configuration file `ta-i3-config-file'.
+Note that you have to restart your linux session to see the changes.
+
+This is useful when using only my laptop to make Zoom calls,
+thought I've no external webcam."
+  (interactive)
+	;; (setq ta-i3-config-file "test")
+	(let (output)
+		(with-temp-buffer
+			(insert-file-contents ta-i3-config-file)
+			(beginning-of-buffer)
+			(cond
+			 ((and (ta-goto-laptop-output-line) (looking-at "# "))
+				(delete-char 2)
+				(setq output "off"))
+			 ((and (ta-goto-laptop-output-line) (looking-at "exec"))
+				(insert "# ")
+				(setq output "on"))
+			 (t nil))
+			(write-region (point-min) (point-max) ta-i3-config-file))
+		(if output (message (concat "Laptop output turned: " output))
+			(message "No 'laptop monitor' config line found in `ta-i3-config-file'"))))
+
+(global-set-key (kbd "C-c o") 'ta-toggle-laptop-output)
+
 ;;; Footer
 
 (provide 'setup-init)
