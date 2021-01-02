@@ -256,8 +256,8 @@
 (define-key company-active-map (kbd "<next>") 'company-next-page)
 (define-key company-active-map (kbd "<tab>") 'company-complete-common)
 
-(define-key company-active-map (kbd "'") 'company-filter-candidates)
-(define-key company-active-map (kbd ";") 'company-abort)
+(define-key company-active-map (kbd "M-t") 'company-filter-candidates)
+(define-key company-active-map (kbd "M-q") 'company-abort)
 
 ;;;; grep-mode-map, rg-mode-map
 
