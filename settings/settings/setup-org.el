@@ -77,6 +77,21 @@ when calling `org-meta-return' in tables."
 																	((org-in-item-p) #'org-insert-item)
 																	(t #'org-insert-heading))))))
 
+(defun ta-org-shiftmetadown (&optional _arg)
+  "Drag the line at point down.
+In a table, insert an empty row below the current line (this part
+differs from the original `org-shiftmetadown' command).
+On a clock timestamp, update the value of the timestamp like `S-<down>'
+but also adjust the previous clocked item in the clock history.
+Everywhere else, drag the line at point down."
+  (interactive "P")
+  (cond
+   ((run-hook-with-args-until-success 'org-shiftmetadown-hook))
+   ((org-at-table-p) (org-table-insert-row 'below))
+   ((org-at-clock-log-p) (let ((org-clock-adjust-closest t))
+													 (call-interactively 'org-timestamp-down)))
+   (t (call-interactively 'org-drag-line-forward))))
+
 ;;; Hooks
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)

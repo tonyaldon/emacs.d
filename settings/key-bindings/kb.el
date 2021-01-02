@@ -436,6 +436,7 @@
 (define-key org-mode-map (kbd "M-m") 'ta-org-table-previous-row)
 (define-key org-mode-map (kbd "C-<tab>") 'org-shifttab)
 (define-key org-mode-map (kbd "<M-return>") 'ta-org-meta-return)
+(define-key org-mode-map (kbd "M-S-<down>") 'ta-org-shiftmetadown)
 (define-key org-mode-map (kbd "C-t") 'org-toggle-inline-images)
 
 (setq org-speed-commands-default nil)
