@@ -470,6 +470,9 @@
 
 
 
+;;;; text-mode
+
+(define-key text-mode-map (kbd "C-c C-l") 'ta-magit-log-other-window)
 ;;; Footer
 
 (provide 'kb)

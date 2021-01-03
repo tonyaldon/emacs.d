@@ -410,18 +410,19 @@ the variable `outline-regexp'."
 
 (require 'magit)
 
-(defun ta-magit-delete-other-windows-2 (&rest r)
-  "Delete other windows when `current-buffer' is not a magit buffer."
-  (unless (s-contains-p "magit" (buffer-name)) (delete-other-windows)))
+(defun ta-magit-log-other-window ()
+  "Show git logs in other windows."
+  (interactive)
+  (other-window 1)
+	(call-interactively 'magit-log-current)
+	(other-window 1))
 
-(defun ta-magit-delete-other-windows-1 (&rest r)
-  "Inted to be advice of `magit-commit-create'."
+(defun ta-magit-delete-other-windows (&rest r)
+  "Intended to be advice of `magit-commit-create'."
   (delete-other-windows))
 
-(advice-add 'magit-status :before 'ta-magit-delete-other-windows-2)
-(advice-add 'magit-commit-create :before 'ta-magit-delete-other-windows-1)
-
-;; (advice-remove 'magit-status 'ta-delete-other-windows-when-non-magit-buffer)
+(advice-add 'magit-status :before 'ta-magit-delete-other-windows)
+(advice-add 'magit-commit-create :before 'ta-magit-delete-other-windows)
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
