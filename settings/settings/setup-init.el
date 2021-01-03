@@ -1001,6 +1001,8 @@ thought I've no external webcam."
 ;; is to define the following commands, so that:
 ;; C-u M-x ta-windmove-up behave as C-- M-x windmove-up
 
+(require 'windmove)
+
 (defun ta-windmove-left (&optional arg)
   "Select the window to the left of the current one."
   (interactive "P")
