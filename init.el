@@ -44,4 +44,3 @@
 (require 'kb-term)
 (require 'kb-windows)
 (require 'kb-outline)
-(require 'kb-describe)
