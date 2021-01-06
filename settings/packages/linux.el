@@ -95,5 +95,51 @@ Note that you have to restart your linux session to see the changes."
 		(if dpi (message (concat "Xft.dpi: " dpi))
 			(message "Neither 96 nor 216 is the DPI in ~/.Xresources file"))))
 
+;;; Git (format commit message)
+
+(defun linux-toggle-git-commit-msg ()
+  "Set the git hook \"prepare-commit-msg\".
+
+If it already exist (ie: not ends with \".sample\") bypass it. It is mandatory when
+you rebase/rewrite your git history.
+If it doesn't exist, create it with the following content:
+\"
+#!/bin/bash
+COMMIT_MSG_FILEPATH=$1
+HINT=`cat $COMMIT_MSG_FILEPATH`
+
+echo \"Subject line\" > $COMMIT_MSG_FILEPATH
+echo \"\" >> $COMMIT_MSG_FILEPATH
+for cached_file in `git diff --cached --name-only | sed 's/ /\n/g'`;do
+    echo \"* $cached_file:\" >> $COMMIT_MSG_FILEPATH;
+done
+echo \"$HINT\" >> $COMMIT_MSG_FILEPATH
+\""
+  (interactive)
+  (when-let* ((hooks (concat (cdr (project-current)) ".git/hooks/"))
+              (prepare-commit-msg (concat hooks "prepare-commit-msg")))
+    (if (file-exists-p prepare-commit-msg)
+        (progn (delete-file prepare-commit-msg)
+               (message "\"%s\" has been removed" (file-name-nondirectory prepare-commit-msg)))
+      (with-temp-file prepare-commit-msg
+        (insert
+         "#!/bin/bash
+COMMIT_MSG_FILEPATH=$1
+HINT=`cat $COMMIT_MSG_FILEPATH`
+
+echo \"Subject line\" > $COMMIT_MSG_FILEPATH
+echo \"\" >> $COMMIT_MSG_FILEPATH
+for cached_file in `git diff --cached --name-only | sed 's/ /\\n/g'`;do
+    echo \"* $cached_file:\" >> $COMMIT_MSG_FILEPATH;
+done
+echo \"$HINT\" >> $COMMIT_MSG_FILEPATH"))
+      (shell-command (concat "chmod +x " prepare-commit-msg))
+      (message "\"%s\" has been created" (file-name-nondirectory prepare-commit-msg)))))
+
+;; COMMENTS
+;; (shell-command "ls")
+;; (shell-command-to-string "ls")
+;; (global-set-key (kbd "C-<f1>") 'linux-toggle-git-commit-msg)
+
 ;;; Footer
 (provide 'linux)

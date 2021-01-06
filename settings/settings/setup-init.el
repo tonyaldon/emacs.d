@@ -843,61 +843,6 @@ INSIDE-EMACS-DIR is the directory of the video Inside Emacs."
 
 (global-set-key (kbd "C-c l") 'ie-find-last-video-readme)
 
-;;;; Git (related to)
-(defun ta-pre-format-git-tag ()
-  "Pre-Format git-tag. In a buffer with the output of \"git log\" up
-to the last tag remove no relevant information and bad indentation."
-  (interactive)
-  (beginning-of-buffer)
-  (flush-lines "^\\(commit\\|Author\\|Date\\)")
-  (replace-regexp "^    " "" nil (point-min) (point-max))
-  (replace-regexp "\n\n\n" "\n\n" nil (point-min) (point-max)))
-
-(defun ta-prepare-commit-msg-toggle ()
-  "Set the git hook \"prepare-commit-msg\".
-
-If it already exist (ie: not ends with \".sample\") bypass it. It is mandatory when
-you rebase/rewrite your git history.
-If it doesn't exist, create it with the following content:
-\"
-#!/bin/bash
-COMMIT_MSG_FILEPATH=$1
-HINT=`cat $COMMIT_MSG_FILEPATH`
-
-echo \"Subject line\" > $COMMIT_MSG_FILEPATH
-echo \"\" >> $COMMIT_MSG_FILEPATH
-for cached_file in `git diff --cached --name-only | sed 's/ /\n/g'`;do
-    echo \"* $cached_file:\" >> $COMMIT_MSG_FILEPATH;
-done
-echo \"$HINT\" >> $COMMIT_MSG_FILEPATH
-\""
-  (interactive)
-  (when-let* ((hooks (concat (cdr (project-current)) ".git/hooks/"))
-              (prepare-commit-msg (concat hooks "prepare-commit-msg")))
-    (if (file-exists-p prepare-commit-msg)
-        (progn (delete-file prepare-commit-msg)
-               (message "\"%s\" has been removed" (file-name-nondirectory prepare-commit-msg)))
-      (with-temp-file prepare-commit-msg
-        (insert
-         "#!/bin/bash
-COMMIT_MSG_FILEPATH=$1
-HINT=`cat $COMMIT_MSG_FILEPATH`
-
-echo \"Subject line\" > $COMMIT_MSG_FILEPATH
-echo \"\" >> $COMMIT_MSG_FILEPATH
-for cached_file in `git diff --cached --name-only | sed 's/ /\\n/g'`;do
-    echo \"* $cached_file:\" >> $COMMIT_MSG_FILEPATH;
-done
-echo \"$HINT\" >> $COMMIT_MSG_FILEPATH"))
-      (shell-command (concat "chmod +x " prepare-commit-msg))
-      (message "\"%s\" has been created" (file-name-nondirectory prepare-commit-msg)))))
-
-;; COMMENTS
-;; (shell-command "ls")
-;; (shell-command-to-string "ls")
-;; (global-set-key (kbd "C-<f1>") 'ta-prepare-commit-msg-toggle)
-
-
 ;;;; window movements
 ;; negative argument (C--) is not much accesible in my keyboard layout,
 ;; but (C--) is really handy when used with the commands windmove-up, windmove-down...
