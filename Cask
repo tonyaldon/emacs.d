@@ -9,7 +9,6 @@
 (depends-on "cider")
 (depends-on "clojure-mode")
 (depends-on "company")
-(depends-on "company-fuzzy")
 (depends-on "company-jedi")
 (depends-on "company-lsp")
 (depends-on "counsel")
