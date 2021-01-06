@@ -3,6 +3,7 @@
 ;; linux OS where emacs live in like (i3, xrandr, dpi rendering...)
 
 ;;; i3
+
 ;;;; Toggle laptop output visibility
 
 (setq linux-i3-config-file "~/work/settings/i3/.config/i3/config")
@@ -43,3 +44,29 @@ thought I've no external webcam."
 		(message "No 'laptop monitor' config line found in `linux-i3-config-file'")))
 
 ;; (global-set-key (kbd "C-c o") 'linux-toggle-laptop-output-visibility)
+
+;;;; Toggle i3bar visibility
+
+(defun linux--i3bar-is-hidden-p ()
+  "Return t if i3bar is hidden."
+	(s-blank-p (shell-command-to-string "i3-msg -t get_tree | grep '\"class\":\"i3bar\"'")))
+
+(defun linux-toggle-i3bar ()
+  "Toggle visibility of i3bar."
+  (interactive)
+  (let ((inhibit-message t))
+		(if (linux--i3bar-is-hidden-p)
+				(shell-command "i3-msg bar mode dock")
+			(shell-command "i3-msg bar mode invisible"))))
+
+;; (global-set-key (kbd "C-c b") 'linux-toggle-i3bar)
+
+;; COMMENTS
+;; (s-blank-p "")
+;; (shell-command-to-string "ls")
+;; (shell-command-to-string "i3-msg -t get_tree | grep '\"class\":\"i3bar\"'")
+;; (shell-command "i3-msg bar mode invisible")
+;; (shell-command "i3-msg bar mode dock")
+
+;;; Footer
+(provide 'linux)

@@ -843,28 +843,6 @@ INSIDE-EMACS-DIR is the directory of the video Inside Emacs."
 
 (global-set-key (kbd "C-c l") 'ie-find-last-video-readme)
 
-;;;;; toggle i3bar visibility
-
-(defun ie-i3bar-hidden ()
-  "Return t if i3bar is hidden."
-	(s-blank-p (shell-command-to-string "i3-msg -t get_tree | grep '\"class\":\"i3bar\"'")))
-
-(defun ie-i3bar-toggle ()
-  "Toggle visibility of i3bar."
-  (interactive)
-  (let ((inhibit-message t))
-		(if (ie-i3bar-hidden)
-				(shell-command "i3-msg bar mode dock")
-			(shell-command "i3-msg bar mode invisible"))))
-
-(global-set-key (kbd "C-c b") 'ie-i3bar-toggle)
-
-;; COMMENTS
-;; (s-blank-p "")
-;; (shell-command-to-string "ls")
-;; (shell-command-to-string "i3-msg -t get_tree | grep '\"class\":\"i3bar\"'")
-;; (shell-command "i3-msg bar mode invisible")
-;; (shell-command "i3-msg bar mode dock")
 
 ;;;;; DPI
 
