@@ -205,6 +205,22 @@ apropos commands and other information about emacs."
 
 ;;;;; linux
 
+(require 'linux)
+
+(ta-transient-define-suffix linux-toggle-laptop-output)
+(ta-transient-define-suffix linux-toggle-i3bar)
+(ta-transient-define-suffix linux-toggle-dpi)
+(ta-transient-define-suffix linux-toggle-git-commit-msg)
+
+(transient-define-prefix linux ()
+  "Show menu buffer for `linux' commands and taylored
+command related to git commit message."
+  [["linux"
+    ("l" "linux-toggle-laptop-output" linux-toggle-laptop-output--transient)
+    ("i" "linux-toggle-i3bar" linux-toggle-i3bar--transient)
+		("d" "linux-toggle-dpi" linux-toggle-dpi--transient)]
+   ["git"
+    ("g" "linux-toggle-git-commit-msg" linux-toggle-git-commit-msg--transient)]])
 
 
 ;;;; eval
