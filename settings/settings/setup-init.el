@@ -843,39 +843,6 @@ INSIDE-EMACS-DIR is the directory of the video Inside Emacs."
 
 (global-set-key (kbd "C-c l") 'ie-find-last-video-readme)
 
-
-;;;;; DPI
-
-(setq ie-xresources "~/work/settings/uconfig/.Xresources")
-
-(defun ie-toggle-dpi ()
-  "Toggle the DPI in the file ~/.Xresources between 216 and 96.
-
-96 is the default DPI setting.
-216 is the DPI setting for screencasting. Setting it that big has
-for consequence to zoom in everything in the screen.
-
-Note that you have to restart your linux session to see the changes."
-  (interactive)
-	(let (dpi)
-		(with-temp-buffer
-			(insert-file-contents ie-xresources)
-			(beginning-of-buffer)
-			(cond
-			 ((search-forward "96" nil t)
-				(delete-char -2)
-				(insert "216")
-				(setq dpi "216"))
-			 ((search-forward "216" nil t)
-				(delete-char -3)
-				(insert "96")
-				(setq dpi "96"))
-			 (t nil))
-			(write-region (point-min) (point-max) ie-xresources))
-		(if dpi (message (concat "Xft.dpi: " dpi))
-			(message "Neither 96 nor 216 is the DPI in ~/.Xresources file"))))
-
-(global-set-key (kbd "C-c d") 'ie-toggle-dpi)
 ;;;; Git (related to)
 (defun ta-pre-format-git-tag ()
   "Pre-Format git-tag. In a buffer with the output of \"git log\" up

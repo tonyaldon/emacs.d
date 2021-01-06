@@ -1,6 +1,6 @@
 ;;; About
-;; In this file, we define commands that modify some behaviour
-;; linux OS where emacs live in like (i3, xrandr, dpi rendering...)
+;; In this file, we define commands that modify some behaviour of
+;; linux OS where emacs lives in, like (i3, xrandr, dpi rendering...)
 
 ;;; i3
 
@@ -67,6 +67,39 @@ thought I've no external webcam."
 ;; (shell-command-to-string "i3-msg -t get_tree | grep '\"class\":\"i3bar\"'")
 ;; (shell-command "i3-msg bar mode invisible")
 ;; (shell-command "i3-msg bar mode dock")
+
+;;; Monitor DPI
+
+(setq linux-xresources "~/work/settings/uconfig/.Xresources")
+
+(defun linux-toggle-dpi ()
+  "Toggle the DPI in the file ~/.Xresources between 216 and 96.
+
+96 is the default DPI setting.
+216 is the DPI setting for screencasting. Setting it that big has
+for consequence to zoom in everything in the screen.
+
+Note that you have to restart your linux session to see the changes."
+  (interactive)
+	(let (dpi)
+		(with-temp-buffer
+			(insert-file-contents linux-xresources)
+			(beginning-of-buffer)
+			(cond
+			 ((search-forward "96" nil t)
+				(delete-char -2)
+				(insert "216")
+				(setq dpi "216"))
+			 ((search-forward "216" nil t)
+				(delete-char -3)
+				(insert "96")
+				(setq dpi "96"))
+			 (t nil))
+			(write-region (point-min) (point-max) linux-xresources))
+		(if dpi (message (concat "Xft.dpi: " dpi))
+			(message "Neither 96 nor 216 is the DPI in ~/.Xresources file"))))
+
+;; (global-set-key (kbd "C-c d") 'linux-toggle-dpi)
 
 ;;; Footer
 (provide 'linux)
