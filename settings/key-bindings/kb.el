@@ -234,6 +234,7 @@ command related to git commit message."
 ;;;; inside-emacs
 
 (require 'inside-emacs)
+(require 'story)
 
 (global-set-key (kbd "C-c l") 'ie-find-last-video-readme)
 
