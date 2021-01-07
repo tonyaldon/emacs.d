@@ -240,6 +240,9 @@ This function should called whenever the window configuration changes
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+(setq comment-empty-lines t)
+(setq comment-padding 1)
+
 ;;; Per Mode
 
 ;;;; TODO: abbrev-mode
