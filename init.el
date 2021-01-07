@@ -11,6 +11,7 @@
 (add-to-list 'load-path "~/.emacs.d/settings/utils/")
 (add-to-list 'load-path "~/.emacs.d/settings/key-bindings/")
 (add-to-list 'load-path "~/.emacs.d/settings/packages/")
+(add-to-list 'load-path "~/.emacs.d/settings/packages/inside-emacs/")
 
 (add-to-list 'load-path "~/.emacs.d/packages/")
 (add-to-list 'load-path "~/.emacs.d/packages/ac-html-csswatcher/")
