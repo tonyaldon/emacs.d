@@ -222,6 +222,7 @@ command related to git commit message."
    ["git"
     ("g" "linux-toggle-git-commit-msg" linux-toggle-git-commit-msg--transient)]])
 
+(global-set-key (kbd "C-c M-l") 'linux)
 
 ;;;; eval
 
