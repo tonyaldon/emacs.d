@@ -210,6 +210,7 @@ apropos commands and other information about emacs."
 (ta-transient-define-suffix linux-toggle-laptop-output)
 (ta-transient-define-suffix linux-toggle-i3bar)
 (ta-transient-define-suffix linux-toggle-dpi)
+(ta-transient-define-suffix linux-switch-keyboard-layout)
 (ta-transient-define-suffix linux-toggle-git-commit-msg)
 
 (transient-define-prefix linux ()
@@ -218,7 +219,8 @@ command related to git commit message."
   [["linux"
     ("l" "linux-toggle-laptop-output" linux-toggle-laptop-output--transient)
     ("i" "linux-toggle-i3bar" linux-toggle-i3bar--transient)
-		("d" "linux-toggle-dpi" linux-toggle-dpi--transient)]
+		("d" "linux-toggle-dpi" linux-toggle-dpi--transient)
+		("k" "linux-switch-keyboard-layout" linux-switch-keyboard-layout--transient)]
    ["git"
     ("g" "linux-toggle-git-commit-msg" linux-toggle-git-commit-msg--transient)]])
 
@@ -269,7 +271,7 @@ command related to git commit message."
 (global-set-key (kbd "<C-escape>") 'repeat)
 
 
-(global-set-key (kbd "C-s") 'ta-switch-keyboard-layout)
+(global-set-key (kbd "C-s") 'linux-switch-keyboard-layout)
 (global-set-key (kbd "C-c f") 'ta-copy-buffer-file-name)
 
 ;;;; rg

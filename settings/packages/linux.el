@@ -94,6 +94,18 @@ Note that you have to restart your linux session to see the changes."
     (if dpi (message (concat "Xft.dpi: " dpi))
       (message "Neither 96 nor 216 is the DPI in ~/.Xresources file"))))
 
+;;; Keyboard layout
+
+(defun linux-switch-keyboard-layout ()
+  "Switch keyboard layout variant between\"takbl\" and \"takbl fr\"."
+  (interactive)
+  (let ((variant (shell-command-to-string "setxkbmap -query | grep variant | awk -F' '  '{ print $2 }'")))
+    (if (string= variant "fr\n")
+        (progn
+          (shell-command-to-string "setxkbmap -layout takbl")
+          (message "takbl"))
+      (shell-command-to-string "setxkbmap -layout takbl -variant fr")
+      (message "takbl - fr"))))
 
 ;;; Git (format commit message)
 

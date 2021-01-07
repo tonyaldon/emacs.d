@@ -775,17 +775,6 @@ see: http://github.com/magnars"
   (interactive)
   (kill-new (buffer-file-name)))
 
-(defun ta-switch-keyboard-layout ()
-  "Switch keyboard layout variant between\"takbl\" and \"takbl fr\"."
-  (interactive)
-  (let ((variant (shell-command-to-string "setxkbmap -query | grep variant | awk -F' '  '{ print $2 }'")))
-    (if (string= variant "fr\n")
-        (progn
-          (shell-command-to-string "setxkbmap -layout takbl")
-          (message "takbl"))
-      (shell-command-to-string "setxkbmap -layout takbl -variant fr")
-      (message "takbl - fr"))))
-
 (defun ta-toggle-create-lockfiles ()
   "Toggle the value of `create-lockfiles' interactively."
   (interactive)
