@@ -87,15 +87,19 @@ Each element represents a line."
 				(next-line))
 			(reverse scenes))))
 
-(defun ie-story-scene-name (scene-buffer-position)
-  "Return the name of the scene at SCENE-BUFFER-POSITION."
+(defun ie-story-scene-title (scene-buffer-position &optional kebab-case)
+  "Return the title of the scene at SCENE-BUFFER-POSITION.
+
+If KEBAB-CASE is t, return the title of the scene but in kebab-case."
 	(save-excursion
 		(goto-char scene-buffer-position)
 		(search-forward-regexp ": *" nil t)
 		(let* ((beg (point))
 					 (end (progn (end-of-line) (point)))
 					 (name (buffer-substring-no-properties beg end)))
-			(s-downcase (s-replace " " "-" name)))))
+			(if kebab-case
+					(s-downcase (s-replace " " "-" name))
+				name))))
 
 ;;; Generate svg files
 
@@ -118,11 +122,11 @@ Each element represents a line."
 
 ;;;; Generate svg files
 
-(defun ie-story-generate-description-svg (lines scene index)
+(defun ie-story-generate-description-svg (lines title index)
   "Generate svg description of Inside Emacs.
 
 LINES is a list of strings representing the description.
-SCENE is the name of the scene the description belongs to.
+TITLE is the title (kebab-case) of the scene the description belongs to.
 INDEX is the appearance order of the description in the SCENE.
 
 The svg file generated is save in the directory `ie-r-images' with
@@ -130,7 +134,7 @@ a unique name."
   (unless (f-exists? ie-r-images) (f-mkdir ie-r-images))
   (let ((file (f-join ie-r-images
 											(s-concat
-											 (s-join "-" `("description" ,scene ,(number-to-string index)))
+											 (s-join "-" `("description" ,title ,(number-to-string index)))
 											 ".svg")))
         (svg (svg-create 1920 1080))
         (style "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:96px;line-height:1.25;font-family:Ramabhadra;-inkscape-font-specification:'Ramabhadra Bold';letter-spacing:0px;word-spacing:0px;fill:#f0f0f0;fill-opacity:0.941176;stroke:none;stroke-width:0.264583")
@@ -144,12 +148,12 @@ a unique name."
       (svg-print svg)
       (write-region (point-min) (point-max) file))))
 
-(defun ie-story-generate-description-in-scene-svg (scene-buffer-position)
+(defun ie-story-generate-descriptions-in-scene-svg (scene-buffer-position)
   "Generate all svg descriptions of Inside Emacs in the scene at SCENE-BUFFER-POSITION."
 	(save-excursion
 		(goto-char scene-buffer-position)
 		(let* ((bound (ie-story-next-scene))
-					 (scene-name (ie-story-scene-name scene-buffer-position))
+					 (scene-name (ie-story-scene-title scene-buffer-position t))
 					 (description-index 1)
 					 description-lines)
 			(while (ie-story-goto-next-description bound)
@@ -199,9 +203,12 @@ a unique name."
 ;; COMMENTS:
 ;; in the file, description.org
 ;; M-x eval-expression RET (equal (ie-story-scenes) '(413 494 829)) ; t
-;; M-x eval-expression RET (ie-story-scene-name 413)  ; intro
-;; M-x eval-expression RET (ie-story-scene-name 494)  ; blank-field
-;; M-x eval-expression RET (ie-story-scene-name 829)  ; org-table-copy-down
+;; M-x eval-expression RET (ie-story-scene-title 413)   ; intro
+;; M-x eval-expression RET (ie-story-scene-title 413 t) ; intro
+;; M-x eval-expression RET (ie-story-scene-title 494)   ; Blank Field
+;; M-x eval-expression RET (ie-story-scene-title 494 t) ; blank-field
+;; M-x eval-expression RET (ie-story-scene-title 829)   ; org-table-copy-down
+;; M-x eval-expression RET (ie-story-scene-title 829 t) ; org-table-copy-down
 ;; (global-set-key (kbd "C-<f1>") 'ie-story-scenes)
 ;; (global-set-key (kbd "C-<f1>") 'ie-story-goto-next-scene)
 ;; (s-replace " " "-" "tony aldon")
