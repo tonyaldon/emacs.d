@@ -1,9 +1,11 @@
+;;; Packages
+
 (require 'ace-window)
 (require 'framer)
 (require 'kb)
 (require 'transpose-frame)
 (require 'markdown-mode)
-
+(require 'windmove)
 
 ;;; Set up variables
 
@@ -20,7 +22,7 @@
 
 (declare-function ta-term "ext:kb-term")
 
-;;; Utils: Window commands
+;;; Window commands
 
 ;;;; dired-mode
 
@@ -66,11 +68,72 @@ visiting a file, the $HOME directory is chosen to be the
      (t
       (ta--dired-side-by-side (expand-file-name "~/"))))))
 
-;;;; Other
+;;;; windmove enhancement
 
-(defun ta-term-bash ()
-  (interactive)
-  (ta-term "/bin/bash"))
+;;;;; advice
+
+(defadvice windmove-do-window-select
+    (before windmove-do-window-select-advice activate)
+  "Push `selected-window' in the ring used by `aw-flip-window'.
+
+The function `windmove-left', `windmove-right', `windmove-up' and
+`windmove-down' are interactive wrappers to `windmove-do-window-select'."
+  (aw--push-window (selected-window)))
+
+;;;;; basic movements
+
+;; negative argument (C--) is not much accesible in my keyboard layout,
+;; but (C--) is really handy when used with the commands windmove-up,
+;; windmove-down...
+;; The simple solution to use the behaviour of windmove-up with
+;; (C-u) instead of (C--) is to define the following commands,
+;; so that: C-u M-x ta-windmove-up behave as C-- M-x windmove-up
+
+(defun ta-windmove-left (&optional arg)
+  "Select the window to the left of the current one.
+
+This command exists just to have:
+C-u M-x `ta-windmove-left' behave as C-- M-x `windmove-left'.
+
+Note: negative argument (C--) is not much accesible in my keyboard layout,
+but (C--) is really handy when used with the command `windmove-left'."
+  (interactive "P")
+  (windmove-do-window-select 'left (and arg -1)))
+
+(defun ta-windmove-right (&optional arg)
+  "Select the window to the right of the current one.
+
+This command exists just to have:
+C-u M-x `ta-windmove-right' behave as C-- M-x `windmove-right'.
+
+Note: negative argument (C--) is not much accesible in my keyboard layout,
+but (C--) is really handy when used with the command `windmove-right'."
+  (interactive "P")
+  (windmove-do-window-select 'right (and arg -1)))
+
+(defun ta-windmove-up (&optional arg)
+  "Select the window above the current one.
+
+This command exists just to have:
+C-u M-x `ta-windmove-up' behave as C-- M-x `windmove-up'.
+
+Note: negative argument (C--) is not much accesible in my keyboard layout,
+but (C--) is really handy when used with the command `windmove-up'."
+  (interactive "P")
+  (windmove-do-window-select 'up (and arg -1)))
+
+(defun ta-windmove-down (&optional arg)
+  "Select the window below the current one.
+
+This command exists just to have:
+C-u M-x `ta-windmove-down' behave as C-- M-x `windmove-down'.
+
+Note: negative argument (C--) is not much accesible in my keyboard layout,
+but (C--) is really handy when used with the command `windmove-down'."
+  (interactive "P")
+  (windmove-do-window-select 'down (and arg -1)))
+
+;;;; drag windows
 
 (defun ta-drag-window-left ()
   "Drag current window one window to the left."
@@ -91,6 +154,12 @@ visiting a file, the $HOME directory is chosen to be the
   "Drag current window one window to the below."
   (interactive)
   (aw-swap-window (window-in-direction 'below)))
+
+;;;; miscellaneous
+
+(defun ta-term-bash ()
+  (interactive)
+  (ta-term "/bin/bash"))
 
 (defun ta-split-window-right ()
   "Chain `split-window-right' and `windmove-right'."
@@ -126,6 +195,12 @@ Other window is selected with `ace-window'."
   ("p" (shrink-window 5))
   ("n" (enlarge-window 5))
   ("q" nil))
+
+(defadvice clone-indirect-buffer-other-window
+    (after ta-clone-indirect-buffer-other-window-advice activate)
+  (recenter))
+
+;;;; hydra-windows
 
 (defhydra hydra-windows
   (:pre (progn
@@ -167,18 +242,6 @@ Other window is selected with `ace-window'."
   ("+" balance-windows)
   ("M-+" balance-windows-area)
   ("q" nil))
-
-(defadvice windmove-do-window-select
-    (before windmove-do-window-select-advice activate)
-  "Push `selected-window' in the ring used by `aw-flip-window'.
-
-The function `windmove-left', `windmove-right', `windmove-up' and
-`windmove-down' are interactive wrappers to `windmove-do-window-select'."
-  (aw--push-window (selected-window)))
-
-(defadvice clone-indirect-buffer-other-window
-    (after ta-clone-indirect-buffer-other-window-advice activate)
-  (recenter))
 
 ;;; Side windows
 
@@ -243,5 +306,7 @@ The function `windmove-left', `windmove-right', `windmove-up' and
 (define-key term-mode-map (kbd "M-o") 'delete-window)
 
 (global-set-key (kbd "M-<next>") 'window-toggle-side-windows)
+
+;;; Footer
 
 (provide 'kb-windows)

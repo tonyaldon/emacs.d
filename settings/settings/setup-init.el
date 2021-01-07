@@ -242,20 +242,35 @@ This function should called whenever the window configuration changes
 
 ;;; Per Mode
 
-;;;; css-mode
+;;;; TODO: abbrev-mode
+;; - emacs abbrevation: in text mode,
+;;   - Diary: fill improvement and learning (Tony Aldon)
+;;   - Diary: set focus and tasks (Tony Aldon)
+;;   - Fill improvement and learning (Tony Aldon)
+;;   - Set focus and tasks (Tony Aldon)
+
+;; abbrev-file-name
+;; write-abbrev-file
+;; edit-abbrevs
+;; /home/tony/work/learning/apps/emacs/lisp/abbrev.el
+;; https://protesilaos.com/dotemacs/#h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84
+
+;;;; css-mode and sgml-mode
 
 (setq css-indent-offset 2)
 
 (require 'emmet-mode)
 (require 'sgml-mode)
 
+(define-key sgml-mode-map (kbd "C-M-i") nil)
+
 (define-key sgml-mode-map (kbd "C-<tab>") 'emmet-expand-line)
-(define-key sgml-mode-map (kbd "C-<f1>") 'ta-previous-attribute)
-(define-key sgml-mode-map (kbd "C-<f3>") 'ta-next-attribute)
+(define-key sgml-mode-map (kbd "<f1>") 'ta-previous-attribute)
+(define-key sgml-mode-map (kbd "<f2>") 'ta-next-attribute)
 
 (add-hook 'css-mode-hook (lambda ()
-													 (company-mode 1)
-													 (setq company-minimum-prefix-length 1)))
+                           (company-mode 1)
+                           (setq company-minimum-prefix-length 1)))
 
 ;;;; csv-mode
 
@@ -313,6 +328,7 @@ of the columns."
 (require 'graphviz-dot-mode)
 
 (setq graphviz-dot-auto-preview-on-save t)
+(setq graphviz-dot-dot-program "dot")
 
 ;; todo: add company completion
 
@@ -423,6 +439,7 @@ the variable `outline-regexp'."
 
 (advice-add 'magit-status :before 'ta-magit-delete-other-windows)
 (advice-add 'magit-commit-create :before 'ta-magit-delete-other-windows)
+(advice-add 'magit-commit-amend :before 'ta-magit-delete-other-windows)
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
@@ -456,14 +473,14 @@ the variable `outline-regexp'."
 (require 'mini-frame)
 
 (setq mini-frame-ignore-commands '(dired-do-delete
-																	 dired-do-flagged-delete
-																	 kill-this-buffer
-																	 eval-expression
-																	 cider-find-var
+                                   dired-do-flagged-delete
+                                   kill-this-buffer
+                                   eval-expression
+                                   cider-find-var
                                    dired-do-flagged-delete
                                    org-ctrl-c-ctrl-c
                                    org-time-stamp
-																	 org-table-create-or-convert-from-region
+                                   org-table-create-or-convert-from-region
                                    swiper
                                    swiper-isearch-toggle
                                    swiper-all
@@ -843,34 +860,6 @@ INSIDE-EMACS-DIR is the directory of the video Inside Emacs."
 
 (global-set-key (kbd "C-c l") 'ie-find-last-video-readme)
 
-;;;; window movements
-;; negative argument (C--) is not much accesible in my keyboard layout,
-;; but (C--) is really handy when used with the commands windmove-up, windmove-down...
-;; The simple solution to use the behaviour of windmove-up with (C-u) instead of (C--)
-;; is to define the following commands, so that:
-;; C-u M-x ta-windmove-up behave as C-- M-x windmove-up
-
-(require 'windmove)
-
-(defun ta-windmove-left (&optional arg)
-  "Select the window to the left of the current one."
-  (interactive "P")
-  (windmove-do-window-select 'left (and arg -1)))
-
-(defun ta-windmove-up (&optional arg)
-  "Select the window above the current one."
-  (interactive "P")
-  (windmove-do-window-select 'up (and arg -1)))
-
-(defun ta-windmove-right (&optional arg)
-  "Select the window to the right of the current one."
-  (interactive "P")
-  (windmove-do-window-select 'right (and arg -1)))
-
-(defun ta-windmove-down (&optional arg)
-  "Select the window below the current one."
-  (interactive "P")
-  (windmove-do-window-select 'down (and arg -1)))
 
 ;;; Footer
 
