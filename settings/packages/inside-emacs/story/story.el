@@ -111,6 +111,11 @@ If KEBAB-CASE is t, return the title of the scene but in kebab-case."
 ;; :y 776   (line 3)
 ;; :y 896   (line 2)
 ;; :y 1016  (line 1)
+;;
+;; scene title
+;; :style "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:96px;line-height:1.25;font-family:Ramabhadra;-inkscape-font-specification:'Ramabhadra Bold';letter-spacing:0px;word-spacing:0px;fill:#f0f0f0;fill-opacity:0.941176;stroke:none;stroke-width:0.264583"
+;; :x 90
+;; :y 194
 
 ;;;; Packages
 
@@ -121,6 +126,28 @@ If KEBAB-CASE is t, return the title of the scene but in kebab-case."
 (setq ie-r-images "r-images")
 
 ;;;; Generate svg files
+
+(defun ie-story-generate-scene-title-svg (scene-buffer-position)
+  "Generate svg scene title of Inside Emacs at SCENE-BUFFER-POSITION.
+
+The svg file generated is save in the directory `ie-r-images' with
+a unique name."
+  (unless (f-exists? ie-r-images) (f-mkdir ie-r-images))
+  (let* ((title (ie-story-scene-title scene-buffer-position))
+				 (title-kebab-case (ie-story-scene-title scene-buffer-position t))
+				 (file (f-join ie-r-images
+											 (s-concat
+												(s-join "-" `("description" ,title-kebab-case "title"))
+												".svg")))
+         (svg (svg-create 1920 1080))
+         (style "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:96px;line-height:1.25;font-family:Ramabhadra;-inkscape-font-specification:'Ramabhadra Bold';letter-spacing:0px;word-spacing:0px;fill:#f0f0f0;fill-opacity:0.941176;stroke:none;stroke-width:0.264583")
+         (x-start-line 90)
+         (y-start-line 194))
+		(svg-text svg title
+							:style style :x x-start-line :y y-start-line)
+		(with-temp-buffer
+			(svg-print svg)
+			(write-region (point-min) (point-max) file))))
 
 (defun ie-story-generate-description-svg (lines title index)
   "Generate svg description of Inside Emacs.
@@ -166,7 +193,9 @@ a unique name."
 (defun ie-story-generate-all-descriptions-svg ()
   "Generate all svg descriptions of Inside Emacs for the current buffer."
   (interactive)
-	(--each (ie-story-scenes) (ie-story-generate-description-in-scene-svg it)))
+	(--each (ie-story-scenes)
+		(ie-story-generate-scene-title-svg it)
+		(ie-story-generate-descriptions-in-scene-svg it)))
 
 ;;; COMMENTS:
 ;; COMMENTS:
@@ -214,9 +243,13 @@ a unique name."
 ;; (s-replace " " "-" "tony aldon")
 
 ;; COMMENTS:
-;; M-x eval-expression RET (ie-story-generate-description-in-scene-svg 413)
-;; M-x eval-expression RET (ie-story-generate-description-in-scene-svg 494)
-;; M-x eval-expression RET (ie-story-generate-description-in-scene-svg 829)
+;; in the file, description.org
+;; M-x eval-expression RET (ie-story-generate-scene-title-svg 413)
+;; M-x eval-expression RET (ie-story-generate-scene-title-svg 494)
+;; M-x eval-expression RET (ie-story-generate-scene-title-svg 829)
+;; M-x eval-expression RET (ie-story-generate-descriptions-in-scene-svg 413)
+;; M-x eval-expression RET (ie-story-generate-descriptions-in-scene-svg 494)
+;; M-x eval-expression RET (ie-story-generate-descriptions-in-scene-svg 829)
 ;; (global-set-key (kbd "C-<f1>") 'ie-story-generate-all-descriptions-svg)
 
 ;;; Footer
