@@ -1,18 +1,34 @@
+;;; Packages
+
 (require 'kb)
 (require 'multiple-cursors)
 (require 'expand-region)
 (require 'iedit)
 (require 'smartparens)
 
+;;; Global variables
+
 (setq mark-ring-max 8)
 (setq global-mark-ring-max 8)
 (setq expand-region-preferred-python-mode 'fgallina-python)
+
+;;; iedit-mode
 
 (defun ta-mouse-iedit-mode ()
   "Toggle `iedit-mode' on mouse click."
   (interactive)
 	(call-interactively 'mouse-set-point)
 	(call-interactively 'iedit-mode))
+
+(defun ta-advice-mouse-set-point-iedit-mode (&rest r)
+  "Turn off `iedit-mode' if already on.
+
+Intended to be use as advice before of `mouse-set-point'."
+  (when iedit-mode (call-interactively 'iedit-mode)))
+
+(advice-add 'mouse-set-point :before 'ta-advice-mouse-set-point-iedit-mode)
+
+;;; mark commands
 
 (defun ta-pop-local-mark-ring ()
   (interactive)
@@ -98,12 +114,13 @@ If call two times consecutively mark inside pairs."
   (interactive)
   (cond ((equal last-command 'ta-mark-inside-dwim)
 				 (call-interactively 'ta-mark-inside-pairs))
-				((er--point-inside-string-p)
+				((er--point-inside-string-p) ;FIXME: return nil inside string in markdown-mode
 				 (call-interactively 'er/mark-inside-quotes))
 				((and (equal major-mode 'org-mode) (org-at-table-p))
 				 (ta-mark-inside-org-table))
 				(t (call-interactively 'ta-mark-inside-pairs))))
 
+;;; hydra-mc
 
 (defhydra hydra-mc
   (:pre (progn
@@ -132,6 +149,8 @@ If call two times consecutively mark inside pairs."
 (defadvice mc/keyboard-quit (after ta-mc/keyboard-quit-advice activate)
   (set-cursor-color "#26f9ad"))
 
+;;; Key bindings
+
 (global-set-key (kbd "C-l") 'ta-pop-local-mark-ring)
 (global-set-key (kbd "M-<return>") 'newline)
 (global-set-key (kbd "M-c") 'hydra-mc/body)
@@ -144,7 +163,7 @@ If call two times consecutively mark inside pairs."
 (global-set-key (kbd "<next>") 'ta-mark-inside-dwim)
 (global-set-key (kbd "<up>") 'ta-mark-sexp-at-point)
 
-
+;;; TODO
 ;; TODO: find a way to use these function
 ;; (iedit-mode-toggle-on-function)
 ;; (iedit-restrict-current-line)
@@ -155,5 +174,6 @@ If call two times consecutively mark inside pairs."
 ;; TODO: iedit
 ;; TODO: replace
 
+;;; Footer
 
 (provide 'kb-mark)
