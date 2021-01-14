@@ -677,6 +677,8 @@ Note: Modify the internal-border-width of the frame."
         ("learning inkscape" . "~/work/learning/inkscape/README.org")
         ("practice clojure" . "~/work/learning/practice/clojure/")
         ("practice clojure readme" . "~/work/learning/practice/clojure/README.org")
+        ("tricks/directory" . "~/work/learning/tricks/")
+        ("tricks/ideas" . "~/work/learning/tricks/ideas.org")
         ("tricks emacs" . "~/work/learning/tricks/org/emacs.org")
         ("tricks clojure" . "~/work/learning/tricks/org/clojure.org")
         ("tricks linux" . "~/work/learning/tricks/org/linux.org")
