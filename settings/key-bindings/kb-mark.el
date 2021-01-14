@@ -8,6 +8,12 @@
 (setq global-mark-ring-max 8)
 (setq expand-region-preferred-python-mode 'fgallina-python)
 
+(defun ta-mouse-iedit-mode ()
+  "Toggle `iedit-mode' on mouse click."
+  (interactive)
+	(call-interactively 'mouse-set-point)
+	(call-interactively 'iedit-mode))
+
 (defun ta-pop-local-mark-ring ()
   (interactive)
   (set-mark-command t))
@@ -129,9 +135,10 @@ If call two times consecutively mark inside pairs."
 (global-set-key (kbd "C-l") 'ta-pop-local-mark-ring)
 (global-set-key (kbd "M-<return>") 'newline)
 (global-set-key (kbd "M-c") 'hydra-mc/body)
-(global-set-key (kbd "<mouse-3>") 'mc/add-cursor-on-click)
+(global-set-key (kbd "<C-down-mouse-1>") 'mc/add-cursor-on-click)
 
 (key-chord-define-global ">p" 'iedit-mode)
+(global-set-key (kbd "<mouse-3>") 'ta-mouse-iedit-mode)
 
 (global-set-key (kbd "<prior>") 'er/expand-region)
 (global-set-key (kbd "<next>") 'ta-mark-inside-dwim)
