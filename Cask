@@ -61,6 +61,5 @@
 (depends-on "web-completion-data")
 (depends-on "wgrep")
 (depends-on "yasnippet")
-(depends-on "yasnippet-snippets")
 (source gnu)
 (source melpa)
