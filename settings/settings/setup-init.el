@@ -462,11 +462,14 @@ the variable `outline-regexp'."
       (newline)
       (indent-for-tab-command))))
 
-(defun ta-makefile-gmake-mode-hook ()
-  "Hook for `makefile-gmake-mode'."
-  (setq tab-width 8))
+(defun ta-makefile-tabs-settings ()
+  "Turn on `indent-tabs-mode'.
 
-(add-hook 'makefile-gmake-mode-hook 'ta-makefile-gmake-mode-hook)
+Intended to be used in the hook `makefile-gmake-mode-hook'."
+  (setq tab-width 8)
+	(setq indent-tabs-mode t))
+
+(add-hook 'makefile-gmake-mode-hook 'ta-makefile-tabs-settings)
 
 (define-key makefile-gmake-mode-map (kbd "RET") 'ta-newline-smart)
 (define-key makefile-gmake-mode-map (kbd "M-n") 'windmove-down)
