@@ -26,6 +26,10 @@
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'discreet t)
 
+;;; emacs-lisp utils
+
+(require 'comment)
+
 ;;; setup files
 
 (require 'setup-init)

@@ -105,8 +105,15 @@
 (set-language-environment "UTF-8")
 (pending-delete-mode t) ;; FIXME: no longer work with my configuration
 (setq save-interprogram-paste-before-kill t)
-(setq-default tab-width 2)
 (setq fill-column 80)
+
+;;;; Indentation
+
+(setq-default tab-width 2)
+(setq-default indent-tabs-mode nil)
+
+(comment ; info on tabs vs. spaces
+ (info "(emacs) Just Spaces"))
 
 ;;;; Window layout
 ;;;;; display-buffer-alist
