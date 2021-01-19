@@ -47,17 +47,17 @@
 Directories are always listed first."
   (interactive)
   (let ((ls-by-extension "-lhAX --group-directories-first")
-				(ls-by-name "-lhA --group-directories-first"))
-		(if (equal dired-listing-switches ls-by-extension)
-				(setq dired-listing-switches ls-by-name)
-		  (setq dired-listing-switches ls-by-extension)))
-	(revert-buffer))
+        (ls-by-name "-lhA --group-directories-first"))
+    (if (equal dired-listing-switches ls-by-extension)
+        (setq dired-listing-switches ls-by-name)
+      (setq dired-listing-switches ls-by-extension)))
+  (revert-buffer))
 ;;; auto-revert-mode
 
 (defun ta-dired-auto-revert ()
   "Set `auto-revert-mode' in `dired-mode' buffers."
   (auto-revert-mode 1)
-	(set (make-local-variable 'auto-revert-verbose) nil))
+  (set (make-local-variable 'auto-revert-verbose) nil))
 
 (add-hook 'dired-mode-hook 'ta-dired-auto-revert)
 

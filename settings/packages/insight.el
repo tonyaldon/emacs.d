@@ -168,7 +168,7 @@ Use this function to advice :before `scroll-other-window' and
 `other-window-scroll-buffer' if it was not being displayed."
   (when (and other-window-scroll-buffer
              (or (not (eq 1 (length (get-buffer-window-list other-window-scroll-buffer))))
-								 (eq (get-buffer-window other-window-scroll-buffer) (selected-window))))
+                 (eq (get-buffer-window other-window-scroll-buffer) (selected-window))))
     (setq other-window-scroll-buffer nil)))
 
 (defun insight-set-window-advices ()
@@ -222,9 +222,9 @@ See `insight-ace-window' and
     (define-key map (kbd "s") 'insight-scroll-up-half-window)
     (define-key map (kbd "l") 'insight-scroll-down-line)
     (define-key map (kbd "r") 'insight-scroll-up-line)
-		(define-key map (kbd "e") 'insight-scroll-other-window-down-half-window)
+    (define-key map (kbd "e") 'insight-scroll-other-window-down-half-window)
     (define-key map (kbd "o") 'insight-scroll-other-window-up-half-window)
-		;; (define-key map (kbd "/") 'insight-scroll-other-window-down-line)
+    ;; (define-key map (kbd "/") 'insight-scroll-other-window-down-line)
     ;; (define-key map (kbd "`") 'insight-scroll-other-window-up-line)
     (define-key map (kbd "a") 'insight-ace-window)
     ;; narrowing commands
@@ -238,7 +238,7 @@ See `insight-ace-window' and
     (define-key map (kbd "-") 'text-scale-decrease)
     (define-key map (kbd "0") 'text-scale-adjust)
     ;; other
-		(define-key map (kbd "q") 'insight-mode)
+    (define-key map (kbd "q") 'insight-mode)
     map)
   "Keymap for `insight-mode'.")
 

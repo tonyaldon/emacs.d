@@ -29,8 +29,8 @@ This is useful when using only my laptop to make Zoom calls,
 thought I've no external webcam."
   (interactive)
   (let (output)
-		(with-temp-buffer
-			(insert-file-contents linux-i3-config-file)
+    (with-temp-buffer
+      (insert-file-contents linux-i3-config-file)
       (when-let ((laptop-config (linux--laptop-output-config-position)))
         (goto-char laptop-config)
         (if (looking-at "# ")
@@ -38,9 +38,9 @@ thought I've no external webcam."
                    (setq output "off"))
           (insert "# ")
           (setq output "on")))
-			(write-region (point-min) (point-max) linux-i3-config-file))
-		(if output (message (concat "Laptop output turned: " output))
-			(message "No 'laptop monitor' config line found in `linux-i3-config-file'"))))
+      (write-region (point-min) (point-max) linux-i3-config-file))
+    (if output (message (concat "Laptop output turned: " output))
+      (message "No 'laptop monitor' config line found in `linux-i3-config-file'"))))
 
 ;;;; Toggle i3bar visibility
 

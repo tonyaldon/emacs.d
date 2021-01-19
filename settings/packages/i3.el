@@ -11,7 +11,7 @@
     ("\\(colors\\) [{]+" 1 font-lock-builtin-face t)
     ("^font" . font-lock-builtin-face)
     ("^floating_modifier" . font-lock-builtin-face)
-		("bindsym \\([^ ]*\\)" 1 font-lock-function-name-face t)
+    ("bindsym \\([^ ]*\\)" 1 font-lock-function-name-face t)
     ;; for ~/.i3status.conf file
     ("^[ \t]*\\(.+?\\)\\(?:\\[\\(.*?\\)\\]\\)?[ \t]*[^+]=" 1 font-lock-variable-name-face t)
     ("\\(^order\\) \\(?:[+][=]+\\)" 1 font-lock-keyword-face t)

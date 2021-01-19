@@ -137,7 +137,7 @@ to a smaller window frame than usual."
         (setq screencast--mode-line-format mode-line-format)
         (setq-default mode-line-format screencast-mode-line-format)
         (keycast-mode)
-				(set-face-attribute 'mode-line-buffer-id nil :foreground "#151515"))
+        (set-face-attribute 'mode-line-buffer-id nil :foreground "#151515"))
     (mini-frame-mode 1)
     (setq ivy-height 25)
     (--each screencast-hook-to-remove-alist (add-hook (car it) (cdr it)))
@@ -148,7 +148,7 @@ to a smaller window frame than usual."
     (keycast-mode -1) ; should be called before setting mode-line-format
     (setq-default mode-line-format screencast--mode-line-format)
     (setq screencast--mode-line-format nil)
-		(set-face-attribute 'mode-line-buffer-id nil :foreground "#b3b3b3")))
+    (set-face-attribute 'mode-line-buffer-id nil :foreground "#b3b3b3")))
 
 ;;; Footer
 

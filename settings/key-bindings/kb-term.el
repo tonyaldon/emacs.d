@@ -8,9 +8,9 @@
 is replaced by `switch-to-buffer-other-window'. It fits better
 my use of `display-buffer-alist'."
   (interactive (list (read-from-minibuffer "Run program: "
-					   (or explicit-shell-file-name
-					       (getenv "ESHELL")
-					       shell-file-name))))
+                                           (or explicit-shell-file-name
+                                               (getenv "ESHELL")
+                                               shell-file-name))))
   (set-buffer (make-term "terminal" program))
   (term-mode)
   (term-char-mode)

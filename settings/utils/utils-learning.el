@@ -2,14 +2,14 @@
   "Set frame and buffers to start learning smartparens keybinding."
   (interactive)
   (sp-cheat-sheet)
-	(split-window-below)
-	(describe-function 'hydra-sp-reshape/body)
-	(ta-drag-window-left)
-	(enlarge-window-horizontally 35)
-	(split-window-right)
-	(find-file "~/Documents/learning/key-bindings/mhtml-mode.el")
-	(windmove-right)
-	(find-file "~/Documents/learning/key-bindings/_mhtml-mode.el"))
+  (split-window-below)
+  (describe-function 'hydra-sp-reshape/body)
+  (ta-drag-window-left)
+  (enlarge-window-horizontally 35)
+  (split-window-right)
+  (find-file "~/Documents/learning/key-bindings/mhtml-mode.el")
+  (windmove-right)
+  (find-file "~/Documents/learning/key-bindings/_mhtml-mode.el"))
 
 (defun ta-yas-describe-table-by-namehash ()
   "Small changes on `yas-describe-table-by-namehash'"

@@ -42,64 +42,64 @@
 ;;; Parse story file
 
 (defun ie-story-goto-next-description (&optional bound)
-	"Move point to the next description paragraph.
+  "Move point to the next description paragraph.
 
 Return (point) if a description paragraph is found.
 nil if not."
-	(when (looking-at "# description") (forward-char))
-	(when (search-forward "# description" bound t)
-		(next-line)
-		(beginning-of-line)
-		(point)))
+  (when (looking-at "# description") (forward-char))
+  (when (search-forward "# description" bound t)
+    (next-line)
+    (beginning-of-line)
+    (point)))
 
 (defun ie-story-description-lines (description-beginning)
   "Return the description paragraph at START-POINT as a list of string
 
 Each element represents a line."
-	(save-excursion
-		(when description-beginning
-			(let ((description-end
-						 (progn (search-forward-regexp "^$" nil t) (backward-char) (point))))
-				(s-lines
-				 (buffer-substring-no-properties description-beginning description-end))))))
+  (save-excursion
+    (when description-beginning
+      (let ((description-end
+             (progn (search-forward-regexp "^$" nil t) (backward-char) (point))))
+        (s-lines
+         (buffer-substring-no-properties description-beginning description-end))))))
 
 (defun ie-story-next-scene ()
-	"Return buffer position of the next scene heading."
+  "Return buffer position of the next scene heading."
   (save-excursion
-		(when (looking-at "^\\** scene ") (forward-char))
-		(when (search-forward-regexp "^\\** scene " nil t)
-			(beginning-of-line)
-			(point))))
+    (when (looking-at "^\\** scene ") (forward-char))
+    (when (search-forward-regexp "^\\** scene " nil t)
+      (beginning-of-line)
+      (point))))
 
 (defun ie-story-goto-next-scene ()
-	"Go to the next heading scene."
-	(when-let ((next-scene (ie-story-next-scene)))
-		(goto-char next-scene)))
+  "Go to the next heading scene."
+  (when-let ((next-scene (ie-story-next-scene)))
+    (goto-char next-scene)))
 
 (defun ie-story-scenes ()
   "Return the list of buffer position of the scenes in the current buffer."
-	(save-excursion
-		(beginning-of-buffer)
-		(let ((scenes '()))
-			(while (ie-story-goto-next-scene)
-				(beginning-of-line)
-				(add-to-list 'scenes (point))
-				(next-line))
-			(reverse scenes))))
+  (save-excursion
+    (beginning-of-buffer)
+    (let ((scenes '()))
+      (while (ie-story-goto-next-scene)
+        (beginning-of-line)
+        (add-to-list 'scenes (point))
+        (next-line))
+      (reverse scenes))))
 
 (defun ie-story-scene-title (scene-buffer-position &optional kebab-case)
   "Return the title of the scene at SCENE-BUFFER-POSITION.
 
 If KEBAB-CASE is t, return the title of the scene but in kebab-case."
-	(save-excursion
-		(goto-char scene-buffer-position)
-		(search-forward-regexp ": *" nil t)
-		(let* ((beg (point))
-					 (end (progn (end-of-line) (point)))
-					 (name (buffer-substring-no-properties beg end)))
-			(if kebab-case
-					(s-downcase (s-replace " " "-" name))
-				name))))
+  (save-excursion
+    (goto-char scene-buffer-position)
+    (search-forward-regexp ": *" nil t)
+    (let* ((beg (point))
+           (end (progn (end-of-line) (point)))
+           (name (buffer-substring-no-properties beg end)))
+      (if kebab-case
+          (s-downcase (s-replace " " "-" name))
+        name))))
 
 ;;; Generate svg files
 
@@ -134,20 +134,20 @@ The svg file generated is save in the directory `ie-r-images' with
 a unique name."
   (unless (f-exists? ie-r-images) (f-mkdir ie-r-images))
   (let* ((title (ie-story-scene-title scene-buffer-position))
-				 (title-kebab-case (ie-story-scene-title scene-buffer-position t))
-				 (file (f-join ie-r-images
-											 (s-concat
-												(s-join "-" `("description" ,title-kebab-case "title"))
-												".svg")))
+         (title-kebab-case (ie-story-scene-title scene-buffer-position t))
+         (file (f-join ie-r-images
+                       (s-concat
+                        (s-join "-" `("description" ,title-kebab-case "title"))
+                        ".svg")))
          (svg (svg-create 1920 1080))
          (style "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:96px;line-height:1.25;font-family:Ramabhadra;-inkscape-font-specification:'Ramabhadra Bold';letter-spacing:0px;word-spacing:0px;fill:#f0f0f0;fill-opacity:0.941176;stroke:none;stroke-width:0.264583")
          (x-start-line 90)
          (y-start-line 194))
-		(svg-text svg title
-							:style style :x x-start-line :y y-start-line)
-		(with-temp-buffer
-			(svg-print svg)
-			(write-region (point-min) (point-max) file))))
+    (svg-text svg title
+              :style style :x x-start-line :y y-start-line)
+    (with-temp-buffer
+      (svg-print svg)
+      (write-region (point-min) (point-max) file))))
 
 (defun ie-story-generate-description-svg (lines title index)
   "Generate svg description of Inside Emacs.
@@ -160,9 +160,9 @@ The svg file generated is save in the directory `ie-r-images' with
 a unique name."
   (unless (f-exists? ie-r-images) (f-mkdir ie-r-images))
   (let ((file (f-join ie-r-images
-											(s-concat
-											 (s-join "-" `("description" ,title ,(number-to-string index)))
-											 ".svg")))
+                      (s-concat
+                       (s-join "-" `("description" ,title ,(number-to-string index)))
+                       ".svg")))
         (svg (svg-create 1920 1080))
         (style "font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:96px;line-height:1.25;font-family:Ramabhadra;-inkscape-font-specification:'Ramabhadra Bold';letter-spacing:0px;word-spacing:0px;fill:#f0f0f0;fill-opacity:0.941176;stroke:none;stroke-width:0.264583")
         (lines-reversed (reverse lines))
@@ -177,25 +177,25 @@ a unique name."
 
 (defun ie-story-generate-descriptions-in-scene-svg (scene-buffer-position)
   "Generate all svg descriptions of Inside Emacs in the scene at SCENE-BUFFER-POSITION."
-	(save-excursion
-		(goto-char scene-buffer-position)
-		(let* ((bound (ie-story-next-scene))
-					 (scene-name (ie-story-scene-title scene-buffer-position t))
-					 (description-index 1)
-					 description-lines)
-			(while (ie-story-goto-next-description bound)
-				(setq description-lines (ie-story-description-lines (point)))
-				(ie-story-generate-description-svg description-lines
-																					 scene-name
-																					 description-index)
-				(setq description-index (1+ description-index))))))
+  (save-excursion
+    (goto-char scene-buffer-position)
+    (let* ((bound (ie-story-next-scene))
+           (scene-name (ie-story-scene-title scene-buffer-position t))
+           (description-index 1)
+           description-lines)
+      (while (ie-story-goto-next-description bound)
+        (setq description-lines (ie-story-description-lines (point)))
+        (ie-story-generate-description-svg description-lines
+                                           scene-name
+                                           description-index)
+        (setq description-index (1+ description-index))))))
 
 (defun ie-story-generate-all-descriptions-svg ()
   "Generate all svg descriptions of Inside Emacs for the current buffer."
   (interactive)
-	(--each (ie-story-scenes)
-		(ie-story-generate-scene-title-svg it)
-		(ie-story-generate-descriptions-in-scene-svg it)))
+  (--each (ie-story-scenes)
+    (ie-story-generate-scene-title-svg it)
+    (ie-story-generate-descriptions-in-scene-svg it)))
 
 ;;; COMMENTS:
 ;; COMMENTS:

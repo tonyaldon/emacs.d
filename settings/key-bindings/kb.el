@@ -193,7 +193,7 @@ apropos commands and other information about emacs."
   [["Describe"
     ("kk" "describe-key" describe-key--transient)
     ("kl" "describe-keymap" describe-keymap--transient)
-		("f" "describe-function" describe-function--transient)
+    ("f" "describe-function" describe-function--transient)
     ("v" "describe-variable" describe-variable--transient)
     ("m" "describe-mode" describe-mode--transient)]
    ["Other info"
@@ -219,8 +219,8 @@ command related to git commit message."
   [["linux"
     ("l" "linux-toggle-laptop-output" linux-toggle-laptop-output--transient)
     ("i" "linux-toggle-i3bar" linux-toggle-i3bar--transient)
-		("d" "linux-toggle-dpi" linux-toggle-dpi--transient)
-		("k" "linux-switch-keyboard-layout" linux-switch-keyboard-layout--transient)]
+    ("d" "linux-toggle-dpi" linux-toggle-dpi--transient)
+    ("k" "linux-switch-keyboard-layout" linux-switch-keyboard-layout--transient)]
    ["git"
     ("g" "linux-toggle-git-commit-msg" linux-toggle-git-commit-msg--transient)]])
 
@@ -311,8 +311,8 @@ command related to git commit message."
 (defun ta-zap-back-to-char (char)
   "As `zap-to-char' but backward."
   (interactive (list (read-char-from-minibuffer
-											"Zap back to char: " nil 'read-char-history)))
-	(zap-to-char -1 char))
+                      "Zap back to char: " nil 'read-char-history)))
+  (zap-to-char -1 char))
 
 (global-set-key (kbd "M-m") 'ta-zap-back-to-char)
 
@@ -422,12 +422,12 @@ command related to git commit message."
 (defun ta-isearch-yank-sexp-at-point ()
   "Pull sexp at point into search string."
   (interactive)
-	(isearch-yank-string (thing-at-point 'sexp)))
+  (isearch-yank-string (thing-at-point 'sexp)))
 
 (defun ta-isearch-yank-word-at-point ()
   "Pull word at point into search string."
   (interactive)
-	(isearch-yank-string (thing-at-point 'word)))
+  (isearch-yank-string (thing-at-point 'word)))
 
 (global-set-key (kbd "M-s") 'isearch-forward)
 (global-set-key (kbd "M-r") 'isearch-backward)
@@ -530,33 +530,33 @@ command related to git commit message."
 
 (setq org-speed-commands-default nil)
 (setq org-speed-commands-user
-			'(("Outline Navigation")
-				("n" . (org-speed-move-safe 'org-next-visible-heading))
-				("p" . (org-speed-move-safe 'org-previous-visible-heading))
-				("f" . (org-speed-move-safe 'org-forward-heading-same-level))
-				("b" . (org-speed-move-safe 'org-backward-heading-same-level))
-				("i" . (org-speed-move-safe 'outline-up-heading))
-				("Sparse tree navigation")
-				("d" . previous-error)
-				("s" . next-error)
-				("Outline Structure Editing")
-				("." . org-toggle-narrow-to-subtree)
-				("@" . org-mark-subtree)
-				("`". org-metaup)
-				(",". org-metadown)
-				("]". org-shiftmetaright)
-				("[". org-shiftmetaleft)
-				(")". org-metaright)
-				("(". org-metaleft)
-				("+". (progn (forward-char 1) (call-interactively
-																			 'org-insert-heading-respect-content)))
-				("Meta Data Editing")
-				("t" . org-todo)
-				(":" . org-set-tags-command)
-				("c" . org-comment-dwim)
-				("Agenda Views etc")
-				("a" . org-agenda)
-				("/" . org-sparse-tree)))
+      '(("Outline Navigation")
+        ("n" . (org-speed-move-safe 'org-next-visible-heading))
+        ("p" . (org-speed-move-safe 'org-previous-visible-heading))
+        ("f" . (org-speed-move-safe 'org-forward-heading-same-level))
+        ("b" . (org-speed-move-safe 'org-backward-heading-same-level))
+        ("i" . (org-speed-move-safe 'outline-up-heading))
+        ("Sparse tree navigation")
+        ("d" . previous-error)
+        ("s" . next-error)
+        ("Outline Structure Editing")
+        ("." . org-toggle-narrow-to-subtree)
+        ("@" . org-mark-subtree)
+        ("`". org-metaup)
+        (",". org-metadown)
+        ("]". org-shiftmetaright)
+        ("[". org-shiftmetaleft)
+        (")". org-metaright)
+        ("(". org-metaleft)
+        ("+". (progn (forward-char 1) (call-interactively
+                                       'org-insert-heading-respect-content)))
+        ("Meta Data Editing")
+        ("t" . org-todo)
+        (":" . org-set-tags-command)
+        ("c" . org-comment-dwim)
+        ("Agenda Views etc")
+        ("a" . org-agenda)
+        ("/" . org-sparse-tree)))
 
 
 

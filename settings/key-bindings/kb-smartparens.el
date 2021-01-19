@@ -61,7 +61,7 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
       (call-interactively 'avy-goto-word-or-subword-1)
       (sp-kill-sexp))
     (select-window initial-window)
-		(yank)))
+    (yank)))
 
 (defun ta-sp-toggle-narrow (arg)
   "Toggle between `widen' and `sp-narrow-to-sexp'."
@@ -72,15 +72,15 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
 (defhydra hydra-sp
   (
    :pre (progn
-					(if insight-mode (insight-mode -1))
-					(set-cursor-color "#f92672"))
+          (if insight-mode (insight-mode -1))
+          (set-cursor-color "#f92672"))
    :post (set-cursor-color "#26f9ad")
    :hint nil)
   ("v" hydra-browse/body :color blue)
-	("t" hydra-lines/body :color blue)
+  ("t" hydra-lines/body :color blue)
   ;; miscellaneous
   ("." set-mark-command)
-	("M-." ta-sp-toggle-narrow)
+  ("M-." ta-sp-toggle-narrow)
   ("T" exchange-point-and-mark)
   ("r" join-line)
   ;; (";" sp-comment)
@@ -99,21 +99,21 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
   ("M-:" sp-join-sexp)
   (">" sp-absorb-sexp)
   ("}" sp-emit-sexp)
-	("%" sp-convolute-sexp)
-	("C-f" sp-forward-slurp-sexp)
+  ("%" sp-convolute-sexp)
+  ("C-f" sp-forward-slurp-sexp)
   ("C-b" sp-backward-slurp-sexp)
   ("C-p" sp-add-to-previous-sexp)
   ("C-n" sp-add-to-next-sexp)
   ("M-f" sp-forward-barf-sexp)
   ("M-b" sp-backward-barf-sexp)
-	("<left>" sp-splice-sexp-killing-backward)
+  ("<left>" sp-splice-sexp-killing-backward)
   ("<right>" sp-splice-sexp-killing-forward)
   ("<up>" sp-raise-sexp)
   ("/" sp-splice-sexp)
   ;; motion
   ("M-p" sp-beginning-of-previous-sexp)
   ("M-n" sp-beginning-of-next-sexp)
-	("C-M-p" sp-end-of-previous-sexp)
+  ("C-M-p" sp-end-of-previous-sexp)
   ("C-M-n" sp-end-of-next-sexp)
   ("f" sp-forward-sexp)
   ("b" sp-backward-sexp)
@@ -145,7 +145,7 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
 
 (defun indent-between-pair (&rest _ignored)
   "See: http://xenodium.com/emacs-smartparens-auto-indent/."
-	(newline)
+  (newline)
   (indent-according-to-mode)
   (forward-line -1)
   (indent-according-to-mode))

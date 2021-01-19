@@ -17,8 +17,8 @@
 (defun ta-mouse-iedit-mode ()
   "Toggle `iedit-mode' on mouse click."
   (interactive)
-	(call-interactively 'mouse-set-point)
-	(call-interactively 'iedit-mode))
+  (call-interactively 'mouse-set-point)
+  (call-interactively 'iedit-mode))
 
 (defun ta-advice-mouse-set-point-iedit-mode (&rest r)
   "Turn off `iedit-mode' if already on.
@@ -98,12 +98,12 @@ Return nil if PT isn't inside a string. See the function `ta-point-in-string-p'"
   (interactive)
   (when (org-at-table-p)
     (push-mark (point))
-		(re-search-forward "|")
-		(backward-char)
-		(skip-chars-backward " ")
-		(push-mark (point))
-		(set-mark (point))
-		(org-table-beginning-of-field 1)))
+    (re-search-forward "|")
+    (backward-char)
+    (skip-chars-backward " ")
+    (push-mark (point))
+    (set-mark (point))
+    (org-table-beginning-of-field 1)))
 
 (defun ta-mark-inside-dwim (&optional arg)
   "Mark things inside quotes if point is inside a string.
@@ -113,12 +113,12 @@ In other modes, mark things inside pairs.
 If call two times consecutively mark inside pairs."
   (interactive)
   (cond ((equal last-command 'ta-mark-inside-dwim)
-				 (call-interactively 'ta-mark-inside-pairs))
-				((er--point-inside-string-p) ;FIXME: return nil inside string in markdown-mode
-				 (call-interactively 'er/mark-inside-quotes))
-				((and (equal major-mode 'org-mode) (org-at-table-p))
-				 (ta-mark-inside-org-table))
-				(t (call-interactively 'ta-mark-inside-pairs))))
+         (call-interactively 'ta-mark-inside-pairs))
+        ((er--point-inside-string-p) ;FIXME: return nil inside string in markdown-mode
+         (call-interactively 'er/mark-inside-quotes))
+        ((and (equal major-mode 'org-mode) (org-at-table-p))
+         (ta-mark-inside-org-table))
+        (t (call-interactively 'ta-mark-inside-pairs))))
 
 ;;; hydra-mc
 

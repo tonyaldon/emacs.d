@@ -11,9 +11,9 @@
 ;;; Hooks
 
 (defun ta-outline-emacs-lisp-mode-hook ()
-	"Hook to turn on `outline-minor-mode'."
-	(outline-minor-mode t)
-	(outline-speed-commands-mode t))
+  "Hook to turn on `outline-minor-mode'."
+  (outline-minor-mode t)
+  (outline-speed-commands-mode t))
 
 (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
 (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)

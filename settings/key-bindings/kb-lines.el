@@ -41,29 +41,29 @@ see: https://github.com/magnars/.emacs.d/blob/master/defuns/buffer-defuns.el#L14
   (interactive)
   (end-of-line)
   ;; HACK: Have to use both `push-mark' and `set-mark' in this order to
-	;;       expected result.
-	(push-mark (point))
-	(set-mark (point))
+  ;;       expected result.
+  (push-mark (point))
+  (set-mark (point))
   (beginning-of-line))
 
 (defun ta-mark-end-of-line ()
   "Mark from point to end of line."
   (interactive)
   ;; HACK: Have to use both `push-mark' and `set-mark' in this order to
-	;;       expected result.
-	(push-mark (point))
+  ;;       expected result.
+  (push-mark (point))
   (set-mark (point))
   (end-of-line))
 
 (defun ta-avy-kill-yank-whole-line ()
   "Call `avy-kill-whole-line' and yank it at point."
   (interactive)
-	(call-interactively 'avy-kill-whole-line)
-	(beginning-of-line)
-	(open-line 1)
-	(yank)
-	(delete-backward-char 1)
-	(beginning-of-line))
+  (call-interactively 'avy-kill-whole-line)
+  (beginning-of-line)
+  (open-line 1)
+  (yank)
+  (delete-backward-char 1)
+  (beginning-of-line))
 
 (defun ta-yank-line-below ()
   "copy current line and yank it to the next line.
@@ -111,14 +111,14 @@ Cursor doesn't move."
 (defun ta-below-new-indent ()
   "Do `end-of-visual-line' then `newline-and-indent'"
   (interactive)
-	(end-of-line)
+  (end-of-line)
   (newline-and-indent))
 
 (defun ta-add-space ()
   "Add space at point without moving."
   (interactive)
-	(insert " ")
-	(goto-char (- (point) 1)))
+  (insert " ")
+  (goto-char (- (point) 1)))
 
 (defun ta-avy-mark-region (arg)
   "Select two lines and mark the region between them"
@@ -150,8 +150,8 @@ Cursor doesn't move."
 Preserve the column position of the cursor."
   (interactive)
   (let ((column-position (current-column)))
-		(kill-whole-line)
-		(move-to-column column-position)))
+    (kill-whole-line)
+    (move-to-column column-position)))
 
 (defun hydra-lines-active ()
   "Toggle status of `hydra-lines-active'"
@@ -162,28 +162,28 @@ Preserve the column position of the cursor."
 (defhydra hydra-lines
   (
    :pre (progn
-					(if insight-mode (insight-mode -1))
-					(set-cursor-color "#fa87ce"))
+          (if insight-mode (insight-mode -1))
+          (set-cursor-color "#fa87ce"))
    :post (progn
            (set-cursor-color "#26f9ad")
            (hydra-lines-active))
    :hint nil)
-	("M-l" recenter-top-bottom)
-	;;; test on cursor color
-	("z" ta-test-cursor-color :color blue)
-	;;; test on cursor color
+  ("M-l" recenter-top-bottom)
+  ;;; test on cursor color
+  ("z" ta-test-cursor-color :color blue)
+  ;;; test on cursor color
   ("v" hydra-browse/body :color blue)
   ("t" hydra-sp/body :color blue)
-	(";" ta-comment-line)
-	("&" ta-jsx-comment-or-uncomment-line)
+  (";" ta-comment-line)
+  ("&" ta-jsx-comment-or-uncomment-line)
   ("DEL" delete-backward-char)
   ("." set-mark-command)
   ("m" exchange-point-and-mark)
   ("D" display-line-numbers-mode)
   ("L" goto-line)
-	(">" zap-up-to-char)
-	("C-n" narrow-to-region)
-	;; action on line(s)
+  (">" zap-up-to-char)
+  ("C-n" narrow-to-region)
+  ;; action on line(s)
   (":" ta-avy-mark-region)
   ("'" mark-paragraph)
   ("c" avy-copy-line)
@@ -218,11 +218,11 @@ Preserve the column position of the cursor."
   ("e" move-end-of-line)
   ("M-f" forward-word)
   ("M-b" backward-word)
-	("M-e" org-forward-sentence)
-	("M-a" org-backward-sentence)
-	("C-M-a" iy-go-to-char-backward :color blue)
-	("C-M-e" iy-go-to-char :color blue)
-	;; drag stuff
+  ("M-e" org-forward-sentence)
+  ("M-a" org-backward-sentence)
+  ("C-M-a" iy-go-to-char-backward :color blue)
+  ("C-M-e" iy-go-to-char :color blue)
+  ;; drag stuff
   ("d" drag-stuff-up)
   ("s" drag-stuff-down)
   ("<left>" drag-stuff-left)

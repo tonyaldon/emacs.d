@@ -103,12 +103,12 @@ region if actived."
 (defhydra hydra-ss
   (:hint nil)
 
-	;; ("d" ta-ss-s-dashed-words :color blue)
+  ;; ("d" ta-ss-s-dashed-words :color blue)
   ;; ("s" ta-ss-s-snake-case :color blue)
   ;; ("l" ta-ss-s-lower-camel-case :color blue)
   ;; ("r" ta-ss-s-upper-camel-case :color blue)
 
-	("d" ta-ss-s-dashed-words)
+  ("d" ta-ss-s-dashed-words)
   ("s" ta-ss-s-snake-case)
   ("l" ta-ss-s-lower-camel-case)
   ("r" ta-ss-s-upper-camel-case)

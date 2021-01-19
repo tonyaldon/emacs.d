@@ -6,14 +6,14 @@
 (defvar framer-redo-frame nil)
 
 (defun framer-set-ring ()
-	"Initialize `framer-ring' to an empty ring if not define yet."
+  "Initialize `framer-ring' to an empty ring if not define yet."
   (unless framer-ring
     (setq framer-ring (make-ring framer-ring-size))))
 
 (defun framer-flush ()
   "Flush `framer-ring'."
   (interactive)
-	(setq framer-ring (make-ring framer-ring-size)))
+  (setq framer-ring (make-ring framer-ring-size)))
 
 (defun framer-push ()
   "Push the window's state into `framer-ring'."
@@ -30,7 +30,7 @@
     (framer-set-ring))
   (unless (ring-empty-p framer-ring)
     (window-state-put (ring-ref framer-ring framer-undo-counter))
-		(cl-incf framer-undo-counter)))
+    (cl-incf framer-undo-counter)))
 
 (defun framer-redo ()
   "Go back to the last window's state before start to

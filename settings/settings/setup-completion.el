@@ -385,7 +385,7 @@ Inteded to be bind in `ivy-minibuffer-map'."
            (message "caller (%s) not listed in ta-counsel-rg-ivy-callers-alist" caller)
          (when-let (resolver (alist-get caller ta-counsel-rg-ivy-callers-alist))
            (counsel-rg nil (funcall resolver selection)))))))
-	(ivy-done))
+  (ivy-done))
 
 (define-key ivy-minibuffer-map (kbd "C-M-a") 'ta-counsel-rg-ivy-command)
 

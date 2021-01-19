@@ -12,7 +12,7 @@ Call command `dired-toggle-read-only' if `major-mode' is equal
   (interactive)
   (cond ((string-equal major-mode "dired-mode")
          (call-interactively 'dired-toggle-read-only))
-				((string-equal major-mode "occur-mode")
+        ((string-equal major-mode "occur-mode")
          (call-interactively 'occur-edit-mode))
         ((memq major-mode refactor-wgrep-mode-list)
          (call-interactively 'wgrep-change-to-wgrep-mode))
@@ -56,7 +56,7 @@ Call command `wdired-finish-edit' if `major-mode' is
          (call-interactively 'wdired-finish-edit))
         ((string-equal major-mode "occur-edit-mode")
          (call-interactively 'occur-cease-edit))
-				((memq major-mode refactor-wgrep-mode-list)
+        ((memq major-mode refactor-wgrep-mode-list)
          (call-interactively 'wgrep-finish-edit))
         (t nil)))
 

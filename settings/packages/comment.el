@@ -26,11 +26,11 @@
 ;;; Code
 
 (defmacro comment (&rest body)
-	"Ignores body and yield nil.
+  "Ignores body and yield nil.
 
 It's a copy of the \"comment\" macro in the clojure language.
 See https://betweentwoparens.com/rich-comment-blocks#rich-comment."
-	nil)
+  nil)
 
 ;;; Comments
 

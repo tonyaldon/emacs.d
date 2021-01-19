@@ -48,11 +48,11 @@
           (forward-char 1)
         (goto-char beg-of-tag))
     (search-backward-regexp ">" nil t)
-		(save-excursion (setq tag-type
-													(sgml-tag-type (car (sgml-get-context)))))
-		(cond
-		 ((equal tag-type 'empty) (backward-char 1))
-		 ((equal tag-type 'close) (sgml-beginning-of-tag)))))
+    (save-excursion (setq tag-type
+                          (sgml-tag-type (car (sgml-get-context)))))
+    (cond
+     ((equal tag-type 'empty) (backward-char 1))
+     ((equal tag-type 'close) (sgml-beginning-of-tag)))))
 
 
 

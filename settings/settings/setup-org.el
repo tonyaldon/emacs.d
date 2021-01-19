@@ -27,13 +27,13 @@
 
 (org-babel-do-load-languages
  'org-babel-load-languages '((js . t)
-														 (shell . t)
-														 (python . t)
-														 (dot . t)))
+                             (shell . t)
+                             (python . t)
+                             (dot . t)))
 
 (defun ta-org-confirm-babel-evaluate (lang body)
   (and (not (string= lang "emacs-lisp"))
-			 (not (string= lang "dot"))))  ; don't ask for ditaa
+       (not (string= lang "dot"))))  ; don't ask for ditaa
 
 (setq org-confirm-babel-evaluate 'ta-org-confirm-babel-evaluate)
 
@@ -45,18 +45,18 @@
   "Go to the previous row (same column) in the current table.
 Before doing so, re-align the table if necessary."
   (interactive)
-	(unless (org-at-table-hline-p)
-		(org-table-maybe-eval-formula)
-		(org-table-maybe-recalculate-line))
+  (unless (org-at-table-hline-p)
+    (org-table-maybe-eval-formula)
+    (org-table-maybe-recalculate-line))
   (if (and org-table-automatic-realign
-					 org-table-may-need-update)
+           org-table-may-need-update)
       (org-table-align))
-	(let ((col (org-table-current-column)))
+  (let ((col (org-table-current-column)))
     (when (and (org-at-table-p)
                (not (= (org-table-current-line) 1)))
-			(previous-line)
+      (previous-line)
       (unless (org-at-table-hline-p)
-			  (org-table-goto-column col)))))
+        (org-table-goto-column col)))))
 
 (defun ta-org-meta-return (&optional arg)
   "Insert a new heading or wrap a region in a table.
@@ -72,10 +72,10 @@ when calling `org-meta-return' in tables."
   (org-check-before-invisible-edit 'insert)
   (or (run-hook-with-args-until-success 'org-metareturn-hook)
       (if (org-at-table-p)
-					(org-table-wrap-region arg)
-				(call-interactively (cond (arg #'org-insert-heading)
-																	((org-in-item-p) #'org-insert-item)
-																	(t #'org-insert-heading))))))
+          (org-table-wrap-region arg)
+        (call-interactively (cond (arg #'org-insert-heading)
+                                  ((org-in-item-p) #'org-insert-item)
+                                  (t #'org-insert-heading))))))
 
 (defun ta-org-shiftmetadown (&optional _arg)
   "Drag the line at point down.
@@ -89,7 +89,7 @@ Everywhere else, drag the line at point down."
    ((run-hook-with-args-until-success 'org-shiftmetadown-hook))
    ((org-at-table-p) (org-table-insert-row 'below))
    ((org-at-clock-log-p) (let ((org-clock-adjust-closest t))
-													 (call-interactively 'org-timestamp-down)))
+                           (call-interactively 'org-timestamp-down)))
    (t (call-interactively 'org-drag-line-forward))))
 
 (defun org-self-insert-command (N)
@@ -105,11 +105,11 @@ to blank table field if we start typing just after using it as `org-cycle',
   (org-check-before-invisible-edit 'insert)
   (cond
    ((and org-use-speed-commands
-				 (let ((kv (this-command-keys-vector)))
-					 (setq org-speed-command
-								 (run-hook-with-args-until-success
-									'org-speed-command-hook
-									(make-string 1 (aref kv (1- (length kv))))))))
+         (let ((kv (this-command-keys-vector)))
+           (setq org-speed-command
+                 (run-hook-with-args-until-success
+                  'org-speed-command-hook
+                  (make-string 1 (aref kv (1- (length kv))))))))
     (cond
      ((commandp org-speed-command)
       (setq this-command org-speed-command)
@@ -119,7 +119,7 @@ to blank table field if we start typing just after using it as `org-cycle',
      ((and org-speed-command (listp org-speed-command))
       (eval org-speed-command))
      (t (let (org-use-speed-commands)
-					(call-interactively 'org-self-insert-command)))))
+          (call-interactively 'org-self-insert-command)))))
    ((and
      (= N 1)
      (not (org-region-active-p))
@@ -127,17 +127,17 @@ to blank table field if we start typing just after using it as `org-cycle',
      (progn
        ;; Check if we blank the field, and if that triggers align.
        (and (featurep 'org-table)
-						org-table-auto-blank-field
-						(memq last-command
-									'(ta-org-table-previous-row
-										org-cycle org-return org-shifttab org-ctrl-c-ctrl-c))
-						(if (or (eq (char-after) ?\s) (looking-at "[^|\n]*  |"))
-								;; Got extra space, this field does not determine
-								;; column width.
-								(let (org-table-may-need-update) (org-table-blank-field))
-							;; No extra space, this field may determine column
-							;; width.
-							(org-table-blank-field)))
+            org-table-auto-blank-field
+            (memq last-command
+                  '(ta-org-table-previous-row
+                    org-cycle org-return org-shifttab org-ctrl-c-ctrl-c))
+            (if (or (eq (char-after) ?\s) (looking-at "[^|\n]*  |"))
+                ;; Got extra space, this field does not determine
+                ;; column width.
+                (let (org-table-may-need-update) (org-table-blank-field))
+              ;; No extra space, this field may determine column
+              ;; width.
+              (org-table-blank-field)))
        t)
      (looking-at "[^|\n]*  |"))
     ;; There is room for insertion without re-aligning the table.
@@ -155,15 +155,15 @@ to blank table field if we start typing just after using it as `org-cycle',
     (org-fix-tags-on-the-fly)
     (when org-self-insert-cluster-for-undo
       (if (not (eq last-command 'org-self-insert-command))
-					(setq org-self-insert-command-undo-counter 1)
-				(if (>= org-self-insert-command-undo-counter 20)
-						(setq org-self-insert-command-undo-counter 1)
-					(and (> org-self-insert-command-undo-counter 0)
-							 buffer-undo-list (listp buffer-undo-list)
-							 (not (cadr buffer-undo-list)) ; remove nil entry
-							 (setcdr buffer-undo-list (cddr buffer-undo-list)))
-					(setq org-self-insert-command-undo-counter
-								(1+ org-self-insert-command-undo-counter))))))))
+          (setq org-self-insert-command-undo-counter 1)
+        (if (>= org-self-insert-command-undo-counter 20)
+            (setq org-self-insert-command-undo-counter 1)
+          (and (> org-self-insert-command-undo-counter 0)
+               buffer-undo-list (listp buffer-undo-list)
+               (not (cadr buffer-undo-list)) ; remove nil entry
+               (setcdr buffer-undo-list (cddr buffer-undo-list)))
+          (setq org-self-insert-command-undo-counter
+                (1+ org-self-insert-command-undo-counter))))))))
 ;;; Hooks
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)

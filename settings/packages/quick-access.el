@@ -21,11 +21,11 @@ QUICK-ACCESS-NAME must be uniq.")
   "Open a quick-access file listed in `quick-access-alist'."
   (interactive)
   (ivy-read "Open quick-access: "
-						(quick-access-all-names)
-						:history 'quick-access-history
-						:action (lambda (x)
-											(find-file (quick-access-get-filename x)))
-						:caller 'counsel-quick-access))
+            (quick-access-all-names)
+            :history 'quick-access-history
+            :action (lambda (x)
+                      (find-file (quick-access-get-filename x)))
+            :caller 'counsel-quick-access))
 
 
 (provide 'quick-access)

@@ -20,7 +20,7 @@ This command toggle between this following levels:
 This is a variant off (hack on) the `bicycle-cycle-global'."
   (interactive)
   (setq deactivate-mark t)
-	(save-excursion
+  (save-excursion
     (goto-char (point-min))
     (unless (re-search-forward outline-regexp nil t)
       (user-error "Found no heading"))
@@ -38,15 +38,15 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
      ((eq last-command 'outline-cycle-trees)
       (outline-show-all)
       (bicycle--message "ALL"))
-		 (t
-			(outline-map-region
-			 (lambda () (when (bicycle--top-level-p)
-										(outline-hide-subtree)))
-			 (point-min)
-			 (point-max))
-			(bicycle--message "FOLDED")
-			(setq this-command 'outline-cycle-folded)
-			))))
+     (t
+      (outline-map-region
+       (lambda () (when (bicycle--top-level-p)
+                    (outline-hide-subtree)))
+       (point-min)
+       (point-max))
+      (bicycle--message "FOLDED")
+      (setq this-command 'outline-cycle-folded)
+      ))))
 
 ;;; Key bindings
 
@@ -60,19 +60,19 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
 
 (setq outline-speed-commands-default nil)
 (setq outline-speed-commands-user
-			'(("Outline Navigation")
-				("n" . (outline-speed-move-safe 'outline-next-visible-heading))
-				("p" . (outline-speed-move-safe 'outline-previous-visible-heading))
-				("f" . (outline-speed-move-safe 'outline-forward-same-level))
-				("b" . (outline-speed-move-safe 'outline-backward-same-level))
-				("i" . (outline-speed-move-safe 'outline-up-heading))
-				("Outline Structure Editing")
-				("." . org-toggle-narrow-to-subtree)
-				("@" . outline-mark-subtree)
-				("`". outline-move-subtree-up)
-				(",". outline-move-subtree-down)
-				("+". outline-insert-heading)
-				"The default Outline speed commands."))
+      '(("Outline Navigation")
+        ("n" . (outline-speed-move-safe 'outline-next-visible-heading))
+        ("p" . (outline-speed-move-safe 'outline-previous-visible-heading))
+        ("f" . (outline-speed-move-safe 'outline-forward-same-level))
+        ("b" . (outline-speed-move-safe 'outline-backward-same-level))
+        ("i" . (outline-speed-move-safe 'outline-up-heading))
+        ("Outline Structure Editing")
+        ("." . org-toggle-narrow-to-subtree)
+        ("@" . outline-mark-subtree)
+        ("`". outline-move-subtree-up)
+        (",". outline-move-subtree-down)
+        ("+". outline-insert-heading)
+        "The default Outline speed commands."))
 
 ;;; Footer
 

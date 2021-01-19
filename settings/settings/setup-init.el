@@ -57,7 +57,7 @@
                 mode-line-modified
                 mode-line-remote
                 mode-line-frame-identification
-								moody-mode-line-buffer-identification
+                moody-mode-line-buffer-identification
                 "   "
                 (:eval (format "NL%s" (ta-number-of-lines-mode)))
                 " "
@@ -440,8 +440,8 @@ the variable `outline-regexp'."
   "Show git logs in other windows."
   (interactive)
   (other-window 1)
-	(call-interactively 'magit-log-current)
-	(other-window 1))
+  (call-interactively 'magit-log-current)
+  (other-window 1))
 
 (defun ta-magit-delete-other-windows (&rest r)
   "Intended to be advice of `magit-commit-create'."
@@ -474,7 +474,7 @@ the variable `outline-regexp'."
 
 Intended to be used in the hook `makefile-gmake-mode-hook'."
   (setq tab-width 8)
-	(setq indent-tabs-mode t))
+  (setq indent-tabs-mode t))
 
 (add-hook 'makefile-gmake-mode-hook 'ta-makefile-tabs-settings)
 
