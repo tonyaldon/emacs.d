@@ -115,12 +115,11 @@
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 
-(make-variable-buffer-local 'whitespace-style)
-(setq-default whitespace-style '(face tabs tab-mark lines-tail))
+(setq whitespace-style '(face tabs tab-mark lines-tail))
 (setq whitespace-line-column nil)
 (setq whitespace-display-mappings '((tab-mark ?\t [?⇥ ?\ ])))
 
-(global-whitespace-mode)
+(add-hook 'prog-mode-hook 'whitespace-mode)
 
 ;;;;; Comments
 

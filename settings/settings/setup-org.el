@@ -168,13 +168,7 @@ to blank table field if we start typing just after using it as `org-cycle',
                 (1+ org-self-insert-command-undo-counter))))))))
 ;;; Hooks
 
-(defun ta-org-whitspace-mode ()
-  "Set `whitespace-style' for `org-mode'."
-  (setq whitespace-style '(face tabs tab-mark)))
-
 (add-hook 'org-mode-hook 'org-indent-mode)
-(add-hook 'org-mode-hook 'ta-org-whitspace-mode)
-
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
 ;;; Footer
