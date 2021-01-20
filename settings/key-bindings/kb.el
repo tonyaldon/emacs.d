@@ -198,10 +198,12 @@ that call interactively COMMAND."
 
 ;;;;; miscellaneous
 
-(ta-transient-define-suffix apropos)
-(ta-transient-define-suffix info)
 (ta-transient-define-suffix yas-describe-tables)
 (ta-transient-define-suffix yas-new-snippet)
+(ta-transient-define-suffix yas-visit-snippet-file)
+
+(ta-transient-define-suffix apropos)
+(ta-transient-define-suffix info)
 (ta-transient-define-suffix ta-mini-frame-ignore-commands)
 (ta-transient-define-suffix image-toggle-display)
 
@@ -223,7 +225,8 @@ that call interactively COMMAND."
     ("lg" "linux-toggle-git-commit-msg" linux-toggle-git-commit-msg--transient)]
    ["yasnippet"
     ("sd" "yas-describe-tables" yas-describe-tables--transient)
-    ("sn" "yas-new-snippet" yas-new-snippet--transient)]
+    ("sn" "yas-new-snippet" yas-new-snippet--transient)
+    ("sf" "yas-visit-snippet-file" yas-visit-snippet-file--transient)]
    ["misc"
     ("a" "apropos" apropos--transient)
     ("i" "info" info--transient)
