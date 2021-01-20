@@ -801,7 +801,7 @@ see: http://github.com/magnars"
   (interactive)
   (find-file "~/work/notes.org"))
 
-(defun ta-visite-mini-frame-ignore-commands ()
+(defun ta-mini-frame-ignore-commands ()
   "Visite file \"~/.emacs.d/settings/settings/setup-init.el\" and
 go to the variable `mini-frame-ignore-commands'"
   (interactive)
