@@ -54,6 +54,9 @@
    `(show-paren-match ((t (:background ,d-black-4 :foreground ,d-white-0 :underline t :weight ultra-bold))))
    `(show-paren-mismatch ((t (:background ,d-red :foreground ,d-white-1 :weight bold))))
 
+   `(whitespace-tab ((t (:background "#afad00" :foreground ,d-black-1))))
+   `(whitespace-line ((t (:background ,d-black-1 :foreground ,d-pink-1))))
+
    `(avy-lead-face ((t (:foreground ,d-red :weight bold))))
    `(avy-lead-face-0 ((t (:inherit avy-lead-face))))
    `(avy-lead-face-1 ((t (:inherit avy-lead-face))))
@@ -89,7 +92,7 @@
    `(info-menu-star ((t (:foreground ,d-white-1))))
    `(link ((t (:foreground ,d-aquamarine-3 :underline t))))
 
-	 `(wgrep-done-face ((t (:foreground ,d-blue-1 :weight bold))))
+   `(wgrep-done-face ((t (:foreground ,d-blue-1 :weight bold))))
    `(wgrep-face ((t (:underline (:color ,d-gray-4 :style wave)))))
    `(wgrep-file-face ((t (:background ,d-gray-2 :foreground ,d-white-1))))
    `(wgrep-reject-face ((t (:foreground ,d-pink-2 :weight bold))))
@@ -98,9 +101,9 @@
    `(compilation-info ((t (:foreground ,d-cyan-2 :underline t))))
    `(compilation-line-number ((t (:foreground ,d-yellow-2 :underline t))))
    `(compilation-warning ((t (:foreground ,d-orange-2))))
-	 `(compilation-mode-line-exit ((t (:foreground ,d-green-1))))
-	 `(compilation-mode-line-fail ((t (:foreground ,d-red))))
-	 `(compilation-mode-line-run ((t (:foreground ,d-orange-2))))
+   `(compilation-mode-line-exit ((t (:foreground ,d-green-1))))
+   `(compilation-mode-line-fail ((t (:foreground ,d-red))))
+   `(compilation-mode-line-run ((t (:foreground ,d-orange-2))))
 
    `(company-preview ((t (:foreground ,d-white-1 :inherit hl-line :bold t))))
    `(company-preview-common ((t (:foreground ,d-white-1 :inherit hl-line :bold t))))

@@ -105,15 +105,33 @@
 (set-language-environment "UTF-8")
 (pending-delete-mode t) ;; FIXME: no longer work with my configuration
 (setq save-interprogram-paste-before-kill t)
-(setq fill-column 80)
 
 ;;;; Indentation
+
+(require 'whitespace)
+
+(setq fill-column 72)
 
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 
+(setq whitespace-line-column nil)
+(setq whitespace-style '(face tabs tab-mark lines-tail))
+(setq whitespace-display-mappings '((tab-mark ?\t [?⇥ ?\ ])))
+
+(global-whitespace-mode)
+
+;;;;; Comments
+
 (comment ; info on tabs vs. spaces
  (info "(emacs) Just Spaces"))
+
+(comment
+ (info "(elisp) Character Codes")
+ ;; https://en.wikipedia.org/wiki/Tab_key
+ ;; U+21E5 ⇥ RIGHTWARDS ARROW TO BAR
+ (char-from-name "RIGHTWARDS ARROW TO BAR") ; 8677
+ )
 
 ;;;; Window layout
 ;;;;; display-buffer-alist
