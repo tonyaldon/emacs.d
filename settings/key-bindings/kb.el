@@ -166,7 +166,6 @@ nor a variable."
 
 (declare-function transient-define-prefix "ext:transient")
 (declare-function transient-define-suffix "ext:transient")
-(declare-function yas-describe-tables "ext:yasnippet")
 
 (defmacro ta-transient-define-suffix (command)
   "Create a command COMMAND--transient that is a transient suffix command
@@ -178,53 +177,60 @@ that call interactively COMMAND."
 
 ;;;;; describe
 
+(declare-function yas-describe-tables "ext:yasnippet")
+(declare-function yas-new-snippet "ext:yasnippet")
+
 (ta-transient-define-suffix describe-key)
 (ta-transient-define-suffix describe-keymap)
 (ta-transient-define-suffix describe-function)
 (ta-transient-define-suffix describe-variable)
 (ta-transient-define-suffix describe-mode)
-(ta-transient-define-suffix yas-describe-tables)
-(ta-transient-define-suffix apropos)
-(ta-transient-define-suffix info)
-
-(transient-define-prefix ta-describe ()
-  "Show menu buffer for describe commands, info commands,
-apropos commands and other information about emacs."
-  [["Describe"
-    ("kk" "describe-key" describe-key--transient)
-    ("kl" "describe-keymap" describe-keymap--transient)
-    ("f" "describe-function" describe-function--transient)
-    ("v" "describe-variable" describe-variable--transient)
-    ("m" "describe-mode" describe-mode--transient)]
-   ["Other info"
-    ("y" "yas-describe-tables" yas-describe-tables--transient)
-    ("a" "apropos" apropos--transient)
-    ("i" "info" info--transient)]])
-
-(global-set-key (kbd "C-M-i") 'ta-describe)
 
 ;;;;; linux
 
 (require 'linux)
 
+(ta-transient-define-suffix linux-switch-keyboard-layout)
 (ta-transient-define-suffix linux-toggle-laptop-output)
 (ta-transient-define-suffix linux-toggle-i3bar)
 (ta-transient-define-suffix linux-toggle-dpi)
-(ta-transient-define-suffix linux-switch-keyboard-layout)
 (ta-transient-define-suffix linux-toggle-git-commit-msg)
 
-(transient-define-prefix linux ()
-  "Show menu buffer for `linux' commands and taylored
-command related to git commit message."
-  [["linux"
-    ("l" "linux-toggle-laptop-output" linux-toggle-laptop-output--transient)
-    ("i" "linux-toggle-i3bar" linux-toggle-i3bar--transient)
-    ("d" "linux-toggle-dpi" linux-toggle-dpi--transient)
-    ("k" "linux-switch-keyboard-layout" linux-switch-keyboard-layout--transient)]
-   ["git"
-    ("g" "linux-toggle-git-commit-msg" linux-toggle-git-commit-msg--transient)]])
+;;;;; miscellaneous
 
-(global-set-key (kbd "C-c M-l") 'linux)
+(ta-transient-define-suffix apropos)
+(ta-transient-define-suffix info)
+(ta-transient-define-suffix yas-describe-tables)
+(ta-transient-define-suffix yas-new-snippet)
+(ta-transient-define-suffix ta-mini-frame-ignore-commands)
+(ta-transient-define-suffix image-toggle-display)
+
+;;;;; ta-remind-me
+
+(transient-define-prefix ta-remind-me ()
+  "Show menu buffer for miscellaneous commands I often need but do not remember."
+  [["describe"
+    ("dk" "describe-key" describe-key--transient)
+    ("dp" "describe-keymap" describe-keymap--transient)
+    ("df" "describe-function" describe-function--transient)
+    ("dv" "describe-variable" describe-variable--transient)
+    ("dm" "describe-mode" describe-mode--transient)]
+   ["linux"
+    ("lk" "linux-switch-keyboard-layout" linux-switch-keyboard-layout--transient)
+    ("ll" "linux-toggle-laptop-output" linux-toggle-laptop-output--transient)
+    ("li" "linux-toggle-i3bar" linux-toggle-i3bar--transient)
+    ("ld" "linux-toggle-dpi" linux-toggle-dpi--transient)
+    ("lg" "linux-toggle-git-commit-msg" linux-toggle-git-commit-msg--transient)]
+   ["yasnippet"
+    ("sd" "yas-describe-tables" yas-describe-tables--transient)
+    ("sn" "yas-new-snippet" yas-new-snippet--transient)]
+   ["misc"
+    ("a" "apropos" apropos--transient)
+    ("i" "info" info--transient)
+    ("m" "mini-frame" ta-mini-frame-ignore-commands--transient)
+    ("t" "image-toggle-display" image-toggle-display--transient)]])
+
+(global-set-key (kbd "C-M-i") 'ta-remind-me)
 
 ;;;; eval
 
