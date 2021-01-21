@@ -158,7 +158,14 @@ nor a variable."
      ((fboundp current-symbol) (describe-function current-symbol))
      (t (message "The symbol-at-point is neither a variable or a function")))))
 
+(defun ta-mouse-describe-thing-at-point ()
+  "Call `ta-describe-thing-at-point' at cursor position."
+  (interactive)
+  (call-interactively 'mouse-set-point)
+  (call-interactively 'ta-describe-thing-at-point))
+
 (global-set-key (kbd "C-d") 'ta-describe-thing-at-point)
+(global-set-key (kbd "<C-down-mouse-3>") 'ta-mouse-describe-thing-at-point)
 
 ;;;; transient key bindings interface
 
