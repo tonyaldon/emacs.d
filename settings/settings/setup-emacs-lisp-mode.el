@@ -32,7 +32,7 @@ See `yas-expand'. "
   (if (symbol-at-point) (kill-new (symbol-name (symbol-at-point))))
   (re-search-backward "^[(]" nil t)
   (open-line 2)
-  (insert "def")
+  (insert "d")
   (call-interactively 'yas-expand))
 
 (defun fuco-lisp-indent-function (indent-point state)
