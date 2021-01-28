@@ -724,6 +724,7 @@ Note: Modify the internal-border-width of the frame."
         ("Jack Inside" . "~/work/jackinside/")
         ("Jack Inside (handbook)" . "~/work/jackinside/handbook/")
         ("Jack Inside (diary)" . "~/work/jackinside/handbook/diary.org")
+        ("Jack Inside (draft)" . "~/work/jackinside/handbook/drafts.org")
         ("Jack Inside (numbers)" . "~/work/jackinside/handbook/numbers.org")
         ("Jack Inside (notes)" . "~/work/jackinside/notes.org")
         ("foreign languages" . "~/work/learning/foreign-languages/")
