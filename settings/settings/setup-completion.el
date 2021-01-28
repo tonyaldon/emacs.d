@@ -265,6 +265,7 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
 (setq company-require-match nil)
 (setq company-idle-delay 0)
 (setq company-backends '(company-capf company-files))
+(make-variable-buffer-local 'company-idle-delay)
 (make-variable-buffer-local 'company-minimum-prefix-length)
 (make-variable-buffer-local 'company-backends)
 
@@ -276,7 +277,8 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
   "Setup `company-mode' for `emacs-lisp-mode-hook'"
   (company-mode 1)
   (setq company-backends '((company-capf company-files)))
-  (setq company-minimum-prefix-length 4))
+  (setq company-idle-delay 0.3)
+  (setq company-minimum-prefix-length 1))
 
 (add-hook 'emacs-lisp-mode-hook 'ta-company-emacs-lisp-mode)
 
