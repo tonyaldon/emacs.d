@@ -247,14 +247,6 @@ that call interactively COMMAND."
 (global-set-key (kbd "<f1>") 'eval-defun)
 (global-set-key (kbd "<f2>") 'eval-last-sexp)
 
-;;;; inside-emacs
-
-(require 'inside-emacs)
-(require 'story)
-
-(global-set-key (kbd "C-c l") 'ie-find-last-video-readme)
-
-
 ;;;; insight-mode
 
 (global-set-key (kbd "M-i") 'insight-mode)

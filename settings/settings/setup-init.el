@@ -619,17 +619,6 @@ Note: Modify the internal-border-width of the frame."
 
 (add-hook 'php-mode-hook 'ta-php-mode-hook)
 
-
-;;;; screencast-mode
-(require 'screencast)
-
-(setq screencast-hook-to-remove-alist
-      '((window-configuration-change-hook . ta-frame-set-display-alist)))
-
-(setq screencast-display-buffer-alist '())
-
-(global-set-key (kbd "C-c s") 'screencast-mode)
-
 ;;;; nxml-mode
 (require 'nxml-mode)
 
