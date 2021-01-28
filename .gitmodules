@@ -16,3 +16,6 @@
 [submodule "packages/fzf.el"]
 	path = packages/fzf.el
 	url = git@github.com:tonyaldon/fzf.el.git
+[submodule "packages/inside-emacs-tooling"]
+	path = packages/inside-emacs-tooling
+	url = git@github.com:tonyaldon/inside-emacs-tooling.git
