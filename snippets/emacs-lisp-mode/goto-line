@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: goto-line
+# key: gl
+# --
+(goto-line $0)
