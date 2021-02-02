@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: beginning-of-buffer
+# key: bof
+# --
+(beginning-of-buffer)
