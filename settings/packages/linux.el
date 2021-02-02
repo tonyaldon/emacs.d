@@ -100,12 +100,15 @@ Note that you have to restart your linux session to see the changes."
   "Switch keyboard layout variant between\"takbl\" and \"takbl fr\"."
   (interactive)
   (let ((variant (shell-command-to-string "setxkbmap -query | grep variant | awk -F' '  '{ print $2 }'")))
-    (if (string= variant "fr\n")
-        (progn
-          (shell-command-to-string "setxkbmap -layout takbl")
-          (message "takbl"))
-      (shell-command-to-string "setxkbmap -layout takbl -variant fr")
-      (message "takbl - fr"))))
+    (cond ((string= variant "")
+           (shell-command-to-string "setxkbmap -layout takbl -variant fr")
+           (message "takbl - fr"))
+          ((string= variant "fr\n")
+           (shell-command-to-string "setxkbmap -layout takbl -variant es")
+           (message "takbl - es"))
+          ((string= variant "es\n")
+           (shell-command-to-string "setxkbmap -layout takbl")
+           (message "takbl")))))
 
 ;;; Git (format commit message)
 
