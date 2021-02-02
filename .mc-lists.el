@@ -267,6 +267,7 @@
         hydra-mutiple-cursors/mc/mark-previous-like-this-word
         hydra-mutiple-cursors/mc/mark-sgml-tag-pair
         hydra-refactor/body
+        hydra-refactor/nil
         hydra-scrolling/body
         hydra-scrolling/nil
         hydra-scrolling/recenter-top-bottom
@@ -286,6 +287,7 @@
         indent-for-tab-command
         insight-mode
         ivy-switch-buffer
+        iy-go-to-char-quit
         kill-sentence
         kmacro-set-counter
         kmacro-start-macro
