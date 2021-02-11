@@ -291,6 +291,7 @@
         kill-sentence
         kmacro-set-counter
         kmacro-start-macro
+        linux-switch-keyboard-layout
         magit-copy-buffer-revision
         mouse-buffer-menu
         mouse-save-then-kill

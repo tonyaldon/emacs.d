@@ -46,7 +46,7 @@
 
 ;;;; completion
 
-(global-set-key (kbd "M->") 'counsel-quick-access)
+(global-set-key (kbd "M-{") 'counsel-quick-access)
 (global-set-key (kbd "C->") 'counsel-outline)
 (global-set-key (kbd "M-e") 'counsel-find-file)
 (global-set-key (kbd "C-a") 'project-switch-to-buffer)
@@ -529,6 +529,7 @@ that call interactively COMMAND."
 (define-key org-mode-map (kbd "M-e") nil)
 (define-key org-mode-map (kbd "C-a") nil)
 (define-key org-mode-map (kbd "M-a") nil)
+(define-key org-mode-map (kbd "M-{") nil)
 
 (define-key org-mode-map (kbd "M-m") 'ta-org-table-previous-row)
 (define-key org-mode-map (kbd "C-<tab>") 'org-shifttab)
