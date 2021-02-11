@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: beginning-of-line
+# key: bol
+# --
+(beginning-of-line)$0

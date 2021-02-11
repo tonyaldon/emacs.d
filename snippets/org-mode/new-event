@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: new-event
+# key: ne
+# --
+* Event $1) $2
+- Event :: $2
+- Date :: $0
+- Location ::
+- Topic ::
+- Web ::
+- Score ::
+** Agenda
+** People
+** Content
+** Feeling
+** Learning
+** Miscellaneous
