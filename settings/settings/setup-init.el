@@ -103,7 +103,6 @@
 ;;;; Buffer editing
 
 (set-language-environment "UTF-8")
-(pending-delete-mode t) ;; FIXME: no longer work with my configuration
 (setq save-interprogram-paste-before-kill t)
 
 ;;;; Indentation
