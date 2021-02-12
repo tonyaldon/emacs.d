@@ -36,25 +36,6 @@ see: https://github.com/magnars/.emacs.d/blob/master/defuns/buffer-defuns.el#L14
   (delete-trailing-whitespace)
   (indent-buffer))
 
-(defun ta-mark-current-line ()
-  "Mark the current line."
-  (interactive)
-  (end-of-line)
-  ;; HACK: Have to use both `push-mark' and `set-mark' in this order to
-  ;;       expected result.
-  (push-mark (point))
-  (set-mark (point))
-  (beginning-of-line))
-
-(defun ta-mark-end-of-line ()
-  "Mark from point to end of line."
-  (interactive)
-  ;; HACK: Have to use both `push-mark' and `set-mark' in this order to
-  ;;       expected result.
-  (push-mark (point))
-  (set-mark (point))
-  (end-of-line))
-
 (defun ta-avy-kill-yank-whole-line ()
   "Call `avy-kill-whole-line' and yank it at point."
   (interactive)
