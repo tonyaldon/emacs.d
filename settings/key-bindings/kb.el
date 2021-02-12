@@ -213,6 +213,7 @@ that call interactively COMMAND."
 (ta-transient-define-suffix info)
 (ta-transient-define-suffix ta-mini-frame-ignore-commands)
 (ta-transient-define-suffix image-toggle-display)
+(ta-transient-define-suffix display-line-numbers-mode)
 
 ;;;;; ta-remind-me
 
@@ -238,7 +239,8 @@ that call interactively COMMAND."
     ("a" "apropos" apropos--transient)
     ("i" "info" info--transient)
     ("m" "mini-frame" ta-mini-frame-ignore-commands--transient)
-    ("t" "image-toggle-display" image-toggle-display--transient)]])
+    ("t" "image-toggle-display" image-toggle-display--transient)
+    ("n" "display-line-numbers-mode" display-line-numbers-mode--transient)]])
 
 (global-set-key (kbd "C-M-i") 'ta-remind-me)
 
