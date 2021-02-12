@@ -62,8 +62,8 @@ Cursor doesn't move."
     (insert line-text))
   (goto-char init-point))
 
-(defun ta-kill-ring-save-current-line ()
-  "Save the current line as if killed, but don't kill it."
+(defun ta-copy-line ()
+  "Copy current line."
   (interactive)
   (setq init-point (point))
   (save-excursion
