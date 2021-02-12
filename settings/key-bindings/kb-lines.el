@@ -161,8 +161,6 @@ Preserve the column position of the cursor."
   ("." set-mark-command)
   ("m" exchange-point-and-mark)
   ("D" display-line-numbers-mode)
-  ("L" goto-line)
-  (">" zap-up-to-char)
   ("C-n" narrow-to-region)
   ;; action on line(s)
   (":" ta-avy-mark-region)
