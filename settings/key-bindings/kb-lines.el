@@ -65,14 +65,7 @@ Cursor doesn't move."
 (defun ta-copy-line ()
   "Copy current line."
   (interactive)
-  (setq init-point (point))
-  (save-excursion
-    (beginning-of-line)
-    (setq beg-point (point))
-    (end-of-line)
-    (setq end-point (point))
-    (copy-region-as-kill beg-point end-point))
-  (goto-char init-point))
+  (copy-region-as-kill (point-at-bol) (point-at-eol)))
 
 (defun ta-comment-line ()
   (interactive)
