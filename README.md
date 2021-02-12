@@ -18,18 +18,18 @@ emacs configuration, run the command:
 They are several ways to install Emacs on Linux (I'm running Ubuntu
 18.04 LTS).
 
-1. To install the latest version of Emacs available on the *official* ubuntu 
+1. To install the latest version of Emacs available on the *official* ubuntu
 apt-source packages, run the command:
 
 		sudo apt install emacs
 
-	Note: When Emacs has a new version, Ubuntu Linux typically takes half 
+	Note: When Emacs has a new version, Ubuntu Linux typically takes half
 	a year to a year to have a prepared package.
 
 2. To install the latest version of Emacs available on ubuntu, run the commands:
 
-		sudo add-apt-repository ppa:ubuntu-elisp/ppa 
-		sudo apt-get update 
+		sudo add-apt-repository ppa:ubuntu-elisp/ppa
+		sudo apt-get update
 		sudo apt install emacs-snapshot
 
 	See [updating emacs from 24 to 26/27](http://iboyko.com/articles/updating-emacs-from-24-to-26-27-on-ubuntu/)
@@ -47,7 +47,7 @@ GNU Emacs source code and development is hosted on
 You can build emacs from a `release` or from a `repository checkout`.
 
 In both cases, The files [INSTALL](http://git.savannah.gnu.org/cgit/emacs.git/tree/INSTALL)
-and [INSTALL.REPO](http://git.savannah.gnu.org/cgit/emacs.git/tree/INSTALL.REPO) 
+and [INSTALL.REPO](http://git.savannah.gnu.org/cgit/emacs.git/tree/INSTALL.REPO)
 are worth reading. They contains information on building Emacs.
 
 ## Additional tools and libraries
@@ -68,13 +68,13 @@ dependency `libjpeg-turbo8-dev` and I fixed it by running the command:
 	sudo dpkg -i --force-overwrite \
 	/var/cache/apt/archives/libjpeg-turbo8-dev_1.5.2-0ubuntu5.18.04.3_amd64.deb
 
-See [error processing archive](https://askubuntu.com/questions/1026739/dpkg-error-processing-archive-var-cache-apt-archives-cuda-cublas-9-1-9-1-85-3) 
+See [error processing archive](https://askubuntu.com/questions/1026739/dpkg-error-processing-archive-var-cache-apt-archives-cuda-cublas-9-1-9-1-85-3)
 to get more information.
 
 ## Build from release
 
 Browse the [Emacs releases](https://ftp.gnu.org/gnu/emacs/) and choose the
-one you want to install. Here, we build and install the version 26.3 of 
+one you want to install. Here, we build and install the version 26.3 of
 Emacs.
 
 1. To build Emacs, download the emacs release, run the script `./configure`
@@ -123,7 +123,7 @@ To do so, run the following commands:
 	If you are in the top-level Emacs source directory:
 
 	Now you can run `emacs` this way:
-		
+
 		./src/emacs
 
 	And you can get the emacs version by running the command:
@@ -141,7 +141,7 @@ To do so, run the following commands:
 	Note: If you've installed `emacs` by running `make install`, you can't
 	remove `emacs` neither with `apt` nor `dpkg`. Specifically, neither commands
 	`sudo apt remove emacs` and `sudo dpkg -r emacs` don't work.
-	
+
 4. If you've installed Emacs successfully, you no longer need the Emacs source directory
 to use `emacs`.
 
