@@ -1,5 +1,4 @@
 (require 'kb)
-(require 'avy)
 (require 'adaptive-wrap)
 (require 'drag-stuff)
 (load "~/.emacs.d/.cask/28.0/elpa/drag-stuff-20161108.749/drag-stuff.el")
@@ -99,9 +98,6 @@ Preserve the column position of the cursor."
   ("." set-mark-command)
   ("m" exchange-point-and-mark)
   ;; action on line(s)
-  ("c" avy-copy-line)
-  ("C" avy-copy-region)
-  ("%" avy-kill-region)
   ("!" flush-lines)
   ("?" keep-lines)
   ;; current line
