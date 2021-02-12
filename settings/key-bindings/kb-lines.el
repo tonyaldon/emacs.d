@@ -12,10 +12,6 @@
   (interactive)
   (cycle-spacing nil nil 'fast))
 
-(defun ta-adaptative-wrap ()
-  "respect indentation with visual-mode-line"
-  (adaptive-wrap-prefix-mode))
-
 (defun ta-copy-line-below ()
   "Copy current line and past it below "
   (interactive)
@@ -127,8 +123,6 @@ Preserve the column position of the cursor."
 
 (defadvice hydra-lines/body (before hydra-lines-advice activate)
   (hydra-lines-active))
-
-(add-hook 'visual-line-mode-hook 'ta-adaptative-wrap)
 
 (key-chord-define-global "ld" 'hydra-lines/body)
 

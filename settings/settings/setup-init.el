@@ -640,6 +640,14 @@ Note: Modify the internal-border-width of the frame."
 (add-hook 'sql-mode-hook 'sqlind-minor-mode)
 (add-hook 'sql-mode-hook 'sqlup-mode)
 
+;;;; visual-line-mode
+
+(defun ta-adaptative-wrap ()
+  "respect indentation with visual-mode-line"
+  (adaptive-wrap-prefix-mode))
+
+(add-hook 'visual-line-mode-hook 'ta-adaptative-wrap)
+
 ;;;; wgrep-mode
 
 (require 'wgrep)
