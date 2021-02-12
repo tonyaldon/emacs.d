@@ -258,7 +258,7 @@ This function should called whenever the window configuration changes
 (setq recentf-save-file "~/.emacs.d/recentf")
 (setq recentf-max-saved-items 25)
 
-(setq scroll-preserve-screen-position 1)
+(setq scroll-preserve-screen-position 1) ; TODO: maybe add a command to switch between `t' and `1' in `insight-mode'
 (setq scroll-conservatively 100)
 (setq recenter-positions '(middle top bottom))
 
