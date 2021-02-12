@@ -36,16 +36,6 @@ see: https://github.com/magnars/.emacs.d/blob/master/defuns/buffer-defuns.el#L14
   (delete-trailing-whitespace)
   (indent-buffer))
 
-(defun ta-avy-kill-yank-whole-line ()
-  "Call `avy-kill-whole-line' and yank it at point."
-  (interactive)
-  (call-interactively 'avy-kill-whole-line)
-  (beginning-of-line)
-  (open-line 1)
-  (yank)
-  (delete-backward-char 1)
-  (beginning-of-line))
-
 (defun ta-copy-line-below ()
   "Copy current line and past it below "
   (interactive)
@@ -112,7 +102,6 @@ Preserve the column position of the cursor."
   ("m" exchange-point-and-mark)
   ;; action on line(s)
   ("c" avy-copy-line)
-  ("@" ta-avy-kill-yank-whole-line)
   ("C" avy-copy-region)
   ("%" avy-kill-region)
   ("!" flush-lines)
