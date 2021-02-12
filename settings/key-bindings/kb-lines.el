@@ -89,30 +89,6 @@ Cursor doesn't move."
   (insert " ")
   (goto-char (- (point) 1)))
 
-(defun ta-avy-mark-region (arg)
-  "Select two lines and mark the region between them"
-  (interactive "P")
-  (avy-with avy-kill-ring-save-region
-    (let* ((beg (save-selected-window
-                  (list (avy--line arg) (selected-window))))
-           (end (list (avy--line arg) (selected-window))))
-      (cond
-       ((not (numberp (car beg)))
-        (user-error "Fail to select the beginning of region"))
-       ((not (numberp (car end)))
-        (user-error "Fail to select the end of region"))
-       ((not (equal (cdr beg) (cdr end)))
-        (user-error "Selected points are not in the same window"))
-       ((< (car beg) (car end))
-        (set-mark (car beg))
-        (goto-char (car end))
-        (end-of-line))
-       (t
-        (set-mark (car beg))
-        (goto-char (car end))
-        (exchange-point-and-mark)
-        (end-of-line))))))
-
 (defun ta-kill-whole-line ()
   "Kill the whole current line.
 
@@ -141,7 +117,6 @@ Preserve the column position of the cursor."
   ("." set-mark-command)
   ("m" exchange-point-and-mark)
   ;; action on line(s)
-  (":" ta-avy-mark-region)
   ("c" avy-copy-line)
   ("@" ta-avy-kill-yank-whole-line)
   ("C" avy-copy-region)
@@ -193,10 +168,6 @@ Preserve the column position of the cursor."
 
 (defadvice hydra-lines/body (before hydra-lines-advice activate)
   (hydra-lines-active))
-
-(defadvice ta-avy-mark-region (after ta-avy-mark-region-advice activate)
-  (if hydra-lines-active nil
-    (hydra-lines/body)))
 
 (add-hook 'visual-line-mode-hook 'ta-adaptative-wrap)
 
