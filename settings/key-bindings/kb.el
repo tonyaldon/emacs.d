@@ -52,9 +52,9 @@
 (global-set-key (kbd "C-a") 'project-switch-to-buffer)
 (global-set-key (kbd "M-a") 'ivy-switch-buffer-other-window)
 
-(global-set-key (kbd "C-b") 'swiper)
-(global-set-key (kbd "C-n") 'swiper-all)
-(global-set-key (kbd "C-f") 'swiper-thing-at-point)
+;; (global-set-key (kbd "C-b") 'swiper)
+;; (global-set-key (kbd "C-n") 'swiper-all)
+;; (global-set-key (kbd "C-f") 'swiper-thing-at-point)
 (global-set-key (kbd "C-M-n") 'counsel-rg)
 
 (global-set-key (kbd "C-x C-e") 'ta-fzf-emacs-settings)

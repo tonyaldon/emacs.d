@@ -285,7 +285,7 @@ Other window is selected with `ace-window'."
 (global-set-key (kbd "C-o") 'ta-delete-other-windows)
 (global-set-key (kbd "M-o") 'ta-delete-window)
 
-(global-set-key (kbd "C-p") 'winner-undo)
+(global-set-key (kbd "<f7>") 'winner-undo)
 (global-set-key (kbd "C-+") 'winner-redo)
 
 (global-set-key (kbd "M-u") 'hydra-windows/body)
