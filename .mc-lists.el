@@ -239,7 +239,6 @@
         hydra--negative-argument
         hydra--universal-argument
         hydra-files/body
-        hydra-lines/cleanup-buffer
         hydra-lines/drag-stuff-down
         hydra-lines/drag-stuff-up
         hydra-lines/hydra-scrolling/body-and-exit

@@ -16,23 +16,6 @@
   "respect indentation with visual-mode-line"
   (adaptive-wrap-prefix-mode))
 
-(defun untabify-buffer ()
-  (interactive)
-  (untabify (point-min) (point-max)))
-
-(defun indent-buffer ()
-  (interactive)
-  (indent-region (point-min) (point-max)))
-
-(defun cleanup-buffer ()
-  "Perform a bunch of operations on the whitespace content of a buffer.
-Including indent-buffer, which should not be called automatically on save.
-see: https://github.com/magnars/.emacs.d/blob/master/defuns/buffer-defuns.el#L144-166"
-  (interactive)
-  (untabify-buffer)
-  (delete-trailing-whitespace)
-  (indent-buffer))
-
 (defun ta-copy-line-below ()
   "Copy current line and past it below "
   (interactive)
@@ -133,7 +116,6 @@ Preserve the column position of the cursor."
   ("<left>" drag-stuff-left)
   ("<right>" drag-stuff-right)
   ;; clean/undo/nil
-  ("g" cleanup-buffer)
   ("M--" undo)
   ("q" nil))
 

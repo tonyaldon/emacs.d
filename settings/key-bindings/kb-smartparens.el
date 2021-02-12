@@ -135,7 +135,6 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
   ("M-r" sp-rewrap-sexp)
   ("]" sp-swap-enclosing-sexp)
   ;; ---
-  ("g" cleanup-buffer)
   ("M--" undo)
   ("q" nil))
 
