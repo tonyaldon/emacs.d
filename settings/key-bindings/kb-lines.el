@@ -46,21 +46,15 @@ see: https://github.com/magnars/.emacs.d/blob/master/defuns/buffer-defuns.el#L14
   (delete-backward-char 1)
   (beginning-of-line))
 
-(defun ta-yank-line-below ()
-  "copy current line and yank it to the next line.
-Cursor doesn't move."
+(defun ta-copy-line-below ()
+  "Copy current line and past it below "
   (interactive)
-  (setq init-point (point))
-  (save-excursion
-    (beginning-of-line)
-    (setq beg-point (point))
-    (end-of-line)
-    (setq end-point (point))
-    (setq line-text (delete-and-extract-region end-point beg-point))
-    (insert line-text)
-    (newline)
-    (insert line-text))
-  (goto-char init-point))
+  (let ((init-point (point))
+        (line (buffer-substring-no-properties (point-at-bol) (point-at-eol))))
+    (save-excursion
+      (next-line)
+      (beginning-of-line)
+      (insert (s-concat line "\n")))))
 
 (defun ta-copy-line ()
   "Copy current line."
@@ -127,7 +121,7 @@ Preserve the column position of the cursor."
   ("k" kill-line)
   ("l" (kill-line 0))
   ("x" ta-kill-whole-line)
-  ("y" ta-yank-line-below)
+  ("y" ta-copy-line-below)
   ("r" join-line)
   ("o" open-line)
   ("O" delete-blank-lines)
