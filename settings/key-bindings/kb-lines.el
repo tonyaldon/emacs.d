@@ -76,12 +76,7 @@ Cursor doesn't move."
 
 (defun ta-comment-line ()
   (interactive)
-  (save-excursion
-    (beginning-of-line)
-    (let ((beg (point)))
-      (end-of-line)
-      (setq end (point))
-      (comment-or-uncomment-region beg end))))
+  (comment-or-uncomment-region (point-at-bol) (point-at-eol)))
 
 (defun ta-above-new-indent ()
   "In the current line, back to indent then split line as `split-line'"
