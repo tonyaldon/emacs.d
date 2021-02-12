@@ -141,13 +141,10 @@ Preserve the column position of the cursor."
     (setq hydra-lines-active t)))
 
 (defhydra hydra-lines
-  (
-   :pre (progn
-          (if insight-mode (insight-mode -1))
-          (set-cursor-color "#fa87ce"))
-   :post (progn
-           (set-cursor-color "#26f9ad")
-           (hydra-lines-active))
+  (:pre (progn (if insight-mode (insight-mode -1))
+               (set-cursor-color "#fa87ce"))
+   :post (progn (set-cursor-color "#26f9ad")
+                (hydra-lines-active))
    :hint nil)
   ("M-l" recenter-top-bottom)
   ("t" hydra-sp/body :color blue)
