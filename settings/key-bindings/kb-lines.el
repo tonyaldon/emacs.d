@@ -8,8 +8,6 @@
 
 (setq-default truncate-lines t)
 
-(declare-function 'ta-jsx-comment-or-uncomment-line "ext:setup-js-mode")
-
 (defun ta-cycle-spacing ()
   "Wrapper on `cycle-spacing' to call it in \"fast\" mode."
   (interactive)
