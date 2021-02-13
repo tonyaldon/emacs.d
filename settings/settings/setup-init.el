@@ -267,6 +267,8 @@ This function should called whenever the window configuration changes
 (setq comment-empty-lines t)
 (setq comment-padding 1)
 
+(setq-default truncate-lines t)
+
 ;;; Per Mode
 
 ;;;; TODO: abbrev-mode

@@ -5,8 +5,6 @@
 
 (defvar hydra-lines-active nil)
 
-(setq-default truncate-lines t)
-
 (defun ta-cycle-spacing ()
   "Wrapper on `cycle-spacing' to call it in \"fast\" mode."
   (interactive)
