@@ -63,12 +63,6 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
     (select-window initial-window)
     (yank)))
 
-(defun ta-sp-toggle-narrow (arg)
-  "Toggle between `widen' and `sp-narrow-to-sexp'."
-  (interactive "p")
-  (if (buffer-narrowed-p) (widen)
-    (sp-narrow-to-sexp arg)))
-
 (defhydra hydra-sp
   (
    :pre (progn
@@ -80,7 +74,6 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
   ("t" hydra-lines/body :color blue)
   ;; miscellaneous
   ("." set-mark-command)
-  ("M-." ta-sp-toggle-narrow)
   ("T" exchange-point-and-mark)
   ("r" join-line)
   ;; (";" sp-comment)
