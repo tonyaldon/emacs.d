@@ -43,6 +43,33 @@ Work as I want with `sp-navigate-interactive-always-progress-point' set to non-n
   (sp-transpose-sexp)
   (sp-backward-sexp))
 
+(defun ta-sp-touch ()
+  "Indicate if cursor is \"touching\" the right or the left of a sp-sexp.
+
+If the cursor touches the right of a sp-sexp, return symbol 'right.
+If the cursor touches the left of a sp-sexp, return symbol 'left.
+If the cursor is strickly inside a symbol 'symbol.
+If the cursor doesn't touch any sp-sexp, return nil."
+  (let ((beg-of-next-thing (plist-get (sp-get-thing) :beg))
+        (end-of-prev-thing (plist-get (sp-get-thing t) :end)))
+    (cond ((equal (point) beg-of-next-thing) 'left)
+          ((equal (point) end-of-prev-thing) 'right)
+          ((< end-of-prev-thing (point) beg-of-next-thing) nil)
+          (t 'symbol))))
+
+(comment ; plist-get, <, ta-sp-touch
+ (plist-get (sp-get-thing) :beg)
+ (plist-get (sp-get-thing t) :beg)
+ (ta-sp-touch)
+ (< 1 3 5) ;; t
+ (< 1 3 3) ;; nil
+ (global-set-key (kbd "C-<f1>") 'ta-sp-touch)
+ ;; (test-1 test-3 test-2)
+ ;; (test-d-e-f)
+ ;; (test-a-b-c)
+ ;; (test-g-h-i)
+ )
+
 (defun ta-avy-copy-sexp ()
   "Copy a selected sexp at the current point"
   (interactive)
