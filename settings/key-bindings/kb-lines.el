@@ -72,7 +72,7 @@ Preserve the column position of the cursor."
   ("t" hydra-sp/body :color blue)
   (";" ta-comment-line)
   ("DEL" delete-backward-char)
-  ("." set-mark-command)
+  ("~" set-mark-command)
   ("m" exchange-point-and-mark)
   ;; action on line(s)
   ("!" flush-lines)
