@@ -176,7 +176,7 @@
         sp-kill-word
         sp-remove-active-pair-overlay
         sp-select-next-thing-exchange
-        ta-avy-copy-sexp
+        ta-avy-copy-past-sexp
         ta-comment-line
         ta-mark-inside-dwim
         ta-mark-inside-pairs

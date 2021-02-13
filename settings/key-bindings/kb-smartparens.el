@@ -86,8 +86,8 @@ If the cursor doesn't touch any sp-sexp, return nil."
  ;; (test-g-h-i)
  )
 
-(defun ta-avy-copy-sexp ()
-  "Copy a selected sexp at the current point"
+(defun ta-avy-copy-past-sexp ()
+  "Past sexp copied using `avy' at current cursor position."
   (interactive)
   (let ((initial-window (selected-window)))
     (save-excursion
@@ -116,7 +116,7 @@ If the cursor doesn't touch any sp-sexp, return nil."
   ("M-d" sp-kill-sexp)
   ("DEL" sp-backward-kill-sexp)
   ("C" sp-copy-sexp)
-  ("c" ta-avy-copy-sexp :color blue)
+  ("c" ta-avy-copy-past-sexp :color blue)
   ("C-y" sp-clone-sexp)
   ("@" ta-avy-kill-sexp :color blue)
   ;; reshape
@@ -167,7 +167,7 @@ If the cursor doesn't touch any sp-sexp, return nil."
 
 
 (key-chord-define-global "-0" 'hydra-sp/body)
-(key-chord-define-global "sr" 'ta-avy-copy-sexp)
+(key-chord-define-global "sr" 'ta-avy-copy-past-sexp)
 
 (defun indent-between-pair (&rest _ignored)
   "See: http://xenodium.com/emacs-smartparens-auto-indent/."
