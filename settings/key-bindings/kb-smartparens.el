@@ -11,7 +11,7 @@
 (add-to-list 'sp-navigate-consider-sgml-tags 'mhtml-mode)
 (add-to-list 'sp-navigate-consider-sgml-tags 'js-mode)
 
-(setq sp-navigate-interactive-always-progress-point t)
+(setq sp-navigate-interactive-always-progress-point nil)
 (setq sp-highlight-pair-overlay nil)
 (setq sp-highlight-wrap-overlay nil)
 (setq sp-highlight-wrap-tag-overlay nil)
