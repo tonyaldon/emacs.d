@@ -96,15 +96,6 @@ If the cursor doesn't touch any sp-sexp, return nil."
     (select-window initial-window)
     (yank)))
 
-(defun ta-avy-kill-sexp ()
-  "Kill a selected sexp and save it in the kill ring"
-  (interactive)
-  (let ((initial-window (selected-window)))
-    (save-excursion
-      (call-interactively 'avy-goto-word-or-subword-1)
-      (sp-kill-sexp))
-    (select-window initial-window)
-    (yank)))
 
 (defhydra hydra-sp
   (
