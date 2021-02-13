@@ -642,6 +642,41 @@ Note: Modify the internal-border-width of the frame."
 (add-hook 'sql-mode-hook 'sqlind-minor-mode)
 (add-hook 'sql-mode-hook 'sqlup-mode)
 
+;;;; smartparens
+
+(require 'smartparens-config)
+
+(smartparens-global-mode t)
+(smartparens-global-strict-mode -1)
+(show-smartparens-global-mode t)
+
+(eval-after-load 'mhtml-mode '(require 'smartparens-html))
+(eval-after-load 'LaTeX '(require 'smartparens-latex))
+(add-to-list 'sp-navigate-consider-sgml-tags 'mhtml-mode)
+(add-to-list 'sp-navigate-consider-sgml-tags 'js-mode)
+
+(setq sp-navigate-interactive-always-progress-point nil)
+(setq sp-highlight-pair-overlay nil)
+(setq sp-highlight-wrap-overlay nil)
+(setq sp-highlight-wrap-tag-overlay nil)
+(setq sp-show-pair-from-inside nil)
+
+;; When using smartparens in sgml-mode, there is a boring message that
+;; appears when running sp-forward-sexp in an self-closing tag like
+;; this <meta charset="utf-8/>".
+(setq sp-message-width nil)
+
+(defun indent-between-pair (&rest _ignored)
+  "See: http://xenodium.com/emacs-smartparens-auto-indent/."
+  (newline)
+  (indent-according-to-mode)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+(sp-local-pair 'prog-mode "{" nil :post-handlers '((indent-between-pair "RET")))
+(sp-local-pair 'prog-mode "[" nil :post-handlers '((indent-between-pair "RET")))
+(sp-local-pair 'prog-mode "(" nil :post-handlers '((indent-between-pair "RET")))
+
 ;;;; visual-line-mode
 
 (defun ta-adaptative-wrap ()
