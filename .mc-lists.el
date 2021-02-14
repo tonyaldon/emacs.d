@@ -160,7 +160,7 @@
         org-yank
         orgtbl-hijacker-command-109
         orgtbl-self-insert-command
-        outline-self-insert-command
+        outline-spc-self-insert-command
         picture-self-insert
         python-indent-shift-left
         reindent-then-newline-and-indent

@@ -58,14 +58,14 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
 
 ;;; speed keys
 
-(setq outline-speed-commands-default nil)
-(setq outline-speed-commands-user
+(setq outline-spc-default nil)
+(setq outline-spc-user
       '(("Outline Navigation")
-        ("n" . (outline-speed-move-safe 'outline-next-visible-heading))
-        ("p" . (outline-speed-move-safe 'outline-previous-visible-heading))
-        ("f" . (outline-speed-move-safe 'outline-forward-same-level))
-        ("b" . (outline-speed-move-safe 'outline-backward-same-level))
-        ("i" . (outline-speed-move-safe 'outline-up-heading))
+        ("n" . (outline-spc-move-safe 'outline-next-visible-heading))
+        ("p" . (outline-spc-move-safe 'outline-previous-visible-heading))
+        ("f" . (outline-spc-move-safe 'outline-forward-same-level))
+        ("b" . (outline-spc-move-safe 'outline-backward-same-level))
+        ("i" . (outline-spc-move-safe 'outline-up-heading))
         ("Outline Structure Editing")
         ("." . org-toggle-narrow-to-subtree)
         ("@" . outline-mark-subtree)

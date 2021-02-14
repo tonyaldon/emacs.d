@@ -71,7 +71,7 @@
 (defvar screencast-keycast-substitute-alist
   '((self-insert-command "." "self-insert-command")
     (org-self-insert-command "." "org-self-insert-command")
-    (outline-self-insert-command "." "outline-self-insert-command"))
+    (outline-spc-self-insert-command "." "outline-spc-self-insert-command"))
   "`keycast-substitute-alist' to be used when `screencast-mode' is enable.")
 
 (defvar screencast--keycast-variables '(keycast-separator-width

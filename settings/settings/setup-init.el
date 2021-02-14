@@ -84,7 +84,7 @@
 (setq keycast-substitute-alist
       '((self-insert-command "." "self-insert-command")
         (org-self-insert-command "." "org-self-insert-command")
-        (outline-self-insert-command "." "outline-self-insert-command")))
+        (outline-spc-self-insert-command "." "outline-spc-self-insert-command")))
 
 ;;;;;; moody
 
@@ -326,7 +326,7 @@ of the columns."
 (defun ta-outline-clojure-mode-hook ()
   "Hook to turn on `outline-minor-mode'."
   (outline-minor-mode t)
-  (outline-speed-commands-mode t)
+  (outline-spc-mode t)
   (setq outline-regexp ";;;;* \\|("))
 
 (add-hook 'clojure-mode-hook 'ta-outline-clojure-mode-hook)
@@ -626,7 +626,7 @@ Note: Modify the internal-border-width of the frame."
 (defun ta-outline-nxml-mode-hook ()
   "Hook to turn on `outline-minor-mode'."
   (outline-minor-mode t)
-  (outline-speed-commands-mode t)
+  (outline-spc-mode t)
   (setq outline-regexp "<!--"))
 
 (add-hook 'nxml-mode-hook 'ta-outline-nxml-mode-hook)
