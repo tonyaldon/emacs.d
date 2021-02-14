@@ -48,7 +48,6 @@
 (require 'kb)
 (require 'kb-lines)
 (require 'kb-mark)
-(require 'kb-smartparens)
 (require 'kb-string)
 (require 'kb-term)
 (require 'kb-windows)

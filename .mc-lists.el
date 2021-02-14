@@ -34,8 +34,8 @@
         hydra-lines/exchange-point-and-mark
         hydra-lines/forward-char
         hydra-lines/forward-word
-        hydra-lines/hydra-sp-reshape/body-and-exit
-        hydra-lines/hydra-sp/body-and-exit
+        hydra-lines/handy-sexp-reshape/body-and-exit
+        hydra-lines/handy-sexp/body-and-exit
         hydra-lines/join-line
         hydra-lines/kill-line
         hydra-lines/kill-whole-line
@@ -86,50 +86,50 @@
         hydra-smartparens-wrapping/sp-rewrap-sexp-and-exit
         hydra-smartparens/body
         hydra-smartparens/sp-end-of-sexp
-        hydra-sp-reshape/body
-        hydra-sp-reshape/hydra-lines/body-and-exit
-        hydra-sp-reshape/hydra-sp/body-and-exit
-        hydra-sp-reshape/sp-add-to-previous-sexp
-        hydra-sp-reshape/sp-backward-slurp-sexp
-        hydra-sp-reshape/sp-emit-sexp
-        hydra-sp-reshape/sp-kill-sexp
-        hydra-sp-reshape/sp-splice-sexp
-        hydra-sp-reshape/sp-splice-sexp-and-exit
-        hydra-sp-reshape/ta-drag-sexp-to-left
-        hydra-sp-reshape/ta-drag-sexp-to-right
-        hydra-sp-reshape/undo
-        hydra-sp/body
-        hydra-sp/hydra-lines/body-and-exit
-        hydra-sp/hydra-sp-reshape/body-and-exit
-        hydra-sp/set-mark-command
-        hydra-sp/sp-backward-down-sexp
-        hydra-sp/sp-backward-kill-sexp
-        hydra-sp/sp-backward-sexp
-        hydra-sp/sp-backward-up-sexp
-        hydra-sp/sp-beginning-of-next-sexp
-        hydra-sp/sp-beginning-of-sexp
-        hydra-sp/sp-change-enclosing-and-exit
-        hydra-sp/sp-change-inner-and-exit
-        hydra-sp/sp-down-sexp
-        hydra-sp/sp-end-of-sexp
-        hydra-sp/sp-forward-sexp
-        hydra-sp/sp-forward-slurp-sexp
-        hydra-sp/sp-kill-sexp
-        hydra-sp/sp-kill-whole-line
-        hydra-sp/sp-next-sexp
-        hydra-sp/sp-raise-sexp
-        hydra-sp/sp-rewrap-sexp
-        hydra-sp/sp-splice-sexp
-        hydra-sp/sp-splice-sexp-killing-backward
-        hydra-sp/sp-swap-enclosing-sexp
-        hydra-sp/sp-up-sexp
-        hydra-sp/sp-wrap-curly
-        hydra-sp/sp-wrap-round
-        hydra-sp/sp-wrap-square
-        hydra-sp/ta-add-space-and-exit
-        hydra-sp/ta-avy-copy-sexp-and-exit
-        hydra-sp/ta-drag-sexp-to-down
-        hydra-sp/ta-drag-sexp-to-up
+        handy-sexp-reshape/body
+        handy-sexp-reshape/hydra-lines/body-and-exit
+        handy-sexp-reshape/handy-sexp/body-and-exit
+        handy-sexp-reshape/sp-add-to-previous-sexp
+        handy-sexp-reshape/sp-backward-slurp-sexp
+        handy-sexp-reshape/sp-emit-sexp
+        handy-sexp-reshape/sp-kill-sexp
+        handy-sexp-reshape/sp-splice-sexp
+        handy-sexp-reshape/sp-splice-sexp-and-exit
+        handy-sexp-reshape/ta-drag-sexp-to-left
+        handy-sexp-reshape/ta-drag-sexp-to-right
+        handy-sexp-reshape/undo
+        handy-sexp/body
+        handy-sexp/hydra-lines/body-and-exit
+        handy-sexp/handy-sexp-reshape/body-and-exit
+        handy-sexp/set-mark-command
+        handy-sexp/sp-backward-down-sexp
+        handy-sexp/sp-backward-kill-sexp
+        handy-sexp/sp-backward-sexp
+        handy-sexp/sp-backward-up-sexp
+        handy-sexp/sp-beginning-of-next-sexp
+        handy-sexp/sp-beginning-of-sexp
+        handy-sexp/sp-change-enclosing-and-exit
+        handy-sexp/sp-change-inner-and-exit
+        handy-sexp/sp-down-sexp
+        handy-sexp/sp-end-of-sexp
+        handy-sexp/sp-forward-sexp
+        handy-sexp/sp-forward-slurp-sexp
+        handy-sexp/sp-kill-sexp
+        handy-sexp/sp-kill-whole-line
+        handy-sexp/sp-next-sexp
+        handy-sexp/sp-raise-sexp
+        handy-sexp/sp-rewrap-sexp
+        handy-sexp/sp-splice-sexp
+        handy-sexp/sp-splice-sexp-killing-backward
+        handy-sexp/sp-swap-enclosing-sexp
+        handy-sexp/sp-up-sexp
+        handy-sexp/sp-wrap-curly
+        handy-sexp/sp-wrap-round
+        handy-sexp/sp-wrap-square
+        handy-sexp/ta-add-space-and-exit
+        handy-sexp/ta-avy-copy-past-sexp-and-exit
+        handy-sexp/ta-sp-drag-forward
+        handy-sexp/ta-sp-drag-backward
         hydra-ss/body
         hydra-ss/ta-ss-s-capitalize-and-exit
         hydra-ss/ta-ss-s-collapse-whitespace-and-exit
@@ -270,10 +270,10 @@
         hydra-scrolling/body
         hydra-scrolling/nil
         hydra-scrolling/recenter-top-bottom
-        hydra-sp-reshape/nil
-        hydra-sp/nil
-        hydra-sp/sp-forward-barf-sexp
-        hydra-sp/undo
+        handy-sexp-reshape/nil
+        handy-sexp/nil
+        handy-sexp/sp-forward-barf-sexp
+        handy-sexp/undo
         hydra-window/body
         hydra-window/hydra-window-size/body-and-exit
         hydra-window/nil

@@ -3,7 +3,7 @@
   (interactive)
   (sp-cheat-sheet)
   (split-window-below)
-  (describe-function 'hydra-sp-reshape/body)
+  (describe-function 'handy-sexp-reshape/body)
   (ta-drag-window-left)
   (enlarge-window-horizontally 35)
   (split-window-right)

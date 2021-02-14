@@ -69,7 +69,7 @@ Preserve the column position of the cursor."
                 (hydra-lines-active))
    :hint nil)
   ("M-l" recenter-top-bottom)
-  ("t" hydra-sp/body :color blue)
+  ("t" handy-sexp/body :color blue)
   (";" ta-comment-line)
   ("DEL" delete-backward-char)
   ("~" set-mark-command)
