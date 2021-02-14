@@ -479,13 +479,24 @@ that call interactively COMMAND."
 ;;;; clojure & cider
 
 (require 'cider)
+(require 'clojure-mode)
 
 ;; cider-start-map  [[/home/tony/work/settings/emacs.d/.emacs.d/.cask/28.0/elpa/cider-20200903.1034/cider.el::960]]
 ;; cider-eval-commands-map [[/home/tony/work/settings/emacs.d/.emacs.d/.cask/28.0/elpa/cider-20200903.1034/cider-eval.el::1168]]
 
-(define-key cider-mode-map (kbd "<f2>") 'cider-eval-last-sexp)
+;; (define-key cider-mode-map (kbd "<f2>") 'cider-eval-last-sexp)
 (define-key cider-mode-map (kbd "<f1>") 'cider-eval-defun-at-point)
+(define-key cider-mode-map (kbd "<f2>") 'cider-eval-last-sexp-to-repl)
+(define-key cider-mode-map (kbd "<f2>") 'cider-eval-last-sexp-to-repl)
 
+(define-key clojure-mode-map (kbd "C-<f1>") 'cider-jack-in-clj)
+;; (define-key cider-mode-map (kbd "<f2>") 'cider-load-buffer-and-switch-to-repl-buffer)
+;; (define-key cider-mode-map (kbd "<f2>") 'cider-load-buffer)
+
+(define-key cider-mode-map (kbd "C-M-i") nil)
+(define-key cider-mode-map  (kbd "C-x C-e") nil)
+
+(define-key cider-repl-mode-map  (kbd "C-x C-e") nil)
 (define-key cider-repl-mode-map (kbd "M-n") nil)
 (define-key cider-repl-mode-map (kbd "M-p") nil)
 (define-key cider-repl-mode-map (kbd "<up>") 'cider-repl-previous-input)
