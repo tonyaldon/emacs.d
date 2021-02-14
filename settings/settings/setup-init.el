@@ -679,6 +679,8 @@ Note: Modify the internal-border-width of the frame."
 
 ;;;; visual-line-mode
 
+(require 'adaptive-wrap)
+
 (defun ta-adaptative-wrap ()
   "respect indentation with visual-mode-line"
   (adaptive-wrap-prefix-mode))
