@@ -60,7 +60,6 @@
         handy-line/ta-kill-ring-save-current-line-and-exit
         handy-line/handy-line-kill
         handy-line/ta-mark-current-line
-        handy-line/ta-mark-end-of-line
         handy-line/ta-newline-after-end-of-visual-line-and-exit
         handy-line/handy-line-copy-paste-below
         hydra-mc/mc/mark-next-like-this-word
