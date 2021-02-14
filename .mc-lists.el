@@ -177,10 +177,12 @@
         sp-select-next-thing-exchange
         handy-avy-copy-past-sexp
         handy-line-comment
-        ta-mark-inside-dwim
-        ta-mark-inside-pairs
+        handy-expand-region-dwim
+        handy-mark-dwim
+        handy-mark-inside-dwim
+        handy-mark-inside-pairs
         ta-mark-sexp-at-point
-        ta-pop-local-mark-ring
+        handy-mark-pop-local
         ta-zap-back-to-char
         transpose-words
         upcase-region
