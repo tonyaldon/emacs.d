@@ -371,7 +371,7 @@ of the columns."
 (setq insight-cursor-color "#fd971f")
 (insight-use-cursor-color)
 (insight-set-window-advices)
-(define-key insight-mode-map (kbd "t") 'hydra-lines/body)
+(define-key insight-mode-map (kbd "t") 'handy-line/body)
 
 ;;;; js-mode
 ;;;;; Packages

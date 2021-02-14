@@ -22,47 +22,47 @@
         er/mark-word
         forward-sexp
         hydra--universal-argument
-        hydra-lines/back-to-indentation
-        hydra-lines/backward-char
-        hydra-lines/backward-word
-        hydra-lines/body
-        hydra-lines/delete-backward-char
-        hydra-lines/delete-blank-lines
-        hydra-lines/delete-horizontal-space
-        hydra-lines/drag-stuff-left
-        hydra-lines/drag-stuff-right
-        hydra-lines/exchange-point-and-mark
-        hydra-lines/forward-char
-        hydra-lines/forward-word
-        hydra-lines/handy-sexp-reshape/body-and-exit
-        hydra-lines/handy-sexp/body-and-exit
-        hydra-lines/join-line
-        hydra-lines/kill-line
-        hydra-lines/kill-whole-line
-        hydra-lines/lambda-l
-        hydra-lines/lambda-u
-        hydra-lines/move-beginning-of-line
-        hydra-lines/move-end-of-line
-        hydra-lines/next-logical-line
-        hydra-lines/open-line
-        hydra-lines/org-backward-sentence
-        hydra-lines/org-forward-sentence
-        hydra-lines/previous-logical-line
-        hydra-lines/set-mark-command
-        hydra-lines/handy-line-add-above-and-exit
-        hydra-lines/handy-add-space-and-exit
-        hydra-lines/ta-back-to-indent-split-line-and-exit
-        hydra-lines/handy-line-add-below-and-exit
-        hydra-lines/handy-line-comment
-        hydra-lines/ta-copy-current-line-yank-below
-        hydra-lines/handy-cycle-spacing
-        hydra-lines/ta-jsx-comment-or-uncomment-line
-        hydra-lines/ta-kill-ring-save-current-line-and-exit
-        hydra-lines/handy-line-kill
-        hydra-lines/ta-mark-current-line
-        hydra-lines/ta-mark-end-of-line
-        hydra-lines/ta-newline-after-end-of-visual-line-and-exit
-        hydra-lines/handy-line-copy-paste-below
+        handy-line/back-to-indentation
+        handy-line/backward-char
+        handy-line/backward-word
+        handy-line/body
+        handy-line/delete-backward-char
+        handy-line/delete-blank-lines
+        handy-line/delete-horizontal-space
+        handy-line/drag-stuff-left
+        handy-line/drag-stuff-right
+        handy-line/exchange-point-and-mark
+        handy-line/forward-char
+        handy-line/forward-word
+        handy-line/handy-sexp-reshape/body-and-exit
+        handy-line/handy-sexp/body-and-exit
+        handy-line/join-line
+        handy-line/kill-line
+        handy-line/kill-whole-line
+        handy-line/lambda-l
+        handy-line/lambda-u
+        handy-line/move-beginning-of-line
+        handy-line/move-end-of-line
+        handy-line/next-logical-line
+        handy-line/open-line
+        handy-line/org-backward-sentence
+        handy-line/org-forward-sentence
+        handy-line/previous-logical-line
+        handy-line/set-mark-command
+        handy-line/handy-line-add-above-and-exit
+        handy-line/handy-add-space-and-exit
+        handy-line/ta-back-to-indent-split-line-and-exit
+        handy-line/handy-line-add-below-and-exit
+        handy-line/handy-line-comment
+        handy-line/ta-copy-current-line-yank-below
+        handy-line/handy-cycle-spacing
+        handy-line/ta-jsx-comment-or-uncomment-line
+        handy-line/ta-kill-ring-save-current-line-and-exit
+        handy-line/handy-line-kill
+        handy-line/ta-mark-current-line
+        handy-line/ta-mark-end-of-line
+        handy-line/ta-newline-after-end-of-visual-line-and-exit
+        handy-line/handy-line-copy-paste-below
         hydra-mc/mc/mark-next-like-this-word
         hydra-mc/nil
         hydra-mc/replace-string-and-exit
@@ -87,7 +87,7 @@
         hydra-smartparens/body
         hydra-smartparens/sp-end-of-sexp
         handy-sexp-reshape/body
-        handy-sexp-reshape/hydra-lines/body-and-exit
+        handy-sexp-reshape/handy-line/body-and-exit
         handy-sexp-reshape/handy-sexp/body-and-exit
         handy-sexp-reshape/sp-add-to-previous-sexp
         handy-sexp-reshape/sp-backward-slurp-sexp
@@ -99,7 +99,7 @@
         handy-sexp-reshape/ta-drag-sexp-to-right
         handy-sexp-reshape/undo
         handy-sexp/body
-        handy-sexp/hydra-lines/body-and-exit
+        handy-sexp/handy-line/body-and-exit
         handy-sexp/handy-sexp-reshape/body-and-exit
         handy-sexp/set-mark-command
         handy-sexp/sp-backward-down-sexp
@@ -239,15 +239,15 @@
         hydra--negative-argument
         hydra--universal-argument
         hydra-files/body
-        hydra-lines/drag-stuff-down
-        hydra-lines/drag-stuff-up
-        hydra-lines/hydra-scrolling/body-and-exit
-        hydra-lines/nil
-        hydra-lines/ta-avy-mark-region
-        hydra-lines/undo
+        handy-line/drag-stuff-down
+        handy-line/drag-stuff-up
+        handy-line/hydra-scrolling/body-and-exit
+        handy-line/nil
+        handy-line/ta-avy-mark-region
+        handy-line/undo
         hydra-mc/body
-        hydra-mc/hydra-lines/body
-        hydra-mc/hydra-lines/body-and-exit
+        hydra-mc/handy-line/body
+        hydra-mc/handy-line/body-and-exit
         hydra-mc/mc/insert-numbers
         hydra-mc/mc/mark-next-like-this
         hydra-mc/mc/mark-next-like-this-word

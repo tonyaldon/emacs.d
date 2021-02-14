@@ -46,7 +46,6 @@
 ;;; key bindings files
 
 (require 'kb)
-(require 'kb-lines)
 (require 'kb-mark)
 (require 'kb-string)
 (require 'kb-term)

@@ -210,7 +210,7 @@ Other window is selected with `ace-window'."
            (add-hook 'post-command-hook 'insight-check-cursor-color)
            (set-cursor-color "#26f9ad"))
    :hint nil)
-  ("t" hydra-lines/body :color blue)
+  ("t" handy-line/body :color blue)
   ("C-p" ta-drag-window-above)
   ("C-n" ta-drag-window-below)
   ("C-b" ta-drag-window-left)
