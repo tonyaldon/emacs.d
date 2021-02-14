@@ -184,7 +184,7 @@ nor a variable."
   ("T" exchange-point-and-mark)
   ("r" join-line)
   ;; (";" sp-comment)
-  ("_" ta-add-space :color blue)
+  ("_" handy-add-space :color blue)
   ;; kill
   ("M-d" sp-kill-sexp)
   ("DEL" sp-backward-kill-sexp)

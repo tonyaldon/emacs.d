@@ -49,20 +49,20 @@
         hydra-lines/org-forward-sentence
         hydra-lines/previous-logical-line
         hydra-lines/set-mark-command
-        hydra-lines/ta-above-new-indent-and-exit
-        hydra-lines/ta-add-space-and-exit
+        hydra-lines/handy-line-add-above-and-exit
+        hydra-lines/handy-add-space-and-exit
         hydra-lines/ta-back-to-indent-split-line-and-exit
-        hydra-lines/ta-below-new-indent-and-exit
-        hydra-lines/ta-comment-line
+        hydra-lines/handy-line-add-below-and-exit
+        hydra-lines/handy-line-comment
         hydra-lines/ta-copy-current-line-yank-below
-        hydra-lines/ta-cycle-spacing
+        hydra-lines/handy-cycle-spacing
         hydra-lines/ta-jsx-comment-or-uncomment-line
         hydra-lines/ta-kill-ring-save-current-line-and-exit
-        hydra-lines/ta-kill-whole-line
+        hydra-lines/handy-line-kill
         hydra-lines/ta-mark-current-line
         hydra-lines/ta-mark-end-of-line
         hydra-lines/ta-newline-after-end-of-visual-line-and-exit
-        hydra-lines/ta-copy-line-below
+        hydra-lines/handy-line-copy-paste-below
         hydra-mc/mc/mark-next-like-this-word
         hydra-mc/nil
         hydra-mc/replace-string-and-exit
@@ -126,7 +126,7 @@
         handy-sexp/sp-wrap-curly
         handy-sexp/sp-wrap-round
         handy-sexp/sp-wrap-square
-        handy-sexp/ta-add-space-and-exit
+        handy-sexp/handy-add-space-and-exit
         handy-sexp/handy-avy-copy-past-sexp-and-exit
         handy-sexp/handy-sp-drag-forward
         handy-sexp/handy-sp-drag-backward
@@ -177,7 +177,7 @@
         sp-remove-active-pair-overlay
         sp-select-next-thing-exchange
         handy-avy-copy-past-sexp
-        ta-comment-line
+        handy-line-comment
         ta-mark-inside-dwim
         ta-mark-inside-pairs
         ta-mark-sexp-at-point

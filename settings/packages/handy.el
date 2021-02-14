@@ -8,7 +8,50 @@
 ;;   2. to operate on sexp,
 ;;   3. and to mark things.
 
-;;; Operate on sexp
+;;; Operate on lines
+
+(defun handy-line-kill ()
+  "Kill the whole current line."
+  (interactive)
+  (let ((column-position (current-column)))
+    (kill-whole-line)
+    (move-to-column column-position)))
+
+(defun handy-line-copy ()
+  "Copy current line."
+  (interactive)
+  (copy-region-as-kill (point-at-bol) (point-at-eol)))
+
+(defun handy-line-copy-paste-below ()
+  "Copy current line and past it below "
+  (interactive)
+  (let ((init-point (point))
+        (line (buffer-substring-no-properties (point-at-bol) (point-at-eol))))
+    (save-excursion
+      (next-line)
+      (beginning-of-line)
+      (insert (s-concat line "\n")))))
+
+(defun handy-line-comment ()
+  "Comment or uncomment the current line.
+
+See `comment-or-uncomment-region'."
+  (interactive)
+  (comment-or-uncomment-region (point-at-bol) (point-at-eol)))
+
+(defun handy-line-add-above ()
+  "Add an empty line above and move the cursor to this line."
+  (interactive)
+  (back-to-indentation)
+  (split-line))
+
+(defun handy-line-add-below ()
+  "Add an empty line below and move the cursor to this line."
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+
+;;; Operate on sexps
 
 (declare-function avy-goto-word-or-subword-1 "ext:avy")
 (declare-function sp-transpose-sexp "ext:smartparens")
@@ -74,6 +117,19 @@ If the cursor doesn't touch any sp-sexp, return nil."
       (sp-copy-sexp))
     (select-window initial-window)
     (yank)))
+
+;;; Miscellaneous
+
+(defun handy-cycle-spacing ()
+  "Wrapper on `cycle-spacing' to call it in \"fast\" mode."
+  (interactive)
+  (cycle-spacing nil nil 'fast))
+
+(defun handy-add-space ()
+  "Add space at point without moving."
+  (interactive)
+  (insert " ")
+  (goto-char (- (point) 1)))
 
 ;;; Comments
 
