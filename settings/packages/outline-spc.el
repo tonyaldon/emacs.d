@@ -17,10 +17,6 @@
 
 ;;; The self insert command
 
-(defvar outline-spc-use-speed-commands nil
-  "This variable is used by `outline-spc-self-insert-command'
-and set by `outline-spc-mode'.")
-
 (defun outline-spc-self-insert-command (N)
   "Like `self-insert-command' but allow speed commands
 
@@ -30,7 +26,7 @@ when the cursor is at the beginning of an outline headline.
 This is a ligth adaptation of `org-self-insert-command'."
   (interactive "p")
   (cond
-   ((and outline-spc-use-speed-commands
+   ((and outline-spc-mode
          (let ((kv (this-command-keys-vector)))
            (setq outline-spc-speed-command
                  (run-hook-with-args-until-success
@@ -44,8 +40,7 @@ This is a ligth adaptation of `org-self-insert-command'."
       (funcall outline-spc-speed-command))
      ((and outline-spc-speed-command (listp outline-spc-speed-command))
       (eval outline-spc-speed-command))
-     (t (let (outline-spc-use-speed-commands)
-          (call-interactively 'outline-spc-self-insert-command)))))
+     (t (call-interactively 'outline-spc-self-insert-command))))
    (t
     (setq this-command 'self-insert-command)
     (self-insert-command N))))
@@ -131,10 +126,8 @@ Use `outline-spc-user' for further customization."
   "Toggle `outline-spc-mode' mode on or off."
   :global nil
   (if outline-spc-mode
-      (progn
-        (setq-local outline-spc-use-speed-commands t)
-        (local-set-key [remap self-insert-command] 'outline-spc-self-insert-command))
-    (makunbound 'outline-spc-use-speed-commands)
+      (local-set-key [remap self-insert-command]
+                     'outline-spc-self-insert-command)
     (local-set-key [remap self-insert-command] nil)))
 
 
