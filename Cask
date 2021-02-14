@@ -22,6 +22,7 @@
 (depends-on "dired-toggle-sudo")
 (depends-on "drag-stuff")
 (depends-on "dumb-jump")
+(depends-on "edit-indirect")
 (depends-on "emmet-mode")
 (depends-on "eterm-256color")
 (depends-on "expand-region")

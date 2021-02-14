@@ -258,6 +258,7 @@
         hydra-mc/mc/unmark-next-like-this
         hydra-mc/mc/unmark-previous-like-this
         hydra-mc/nil
+        hydra-mc/query-replace-and-exit
         hydra-mc/query-replace-regexp-and-exit
         hydra-mostly-visited/body
         hydra-mostly-visited/nil
@@ -317,6 +318,9 @@
         ta-find-file-notes
         ta-mouse-describe-thing-at-point
         ta-outline-toggle-global
+        ta-windmove-down
+        ta-windmove-left
+        ta-windmove-right
         ta-zap-back-to-char
         undefined
         undo-redo

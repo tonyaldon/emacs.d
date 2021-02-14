@@ -105,6 +105,15 @@
 (set-language-environment "UTF-8")
 (setq save-interprogram-paste-before-kill t)
 
+;;;; Enable commands
+
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'scroll-left 'disabled nil)
+(put 'set-goal-column 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
+
 ;;;; Indentation
 
 (require 'whitespace)
