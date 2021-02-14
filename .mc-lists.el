@@ -127,9 +127,9 @@
         handy-sexp/sp-wrap-round
         handy-sexp/sp-wrap-square
         handy-sexp/ta-add-space-and-exit
-        handy-sexp/ta-avy-copy-past-sexp-and-exit
-        handy-sexp/ta-sp-drag-forward
-        handy-sexp/ta-sp-drag-backward
+        handy-sexp/handy-avy-copy-past-sexp-and-exit
+        handy-sexp/handy-sp-drag-forward
+        handy-sexp/handy-sp-drag-backward
         hydra-ss/body
         hydra-ss/ta-ss-s-capitalize-and-exit
         hydra-ss/ta-ss-s-collapse-whitespace-and-exit
@@ -176,7 +176,7 @@
         sp-kill-word
         sp-remove-active-pair-overlay
         sp-select-next-thing-exchange
-        ta-avy-copy-past-sexp
+        handy-avy-copy-past-sexp
         ta-comment-line
         ta-mark-inside-dwim
         ta-mark-inside-pairs

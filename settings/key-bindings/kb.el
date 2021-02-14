@@ -189,7 +189,7 @@ nor a variable."
   ("M-d" sp-kill-sexp)
   ("DEL" sp-backward-kill-sexp)
   ("C" sp-copy-sexp)
-  ("c" ta-avy-copy-past-sexp :color blue)
+  ("c" handy-avy-copy-past-sexp :color blue)
   ("C-y" sp-clone-sexp)
   ;; reshape
   ("," sp-change-enclosing :color blue)
@@ -224,8 +224,8 @@ nor a variable."
   ("y" sp-backward-down-sexp)
   ("a" sp-beginning-of-sexp)
   ("e" sp-end-of-sexp)
-  ("d" ta-sp-drag-backward)
-  ("s" ta-sp-drag-forward)
+  ("d" handy-sp-drag-backward)
+  ("s" handy-sp-drag-forward)
   ;; parenthese type
   ("$" sp-show-enclosing-pair)
   ("{" sp-wrap-curly)
@@ -238,7 +238,7 @@ nor a variable."
   ("q" nil))
 
 (key-chord-define-global "-0" 'handy-sexp/body)
-(key-chord-define-global "sr" 'ta-avy-copy-past-sexp)
+(key-chord-define-global "sr" 'handy-avy-copy-past-sexp)
 
 ;;;; transient key bindings interface
 
