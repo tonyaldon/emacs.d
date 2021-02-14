@@ -629,6 +629,12 @@ Note: Modify the internal-border-width of the frame."
 
 (add-hook 'php-mode-hook 'ta-php-mode-hook)
 
+;;;; region-active-spc-mode
+
+(require 'region-active-spc)
+
+(region-active-spc-mode t)
+
 ;;;; nxml-mode
 (require 'nxml-mode)
 
