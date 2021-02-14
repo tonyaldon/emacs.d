@@ -167,6 +167,10 @@ nor a variable."
 (global-set-key (kbd "C-d") 'ta-describe-thing-at-point)
 (global-set-key (kbd "<C-down-mouse-3>") 'ta-mouse-describe-thing-at-point)
 
+;;;; handy
+
+(require 'handy)
+
 ;;;; transient key bindings interface
 
 ;;;;; transient interface
