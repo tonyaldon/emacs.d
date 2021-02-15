@@ -21,7 +21,9 @@
         er/mark-inside-quotes
         er/mark-word
         forward-sexp
-        hydra--universal-argument
+        handy-avy-copy-past-sexp
+        handy-expand-region-dwim
+        handy-line-comment
         handy-line/back-to-indentation
         handy-line/backward-char
         handy-line/backward-word
@@ -34,6 +36,13 @@
         handy-line/exchange-point-and-mark
         handy-line/forward-char
         handy-line/forward-word
+        handy-line/handy-add-space-and-exit
+        handy-line/handy-cycle-spacing
+        handy-line/handy-line-add-above-and-exit
+        handy-line/handy-line-add-below-and-exit
+        handy-line/handy-line-comment
+        handy-line/handy-line-copy-paste-below
+        handy-line/handy-line-kill
         handy-line/handy-sexp-reshape/body-and-exit
         handy-line/handy-sexp/body-and-exit
         handy-line/join-line
@@ -49,19 +58,62 @@
         handy-line/org-forward-sentence
         handy-line/previous-logical-line
         handy-line/set-mark-command
-        handy-line/handy-line-add-above-and-exit
-        handy-line/handy-add-space-and-exit
         handy-line/ta-back-to-indent-split-line-and-exit
-        handy-line/handy-line-add-below-and-exit
-        handy-line/handy-line-comment
         handy-line/ta-copy-current-line-yank-below
-        handy-line/handy-cycle-spacing
         handy-line/ta-jsx-comment-or-uncomment-line
         handy-line/ta-kill-ring-save-current-line-and-exit
-        handy-line/handy-line-kill
         handy-line/ta-mark-current-line
         handy-line/ta-newline-after-end-of-visual-line-and-exit
-        handy-line/handy-line-copy-paste-below
+        handy-mark-dwim
+        handy-mark-inside-dwim
+        handy-mark-inside-pairs
+        handy-mark-pop-local
+        handy-sexp-reshape/body
+        handy-sexp-reshape/handy-line/body-and-exit
+        handy-sexp-reshape/handy-sexp/body-and-exit
+        handy-sexp-reshape/sp-add-to-previous-sexp
+        handy-sexp-reshape/sp-backward-slurp-sexp
+        handy-sexp-reshape/sp-emit-sexp
+        handy-sexp-reshape/sp-kill-sexp
+        handy-sexp-reshape/sp-splice-sexp
+        handy-sexp-reshape/sp-splice-sexp-and-exit
+        handy-sexp-reshape/ta-drag-sexp-to-left
+        handy-sexp-reshape/ta-drag-sexp-to-right
+        handy-sexp-reshape/undo
+        handy-sexp/body
+        handy-sexp/handy-add-space-and-exit
+        handy-sexp/handy-avy-copy-past-sexp-and-exit
+        handy-sexp/handy-line/body-and-exit
+        handy-sexp/handy-sexp-reshape/body-and-exit
+        handy-sexp/handy-sp-drag-backward
+        handy-sexp/handy-sp-drag-forward
+        handy-sexp/set-mark-command
+        handy-sexp/sp-backward-down-sexp
+        handy-sexp/sp-backward-kill-sexp
+        handy-sexp/sp-backward-sexp
+        handy-sexp/sp-backward-up-sexp
+        handy-sexp/sp-beginning-of-next-sexp
+        handy-sexp/sp-beginning-of-sexp
+        handy-sexp/sp-change-enclosing-and-exit
+        handy-sexp/sp-change-inner-and-exit
+        handy-sexp/sp-down-sexp
+        handy-sexp/sp-end-of-sexp
+        handy-sexp/sp-forward-sexp
+        handy-sexp/sp-forward-slurp-sexp
+        handy-sexp/sp-kill-sexp
+        handy-sexp/sp-kill-whole-line
+        handy-sexp/sp-next-sexp
+        handy-sexp/sp-previous-sexp
+        handy-sexp/sp-raise-sexp
+        handy-sexp/sp-rewrap-sexp
+        handy-sexp/sp-splice-sexp
+        handy-sexp/sp-splice-sexp-killing-backward
+        handy-sexp/sp-swap-enclosing-sexp
+        handy-sexp/sp-up-sexp
+        handy-sexp/sp-wrap-curly
+        handy-sexp/sp-wrap-round
+        handy-sexp/sp-wrap-square
+        hydra--universal-argument
         hydra-mc/mc/mark-next-like-this-word
         hydra-mc/nil
         hydra-mc/replace-string-and-exit
@@ -85,50 +137,6 @@
         hydra-smartparens-wrapping/sp-rewrap-sexp-and-exit
         hydra-smartparens/body
         hydra-smartparens/sp-end-of-sexp
-        handy-sexp-reshape/body
-        handy-sexp-reshape/handy-line/body-and-exit
-        handy-sexp-reshape/handy-sexp/body-and-exit
-        handy-sexp-reshape/sp-add-to-previous-sexp
-        handy-sexp-reshape/sp-backward-slurp-sexp
-        handy-sexp-reshape/sp-emit-sexp
-        handy-sexp-reshape/sp-kill-sexp
-        handy-sexp-reshape/sp-splice-sexp
-        handy-sexp-reshape/sp-splice-sexp-and-exit
-        handy-sexp-reshape/ta-drag-sexp-to-left
-        handy-sexp-reshape/ta-drag-sexp-to-right
-        handy-sexp-reshape/undo
-        handy-sexp/body
-        handy-sexp/handy-line/body-and-exit
-        handy-sexp/handy-sexp-reshape/body-and-exit
-        handy-sexp/set-mark-command
-        handy-sexp/sp-backward-down-sexp
-        handy-sexp/sp-backward-kill-sexp
-        handy-sexp/sp-backward-sexp
-        handy-sexp/sp-backward-up-sexp
-        handy-sexp/sp-beginning-of-next-sexp
-        handy-sexp/sp-beginning-of-sexp
-        handy-sexp/sp-change-enclosing-and-exit
-        handy-sexp/sp-change-inner-and-exit
-        handy-sexp/sp-down-sexp
-        handy-sexp/sp-end-of-sexp
-        handy-sexp/sp-forward-sexp
-        handy-sexp/sp-forward-slurp-sexp
-        handy-sexp/sp-kill-sexp
-        handy-sexp/sp-kill-whole-line
-        handy-sexp/sp-next-sexp
-        handy-sexp/sp-raise-sexp
-        handy-sexp/sp-rewrap-sexp
-        handy-sexp/sp-splice-sexp
-        handy-sexp/sp-splice-sexp-killing-backward
-        handy-sexp/sp-swap-enclosing-sexp
-        handy-sexp/sp-up-sexp
-        handy-sexp/sp-wrap-curly
-        handy-sexp/sp-wrap-round
-        handy-sexp/sp-wrap-square
-        handy-sexp/handy-add-space-and-exit
-        handy-sexp/handy-avy-copy-past-sexp-and-exit
-        handy-sexp/handy-sp-drag-forward
-        handy-sexp/handy-sp-drag-backward
         hydra-ss/body
         hydra-ss/ta-ss-s-capitalize-and-exit
         hydra-ss/ta-ss-s-collapse-whitespace-and-exit
@@ -175,14 +183,7 @@
         sp-kill-word
         sp-remove-active-pair-overlay
         sp-select-next-thing-exchange
-        handy-avy-copy-past-sexp
-        handy-line-comment
-        handy-expand-region-dwim
-        handy-mark-dwim
-        handy-mark-inside-dwim
-        handy-mark-inside-pairs
         ta-mark-sexp-at-point
-        handy-mark-pop-local
         ta-zap-back-to-char
         transpose-words
         upcase-region
@@ -236,16 +237,20 @@
         fill-paragraph
         forward-sentence
         handle-switch-frame
-        hydra--digit-argument
-        hydra--negative-argument
-        hydra--universal-argument
-        hydra-files/body
         handy-line/drag-stuff-down
         handy-line/drag-stuff-up
         handy-line/hydra-scrolling/body-and-exit
         handy-line/nil
         handy-line/ta-avy-mark-region
         handy-line/undo
+        handy-sexp-reshape/nil
+        handy-sexp/nil
+        handy-sexp/sp-forward-barf-sexp
+        handy-sexp/undo
+        hydra--digit-argument
+        hydra--negative-argument
+        hydra--universal-argument
+        hydra-files/body
         hydra-mc/body
         hydra-mc/handy-line/body
         hydra-mc/handy-line/body-and-exit
@@ -272,10 +277,6 @@
         hydra-scrolling/body
         hydra-scrolling/nil
         hydra-scrolling/recenter-top-bottom
-        handy-sexp-reshape/nil
-        handy-sexp/nil
-        handy-sexp/sp-forward-barf-sexp
-        handy-sexp/undo
         hydra-window/body
         hydra-window/hydra-window-size/body-and-exit
         hydra-window/nil
