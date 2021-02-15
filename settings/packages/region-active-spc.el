@@ -3,14 +3,16 @@
 ;; When `region-active-spc-mode' is turned on, this modify some
 ;; typed character (self-insert-command) when the `region-active-p' is
 ;; true and instead of inserting the typed character it trigger any
-;; command you set in `FIXME' variable.  With the stantard setup, when
-;; a region is active and you type "b", the command `backward-word' is
-;; call instead of inserting character "b".
+;; command you set in `region-active-spc-map' variable.
+;;
+;; With the stantard setup, when a region is active and you type "b",
+;; the command `backward-word' is call instead of inserting character
+;; "b".
 ;;
 ;; "spc" in `region-active-spc-mode' means SPeed Command.
 ;;
 ;; `region-active-spc-mode' mode is incompatible with
-;; `pending-delete-mode'.
+;; `pending-delete-mode' alias of `delete-selection-mode'.
 
 ;;; Code
 
@@ -22,7 +24,9 @@
 advice \":before-until\" with `region-active-spc-trigger'.")
 
 (defvar region-active-spc-map
-  '(("." . kill-region)
+  '(("." . narrow-to-region)
+    (":" . eval-region)
+    ("," . kill-region)
     ("c" . kill-ring-save)
     ("q" . backward-delete-char-untabify)
     ("t" . exchange-point-and-mark)
@@ -55,9 +59,6 @@ any command like `self-insert-command'."
         (when speed-command
           (call-interactively speed-command) t))))
 
-;; add narrow-to-region
-;; add eval-region
-
 ;;; region-active-spc-mode
 
 (defvar region-active-spc-delete-selection-mode-user nil)
@@ -81,7 +82,7 @@ any command like `self-insert-command'."
 
 ;;; Comments
 
-(comment
+(comment ; when, call-interactively, assoc, type-of
  (when nil "uie")
  (when t "uie" "uieee")
 
@@ -96,7 +97,9 @@ any command like `self-insert-command'."
   (cdr (assoc "x" '(("n" . next-line) ("p" . previous-line))))) ; error
 
  (type-of (cdr (assoc "n" '(("n" . next-line) ("p" . previous-line))))) ; symbol
+ )
 
+(comment ; vectorp, this-command-keys-vector, make-string, aref, symbol-name
  (vectorp (this-command-keys-vector)) ; t
  (vectorp (make-string 2 (aref (this-command-keys-vector) 0))) ; error
  (vectorp (make-string 2 (symbol-name (aref (this-command-keys-vector) 0)))) ; error
