@@ -206,7 +206,15 @@ Install the pre-commit hook, so that the tests are always running:
 
     cp pre-commit .git/hooks/pre-commit
 
+
+# My Emacs Setup History
+
+If you're interested in the path I've taken to get to the `emacs`
+setup I'm currently using, check [My Emacs Setup History](./setup-history.org)
+`org` document.
+
 # License
+
 Project under MIT license
 
 **Good setting for clean work. Have a better life.**
