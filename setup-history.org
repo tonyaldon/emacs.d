@@ -1,0 +1,1524 @@
+#+TITLE: Emacs Setup History
+#+AUTHOR: Tony aldon
+#+DATE: <2021-02-19 Fri>
+
+* About
+I need to know how I end up with the emacs setup I'm using now.  Emacs
+is so versatile and powerful that you can easily getting lost bowels.  This
+document main goal is to give me more visibility on my setup.  This
+should give me more confidence.  And maybe I'll get rid of lot unused
+and not necessary code.  Who knows?
+* Step 5 (August 2019 - January 2020)
+commit d61293297bd0c77126cb969ea5520775d1c83f7c (v1.0.0).
+
+I used emacs 28.50 (I think).
+
+I gave a [[https://www.youtube.com/watch?v=utrTqWB_ncU][talk]] on /Pypi/ and /docopt/ at [[https://2019.es.pycon.org/][PyConEs2019]] in october 2019
+and a [[https://www.youtube.com/watch?v=YDuqSwyZvlY][lightning talk]] on /yasnippet/ at [[https://emacsconf.org/2019/][EmacsConf2019]] in november 2019
+emacs.  This made me realize that:
+1. I enjoy giving talk,
+2. I enjoy producing /emacs/ screencast,
+3. *I need to take the time to correctly set up emacs to be a better
+   programmer*.
+
+After a few month working on my /emacs/ setup and also on my
+[[https://github.com/tonyaldon/settings][linux settings]], I ended up with this versionned emacs setup, now
+public on github at [[https://github.com/tonyaldon/emacs.d][tonyaldon/emacs.d]].
+
+I started tweaking commands around /lines/ and /sexps/.  I really
+enjoyed the teleportation capability of ~avy~.  I've made /hydras/
+for almost everything.  I started learning and using /regexp/.  I
+started refactoring code with ~wgrep-mode~ and renaming files with
+~wdired-mode~.  It's just amazing.  I started to have a custom setup
+of the ~dired-mode~.  I wrote my first /minor-mode/.  I tried to use
+and learn ~smartparens~.  But it's a huge package and I was lost in
+the cool available commands.  I started defining /filter-groups/ in
+~ibuffer~.  I wrote my own /theme/.  I discovered ~key-chord~ power.
+
+** Miscellaneous
+
+#+BEGIN_SRC emacs-lisp
+(setq scroll-conservatively 100)
+(global-set-key [escape] 'kill-this-buffer)
+#+END_SRC
+
+** UI
+I used my own them ~discreet-theme~:
+
+#+BEGIN_SRC emacs-lisp
+(let ((d-black-1       "#151515")
+      (d-black-2       "#161a1f")
+      (d-black-3       "#222")
+      (d-black-4       "#333")
+      (d-gray-1        "#555")
+      (d-gray-2        "#5e5e5e")
+      (d-gray-3        "#8c8c8c")
+      (d-gray-4        "#b3b3b3")
+      (d-white-0       "#ffffff")
+      (d-white-1       "#dedede")
+      (d-red           "#ff6c60")
+      (d-orange-1      "#fd721f")
+      (d-orange-2      "#fd971f")
+      (d-yellow-1      "#ffd500") ; not used here (for cursor)
+      (d-yellow-2      "#eedc82")
+      (d-yellow-3      "#f5ebb6")
+      (d-green-1       "#60ff6c")
+      (d-green-2       "#26f9ad")
+      (d-aquamarine-1  "#7fffd4")
+      (d-aquamarine-2  "#359b79")
+      (d-aquamarine-3  "#458b74")
+      (d-cyan-1        "#457f8b")
+      (d-cyan-2        "#5297a5")
+      (d-blue-1        "#87cefa")
+      (d-blue-2        "#8795fa") ; not used here (for cursor)
+      (d-pink-1        "#fa87ce") ; not used here (for cursor)
+      (d-pink-2        "#f92672"))
+
+  (custom-theme-set-faces
+   'discreet
+
+   `(bold ((t (:bold t))))
+   `(default ((t (:background ,d-black-1 :foreground ,d-white-1))))
+   `(hl-line ((t (:background ,d-black-4 ))))
+   `(cursor ((t (:background ,d-green-2))))
+   `(mc/cursor-bar-face ((t (:background ,d-white-1 :height 3))))
+
+   `(highlight ((t (:background ,d-aquamarine-3 :foreground ,d-white-1 :bold t))))
+   `(lazy-highlight ((t (:background ,d-gray-3 :foreground ,d-white-1))))
+   `(region ((t (:background ,d-gray-2 :foreground ,d-white-1))))
+
+   `(isearch ((t (:inherit highlight))))
+   `(isearch-fail ((t (:background ,d-red))))
+
+   `(show-paren-match ((t (:background ,d-black-4 :foreground ,d-white-0 :underline t :weight ultra-bold))))
+   `(show-paren-mismatch ((t (:background ,d-red :foreground ,d-white-1 :weight bold))))
+
+   `(avy-lead-face ((t (:foreground ,d-red :weight bold))))
+   `(avy-lead-face-0 ((t (:inherit avy-lead-face))))
+   `(avy-lead-face-1 ((t (:inherit avy-lead-face))))
+   `(aw-leading-char-face ((t (:inherit avy-lead-face))))
+
+   `(minibuffer-prompt ((t (:foreground ,d-aquamarine-1))))
+
+   `(header-line ((t (:background ,d-black-1 :foreground ,d-orange-2 :weight bold))))
+   `(ta-dired-header-face ((t (:foreground ,d-black-1))))
+   `(dired-directory ((t (:inherit font-lock-function-name-face :weight bold))))
+   `(dired-flagged ((t (:inherit error))))
+   `(dired-header ((t (:inherit ta-dired-header-face))))
+   `(dired-ignored ((t (:inherit shadow))))
+   `(dired-mark ((t (:inherit font-lock-variable-name-face))))
+   `(dired-marked ((t (:inherit font-lock-variable-name-face))))
+   `(dired-perm-write ((t (:inherit font-lock-comment-delimiter-face))))
+   `(dired-symlink ((t (:inherit font-lock-keyword-face))))
+   `(dired-warning ((t (:inherit font-lock-warning-face))))
+
+   `(mode-line ((t (:background ,d-aquamarine-3 :foreground ,d-black-1))))
+   `(mode-line-inactive ((t (:background ,d-gray-1 :foreground ,d-gray-3))))
+   `(mode-line-buffer-id ((t (:foreground ,d-gray-4 :weight bold))))
+   `(vc-state-base ((t (:foreground ,d-orange-2))))
+
+   `(error ((t (:foreground ,d-red))))
+   `(warning ((t (:foreground ,d-orange-1))))
+   `(success ((t (:foreground ,d-green-1))))
+   `(match ((t (:foreground ,d-orange-2 :weight bold))))
+
+   `(info-xref ((t (:foreground ,d-aquamarine-2 :underline t))))
+   `(info-xref-visited ((t (:foreground ,d-yellow-3 :underline t))))
+   `(info-header-xref ((t (:foreground ,d-white-1 :underline t))))
+   `(info-menu-star ((t (:foreground ,d-white-1))))
+   `(link ((t (:foreground ,d-aquamarine-2 :underline t))))
+
+   `(wgrep-done-face ((t (:foreground ,d-blue-1 :weight bold))))
+   `(wgrep-face ((t (:underline (:color ,d-gray-4 :style wave)))))
+   `(wgrep-file-face ((t (:background ,d-gray-2 :foreground ,d-white-1))))
+   `(wgrep-reject-face ((t (:foreground ,d-pink-2 :weight bold))))
+
+   `(compilation-error ((t (:foreground ,d-red))))
+   `(compilation-info ((t (:foreground ,d-cyan-2 :underline t))))
+   `(compilation-line-number ((t (:foreground ,d-yellow-2 :underline t))))
+   `(compilation-warning ((t (:foreground ,d-orange-2))))
+   `(compilation-mode-line-exit ((t (:foreground ,d-green-1))))
+   `(compilation-mode-line-fail ((t (:foreground ,d-red))))
+   `(compilation-mode-line-run ((t (:foreground ,d-orange-2))))
+
+   `(company-preview ((t (:foreground ,d-aquamarine-3 :inherit hl-line :bold t))))
+   `(company-preview-common ((t (:foreground ,d-aquamarine-3 :inherit hl-line :bold t))))
+   `(company-preview-search ((t (:foreground ,d-orange-2 :inherit hl-line :bold t))))
+   `(company-scrollbar-bg ((t (:background ,d-black-4))))
+   `(company-scrollbar-fg ((t (:inherit highlight))))
+   `(company-tooltip ((t (:foreground ,d-gray-3 :background ,d-black-1))))
+   `(company-tooltip-common ((t (:foreground ,d-aquamarine-3 :weight bold))))
+   `(company-tooltip-common-selection ((t (:foreground ,d-aquamarine-1 :weight bold))))
+   `(company-tooltip-selection ((t (:inherit highlight))))
+   `(company-tooltip-annotation ((t (:foreground ,d-orange-2))))
+   `(company-tooltip-annotation-selection ((t (:foreground ,d-orange-2))))
+   `(company-tooltip-search ((t (:foreground ,d-orange-2 :bold t))))
+   `(company-tooltip-search-selection ((t (:foreground ,d-orange-2 :bold t))))
+
+   `(ivy-current-match ((t (:inherit highlight))))
+   `(ivy-cursor ((t (:background ,d-white-1))))
+   `(ivy-minibuffer-match-face-1 ((t (:background ,d-gray-1 :foreground ,d-white-1))))
+   `(ivy-minibuffer-match-face-2 ((t (:inherit lazy-highlight))))
+   `(ivy-minibuffer-match-face-3 ((t (:inherit lazy-highlight))))
+   `(ivy-minibuffer-match-face-4 ((t (:inherit lazy-highlight))))
+   `(ivy-posframe ((t (:background ,d-black-3))))
+   `(ivy-posframe-border ((t (:background ,d-aquamarine-2))))
+   `(ivy-posframe-cursor ((t (:inherit ivy-cursor))))
+   `(ivy-prompt-match ((t (:inherit ivy-current-match))))
+
+   `(swiper-background-match-face-1 ((t (:inherit ivy-minibuffer-match-face-1))))
+   `(swiper-background-match-face-2 ((t (:inherit ivy-minibuffer-match-face-2))))
+   `(swiper-background-match-face-3 ((t (:inherit ivy-minibuffer-match-face-3))))
+   `(swiper-background-match-face-4 ((t (:inherit ivy-minibuffer-match-face-4))))
+   `(swiper-isearch-current-match ((t (:background "black" :foreground "white"))))
+   `(swiper-line-face ((t (:inherit highlight))))
+   `(swiper-match-face-1 ((nil)))
+   `(swiper-match-face-2 ((nil)))
+   `(swiper-match-face-3 ((nil)))
+   `(swiper-match-face-4 ((nil)))
+
+   `(counsel--mark-ring-highlight ((t (:inherit highlight))))
+   `(counsel-application-name ((t (:inherit font-lock-builtin-face))))
+   `(counsel-key-binding ((t (:inherit font-lock-keyword-face))))
+
+   ;; font-lock
+   `(font-lock-negation-char-face ((t (:foreground ,d-red))))
+   `(font-lock-warning-face ((t (:foreground ,d-orange-2))))
+   `(font-lock-variable-name-face ((t (:foreground ,d-orange-2))))
+   `(font-lock-doc-face ((t (:foreground ,d-yellow-2))))
+   `(font-lock-doc-string-face ((t (:foreground ,d-yellow-2))))
+   `(font-lock-string-face ((t (:foreground ,d-yellow-2))))
+   `(font-lock-function-name-face ((t (:foreground ,d-aquamarine-3))))
+   `(font-lock-builtin-face ((t (:foreground ,d-cyan-1))))
+   `(font-lock-type-face ((t (:foreground ,d-cyan-2))))
+   `(font-lock-keyword-face ((t (:foreground ,d-pink-2))))
+   `(font-lock-preprocessor-face ((t (:foreground ,d-pink-2))))
+   `(font-lock-comment-delimiter-face ((t (:foreground ,d-gray-3))))
+   `(font-lock-comment-face ((t (:foreground ,d-gray-3))))
+   `(font-lock-constant-face ((t (:foreground ,d-yellow-3))))
+   `(font-lock-reference-face ((t (:foreground ,d-yellow-3))))
+   `(font-lock-regexp-grouping-backslash ((t (:foreground ,d-blue-1))))
+   `(font-lock-regexp-grouping-construct ((t (:foreground ,d-blue-1))))
+   `(font-lock-number-face ((t (:foreground ,d-yellow-2))))))
+#+END_SRC
+
+** dired-mode
+
+#+BEGIN_SRC emacs-lisp
+(require 'dash)
+(require 'dired)
+(require 'dired-details)
+(require 'dired-hacks-utils)
+(require 'dired-hide-dotfiles)
+(require 'dired-narrow)
+(require 'dired-open)
+(require 'dired-subtree)
+(require 's)
+
+(setq dired-dwim-target t)
+(setq dired-recursive-copies 'always)
+(setq-default dired-details-hidden-string "")
+(setq-default dired-listing-switches "-lhA --group-directories-first")
+(setq dired-open-extensions
+      '(("pdf" . "evince")
+        ("jpg" . "eog")
+        ("png" . "eog")))
+(setq-default dired-subtree-line-prefix "  ")
+(setq-default dired-subtree-use-backgrounds nil)
+
+(dired-details-install)
+(dired-hide-dotfiles-mode)
+
+(defun ta-size-bigger-file-or-directory-in-dired ()
+  "Return the number of characters of the bigger FILE-OR-DIRECTORY in current dired buffer."
+  (with-current-buffer (current-buffer)
+    (-max (--map (length (-last-item (s-split "/" it)))
+                 (dired-utils-get-all-files)))))
+
+(defun ta-dired-current-buffer-file-toggle ()
+  "Pop a buffer on the left of the frame in `dired-mode'
+
+with the parent directory of the current `buffer-file-name' if not `nil' and
+if the frame contains any buffer in `dired-mode'. If the frame contains buffers
+in `dired-mode', delete them.
+"
+  (interactive)
+  ;; TODO: - check the case of buffer-file-name is nil
+  ;; TODO: - check the case of the is only one buffer in dired-mode
+  (setq current-window (car (avy-window-list)))
+  (setq window-list (avy-window-list))
+  (setq dired-buffer-into-frame-p nil)
+  (while window-list
+    (select-window (car window-list))
+    (if (string-equal major-mode "dired-mode")
+        (progn
+          (setq dired-buffer-into-frame-p t)
+          (delete-window)))
+    (setq window-list (cdr window-list)))
+  (if dired-buffer-into-frame-p
+      nil
+    (select-window current-window)
+    (delete-other-windows)
+    (let ((width (with-current-buffer
+                     (dired-noselect (file-name-directory (buffer-file-name)))
+                   (ta-size-bigger-file-or-directory-in-dired))))
+      (split-window-right (+ 10 width))) ; 10 is arbitrary
+    (dired (file-name-directory (buffer-file-name)))))
+
+(define-minor-mode dired-header-line-mode
+  "Show only the last two directories of the path to the current
+directory that `dired-mode' is displaying."
+  :init-value nil :group 'header-line :group 'dired
+  (unless (derived-mode-p 'dired-mode)
+    (error "You must be in dired-mode to use this command"))
+  (if dired-header-line-mode
+      (progn
+        (setq path-len
+              (length (s-split "/" (expand-file-name dired-directory))))
+        (setq header-line-directories
+              (car (last
+                    (s-split-up-to "/"
+                                   (expand-file-name dired-directory)
+                                   (- path-len 3)))))
+        (setq header-line-format (concat "..." header-line-directories)))
+    (setq header-line-format  (default-value 'header-line-format))))
+
+(defface ta-dired-header-face
+  nil
+  "Face for dired header, first line of buffer in `dired-mode'"
+  :group 'dired)
+
+(font-lock-add-keywords
+ 'dired-mode
+ '(("\\(^.*:$\\)" . 'ta-dired-header-face)))
+
+(font-lock-add-keywords
+ 'wdired-mode
+ '(("\\(^.*:$\\)" . 'ta-dired-header-face)))
+
+(add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1)))
+(add-hook 'dired-before-readin-hook 'dired-header-line-mode)
+
+#+END_SRC
+** hydra
+*** hydra settings
+
+#+BEGIN_SRC emacs-lisp
+(setq-default hydra-hint-display-type  'message)
+#+END_SRC
+
+*** kmacro
+
+#+BEGIN_SRC emacs-lisp
+(defhydra hydra-kmacro
+  (:pre (hydra-color-pre)
+   :post (hydra-color-post)
+   :hint nil)
+  ("<next>" hydra-lines/body :color blue)
+  ("<prior>" hydra-sp-reshape/body :color blue)
+  ("." hydra-sp/body :color blue)
+  ("s" kmacro-set-counter :color blue)
+  ("r" kmacro-insert-counter)
+  ("l" kmacro-end-or-call-macro)
+  ("<up>" kmacro-cycle-ring-previous :color blue)
+  ("<down>" kmacro-cycle-ring-next :color blue)
+  ("n" kmacro-name-last-macro :color blue)
+  ("b" kmacro-bind-to-key :color blue)
+  ("e" kmacro-edit-macro :color blue)
+  ("M--" undo)
+  ("q" nil))
+#+END_SRC
+
+*** lines
+
+#+BEGIN_SRC emacs-lisp
+(defhydra hydra-lines
+  (:pre (hydra-color-pre-lines)
+   :post (progn (hydra-color-post) (hydra-lines-active))
+   :hint nil)
+  ("<prior>" hydra-sp-reshape/body :color blue)
+  ("." hydra-sp/body :color blue)
+  ("j" hydra-org/body :color blue)
+  ("m" hydra-scrolling/body :color blue)
+  ;; ---
+  (";" ta-comment-line)
+  ("DEL" delete-backward-char)
+  (">" set-mark-command)
+  ("t" exchange-point-and-mark)
+  ;; action on line(s)
+  (":" ta-avy-mark-region)
+  ("c" avy-copy-line)
+  ("@" avy-kill-whole-line)
+  ("C" avy-copy-region)
+  ("%" avy-kill-region)
+  ("!" flush-lines)
+  ("?" keep-lines)
+  ;; current line
+  ("/" ta-mark-current-line)
+  ("k" kill-line)
+  ("l" (kill-line 0))
+  ("x" ta-kill-whole-line)
+  ("w" ta-kill-ring-save-current-line :color blue)
+  ("y" ta-copy-current-line-yank-below)
+  ("r" join-line)
+  ("o" open-line)
+  ("'" delete-blank-lines)
+  ("," delete-horizontal-space)
+  ;; to insert text
+  ("u" ta-above-new-indent :color blue)
+  ("]" ta-below-new-indent :color blue)
+  ("_" ta-add-space :color blue)
+  ;; quick motions
+  ("n" next-logical-line)
+  ("p" previous-logical-line)
+  ("f" forward-char)
+  ("b" backward-char)
+  ("M-f" forward-word)
+  ("M-b" backward-word)
+  ("M-e" forward-paragraph)
+  ("M-a" backward-paragraph)
+  ("i" back-to-indentation)
+  ("a" move-beginning-of-line)
+  ("e" move-end-of-line)
+  ;; drag stuff
+  ("d" drag-stuff-up)
+  ("s" drag-stuff-down)
+  ;; clean/undo/nil
+  ("g" cleanup-buffer)
+  ("M--" undo)
+  ("q" nil))
+#+END_SRC
+
+*** org-mode
+At that time, I didn't know about ~org-speed-commands~.
+
+#+BEGIN_SRC emacs-lisp
+(defhydra hydra-org
+  (:pre (hydra-color-pre-org)
+   :post (hydra-color-post)
+   :hint nil)
+  ("<prior>" hydra-sp-reshape/body :color blue)
+  ("<next>" hydra-lines/body :color blue)
+  ("." hydra-sp/body :color blue)
+  ("j" hydra-org/body :color blue)
+  ("m" hydra-scrolling/body :color blue)
+  ;; ---
+  ("M-l" org-mark-ring-goto)
+  ("c" org-copy-subtree)
+  ("k" org-kill-line)
+  ("p" outline-previous-visible-heading)
+  ("n" outline-next-visible-heading)
+  ("b" org-backward-heading-same-level)
+  ("f" org-forward-heading-same-level)
+  ("Y" outline-up-heading)
+  ("u" org-down-element)
+  ("y" org-up-element)
+  ;; ("c RET" org-insert-heading-after-current)
+  ("RET" org-meta-return :color blue)
+  ("i" org-ctrl-c-minus)
+  ("*" org-ctrl-c-star)
+  (">" org-metaright)
+  ("<" org-metaleft)
+  (")" org-shiftmetaright)
+  ("(" org-shiftmetaleft)
+  ("<up>" org-shiftmetaup)
+  ("<down>" org-shiftmetadown)
+  ("d" org-shiftup)
+  ("s" org-shiftdown)
+  ("^" org-sort)
+  ("[" org-narrow-to-subtree)
+  ("]" widen)
+  ("<tab>" org-cycle)
+  ("o" org-open-at-point)
+  ("q" nil))
+#+END_SRC
+
+*** scrolling
+
+#+BEGIN_SRC emacs-lisp
+(defhydra hydra-scrolling
+  (:pre (hydra-color-pre-scrolling)
+   :post (hydra-color-post)
+   :hint nil)
+  ("<prior>" hydra-sp-reshape/body :color blue)
+  ("<next>" hydra-lines/body :color blue)
+  ("." hydra-sp/body :color blue)
+  ("j" hydra-org/body :color blue)
+  ;; ---
+  ("<" beginning-of-buffer)
+  (">" end-of-buffer)
+  ("<backspace>" scroll-down-command)
+  ("SPC" scroll-up-command)
+  ("p" ta-scroll-down-line)
+  ("n" ta-scroll-up-line)
+  ("f" scroll-left)
+  ("b" scroll-right)
+  ;; ---
+  ("u" recenter-top-bottom)
+  ("a" move-to-window-line-top-bottom)
+  ;; ---
+  ("e" scroll-other-window)
+  ("i" scroll-other-window-down)
+  ("o" ta-scroll-other-window-line)
+  ("x" ta-scroll-other-window-down-line)
+  ("q" nil))
+#+END_SRC
+
+*** smartparens
+
+#+BEGIN_SRC emacs-lisp
+(defhydra hydra-sp
+  (:pre (hydra-color-pre-sp)
+   :post (hydra-color-post)
+   :hint nil)
+  ("<prior>" hydra-sp-reshape/body :color blue)
+  ("<next>" hydra-lines/body :color blue)
+  ("j" hydra-org/body :color blue)
+  ("m" hydra-scrolling/body :color blue)
+  ;; ---
+  ("S" smartparens-global-strict-mode :color blue)
+  ;; ---
+  ("}" set-mark-command)
+  ("t" exchange-point-and-mark)
+  ("r" join-line)
+  ;; ---
+  ("k" sp-kill-whole-line)
+  ("," sp-kill-sexp)
+  ("DEL" sp-backward-kill-sexp)
+  ("c" sp-copy-sexp)
+  ("@" sp-backward-copy-sexp)
+  (";" sp-comment)
+  ("N" sp-narrow-to-sexp)
+  ;; sp-motion
+  (">" sp-beginning-of-next-sexp)
+  ("<" sp-beginning-of-previous-sexp)
+  ("f" sp-forward-sexp)
+  ("b" sp-backward-sexp)
+  ("n" sp-next-sexp)
+  ("p" sp-previous-sexp)
+  ("u" sp-down-sexp)
+  ("i" sp-up-sexp)
+  ("y" sp-backward-up-sexp)
+  ("x" sp-backward-down-sexp)
+  ("a" sp-beginning-of-sexp)
+  ("e" sp-end-of-sexp)
+  ;; to insert text
+  ("_" ta-add-space :color blue)
+  ;; ---
+  ("$" sp-show-enclosing-pair)
+  ("{" sp-wrap-curly)
+  ("(" sp-wrap-round)
+  ("[" sp-wrap-square)
+  ("/" sp-rewrap-sexp)
+  ("s" sp-swap-enclosing-sexp)
+  ;; ---
+  ("g" cleanup-buffer)
+  ("M--" undo)
+  ("q" nil))
+
+(defhydra hydra-sp-reshape
+  (:pre (hydra-color-pre-sp-reshape)
+   :post (hydra-color-post)
+   :hint nil)
+  ("<next>" hydra-lines/body :color blue)
+  ("." hydra-sp/body :color blue)
+  ("j" hydra-org/body :color blue)
+  ("m" hydra-scrolling/body :color blue)
+  ;; ---
+  ("k" sp-kill-whole-line)
+  ("," sp-kill-sexp)
+  ("DEL" sp-backward-kill-sexp)
+  ("c" ta-avy-copy-sexp :color blue)
+  ("@" ta-avy-kill-sexp :color blue)
+  (";" sp-comment)
+  ("N" sp-narrow-to-sexp)
+  ;; ---
+  ("a" sp-absorb-sexp)
+  ("i" sp-change-inner :color blue)
+  ("/" sp-change-enclosing :color blue)
+  ("e" sp-emit-sexp)
+  ;; ---
+  ("%" sp-convolute-sexp)
+  ;; ---
+  ("d" ta-drag-sexp-to-left)
+  ("s" ta-drag-sexp-to-right)
+  ;; ---
+  ("f" sp-forward-slurp-sexp)
+  ("b" sp-backward-slurp-sexp)
+  (")" sp-forward-barf-sexp)
+  ("(" sp-backward-barf-sexp)
+  ("p" sp-add-to-previous-sexp)
+  ("n" sp-add-to-next-sexp)
+  ;; ---
+  (":" sp-split-sexp)
+  ("'" sp-join-sexp)
+  ;; ---
+  ("[" sp-splice-sexp-killing-backward)
+  ("]" sp-splice-sexp-killing-forward)
+  ("u" sp-splice-sexp :color blue)
+  ("r" sp-raise-sexp)
+  ;; ---
+  ("g" cleanup-buffer)
+  ("M--" undo)
+  ("q" nil))
+#+END_SRC
+
+*** Toggle write mode
+
+#+BEGIN_SRC emacs-lisp
+(defhydra hydra-toggle
+  (:pre (hydra-color-pre)
+   :post (hydra-color-post)
+   :hint nil)
+  ("n" ta-toggle-write-mode :color blue)
+  ("i" ta-w-abort-changes :color blue)
+  ("e" ta-w-exit :color blue)
+  ("f" ta-w-finish-edit :color blue)
+  ("M--" undo)
+  ("q" nil))
+#+END_SRC
+
+** External cli
+- I used [[https://github.com/flycheck/flycheck][flycheck]] with [[https://www.pylint.org/][pylint]] cli for python syntax checking.
+- I used [[https://github.com/company-mode/company-mode][company-mode]] with [[https://github.com/ternjs/tern][tern]] cli javascript analyzer.
+** Discarded Packages (in the setup)
+I replaced [[https://github.com/winterTTr/ace-jump-mode][ace-jump-mode]] by [[https://github.com/abo-abo/avy][avy]] (I think it was to be consistent with
+[[https://github.com/abo-abo/ace-window][ace-window]]).  I replace ~shell~ by ~term~.
+
+| packages/modes  | links         |
+|-----------------+---------------|
+| ~shell~         | built-in      |
+| ~ace-jump-mode~ | [[https://github.com/winterTTr/ace-jump-mode][ace-jump-mode]] |
+
+** New Packages (in the setup)
+| packages/modes            | links          |
+|---------------------------+----------------|
+| ~eldoc-mode~              | built-in       |
+| ~term~                    | built-in       |
+| ~save-place-mode~         | built-in       |
+| ~global-auto-revert-mode~ | built-in       |
+| ~eterm-256color~          | [[https://github.com/dieggsy/eterm-256color][eterm-256color]] |
+| ~minimap~                 | [[https://github.com/dengste/minimap][minimap]]        |
+| ~wgrep~                   | [[https://github.com/mhayashi1120/Emacs-wgrep][wgrep]]          |
+| ~moody~                   | [[https://github.com/tarsius/moody][moody]]          |
+| ~minions~                 | [[https://github.com/tarsius/minions][minions]]        |
+| ~company-tern~            | [[https://github.com/kevinushey/company-tern][company-tern]]   |
+| ~anaconda-mode~           | [[https://github.com/pythonic-emacs/anaconda-mode][anaconda-mode]]  |
+| ~flycheck~                | [[https://github.com/flycheck/flycheck][flycheck]]       |
+| ~ivy-posframe~            | [[https://github.com/tumashu/ivy-posframe][ivy-posframe]]   |
+| ~key-chord~               | [[https://github.com/emacsorphanage/key-chord][key-chord]]      |
+| ~drag-stuff~              | [[https://github.com/rejeep/drag-stuff.el][drag-stuff]]     |
+** New commands (in the setup)
+| commands              | packages |
+|-----------------------+----------|
+| ert                   | built-in |
+| eval-defun            | built-in |
+| eval-last-sexp        | built-in |
+| narrow-to-defun       | built-in |
+| narrow-to-region      | built-in |
+| next-buffer           | built-in |
+| previous-buffer       | built-in |
+| rgrep                 | built-in |
+| widen                 | built-in |
+| avy-goto-line         | [[https://github.com/abo-abo/avy][avy]]      |
+| avy-goto-word-1       | [[https://github.com/abo-abo/avy][avy]]      |
+| ivy-occur             | [[https://github.com/abo-abo/swiper][ivy]]      |
+| swiper-thing-at-point | [[https://github.com/abo-abo/swiper][ivy]]      |
+** Custom commands
+**** Marking things
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-pop-local-mark-ring ()
+  (interactive)
+  (set-mark-command t))
+
+(defun ta--point-at-beginnig-sp-sexp-p ()
+  "Return non-nil if `point' is at the beginning of a sp-sexp
+
+and :op non empty. See `sp-get-thing'."
+  (let ((ok (sp-get-thing)))
+    (when ok
+      (when (and (eq (point) (sp-get ok :beg))
+                 (not (string-empty-p (sp-get ok :op))))
+        (point)))))
+
+(defun ta--mark-sexp-at-point ()
+  "Mark the `sexp' at point."
+  (let ((sexp-beg (beginning-of-thing 'sexp))
+        (sexp-end (end-of-thing 'sexp)))
+    (goto-char sexp-end)
+    (set-mark sexp-end)
+    (goto-char sexp-beg)))
+
+(defun ta-mark-sexp-at-point ()
+  "Mark the `sexp' at point. See `sexp-at-point' and `sp-mark-sexp'."
+  (interactive)
+  (if (or (ta--point-at-beginnig-sp-sexp-p)
+          (eq (following-char) ?<))
+      (sp-mark-sexp)
+    (if (eq (preceding-char) ?\")
+        (progn
+          (sp-backward-sexp)
+          (sp-mark-sexp))
+      (if (and (memq (following-char) '(32 ?\) ?\] ?\} ?>))
+               (looking-back "[[:alnum:]]" 1))
+          (backward-char 1))
+      (ta--mark-sexp-at-point))))
+
+(defun ta-point-in-string-p (pt)
+  "Returns t if PT is in a string"
+  (eq 'string (syntax-ppss-context (syntax-ppss pt))))
+
+(defun ta-goto-begining-of-string (pt)
+  "Go to begining of the string if PT is inside a string.
+Return nil if PT isn't inside a string. See the function `ta-point-in-string-p'"
+  (if (ta-point-in-string-p pt)
+      (goto-char (nth 8 (syntax-ppss pt)))
+    nil))
+
+(defun ta-mark-inside-pairs ()
+  "An other way to do `er/mark-inside-pairs' but work for sgml-tag too."
+  (interactive)
+  (ta-goto-begining-of-string (point))
+  (sp-backward-up-sexp)
+  (sp-mark-sexp)
+  (sp-down-sexp)
+  (exchange-point-and-mark)
+  (sp-backward-down-sexp)
+  (exchange-point-and-mark))
+#+END_SRC
+
+**** Miscellaneous
+
+#+BEGIN_SRC emacs-lisp
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting.
+
+see: http://github.com/magnars"
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
+
+(defun ta-number-lines-whole-buffer ()
+  "Number of lines in the whole buffer.
+Printed in the message area"
+  (interactive)
+  (message "Buffer's number of lines: %s"
+           (int-to-string (count-lines (point-min) (point-max)))))
+
+(defun ta-unfill-paragraph ()
+  "Transform a paragraph into a single line."
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil t)))
+#+END_SRC
+
+**** Operation related to lines
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-mark-current-line ()
+  "Mark the current line."
+  (interactive)
+  (end-of-line)
+  (set-mark (point))
+  (beginning-of-line))
+
+(defun ta-copy-current-line-yank-below ()
+  "copy current line and yank it to the next line.
+Cursor doesn't move."
+  (interactive)
+  (setq init-point (point))
+  (save-excursion
+    (beginning-of-line)
+    (setq beg-point (point))
+    (end-of-line)
+    (setq end-point (point))
+    (setq line-text (delete-and-extract-region end-point beg-point))
+    (insert line-text)
+    (newline)
+    (insert line-text))
+  (goto-char init-point))
+
+(defun ta-kill-ring-save-current-line ()
+  "Save the current line as if killed, but don't kill it."
+  (interactive)
+  (setq init-point (point))
+  (save-excursion
+    (beginning-of-line)
+    (setq beg-point (point))
+    (end-of-line)
+    (setq end-point (point))
+    (copy-region-as-kill beg-point end-point))
+  (goto-char init-point))
+
+(defun ta-comment-line ()
+  (interactive)
+  (save-excursion
+    (beginning-of-line)
+    (let ((beg (point)))
+      (end-of-line)
+      (setq end (point))
+      (comment-or-uncomment-region beg end))))
+
+(defun ta-above-new-indent ()
+  "In the current line, back to indent then split line as `split-line'"
+  (interactive)
+  (back-to-indentation)
+  (split-line))
+
+(defun ta-below-new-indent ()
+  "Do `end-of-visual-line' then `newline-and-indent'"
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+
+(defun ta-add-space ()
+  "Add space at point without moving."
+  (interactive)
+  (insert " ")
+  (goto-char (- (point) 1)))
+
+(defun ta-avy-mark-region (arg)
+  "Select two lines and mark the region between them"
+  (interactive "P")
+  (avy-with avy-kill-ring-save-region
+    (let* ((beg (save-selected-window
+                  (list (avy--line arg) (selected-window))))
+           (end (list (avy--line arg) (selected-window))))
+      (cond
+       ((not (numberp (car beg)))
+        (user-error "Fail to select the beginning of region"))
+       ((not (numberp (car end)))
+        (user-error "Fail to select the end of region"))
+       ((not (equal (cdr beg) (cdr end)))
+        (user-error "Selected points are not in the same window"))
+       ((< (car beg) (car end))
+        (set-mark (car beg))
+        (goto-char (car end))
+        (end-of-line))
+       (t
+        (set-mark (car beg))
+        (goto-char (car end))
+        (exchange-point-and-mark)
+        (end-of-line))))))
+
+(defun ta-kill-whole-line ()
+  "Kill the whole current line.
+
+Preserve the column position of the cursor."
+  (interactive)
+  (let ((column-position (current-column)))
+    (kill-whole-line)
+    (move-to-column column-position)))
+#+END_SRC
+
+**** Scrolling
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-scroll-down-line ()
+  "Scroll down of one line"
+  (interactive)
+  (scroll-up-line -1))
+
+(defun ta-scroll-up-line ()
+  "Scroll up of one line"
+  (interactive)
+  (scroll-up-line))
+
+(defun ta-scroll-other-window-line ()
+  "Scroll up of one line in other window. See `scroll-other-window'"
+  (interactive)
+  (scroll-other-window 1))
+
+(defun ta-scroll-other-window-down-line ()
+  "Scroll up of one line in other window. See `scroll-other-window'"
+  (interactive)
+  (scroll-other-window-down 1))
+#+END_SRC
+
+**** Windows
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-drag-window-left ()
+  "Drag current window one window to the left."
+  (interactive)
+  (aw-swap-window (window-in-direction 'left)))
+
+(defun ta-drag-window-right ()
+  "Drag current window one window to the right."
+  (interactive)
+  (aw-swap-window (window-in-direction 'right)))
+
+(defun ta-drag-window-above ()
+  "Drag current window one window to the above."
+  (interactive)
+  (aw-swap-window (window-in-direction 'above)))
+
+(defun ta-drag-window-below ()
+  "Drag current window one window to the below."
+  (interactive)
+  (aw-swap-window (window-in-direction 'below)))
+
+(defun ta-split-window-right ()
+  "Chain `split-window-right' and `windmove-right'."
+  (interactive)
+  (split-window-right)
+  (windmove-right))
+
+(defun ta-split-window-down ()
+  "Chain `split-window-below' and `windmove-down'."
+  (interactive)
+  (split-window-below)
+  (windmove-down))
+#+END_SRC
+
+**** Toggle Write mode
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-toggle-write-mode ()
+  "Toggle to the Writable variant of the current mode.
+
+Call command `dired-toggle-read-only' if `major-mode' is equal
+`dired-mode' and call command `wgrep-change-to-wgrep-mode' if
+`major-mode' is equal to `grep-mode'."
+  (interactive)
+  (cond ((string-equal major-mode "dired-mode")
+         (call-interactively 'dired-toggle-read-only))
+        ((memq major-mode '(grep-mode ivy-occur-grep-mode))
+         (call-interactively 'wgrep-change-to-wgrep-mode))
+        (t (message "You have to be in either in `dired-mode' or
+`grep-mode' to execute this command"))))
+
+(defun ta-w-abort-changes ()
+  "Abort changes and return to the appropiate mode.
+
+Call command `wdired-abort-changes' if `major-mode' is
+`wdired-mode' and call command `wgrep-abort-changes' if
+`major-mode' is `grep-mode'."
+  (interactive)
+  (cond ((string-equal major-mode "wdired-mode")
+         (call-interactively 'wdired-abort-changes))
+        ((memq major-mode '(grep-mode ivy-occur-grep-mode))
+         (call-interactively 'wgrep-abort-changes))
+        (t (message "You have to be in either in `wdired-mode' or
+`grep-mode' to execute this command"))))
+
+(defun ta-w-exit ()
+  "Exit writable mode and return to the appropiate mode.
+
+Call command `wdired-exit' if `major-mode' is
+`wdired-mode' and call command `wgrep-exit' if
+`major-mode' is `grep-mode'."
+  (interactive)
+  (cond ((string-equal major-mode "wdired-mode")
+         (call-interactively 'wdired-exit))
+        ((memq major-mode '(grep-mode ivy-occur-grep-mode))
+         (call-interactively 'wgrep-exit))
+        (t (message "You have to be in either in `wdired-mode' or
+`grep-mode' to execute this command"))))
+
+(defun ta-w-finish-edit ()
+  "Abort changes and return to the appropiate mode.
+
+Call command `wdired-finish-edit' if `major-mode' is
+`wdired-mode' and call command `wgrep-finish-edit' if
+`major-mode' is `grep-mode'."
+  (interactive)
+  (cond ((string-equal major-mode "wdired-mode")
+         (call-interactively 'wdired-finish-edit))
+        ((memq major-mode '(grep-mode ivy-occur-grep-mode))
+         (call-interactively 'wgrep-finish-edit))
+        (t (message "You have to be in either in `wdired-mode' or
+`grep-mode' to execute this command"))))
+
+(defhydra hydra-toggle
+  (:pre (hydra-color-pre)
+   :post (hydra-color-post)
+   :hint nil)
+  ("n" ta-toggle-write-mode :color blue)
+  ("i" ta-w-abort-changes :color blue)
+  ("e" ta-w-exit :color blue)
+  ("f" ta-w-finish-edit :color blue)
+  ;; ---
+  ("M--" undo)
+  ("q" nil))
+#+END_SRC
+
+** advices
+
+#+BEGIN_SRC emacs-lisp
+(defadvice back-to-indentation (before back-to-indentation-advice activate)
+  (if (not mark-active) (push-mark)))
+
+(defadvice move-beginning-of-line (before move-beginning-of-line-advice activate)
+  (if (not mark-active) (push-mark)))
+
+(defadvice move-end-of-line (before move-end-of-line-advice activate)
+  (if (not mark-active) (push-mark)))
+
+(defadvice hydra-lines/body (before hydra-lines-advice activate)
+  (hydra-lines-active))
+
+(defadvice ta-avy-mark-region (after ta-avy-mark-region-advice activate)
+  (if hydra-lines-active nil
+    (hydra-lines/body)))
+#+END_SRC
+
+** Custom minor-modes
+
+#+BEGIN_SRC emacs-lisp
+(define-minor-mode dired-header-line-mode
+  "Show only the last two directories of the path to the current
+directory that `dired-mode' is displaying."
+  :init-value nil :group 'header-line :group 'dired
+  (unless (derived-mode-p 'dired-mode)
+    (error "You must be in dired-mode to use this command"))
+  (if dired-header-line-mode
+      (progn
+        (setq path-len
+              (length (s-split "/" (expand-file-name dired-directory))))
+        (setq header-line-directories
+              (car (last
+                    (s-split-up-to "/"
+                                   (expand-file-name dired-directory)
+                                   (- path-len 3)))))
+        (setq header-line-format (concat "..." header-line-directories)))
+    (setq header-line-format  (default-value 'header-line-format))))
+#+END_SRC
+
+** emacs-lisp
+To write my own ~emacs~ commands, I started using the following
+~variables~, ~functions~, ~macros~ and ~special forms~.
+*** variables
+- fill-column
+- major-mode
+- mark-active
+- this-command
+*** special forms
+- and
+- if
+- let*
+- or
+- progn
+- save-excursion
+- while
+*** macros
+- defadvice
+- defface
+- lambda
+- save-selected-window
+- unless
+- with-current-buffer
+*** functions
+**** from [[https://github.com/Fuco1/dired-hacks#dired-hacks-utils][dired-hacks-utils]]
+- dired-utils-get-all-files
+**** from [[https://github.com/abo-abo/ace-window][ace-window]]
+- aw-swap-window
+**** from [[https://github.com/abo-abo/avy][avy]]
+- avy-kill-ring-save-region
+- avy-window-list
+- avy-with
+**** from [[https://github.com/magnars/dash.el][dash]]
+- --map
+- -last-item
+- -max
+**** from [[https://github.com/magnars/s.el][s]]
+- s-capitalize
+- s-collapse-whitespace
+- s-concat
+- s-dashed-words
+- s-downcase
+- s-lower-camel-case
+- s-snake-case
+- s-split
+- s-split
+- s-titleize
+- s-titleize
+- s-upcase
+- s-upper-camel-case
+- s-wrap
+**** from [[https://github.com/Fuco1/smartparens][smartparens]]
+- sp-backward-down-sexp
+- sp-backward-sexp
+- sp-backward-up-sexp
+- sp-down-sexp
+- sp-get-thing
+- sp-mark-sexp
+- sp-mark-sexp
+- sp-mark-sexp
+**** built-in
+- adaptive-wrap-prefix-mode
+- add-hook
+- add-to-list
+- back-to-indentation
+- backward-char
+- beginning-of-line
+- beginning-of-thing
+- boundp
+- buffer-file-name
+- buffer-name
+- buffer-substring
+- call-interactively
+- comment-or-uncomment-region
+- copy-region-as-kill
+- count-lines
+- current-buffer
+- current-column
+- deactivate-mark
+- delete-and-extract-region
+- delete-region
+- delete-trailing-whitespace
+- describe-function
+- describe-variable
+- dired-noselect
+- end-of-thing
+- enlarge-window-horizontally
+- eq
+- exchange-point-and-mark
+- fboundp
+- file-exists-p
+- file-name-nondirectory
+- fill-paragraph
+- following-char
+- font-lock-add-keywords
+- get-buffer
+- goto-char
+- indent-region
+- insert
+- int-to-string
+- kill-whole-line
+- length
+- looking-back
+- make-local-variable
+- make-variable-buffer-local
+- memq
+- move-to-column
+- newline
+- newline-and-indent
+- nth
+- numberp
+- org-cycle-internal-global
+- plist-get
+- point
+- preceding-char
+- push-mark
+- re-search-backward
+- re-search-forward
+- read-file-name
+- read-string
+- rename-buffer
+- rename-file
+- scroll-other-window
+- scroll-other-window-down
+- scroll-up-line
+- scroll-up-line
+- select-window
+- selected-window
+- set
+- set-buffer-modified-p
+- set-mark
+- set-visited-file-name
+- split-line
+- string-empty-p
+- string-equal
+- symbol-at-point
+- syntax-ppss
+- syntax-ppss-context
+- untabify
+- use-region-p
+- window-in-direction
+* Step 4 (Jun 2019)
+commit 17f3a62a100eaa3b99938248d942007651038b76 (private repository).
+
+I switched my general completion framework from ~ido~ to ~ivy~.  I
+discoverd the ~windmove~ built-in package.
+
+** Miscellaneous
+
+#+BEGIN_SRC emacs-lisp
+(winner-mode t)
+#+END_SRC
+
+** Completion framework
+I used [[https://github.com/abo-abo/swiper][ivy]] as general completion framework and [[https://github.com/company-mode/company-mode][company-mode]] as code
+completion.
+** hydra
+I had an hydra command to deal with windows and another to deal with
+multiple-cursors.
+
+*** windows
+
+#+BEGIN_SRC emacs-lisp
+(defhydra hydra-window-size ()
+  ("b" shrink-window-horizontally "shrink h")
+  ("f" enlarge-window-horizontally "enlarge h")
+  ("p" enlarge-window "shrink v")
+  ("n" shrink-window "enlarge v")
+  ("q" nil))
+
+(defhydra hydra-window (:color red)
+  "window"
+  ("c" ta/modify-ui-writing-code "code")
+  ("s" ta/modify-ui-shell-window-below "shell")
+  ("b" windmove-left)
+  ("f" windmove-right)
+  ("p" windmove-up)
+  ("n" windmove-down)
+  ("r" (lambda ()
+         (interactive) (split-window-right) (windmove-right)) "right")
+  ("d" (lambda ()
+         (interactive) (split-window-below) (windmove-down)) "down")
+  ("t" transpose-frame "'" :exit t)
+  ("o" delete-other-windows "one" :exit t)
+  ("TAB" ace-window "ace")
+  ("." ace-delete-window "del")
+  ("(" ido-switch-buffer "buf")
+  (")" ido-find-files "file")
+  ("q" nil "cancel")
+  ("u" (progn (winner-undo) (setq this-command 'winner-undo)) "undo")
+  ("x" make-frame)
+  ("w" hydra-window-size/body :color blue)
+  ("i" text-scale-adjust :color blue))
+#+END_SRC
+
+*** multiple-cursors
+
+#+BEGIN_SRC emacs-lisp
+(defhydra hydra-mutiple-cursors ()
+  ("p" mc/mark-previous-like-this)
+  ("n" mc/mark-next-like-this)
+  ("b" mc/mark-previous-like-this-word)
+  ("f" mc/mark-next-like-this-word)
+  ("mouse-1" mc/add-cursor-on-click)
+  ("t" mc/mark-sgml-tag-pair)
+  ("q" nil "quit"))
+#+END_SRC
+
+** Discarded Packages (in the setup)
+I replaced ~ido~ by [[https://github.com/abo-abo/swiper][ivy]] (I wanted vertical layout for completion).
+
+| packages/modes | links    |
+|----------------+----------|
+| ~ido~          | built-in |
+** New Packages (in the setup)
+| packages/modes    | links           |
+|-------------------+-----------------|
+| ~windmove~        | built-in        |
+| ~winner-mode~     | built-in        |
+| ~transpose-frame~ | [[https://github.com/emacsorphanage/transpose-frame][transpose-frame]] |
+** New commands (in the setup)
+| commands                 | packages         |
+|--------------------------+------------------|
+| ~windmove-left~          | built-in         |
+| ~windmove-right~         | built-in         |
+| ~windmove-up~            | built-in         |
+| ~windmove-down~          | built-in         |
+| ~emmet-expand-line~      | [[https://github.com/smihica/emmet-mode][emmet-mode]]       |
+| ~emmet-prev-edit-point~  | [[https://github.com/smihica/emmet-mode][emmet-mode]]       |
+| ~emmet-next-edit-point~  | [[https://github.com/smihica/emmet-mode][emmet-mode]]       |
+| ~swiper~                 | [[https://github.com/abo-abo/swiper][swiper]]           |
+| ~mc/add-cursor-on-click~ | [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] |
+| ~er/mark-inside-pairs~   | [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] |
+| ~er/mark-inside-quotes~  | [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] |
+** emacs-lisp
+To write my own ~emacs~ commands, I started using the following
+~variables~, ~functions~, ~macros~ and ~special forms~.
+*** special forms
+- ~progn~
+*** functions
+- ~define-key~
+- ~eval-after-load~
+- ~global-set-key~
+- ~kbd~
+* Step 3 (April 2019 - May 2019)
+commit f620c12e73629412dfa06623b5b9c318515bc9b8 (private repository).
+
+I used ~emacs 24.5~.
+
+So far I've been using default bindings for almost any commands and
+speficically for movements ~C-b~, ~C-f~, ~C-p~, ~C-n~, ~C-a~, ~C-e~.
+But at this moment, it started *hurting me*.  I felt pain in the /hands/
+and /fingers/.  I found a solution with [[https://github.com/abo-abo/hydra][hydra]].  I defined an ~hydra~
+that contain the basic movements.  This alleviated my pain and changed
+completly my way of using emacs.
+
+From that moment, I stopped relying on the default key bindings and
+always asking myself if I can find betters key bindings.  It leads to
+exotic re-bindings that are not so easy to reconcile with some complete
+and complex package like ~magit~.  But in the long term, it seems to be a
+good bet for me.
+
+** Miscellaneous
+
+#+BEGIN_SRC emacs-lisp
+(pending-delete-mode t)
+(setq-default truncate-lines t)
+#+END_SRC
+
+** Completion framework
+I used ~ido~ as general completion framework and [[https://github.com/company-mode/company-mode][company-mode]] as code
+completion.
+** hydra
+I had an hydra command for basic movements and another for sexp
+operations.
+
+I started using different cursor colors according to the /emacs
+operation/ I perform.  This gives me an quick insight of the commands
+I can perform without having to search the information neither in the
+~mode-line~ nor in the ~echo-area~.
+
+#+BEGIN_SRC emacs-lisp
+(defun hydra-basics/pre ()
+  (set-cursor-color "#ccc7c7"))
+
+(defun hydra-basics/post ()
+  (set-cursor-color "SteelBlue"))
+
+(defhydra hydra-basics (:pre hydra-basics/pre :post hydra-basics/post)
+  "emacs basics"
+  ("f" forward-char)
+  ("b" backward-char)
+  ("n" next-line)
+  ("p" previous-line)
+  ("m" set-mark-command "mark")
+  ("a" move-beginning-of-line "beg")
+  ("e" move-end-of-line "end")
+  ("k" kill-line "kill-line")
+  ("cw" kill-region "kill-region")
+  ("w" kill-ring-save "kill-ring-save")
+  ("y" yank "yank")
+  ("RET" newline "return")
+  ("DEL" backward-delete-char-untabify "backspace")
+  ("q" nil "quit"))
+
+(defhydra hydra-smartparens ()
+  "smartparens functions"
+  ("f" sp-forward-sexp "forward")
+  ("b" sp-backward-sexp "backward")
+  ("n" sp-next-sexp "next")
+  ("p" sp-previous-sexp "previous")
+  (")" sp-up-sexp "up")
+  ("(" sp-backward-up-sexp "backward-up")
+  ("a" sp-beginning-of-sexp "beginning-of")
+  ("e" sp-end-of-sexp "end-of")
+  ("]" sp-down-sexp "down")
+  ("[" sp-backward-down-sexp "backward-down")
+  ("<down>" sp-beginning-of-next-sexp "beginning-of-next")
+  ("<up>" sp-beginning-of-previous-sexp "beginning-of-previous")
+  ("<right>" sp-end-of-next-sexp "end-of-next")
+  ("<left>" sp-end-of-previous-sexp "end-of-previous")
+  ("se" sp-splice-sexp "splice")
+  ("sb" sp-splice-sexp-killing-backward "splice-killing-backward")
+  ("sf" sp-splice-sexp-killing-forward "splice-killing-forward")
+  ("r"  sp-raise-sexp "raise")
+  ("m" sp-mark-sexp "mark")
+  ("i" sp-change-inner "change-inner")
+  ("u" sp-change-enclosing "change-enclosing")
+  ("k" sp-kill-sexp "kill")
+  ("DEL" sp-backward-kill-sexp "backward-kill")
+  ("c" sp-copy-sexp "copy")
+  ("@" sp-backward-copy-sexp "backward-copy")
+  ("h" sp-kill-hybrid-sexp "kill-hybrid")
+  ("l" sp-kill-whole-line "kill-whole-line")
+  ("q" nil "quit"))
+#+END_SRC
+
+** Discarded Packages (in the setup)
+I replaced [[https://github.com/auto-complete/auto-complete][auto-complete]] by [[https://github.com/company-mode/company-mode][company-mode]] (I didn't remember why).
+
+| packages/modes  | links         |
+|-----------------+---------------|
+| ~auto-complete~ | [[https://github.com/auto-complete/auto-complete][auto-complete]] |
+** New Packages (in the setup)
+| packages/modes  | links         |
+|-----------------+---------------|
+| ~ace-jump-mode~ | [[https://github.com/winterTTr/ace-jump-mode][ace-jump-mode]] |
+| ~ace-window~    | [[https://github.com/abo-abo/ace-window][ace-window]]    |
+| ~company-mode~  | [[https://github.com/company-mode/company-mode][company-mode]]  |
+| ~emmet-mode~    | [[https://github.com/smihica/emmet-mode][emmet-mode]]    |
+| ~expand-region~ | [[https://github.com/magnars/expand-region.el][expand-region]] |
+| ~iedit~         | [[https://github.com/victorhge/iedit][iedit]]         |
+| ~smartparens~   | [[https://github.com/Fuco1/smartparens][smartparens]]   |
+| ~web-mode~      | [[https://github.com/fxbois/web-mode][web-mode]]      |
+| ~xah-css-mode~  | [[https://github.com/xahlee/xah-css-mode][xah-css-mode]]  |
+** New commands (in the setup)
+| commands                          | packages         |
+|-----------------------------------+------------------|
+| ~capitalize-word~                 | built-in         |
+| ~comment-dwim~                    | built-in         |
+| ~delete-other-windows~            | built-in         |
+| ~delete-window~                   | built-in         |
+| ~downcase-region~                 | built-in         |
+| ~downcase-word~                   | built-in         |
+| ~enlarge-window-horizontally~     | built-in         |
+| ~enlarge-window~                  | built-in         |
+| ~isearch-backward~                | built-in         |
+| ~isearch-forward~                 | built-in         |
+| ~query-replace~                   | built-in         |
+| ~scroll-left~                     | built-in         |
+| ~scroll-right~                    | built-in         |
+| ~shrink-window-horizontally~      | built-in         |
+| ~shrink-window~                   | built-in         |
+| ~upcase-region~                   | built-in         |
+| ~upcase-word~                     | built-in         |
+| ~ace-window~                      | [[https://github.com/abo-abo/ace-window][ace-window]]       |
+| ~er/expand-region~                | [[https://github.com/magnars/expand-region.el][expand-region]]    |
+| ~iedit-mode~                      | [[https://github.com/victorhge/iedit][iedit]]            |
+| ~mc/mark-previous-like-this~      | [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] |
+| ~mc/mark-previous-like-this-word~ | [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] |
+** Custom commands
+
+#+BEGIN_SRC emacs-lisp
+(defun ta/comment-line ()
+  (interactive)
+  (save-excursion
+    (beginning-of-line)
+    (let ((beg (point)))
+      (end-of-line)
+      (setq end (point))
+      (comment-or-uncomment-region beg end))))
+
+(defun ta/kill-line-backward()
+  (interactive)
+  (kill-line 0))
+#+END_SRC
+
+** emacs-lisp
+To write my own ~emacs~ commands, I started using the following
+~variables~, ~functions~, ~macros~ and ~special forms~.
+*** special forms
+- ~let~
+- ~setq~
+* Step 2 (March 2019)
+commit 6acc2ba7e3dfe835a8bf74c1914afbf0f0bb1ee1 (private repository).
+
+I used ~emacs 24.5~.
+
+At that moment, I had a version control of my ~emacs~ setup, but ~git~
+was still new for me.  As a consequence, I don't know if there is
+private information in the ~git~ history, so I didn't make it public.
+
+It was new to me to write commits and so it's not so easy to follow
+the flow of the modifications of my setup.  But I found the way to
+extract some informations.
+
+I used the default key bindings for movements ~C-b~, ~C-f~,
+~C-p~, ~C-n~, ~C-a~, ~C-e~... and for almost any commands.
+
+** UI
+I used ~color-theme-comidia~ from ~color-theme~ package.
+
+#+BEGIN_SRC emacs-lisp
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(column-number-mode t)
+(global-linum-mode t)
+(global-hl-line-mode)
+#+END_SRC
+
+** Completion framework
+I used ~ido~ as general completion framework and [[https://github.com/auto-complete/auto-complete][auto-complete]] as code
+completion.
+** New packages (in the setup)
+| packages/modes            | links            |
+|---------------------------+------------------|
+| ~abbrev-mode~             | built-in         |
+| ~dired-hide-details-mode~ | built-in         |
+| ~ibuffer~                 | built-in         |
+| ~ido~                     | built-in         |
+| ~shell~                   | built-in         |
+| ~auto-complete~           | [[https://github.com/auto-complete/auto-complete][auto-complete]]    |
+| ~multiple-cursors~        | [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] |
+| ~yasnippet~               | [[https://github.com/joaotavora/yasnippet][yasnippet]]        |
+** New Commands (in the setup)
+| commands                      | packages         |
+|-------------------------------+------------------|
+| ~ibuffer~                     | built-in         |
+| ~replace-string~              | built-in         |
+| ~mc/mark-next-like-this~      | [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] |
+| ~mc/mark-next-like-this-word~ | [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] |
+** Custom commands
+I wrote some custom commands to open determined files in specific
+layouts and to use the ~shell~.
+
+#+BEGIN_SRC emacs-lisp
+(defun ta/modify-ui-find-file-writing ()
+  (interactive )
+  (delete-other-windows)
+  (split-window-right)
+  (find-file "~/Documents/daily-writing.org")
+  (other-window 1)
+  (find-file "~/Documents/daily-videos.org")
+  (other-window -1))
+
+(defun ta/shell-window-below ()
+  (interactive)
+  (split-window-below -4)
+  (other-window 1)
+  (shell))
+#+END_SRC
+** emacs-lisp
+To write my own ~emacs~ commands, I started using the following
+~variables~, ~functions~, ~macros~ and ~special forms~.
+*** functions
+- ~delete-other-windows~
+- ~find-file~
+- ~get-buffer~
+- ~goto-line~
+- ~kill-buffer~
+- ~mapcar~
+- ~message~
+- ~other-window~
+- ~recenter-top-bottom~
+- ~save-buffer~
+- ~shell~
+- ~split-window-below~
+- ~split-window-right~
+*** macros
+- ~defun~
+- ~when~
+- ~with-current-buffer~
+* Step 1 (April 2018 - Feb 2019)
+In March 2018, I decided that I wanted to become *rich*, and I will do
+it in the /Tech world/.  So, in April 2018, I started using ~emacs~,
+everyday.  I had to restart almost from scratch, I mean, I had to do
+the built-in ~emacs~ tutorial to get started.  At the same time I
+started designing my [[https://github.com/tonyaldon/keyboard-layout][keyboard-layout]].
+
+At the beginning, I didn't know ~git~ and ~github~.  So I didn't
+think about making a version control of my ~emacs~ setup.
+
+I don't remember exactly when, but at some point I started looking at
+the ~emacs~ setups of [[https://github.com/magnars/.emacs.d][Magnar Sveen]] and [[https://github.com/hrs/dotfiles][Harry R. Schwartz]].
+* Step 0 (April 2015 - March 2018)
+I was introduced to ~emacs~ in April 2015 when I was doing an
+intership at [[https://www.edf.fr/][EDF]] by Cyrille, an experienced
+programmer, that answered to any questions about ~emacs~ and
+~programming~ I had.  He was using a [[https://kinesis-ergo.com/][kinesis mechanical keyboard]],
+running ~emacs~ on his smartphone and was really nice.
+
+I spent 6 month using ~emacs~ to write ~R~ code and ~latex~ documents.
+I worked on the ~R~ package [[https://cran.r-project.org/web/packages/clr/index.html][clr]] (clr: Curve Linear Regression via
+Dimension Reduction).
+
+Then from November 2015 to April 2016 I work as a data scientist where I
+wrote ~python~ code in a young startup that doesn't survived.
+
+During that year (April 2015 - April 2016) I've been using ~emacs~
+with *no configuration at all* but a dark theme.
+
+Then, from April 2016 to March 2018, I didn't work neither with
+~emacs~ nor any other ~text editor~.  My work didn't involve much
+using computers.
