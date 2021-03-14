@@ -1,6 +1,6 @@
 #+TITLE: Emacs Setup History
 #+AUTHOR: Tony aldon
-#+DATE: <2021-02-19 Fri>
+#+DATE: <2021-03-14 Sun>
 
 * About
 I need to know how I end up with the emacs setup I'm using now.  Emacs
@@ -563,7 +563,7 @@ At that time, I didn't know about ~org-speed-commands~.
   ("q" nil))
 #+END_SRC
 
-*** Toggle write mode
+*** toggle write mode
 
 #+BEGIN_SRC emacs-lisp
 (defhydra hydra-toggle
@@ -614,6 +614,7 @@ I replaced [[https://github.com/winterTTr/ace-jump-mode][ace-jump-mode]] by [[ht
 | ert                   | built-in |
 | eval-defun            | built-in |
 | eval-last-sexp        | built-in |
+| kill-this-buffer      | built-in |
 | narrow-to-defun       | built-in |
 | narrow-to-region      | built-in |
 | next-buffer           | built-in |
@@ -625,7 +626,7 @@ I replaced [[https://github.com/winterTTr/ace-jump-mode][ace-jump-mode]] by [[ht
 | ivy-occur             | [[https://github.com/abo-abo/swiper][ivy]]      |
 | swiper-thing-at-point | [[https://github.com/abo-abo/swiper][ivy]]      |
 ** Custom commands
-**** Marking things
+*** Marking things
 
 #+BEGIN_SRC emacs-lisp
 (defun ta-pop-local-mark-ring ()
@@ -688,7 +689,7 @@ Return nil if PT isn't inside a string. See the function `ta-point-in-string-p'"
   (exchange-point-and-mark))
 #+END_SRC
 
-**** Miscellaneous
+*** Miscellaneous
 
 #+BEGIN_SRC emacs-lisp
 (defun rename-current-buffer-file ()
@@ -724,7 +725,7 @@ Printed in the message area"
     (fill-paragraph nil t)))
 #+END_SRC
 
-**** Operation related to lines
+*** Operation related to lines
 
 #+BEGIN_SRC emacs-lisp
 (defun ta-mark-current-line ()
@@ -823,7 +824,51 @@ Preserve the column position of the cursor."
     (move-to-column column-position)))
 #+END_SRC
 
-**** Scrolling
+*** Operation related to sexp
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-drag-sexp-to-left ()
+  "Drag next sexp to the left of the previous sexp.
+
+Work as I want with `sp-navigate-interactive-always-progress-point'
+set to non-nil value."
+  (interactive)
+  (sp-forward-sexp)
+  (sp-backward-sexp)
+  (sp-transpose-sexp)
+  (sp-backward-sexp 2))
+
+(defun ta-drag-sexp-to-right ()
+  "Drag next sexp to the left of the previous sexp.
+
+Work as I want with `sp-navigate-interactive-always-progress-point'
+set to non-nil value."
+  (interactive)
+  (sp-forward-sexp)
+  (sp-transpose-sexp)
+  (sp-backward-sexp))
+
+(defun ta-avy-copy-sexp ()
+  "Copy a selected sexp at the current point"
+  (interactive)
+  (let ((initial-window (selected-window)))
+    (save-excursion
+      (call-interactively 'avy-goto-char)
+      (sp-copy-sexp))
+    (select-window initial-window)
+    (yank)))
+
+(defun ta-avy-kill-sexp ()
+  "Kill a selected sexp and save it in the kill ring"
+  (interactive)
+  (let ((initial-window (selected-window)))
+    (save-excursion
+      (call-interactively 'avy-goto-char)
+      (sp-kill-sexp))
+    (select-window initial-window)))
+#+END_SRC
+
+*** Scrolling
 
 #+BEGIN_SRC emacs-lisp
 (defun ta-scroll-down-line ()
@@ -847,7 +892,7 @@ Preserve the column position of the cursor."
   (scroll-other-window-down 1))
 #+END_SRC
 
-**** Windows
+*** Windows
 
 #+BEGIN_SRC emacs-lisp
 (defun ta-drag-window-left ()
@@ -883,7 +928,7 @@ Preserve the column position of the cursor."
   (windmove-down))
 #+END_SRC
 
-**** Toggle Write mode
+*** Toggle Write mode
 
 #+BEGIN_SRC emacs-lisp
 (defun ta-toggle-write-mode ()
@@ -975,7 +1020,7 @@ Call command `wdired-finish-edit' if `major-mode' is
     (hydra-lines/body)))
 #+END_SRC
 
-** Custom minor-modes
+** Custom minor modes
 
 #+BEGIN_SRC emacs-lisp
 (define-minor-mode dired-header-line-mode
@@ -1001,143 +1046,143 @@ directory that `dired-mode' is displaying."
 To write my own ~emacs~ commands, I started using the following
 ~variables~, ~functions~, ~macros~ and ~special forms~.
 *** variables
-- fill-column
-- major-mode
-- mark-active
-- this-command
+- ~fill-column~
+- ~major-mode~
+- ~mark-active~
+- ~this-command~
 *** special forms
-- and
-- if
-- let*
-- or
-- progn
-- save-excursion
-- while
+- ~and~
+- ~if~
+- ~let*~
+- ~or~
+- ~progn~
+- ~save-excursion~
+- ~while~
 *** macros
-- defadvice
-- defface
-- lambda
-- save-selected-window
-- unless
-- with-current-buffer
+- ~defadvice~
+- ~defface~
+- ~lambda~
+- ~save-selected-window~
+- ~unless~
+- ~with-current-buffer~
 *** functions
-**** from [[https://github.com/Fuco1/dired-hacks#dired-hacks-utils][dired-hacks-utils]]
-- dired-utils-get-all-files
 **** from [[https://github.com/abo-abo/ace-window][ace-window]]
-- aw-swap-window
+- ~aw-swap-window~
 **** from [[https://github.com/abo-abo/avy][avy]]
-- avy-kill-ring-save-region
-- avy-window-list
-- avy-with
+- ~avy-kill-ring-save-region~
+- ~avy-window-list~
+- ~avy-with~
 **** from [[https://github.com/magnars/dash.el][dash]]
-- --map
-- -last-item
-- -max
+- ~--map~
+- ~-last-item~
+- ~-max~
+**** from [[https://github.com/Fuco1/dired-hacks#dired-hacks-utils][dired-hacks-utils]]
+- ~dired-utils-get-all-files~
 **** from [[https://github.com/magnars/s.el][s]]
-- s-capitalize
-- s-collapse-whitespace
-- s-concat
-- s-dashed-words
-- s-downcase
-- s-lower-camel-case
-- s-snake-case
-- s-split
-- s-split
-- s-titleize
-- s-titleize
-- s-upcase
-- s-upper-camel-case
-- s-wrap
+- ~s-capitalize~
+- ~s-collapse-whitespace~
+- ~s-concat~
+- ~s-dashed-words~
+- ~s-downcase~
+- ~s-lower-camel-case~
+- ~s-snake-case~
+- ~s-split~
+- ~s-split~
+- ~s-titleize~
+- ~s-titleize~
+- ~s-upcase~
+- ~s-upper-camel-case~
+- ~s-wrap~
 **** from [[https://github.com/Fuco1/smartparens][smartparens]]
-- sp-backward-down-sexp
-- sp-backward-sexp
-- sp-backward-up-sexp
-- sp-down-sexp
-- sp-get-thing
-- sp-mark-sexp
-- sp-mark-sexp
-- sp-mark-sexp
+- ~sp-backward-down-sexp~
+- ~sp-backward-sexp~
+- ~sp-backward-up-sexp~
+- ~sp-down-sexp~
+- ~sp-get-thing~
+- ~sp-mark-sexp~
+- ~sp-mark-sexp~
+- ~sp-mark-sexp~
 **** built-in
-- adaptive-wrap-prefix-mode
-- add-hook
-- add-to-list
-- back-to-indentation
-- backward-char
-- beginning-of-line
-- beginning-of-thing
-- boundp
-- buffer-file-name
-- buffer-name
-- buffer-substring
-- call-interactively
-- comment-or-uncomment-region
-- copy-region-as-kill
-- count-lines
-- current-buffer
-- current-column
-- deactivate-mark
-- delete-and-extract-region
-- delete-region
-- delete-trailing-whitespace
-- describe-function
-- describe-variable
-- dired-noselect
-- end-of-thing
-- enlarge-window-horizontally
-- eq
-- exchange-point-and-mark
-- fboundp
-- file-exists-p
-- file-name-nondirectory
-- fill-paragraph
-- following-char
-- font-lock-add-keywords
-- get-buffer
-- goto-char
-- indent-region
-- insert
-- int-to-string
-- kill-whole-line
-- length
-- looking-back
-- make-local-variable
-- make-variable-buffer-local
-- memq
-- move-to-column
-- newline
-- newline-and-indent
-- nth
-- numberp
-- org-cycle-internal-global
-- plist-get
-- point
-- preceding-char
-- push-mark
-- re-search-backward
-- re-search-forward
-- read-file-name
-- read-string
-- rename-buffer
-- rename-file
-- scroll-other-window
-- scroll-other-window-down
-- scroll-up-line
-- scroll-up-line
-- select-window
-- selected-window
-- set
-- set-buffer-modified-p
-- set-mark
-- set-visited-file-name
-- split-line
-- string-empty-p
-- string-equal
-- symbol-at-point
-- syntax-ppss
-- syntax-ppss-context
-- untabify
-- use-region-p
-- window-in-direction
+- ~adaptive-wrap-prefix-mode~
+- ~add-hook~
+- ~add-to-list~
+- ~back-to-indentation~
+- ~backward-char~
+- ~beginning-of-line~
+- ~beginning-of-thing~
+- ~boundp~
+- ~buffer-file-name~
+- ~buffer-name~
+- ~buffer-substring~
+- ~call-interactively~
+- ~comment-or-uncomment-region~
+- ~copy-region-as-kill~
+- ~count-lines~
+- ~current-buffer~
+- ~current-column~
+- ~deactivate-mark~
+- ~delete-and-extract-region~
+- ~delete-region~
+- ~delete-trailing-whitespace~
+- ~describe-function~
+- ~describe-variable~
+- ~dired-noselect~
+- ~end-of-thing~
+- ~enlarge-window-horizontally~
+- ~eq~
+- ~exchange-point-and-mark~
+- ~fboundp~
+- ~file-exists-p~
+- ~file-name-nondirectory~
+- ~fill-paragraph~
+- ~following-char~
+- ~font-lock-add-keywords~
+- ~get-buffer~
+- ~goto-char~
+- ~indent-region~
+- ~insert~
+- ~int-to-string~
+- ~kill-whole-line~
+- ~length~
+- ~looking-back~
+- ~make-local-variable~
+- ~make-variable-buffer-local~
+- ~memq~
+- ~move-to-column~
+- ~newline~
+- ~newline-and-indent~
+- ~nth~
+- ~numberp~
+- ~org-cycle-internal-global~
+- ~plist-get~
+- ~point~
+- ~preceding-char~
+- ~push-mark~
+- ~re-search-backward~
+- ~re-search-forward~
+- ~read-file-name~
+- ~read-string~
+- ~rename-buffer~
+- ~rename-file~
+- ~scroll-other-window~
+- ~scroll-other-window-down~
+- ~scroll-up-line~
+- ~scroll-up-line~
+- ~select-window~
+- ~selected-window~
+- ~set~
+- ~set-buffer-modified-p~
+- ~set-mark~
+- ~set-visited-file-name~
+- ~split-line~
+- ~string-empty-p~
+- ~string-equal~
+- ~symbol-at-point~
+- ~syntax-ppss~
+- ~syntax-ppss-context~
+- ~untabify~
+- ~use-region-p~
+- ~window-in-direction~
 * Step 4 (Jun 2019)
 commit 17f3a62a100eaa3b99938248d942007651038b76 (private repository).
 
@@ -1256,7 +1301,7 @@ completly my way of using emacs.
 From that moment, I stopped relying on the default key bindings and
 always asking myself if I can find betters key bindings.  It leads to
 exotic re-bindings that are not so easy to reconcile with some complete
-and complex package like ~magit~.  But in the long term, it seems to be a
+and complex packages like ~magit~.  But in the long term, it seems to be a
 good bet for me.
 
 ** Miscellaneous
@@ -1337,24 +1382,24 @@ I can perform without having to search the information neither in the
 ** Discarded Packages (in the setup)
 I replaced [[https://github.com/auto-complete/auto-complete][auto-complete]] by [[https://github.com/company-mode/company-mode][company-mode]] (I didn't remember why).
 
-| packages/modes  | links         |
-|-----------------+---------------|
-| ~auto-complete~ | [[https://github.com/auto-complete/auto-complete][auto-complete]] |
+| packages/modes | links         |
+|----------------+---------------|
+| ~auto-complete~  | [[https://github.com/auto-complete/auto-complete][auto-complete]] |
 ** New Packages (in the setup)
-| packages/modes  | links         |
-|-----------------+---------------|
-| ~ace-jump-mode~ | [[https://github.com/winterTTr/ace-jump-mode][ace-jump-mode]] |
-| ~ace-window~    | [[https://github.com/abo-abo/ace-window][ace-window]]    |
-| ~company-mode~  | [[https://github.com/company-mode/company-mode][company-mode]]  |
-| ~emmet-mode~    | [[https://github.com/smihica/emmet-mode][emmet-mode]]    |
-| ~expand-region~ | [[https://github.com/magnars/expand-region.el][expand-region]] |
-| ~iedit~         | [[https://github.com/victorhge/iedit][iedit]]         |
-| ~smartparens~   | [[https://github.com/Fuco1/smartparens][smartparens]]   |
-| ~web-mode~      | [[https://github.com/fxbois/web-mode][web-mode]]      |
-| ~xah-css-mode~  | [[https://github.com/xahlee/xah-css-mode][xah-css-mode]]  |
+| packages/modes | links         |
+|----------------+---------------|
+| ~ace-jump-mode~  | [[https://github.com/winterTTr/ace-jump-mode][ace-jump-mode]] |
+| ~ace-window~     | [[https://github.com/abo-abo/ace-window][ace-window]]    |
+| ~company-mode~   | [[https://github.com/company-mode/company-mode][company-mode]]  |
+| ~emmet-mode~     | [[https://github.com/smihica/emmet-mode][emmet-mode]]    |
+| ~expand-region~  | [[https://github.com/magnars/expand-region.el][expand-region]] |
+| ~iedit~          | [[https://github.com/victorhge/iedit][iedit]]         |
+| ~smartparens~    | [[https://github.com/Fuco1/smartparens][smartparens]]   |
+| ~web-mode~       | [[https://github.com/fxbois/web-mode][web-mode]]      |
+| ~xah-css-mode~   | [[https://github.com/xahlee/xah-css-mode][xah-css-mode]]  |
 ** New commands (in the setup)
-| commands                          | packages         |
-|-----------------------------------+------------------|
+| commands                        | packages         |
+|---------------------------------+------------------|
 | ~capitalize-word~                 | built-in         |
 | ~comment-dwim~                    | built-in         |
 | ~delete-other-windows~            | built-in         |
@@ -1397,8 +1442,13 @@ I replaced [[https://github.com/auto-complete/auto-complete][auto-complete]] by 
 ** emacs-lisp
 To write my own ~emacs~ commands, I started using the following
 ~variables~, ~functions~, ~macros~ and ~special forms~.
+*** functions
+- ~beginning-of-line~
+- ~comment-or-uncomment-region~
+- ~kill-line~
 *** special forms
 - ~let~
+- ~save-excursion~
 - ~setq~
 * Step 2 (March 2019)
 commit 6acc2ba7e3dfe835a8bf74c1914afbf0f0bb1ee1 (private repository).
@@ -1432,8 +1482,8 @@ I used ~color-theme-comidia~ from ~color-theme~ package.
 I used ~ido~ as general completion framework and [[https://github.com/auto-complete/auto-complete][auto-complete]] as code
 completion.
 ** New packages (in the setup)
-| packages/modes            | links            |
-|---------------------------+------------------|
+| packages/modes          | links            |
+|-------------------------+------------------|
 | ~abbrev-mode~             | built-in         |
 | ~dired-hide-details-mode~ | built-in         |
 | ~ibuffer~                 | built-in         |
@@ -1443,8 +1493,8 @@ completion.
 | ~multiple-cursors~        | [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] |
 | ~yasnippet~               | [[https://github.com/joaotavora/yasnippet][yasnippet]]        |
 ** New Commands (in the setup)
-| commands                      | packages         |
-|-------------------------------+------------------|
+| commands                    | packages         |
+|-----------------------------+------------------|
 | ~ibuffer~                     | built-in         |
 | ~replace-string~              | built-in         |
 | ~mc/mark-next-like-this~      | [[https://github.com/magnars/multiple-cursors.el][multiple-cursors]] |
