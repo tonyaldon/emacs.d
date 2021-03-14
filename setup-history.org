@@ -8,6 +8,3878 @@ is so versatile and powerful that you can easily getting lost bowels.  This
 document main goal is to give me more visibility on my setup.  This
 should give me more confidence.  And maybe I'll get rid of lot unused
 and not necessary code.  Who knows?
+
+* Step 12 (November 08, 2020 - January 28, 2021)
+commit f7a3031f308c1716ebe28cb458d7b08d54cc34de (v3.0.0).
+
+I used emacs 28.50.
+
+I starded setting up and adding some custom commands to ~org-mode~.  I
+started binding /mouse/ events.  This is useful when I am focus in
+reading code.  I set up my programming environment to only use ~spaces~
+and /not/ ~TABS~ except for ~make-mode~.  To be consistent, I replaced, in my
+source code, each ~TAB~ by two ~spaces~.  I use ~whitespace-mode~ in
+~prog-mode~.  This allow me to catch ~TABS~ when copying code from
+another source.  I used a ~transient~ command for some useful commands,
+I always forgot the name, and that do not need a first class key
+bindings.  I grouped all my custom commands related to linux in the
+package ~linux~.  I brought the macro ~comment~ from /clojure/ to /emacs/.  To
+shorten the time to produce the videos [[https://www.youtube.com/channel/UCQCrbWOFRmFYqoeou0Qv3Kg][Inside Emacs]], I wrote some
+custom commands that are grouped into the repository
+[[https://github.com/tonyaldon/inside-emacs-tooling][inside-emacs-tooling]].  Mainly, this handles ~svg~ and ~kdenlive~ files
+generation for the videos /Inside Emacs/.  There is also a command to
+access the last video being edited.
+
+** org-mode
+
+#+BEGIN_SRC emacs-lisp
+;;; Packages
+(require 'org)
+
+;;; Global
+
+(setq org-use-speed-commands t)
+(setq org-return-follows-link t)
+(setq org-export-backends '(ascii beamer html icalendar latex md))
+(set-default 'org-link-frame-setup '((file . find-file)))
+(add-to-list 'org-file-apps '(directory . emacs))
+
+;;; time
+(setq system-time-locale "C")
+(setq org-log-done 'time)
+
+;;; tags
+(setq org-tags-column -77) ; default value
+
+;;; src and babel
+
+(require 'ob-js)
+;; https://emacs.stackexchange.com/questions/55690/org-babel-javascript-error
+(setq org-babel-js-function-wrapper
+      "console.log(require('util').inspect(function(){\n%s\n}(), { depth: 100 }))")
+
+(setq org-edit-src-content-indentation 0)
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((js . t)
+                             (shell . t)
+                             (python . t)
+                             (dot . t)))
+
+(defun ta-org-confirm-babel-evaluate (lang body)
+  (and (not (string= lang "emacs-lisp"))
+       (not (string= lang "dot"))))  ; don't ask for ditaa
+
+(setq org-confirm-babel-evaluate 'ta-org-confirm-babel-evaluate)
+
+;;; Tables
+
+(setq org-table-tab-jumps-over-hlines t)
+
+(defun ta-org-table-previous-row ()
+  "Go to the previous row (same column) in the current table.
+Before doing so, re-align the table if necessary."
+  (interactive)
+  (unless (org-at-table-hline-p)
+    (org-table-maybe-eval-formula)
+    (org-table-maybe-recalculate-line))
+  (if (and org-table-automatic-realign
+           org-table-may-need-update)
+      (org-table-align))
+  (let ((col (org-table-current-column)))
+    (when (and (org-at-table-p)
+               (not (= (org-table-current-line) 1)))
+      (previous-line)
+      (unless (org-at-table-hline-p)
+        (org-table-goto-column col)))))
+
+(defun ta-org-meta-return (&optional arg)
+  "Insert a new heading or wrap a region in a table.
+Calls `org-insert-heading', `org-insert-item' or
+`org-table-wrap-region', depending on context.
+
+In table, `org-meta-return' calls `org-table-wrap-region' interactively
+but it DOESN'T PASS the prefix arg.  So using `org-meta-return' in table
+to run `org-table-wrap-region' does't work as expected.
+Below you have a workaround to have full power of `org-table-wrap-region'
+when calling `org-meta-return' in tables."
+  (interactive "P")
+  (org-check-before-invisible-edit 'insert)
+  (or (run-hook-with-args-until-success 'org-metareturn-hook)
+      (if (org-at-table-p)
+          (org-table-wrap-region arg)
+        (call-interactively (cond (arg #'org-insert-heading)
+                                  ((org-in-item-p) #'org-insert-item)
+                                  (t #'org-insert-heading))))))
+
+(defun ta-org-shiftmetadown (&optional _arg)
+  "Drag the line at point down.
+In a table, insert an empty row below the current line (this part
+differs from the original `org-shiftmetadown' command).
+On a clock timestamp, update the value of the timestamp like `S-<down>'
+but also adjust the previous clocked item in the clock history.
+Everywhere else, drag the line at point down."
+  (interactive "P")
+  (cond
+   ((run-hook-with-args-until-success 'org-shiftmetadown-hook))
+   ((org-at-table-p) (org-table-insert-row 'below))
+   ((org-at-clock-log-p) (let ((org-clock-adjust-closest t))
+                           (call-interactively 'org-timestamp-down)))
+   (t (call-interactively 'org-drag-line-forward))))
+
+(defun org-self-insert-command (N)
+  "Like `self-insert-command', use overwrite-mode for whitespace in tables.
+If the cursor is in a table looking at whitespace, the whitespace is
+overwritten, and the table is not marked as requiring realignment.
+
+;; Tony Aldon (overwrite the original command `org-self-insert-command'.)
+Add `ta-org-table-previous-row' to the commands after which we want
+to blank table field if we start typing just after using it as `org-cycle',
+`org-return', `org-shifttab', `org-ctrl-c-ctrl-c' commands."
+  (interactive "p")
+  (org-check-before-invisible-edit 'insert)
+  (cond
+   ((and org-use-speed-commands
+         (let ((kv (this-command-keys-vector)))
+           (setq org-speed-command
+                 (run-hook-with-args-until-success
+                  'org-speed-command-hook
+                  (make-string 1 (aref kv (1- (length kv))))))))
+    (cond
+     ((commandp org-speed-command)
+      (setq this-command org-speed-command)
+      (call-interactively org-speed-command))
+     ((functionp org-speed-command)
+      (funcall org-speed-command))
+     ((and org-speed-command (listp org-speed-command))
+      (eval org-speed-command))
+     (t (let (org-use-speed-commands)
+          (call-interactively 'org-self-insert-command)))))
+   ((and
+     (= N 1)
+     (not (org-region-active-p))
+     (org-at-table-p)
+     (progn
+       ;; Check if we blank the field, and if that triggers align.
+       (and (featurep 'org-table)
+            org-table-auto-blank-field
+            (memq last-command
+                  '(ta-org-table-previous-row
+                    org-cycle org-return org-shifttab org-ctrl-c-ctrl-c))
+            (if (or (eq (char-after) ?\s) (looking-at "[^|\n]*  |"))
+                ;; Got extra space, this field does not determine
+                ;; column width.
+                (let (org-table-may-need-update) (org-table-blank-field))
+              ;; No extra space, this field may determine column
+              ;; width.
+              (org-table-blank-field)))
+       t)
+     (looking-at "[^|\n]*  |"))
+    ;; There is room for insertion without re-aligning the table.
+    (self-insert-command N)
+    (org-table-with-shrunk-field
+     (save-excursion
+       (skip-chars-forward "^|")
+       ;; Do not delete last space, which is
+       ;; `org-table-separator-space', but the regular space before
+       ;; it.
+       (delete-region (- (point) 2) (1- (point))))))
+   (t
+    (setq org-table-may-need-update t)
+    (self-insert-command N)
+    (org-fix-tags-on-the-fly)
+    (when org-self-insert-cluster-for-undo
+      (if (not (eq last-command 'org-self-insert-command))
+          (setq org-self-insert-command-undo-counter 1)
+        (if (>= org-self-insert-command-undo-counter 20)
+            (setq org-self-insert-command-undo-counter 1)
+          (and (> org-self-insert-command-undo-counter 0)
+               buffer-undo-list (listp buffer-undo-list)
+               (not (cadr buffer-undo-list)) ; remove nil entry
+               (setcdr buffer-undo-list (cddr buffer-undo-list)))
+          (setq org-self-insert-command-undo-counter
+                (1+ org-self-insert-command-undo-counter))))))))
+;;; Hooks
+
+(add-hook 'org-mode-hook 'org-indent-mode)
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+
+;;; Footer
+
+(provide 'setup-org)
+
+#+END_SRC
+
+** Discarded Packages (in the setup)
+I no longer use ~linum~.  I replaced it by ~display-line-numbers~.
+
+| packages/modes | links        |
+|----------------+--------------|
+| ~linum~          | built-in     |
+** New Packages (in the setup)
+| packages/modes       | links                |
+|----------------------+----------------------|
+| ~whitespace-mode~      | built-in             |
+| ~inside-emacs-tooling~ | [[https://github.com/tonyaldon/inside-emacs-tooling][inside-emacs-tooling]] |
+| ~rainbow-mode~         | [[https://elpa.gnu.org/packages/rainbow-mode.html][rainbow-mode]]         |
+** New commands (in the setup)
+| packages/modes        | links    |
+|-----------------------+----------|
+| ~repeat~                | built-in |
+** Custom commands
+*** Git related
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-magit-log-other-window ()
+  "Show git logs in other windows."
+  (interactive)
+  (other-window 1)
+  (call-interactively 'magit-log-current)
+  (other-window 1))
+#+END_SRC
+
+*** transient command to remind some useful commands
+
+#+BEGIN_SRC emacs-lisp
+;;;; transient key bindings interface
+
+;;;;; transient interface
+
+(declare-function transient-define-prefix "ext:transient")
+(declare-function transient-define-suffix "ext:transient")
+
+(defmacro ta-transient-define-suffix (command)
+  "Create a command COMMAND--transient that is a transient suffix command
+that call interactively COMMAND."
+  (let ((func-name (concat (symbol-name command) "--transient")))
+    `(transient-define-suffix ,(intern func-name) ()
+       (interactive)
+       (call-interactively (quote ,command)))))
+
+;;;;; describe
+
+(declare-function yas-describe-tables "ext:yasnippet")
+(declare-function yas-new-snippet "ext:yasnippet")
+
+(ta-transient-define-suffix describe-key)
+(ta-transient-define-suffix describe-keymap)
+(ta-transient-define-suffix describe-function)
+(ta-transient-define-suffix describe-variable)
+(ta-transient-define-suffix describe-mode)
+
+;;;;; linux
+
+(require 'linux)
+
+(ta-transient-define-suffix linux-switch-keyboard-layout)
+(ta-transient-define-suffix linux-toggle-laptop-output)
+(ta-transient-define-suffix linux-toggle-i3bar)
+(ta-transient-define-suffix linux-toggle-dpi)
+(ta-transient-define-suffix linux-toggle-git-commit-msg)
+
+;;;;; miscellaneous
+
+(ta-transient-define-suffix yas-describe-tables)
+(ta-transient-define-suffix yas-new-snippet)
+(ta-transient-define-suffix yas-visit-snippet-file)
+
+(ta-transient-define-suffix apropos)
+(ta-transient-define-suffix info)
+(ta-transient-define-suffix ta-mini-frame-ignore-commands)
+(ta-transient-define-suffix image-toggle-display)
+
+;;;;; ta-remind-me
+
+(transient-define-prefix ta-remind-me ()
+  "Show menu buffer for miscellaneous commands I often need but do not remember."
+  [["describe"
+    ("dk" "describe-key" describe-key--transient)
+    ("dp" "describe-keymap" describe-keymap--transient)
+    ("df" "describe-function" describe-function--transient)
+    ("dv" "describe-variable" describe-variable--transient)
+    ("dm" "describe-mode" describe-mode--transient)]
+   ["linux"
+    ("lk" "linux-switch-keyboard-layout" linux-switch-keyboard-layout--transient)
+    ("ll" "linux-toggle-laptop-output" linux-toggle-laptop-output--transient)
+    ("li" "linux-toggle-i3bar" linux-toggle-i3bar--transient)
+    ("ld" "linux-toggle-dpi" linux-toggle-dpi--transient)
+    ("lg" "linux-toggle-git-commit-msg" linux-toggle-git-commit-msg--transient)]
+   ["yasnippet"
+    ("sd" "yas-describe-tables" yas-describe-tables--transient)
+    ("sn" "yas-new-snippet" yas-new-snippet--transient)
+    ("sf" "yas-visit-snippet-file" yas-visit-snippet-file--transient)]
+   ["misc"
+    ("a" "apropos" apropos--transient)
+    ("i" "info" info--transient)
+    ("m" "mini-frame" ta-mini-frame-ignore-commands--transient)
+    ("t" "image-toggle-display" image-toggle-display--transient)]])
+
+(global-set-key (kbd "C-M-i") 'ta-remind-me)
+
+#+END_SRC
+
+** Using the mouse
+*** to describe things
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-mouse-describe-thing-at-point ()
+  "Call `ta-describe-thing-at-point' at cursor position."
+  (interactive)
+  (call-interactively 'mouse-set-point)
+  (call-interactively 'ta-describe-thing-at-point))
+#+END_SRC
+
+*** with iedit-mode
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-mouse-iedit-mode ()
+  "Toggle `iedit-mode' on mouse click."
+  (interactive)
+  (call-interactively 'mouse-set-point)
+  (call-interactively 'iedit-mode))
+
+(defun ta-advice-mouse-set-point-iedit-mode (&rest r)
+  "Turn off `iedit-mode' if already on.
+
+Intended to be use as advice before of `mouse-set-point'."
+  (when iedit-mode (call-interactively 'iedit-mode)))
+
+(advice-add 'mouse-set-point :before 'ta-advice-mouse-set-point-iedit-mode)
+#+END_SRC
+
+*** key bindings
+
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "<mouse-3>") 'ta-mouse-iedit-mode)
+(global-set-key (kbd "<C-down-mouse-1>") 'mc/add-cursor-on-click)
+(global-set-key (kbd "<C-down-mouse-3>") 'ta-mouse-describe-thing-at-point)
+#+END_SRC
+
+** Custom packages
+*** comment.el
+
+#+BEGIN_SRC emacs-lisp
+;;; About
+
+;; I find the "comment" macro in the clojure language really convenient.
+;; See https://betweentwoparens.com/rich-comment-blocks#rich-comment.
+;;
+;; Now, I have it in emacs.
+;;
+;; You can use it to wrap code:
+;; - you don't want emacs evaluates,
+;; - but you want to keep in your code.
+;;
+;; The 4 sexps inside `comment' macro below are ignored:
+;;
+;; (comment
+;;  (newline)
+;;  1
+;;  "uie"
+;;  (kill-line -1))
+;;
+;; It is a way to comment sexps ready to be evaluated related to your code,
+;; which is really handy to explore and understand the code itself.
+;;
+;; One of the advantage of the `comment' macro compared to ';' to comment
+;; the code is that you have syntax highlighting.
+
+;;; Code
+
+(defmacro comment (&rest body)
+  "Ignores body and yield nil.
+
+It's a copy of the \"comment\" macro in the clojure language.
+See https://betweentwoparens.com/rich-comment-blocks#rich-comment."
+  nil)
+
+;;; Comments
+
+(comment
+ (newline)
+ 1
+ "uie"
+ (kill-line -1))
+
+;;; Footer
+
+(provide 'comment)
+
+#+END_SRC
+*** linux.el
+
+#+BEGIN_SRC emacs-lisp
+;;; About
+;; In this file, we define commands that modify some behaviour of
+;; linux OS where emacs lives in, like (i3, xrandr, dpi rendering...)
+
+;;; i3
+
+;;;; Toggle laptop output
+
+(setq linux-i3-config-file "~/work/settings/i3/.config/i3/config")
+
+(defun linux--laptop-output-config-position ()
+  "Return buffer position of the config line responsible for the laptop output visibility.
+
+Return nil, if no laptop output visibility configuration line found."
+  (save-excursion
+    (beginning-of-buffer)
+    (when (search-forward "laptop monitor" nil t)
+      (next-line)
+      (beginning-of-line)
+      (point))))
+
+(defun linux-toggle-laptop-output ()
+  "Toggle on/off the laptop output visibility.
+
+This is done via the i3 configuration file `linux-i3-config-file'.
+Note that you have to restart your linux session to see the changes.
+
+This is useful when using only my laptop to make Zoom calls,
+thought I've no external webcam."
+  (interactive)
+  (let (output)
+    (with-temp-buffer
+      (insert-file-contents linux-i3-config-file)
+      (when-let ((laptop-config (linux--laptop-output-config-position)))
+        (goto-char laptop-config)
+        (if (looking-at "# ")
+            (progn (delete-char 2)
+                   (setq output "off"))
+          (insert "# ")
+          (setq output "on")))
+      (write-region (point-min) (point-max) linux-i3-config-file))
+    (if output (message (concat "Laptop output turned: " output))
+      (message "No 'laptop monitor' config line found in `linux-i3-config-file'"))))
+
+;;;; Toggle i3bar visibility
+
+(defun linux--i3bar-is-hidden-p ()
+  "Return t if i3bar is hidden."
+  (s-blank-p (shell-command-to-string "i3-msg -t get_tree | grep '\"class\":\"i3bar\"'")))
+
+(defun linux-toggle-i3bar ()
+  "Toggle visibility of i3bar."
+  (interactive)
+  (let ((inhibit-message t))
+    (if (linux--i3bar-is-hidden-p)
+        (shell-command "i3-msg bar mode dock")
+      (shell-command "i3-msg bar mode invisible"))))
+
+;; COMMENTS
+;; (s-blank-p "")
+;; (shell-command-to-string "ls")
+;; (shell-command-to-string "i3-msg -t get_tree | grep '\"class\":\"i3bar\"'")
+;; (shell-command "i3-msg bar mode invisible")
+;; (shell-command "i3-msg bar mode dock")
+
+;;; Monitor DPI
+
+(setq linux-xresources "~/work/settings/uconfig/.Xresources")
+
+(defun linux-toggle-dpi ()
+  "Toggle the DPI in the file ~/.Xresources between 216 and 96.
+
+96 is the default DPI setting.
+216 is the DPI setting for screencasting. Setting it that big has
+for consequence to zoom in everything in the screen.
+
+Note that you have to restart your linux session to see the changes."
+  (interactive)
+  (let (dpi)
+    (with-temp-buffer
+      (insert-file-contents linux-xresources)
+      (beginning-of-buffer)
+      (cond
+       ((search-forward "96" nil t)
+        (delete-char -2)
+        (insert "216")
+        (setq dpi "216"))
+       ((search-forward "216" nil t)
+        (delete-char -3)
+        (insert "96")
+        (setq dpi "96"))
+       (t nil))
+      (write-region (point-min) (point-max) linux-xresources))
+    (if dpi (message (concat "Xft.dpi: " dpi))
+      (message "Neither 96 nor 216 is the DPI in ~/.Xresources file"))))
+
+;;; Keyboard layout
+
+(defun linux-switch-keyboard-layout ()
+  "Switch keyboard layout variant between\"takbl\" and \"takbl fr\"."
+  (interactive)
+  (let ((variant (shell-command-to-string "setxkbmap -query | grep variant | awk -F' '  '{ print $2 }'")))
+    (if (string= variant "fr\n")
+        (progn
+          (shell-command-to-string "setxkbmap -layout takbl")
+          (message "takbl"))
+      (shell-command-to-string "setxkbmap -layout takbl -variant fr")
+      (message "takbl - fr"))))
+
+;;; Git (format commit message)
+
+(defun linux-toggle-git-commit-msg ()
+  "Set the git hook \"prepare-commit-msg\".
+
+If it already exist (ie: not ends with \".sample\") bypass it. It is mandatory when
+you rebase/rewrite your git history.
+If it doesn't exist, create it with the following content:
+\"
+#!/bin/bash
+COMMIT_MSG_FILEPATH=$1
+HINT=`cat $COMMIT_MSG_FILEPATH`
+
+echo \"Subject line\" > $COMMIT_MSG_FILEPATH
+echo \"\" >> $COMMIT_MSG_FILEPATH
+for cached_file in `git diff --cached --name-only | sed 's/ /\n/g'`;do
+    echo \"* $cached_file:\" >> $COMMIT_MSG_FILEPATH;
+done
+echo \"$HINT\" >> $COMMIT_MSG_FILEPATH
+\""
+  (interactive)
+  (when-let* ((hooks (concat (cdr (project-current)) ".git/hooks/"))
+              (prepare-commit-msg (concat hooks "prepare-commit-msg")))
+    (if (file-exists-p prepare-commit-msg)
+        (progn (delete-file prepare-commit-msg)
+               (message "\"%s\" has been removed" (file-name-nondirectory prepare-commit-msg)))
+      (with-temp-file prepare-commit-msg
+        (insert
+         "#!/bin/bash
+COMMIT_MSG_FILEPATH=$1
+HINT=`cat $COMMIT_MSG_FILEPATH`
+
+echo \"Subject line\" > $COMMIT_MSG_FILEPATH
+echo \"\" >> $COMMIT_MSG_FILEPATH
+for cached_file in `git diff --cached --name-only | sed 's/ /\\n/g'`;do
+    echo \"* $cached_file:\" >> $COMMIT_MSG_FILEPATH;
+done
+echo \"$HINT\" >> $COMMIT_MSG_FILEPATH"))
+      (shell-command (concat "chmod +x " prepare-commit-msg))
+      (message "\"%s\" has been created" (file-name-nondirectory prepare-commit-msg)))))
+
+;; COMMENTS
+;; (shell-command "ls")
+;; (shell-command-to-string "ls")
+;; (global-set-key (kbd "C-<f1>") 'linux-toggle-git-commit-msg)
+
+;;; Footer
+(provide 'linux)
+
+#+END_SRC
+
+** emacs-lisp
+To write my own ~emacs~ commands, I started using the following
+~variables~, ~functions~, ~macros~ and ~special forms~.
+*** variables
+- ~inhibit-message~
+*** macros
+- ~defmacro~
+- ~if-let~
+- ~when-let*~
+- ~with-temp-buffer~
+- ~with-temp-file~
+*** functions
+**** from [[https://github.com/magnars/dash.el][dash]]
+- ~--annotate~
+- ~--each-indexed~
+- ~--map-indexed~
+- ~--reduce-from~
+- ~-elem-index~
+- ~-last-item~
+**** from [[https://github.com/rejeep/f.el][f.el]]
+- ~f-exists?~
+- ~f-full~
+- ~f-join~
+- ~f-mkdir~
+- ~f-write~
+**** from [[https://github.com/magit/magit][magit]]
+- ~magit-log-current~
+**** from [[https://github.com/magnars/s.el][s]]
+- ~s-blank-p~
+- ~s-contains-p~
+- ~s-downcase~
+- ~s-lines~
+- ~s-replace~
+**** built-in (dom)
+- ~dom-append-child~
+- ~dom-node~
+- ~dom-print~
+**** built-in (svg)
+- ~svg-create~
+- ~svg-print~
+- ~svg-text~
+**** built-in
+- ~1+~
+- ~add-to-list~
+- ~buffer-substring-no-properties~
+- ~delete-file~
+- ~file-exists-p~
+- ~insert-file-contents~
+- ~insert-file-contents~
+- ~int-to-string~
+- ~listify-key-sequence~
+- ~list~
+- ~mouse-set-point~
+- ~nth~
+- ~number-sequence~
+- ~reverse~
+- ~run-hook-with-args-until-success~
+- ~shell-command-to-string~
+- ~shell-command~
+- ~shell-command~
+- ~write-region~
+- ~write-region~
+*** org-mode
+**** variables
+- ~org-clock-adjust-closest~
+**** functions
+- ~org-at-clock-log-p~
+- ~org-at-table-hline-p~
+- ~org-at-table-p~
+- ~org-check-before-invisible-edit~
+- ~org-drag-line-forward~
+- ~org-shiftmetadown-hook~
+- ~org-show-all~
+- ~org-table-align~
+- ~org-table-current-column~
+- ~org-table-current-line~
+- ~org-table-goto-column~
+- ~org-table-insert-row~
+- ~org-table-maybe-eval-formula~
+- ~org-table-maybe-recalculate-line~
+- ~org-table-wrap-region~
+- ~org-timestamp-down~
+* Step 11 (July 31, 2020 - November 07, 2020)
+commit 1c0996c7011b08f5e9a0e89f31832c58c6c49077 (v2.0.0)
+
+I used emacs 28.50.
+
+I made a huge reshaping of my setup.  I tried to separate concern
+between /features/, /settings/ and /key bindings/.  Features are grouped
+into packages with a name (they are no longer simple tweaks at the
+margin).  We welcome these new packages in the setup:
+- ~ace-hacks.el~
+- ~framer.el~
+- ~i3.el~
+- ~insight.el~
+- ~outline-speed-commands.el~
+~- ~quick-access
+~- ~refactor.el~
+- ~screencast.el~
+- ~sidebar.el~
+
+I rather use ~isearch-forward~ and ~isearch-backward~ than ~swiper~.  I
+rather use [[https://github.com/bling/fzf.el][fzf.el]] to find file than any other ~find-file-...~ commands.
+I forked [[https://github.com/bling/fzf.el][fzf.el]] and I had it some features that it can works with my
+new ~ace-hacks~ package.  I really like the interface that is really
+fast and doesn't use any completion framework since the completion is
+done in a ~term-mode~ buffer.  To find /patterns recursively/ in
+/directories/ I used both ~counsel-rg~ (from [[https://github.com/abo-abo/swiper][ivy]]) and ~rg-dwim~ (from
+[[https://github.com/dajva/rg.el][rg.el]]).  I /jumped to definition/ with [[https://github.com/jacktasia/dumb-jump][dumb-jump]] packages.  I discovered
+*speed keys* in ~org-mode~.  It's amazing.  Single keystrokes can execute
+custom commands in an Org file when point is on a headline.  Speed
+Keys can speed navigation or execute custom commands.  I bring /speed
+keys/ to any mode using ~outline-mode~ writing the package
+~outline-speed-commands~.  This gives super power when navigating within
+a single file.  I started using [[https://github.com/muffinmad/emacs-mini-frame][mini-frame]].  I started using [[https://github.com/clojure-emacs/cider][cider]] to
+work with ~clojure~ code.  I used ~aggressive-indent~.  I started setting
+up ~ibuffer~.
+
+** Huge reshaping
+*** New shape
+
+#+BEGIN_SRC text
+.
+|-- settings/
+    |-- key-bindings       # Key bindings (main entry: kb.el)
+    |-- packages           # Code pieces that are no longer consider as
+    |   |                  # tweaks but as features on their own right
+    |   |-- ace-hacks.el
+    |   |-- framer.el
+    |   |-- i3.el
+    |   |-- insight.el
+    |   |-- outline-speed-commands.el
+    |   |-- quick-access.el
+    |   |-- refactor.el
+    |   |-- screencast.el
+    |   |-- sidebar.el
+    |-- settings           # Settings of external packages and mine
+    |                      # (main entry: setup-init.el)
+    |-- utils              # Functionality that is not use on daily bases
+#+END_SRC
+
+*** Package descriptions
+- ace-hacks.el :: Commands that use ace-window to place buffers in the
+  frame in different context (dired-mode, ibuffer-mode,
+  ivy-minibuffer).
+- framer.el :: Kind of winner-undo but that is not attached to the
+  frame you are in and where you have to grab the window configuration
+  'manually'.
+- i3.el :: Major mode to write i3 conf file.
+- insight.el :: Enhances your browsing experience and the insight you
+  have of your displayed buffers. insight-mode mode binds one
+  character keys to various scrolling commands, zooming commands,
+  narrowing commands and outline-minor-mode navigating commands.
+- outline-speed-commands.el :: Minor mode that bring kind of
+  org-speed-commands that respect outline-regexp.
+- quick-access.el :: Mecanism that uses ivy to access to the files and
+  directories I use the most.
+- refactor.el :: Toggle in write or read mode for several modes
+  (grep-mode, dired-mode,...).
+- screencast.el :: Minor global mode that sets up emacs to record
+  screencast.
+- sidebar.el :: Sidebar with both dired and ibuffer on the left side.
+
+*** Custom packages
+**** ace-hacks.el
+Commands that use ~ace-window~ to *place* /buffers/ in the /frame/ in
+different context (~dired-mode~, ~ibuffer-mode~, ~ivy-minibuffer~).
+
+#+BEGIN_SRC emacs-lisp
+;;; Packages
+
+(require 'ace-window)
+(require 'dired)
+(require 'ivy)
+(require 'ibuffer)
+
+;;; Utility functions
+
+(defun ace-hacks-visite (buffer-or-file &optional direction)
+  "Visite FILE-OR-BUFFER in DIRECTION in the `selected-window'
+
+after having split it.
+DIRECTION must be one of this keywords: :left, :right, :up, :down.
+If DIRECTION is nil or omitted, visite FILE-OR-BUFFER in the `selected-window'."
+  (unless (one-window-p) (call-interactively 'ace-window))
+  (cond
+   ((eq direction :left)
+    (split-window-right))
+   ((eq direction :right)
+    (split-window-right)
+    (windmove-right))
+   ((eq direction :up)
+    (split-window-below)
+    (recenter))
+   ((eq direction :down)
+    (split-window-below)
+    (recenter)
+    (windmove-down))
+   (t nil))
+  (if (bufferp buffer-or-file)
+      (switch-to-buffer buffer-or-file)
+    (find-file buffer-or-file)))
+
+;;; Dired
+
+(defun ace-hacks-dired-find-file ()
+  "Open file at point in window selected with `ace-window'."
+  (interactive)
+  (when-let ((file-at-point (dired-file-name-at-point)))
+    (ace-hacks-visite (expand-file-name file-at-point) nil)))
+
+(defun ace-hacks-dired-find-file-split-left ()
+  "Open file at point on the left part of the split window
+selected with `ace-window'."
+  (interactive)
+  (when-let ((file-at-point (dired-file-name-at-point)))
+    (ace-hacks-visite (expand-file-name file-at-point) :left)))
+
+(defun ace-hacks-dired-find-file-split-right ()
+  "Open file at point on the right part of the split window
+selected with `ace-window'."
+  (interactive)
+  (when-let ((file-at-point (dired-file-name-at-point)))
+    (ace-hacks-visite (expand-file-name file-at-point) :right)))
+
+(defun ace-hacks-dired-find-file-split-up ()
+  "Open file at point on the up part of the split window
+selected with `ace-window'."
+  (interactive)
+  (when-let ((file-at-point (dired-file-name-at-point)))
+    (ace-hacks-visite (expand-file-name file-at-point) :up)))
+
+(defun ace-hacks-dired-find-file-split-down ()
+  "Open file at point on the down part of the split window
+selected with `ace-window'."
+  (interactive)
+  (when-let ((file-at-point (dired-file-name-at-point)))
+    (ace-hacks-visite (expand-file-name file-at-point) :down)))
+
+;;; Ibuffer
+
+(defun ace-hacks-ibuffer-visit-buffer ()
+  "Visit buffer at point in window selected with `ace-window'."
+  (interactive)
+  (when-let ((buffer-at-point (ibuffer-current-buffer t)))
+    (ace-hacks-visite buffer-at-point nil)))
+
+(defun ace-hacks-ibuffer-visit-buffer-split-left ()
+  "Visit buffer at point on the left part of the split window
+selected with `ace-window'."
+  (interactive)
+  (when-let ((buffer-at-point (ibuffer-current-buffer t)))
+    (ace-hacks-visite buffer-at-point :left)))
+
+(defun ace-hacks-ibuffer-visit-buffer-split-right ()
+  "Visit buffer at point on the right part of the split window
+selected with `ace-window'."
+  (interactive)
+  (when-let ((buffer-at-point (ibuffer-current-buffer t)))
+    (ace-hacks-visite buffer-at-point :right)))
+
+(defun ace-hacks-ibuffer-visit-buffer-split-up ()
+  "Visit buffer at point on the up part of the split window
+selected with `ace-window'."
+  (interactive)
+  (when-let ((buffer-at-point (ibuffer-current-buffer t)))
+    (ace-hacks-visite buffer-at-point :up)))
+
+(defun ace-hacks-ibuffer-visit-buffer-split-down ()
+  "Visit buffer at point on the down part of the split window
+selected with `ace-window'."
+  (interactive)
+  (when-let ((buffer-at-point (ibuffer-current-buffer t)))
+    (ace-hacks-visite buffer-at-point :down)))
+
+;;; Ivy
+
+(defvar ace-hacks-ivy-callers-alist
+  '((ivy-switch-buffer . ivy--switch-buffer-action)
+    (ivy-switch-buffer-other-window . ivy--switch-buffer-action)
+    (counsel-find-file . (lambda (buffer-or-file)
+                           (find-file (expand-file-name buffer-or-file ivy--directory)))))
+  "Alist of (CALLER . RESOLVER) used with `ivy'.
+
+When `ivy' system completion is called with CALLER and the selected element
+is ELT, the function RESOLVER is called with ELT as argument.
+For instance, (ivy-switch-buffer . ivy--switch-buffer-action) is valid
+association and so '((ivy-switch-buffer . ivy--switch-buffer-action)) is a valid
+value for `ace-hacks-ivy-callers-alist'.")
+
+(defun ace-hacks--ivy-visit (buffer-or-file caller)
+  "Function to be used within ivy actions."
+  (when-let (resolver (alist-get caller ace-hacks-ivy-callers-alist))
+    (funcall resolver buffer-or-file)))
+
+(defun ace-hacks--ivy-visit-action (buffer-or-file direction)
+  "Visite FILE-OR-BUFFER in DIRECTION in the `selected-window'
+
+after having split it.
+DIRECTION must be one of this keywords: :left, :right, :up, :down.
+If DIRECTION is nil or omitted, visite FILE-OR-BUFFER in the `selected-window'."
+  (let ((caller (ivy-state-caller ivy-last)))
+    (if (not (alist-get caller ace-hacks-ivy-callers-alist))
+        (message "caller (%s) not listed in ace-hacks-ivy-callers-alist" caller)
+      (unless (one-window-p) (call-interactively 'ace-window))
+      (cond
+       ((eq direction :left)
+        (split-window-right))
+       ((eq direction :right)
+        (split-window-right)
+        (windmove-right))
+       ((eq direction :up)
+        (split-window-below)
+        (recenter))
+       ((eq direction :down)
+        (split-window-below)
+        (recenter)
+        (windmove-down))
+       (t nil))
+      (ace-hacks--ivy-visit buffer-or-file caller))))
+
+(defun ace-hacks-ivy-visit ()
+  "Visit `ivy' selection in window selected with `ace-window'.
+This command must be bind in `ivy-minibuffer-map'."
+  (interactive)
+  (ivy-set-action (lambda (selection)
+                    (ace-hacks--ivy-visit-action selection t)))
+  (ivy-done))
+
+(defun ace-hacks-ivy-visit-split-left ()
+  "Visit `ivy' selection on the left part of the split window
+selected with `ace-window'.
+This command must be bind in `ivy-minibuffer-map'."
+  (interactive)
+  (ivy-set-action (lambda (selection)
+                    (ace-hacks--ivy-visit-action selection :left)))
+  (ivy-done))
+
+(defun ace-hacks-ivy-visit-split-right ()
+  "Visit `ivy' selection on the right part of the split window
+selected with `ace-window'.
+This command must be bind in `ivy-minibuffer-map'."
+  (interactive)
+  (ivy-set-action (lambda (selection)
+                    (ace-hacks--ivy-visit-action selection :right)))
+  (ivy-done))
+
+(defun ace-hacks-ivy-visit-split-up ()
+  "Visit `ivy' selection on the up part of the split window
+selected with `ace-window'.
+This command must be bind in `ivy-minibuffer-map'."
+  (interactive)
+  (ivy-set-action (lambda (selection)
+                    (ace-hacks--ivy-visit-action selection :up)))
+  (ivy-done))
+
+(defun ace-hacks-ivy-visit-split-down ()
+  "Visit `ivy' selection on the down part of the split window
+selected with `ace-window'.
+This command must be bind in `ivy-minibuffer-map'."
+  (interactive)
+  (ivy-set-action (lambda (selection)
+                    (ace-hacks--ivy-visit-action selection :down)))
+  (ivy-done))
+
+;;; Footer
+
+(provide 'ace-hacks)
+#+END_SRC
+
+**** framer.el
+Kind of ~winner-undo~ but that is /not attached/ to the /frame/ you are in
+and where you have to grab the window configuration /manually/.
+
+#+BEGIN_SRC emacs-lisp
+(require 'ring)
+
+(defvar framer-ring-size 10)
+(defvar framer-ring nil)
+(defvar framer-undo-counter nil)
+(defvar framer-redo-frame nil)
+
+(defun framer-set-ring ()
+  "Initialize `framer-ring' to an empty ring if not define yet."
+  (unless framer-ring
+    (setq framer-ring (make-ring framer-ring-size))))
+
+(defun framer-flush ()
+  "Flush `framer-ring'."
+  (interactive)
+  (setq framer-ring (make-ring framer-ring-size)))
+
+(defun framer-push ()
+  "Push the window's state into `framer-ring'."
+  (interactive)
+  (framer-set-ring)
+  (ring-insert framer-ring (window-state-get)))
+
+(defun framer-undo ()
+  "Cycle through `framer-ring'."
+  (interactive)
+  (unless (eq last-command 'framer-undo)
+    (setq framer-redo-frame (window-state-get))
+    (setq framer-undo-counter 0)
+    (framer-set-ring))
+  (unless (ring-empty-p framer-ring)
+    (window-state-put (ring-ref framer-ring framer-undo-counter))
+    (cl-incf framer-undo-counter)))
+
+(defun framer-redo ()
+  "Go back to the last window's state before start to
+
+cycling in `framer-ring' with `framer-undo'."
+  (interactive)
+  (if (eq last-command 'framer-undo)
+      (window-state-put framer-redo-frame)))
+
+
+(provide 'framer)
+#+END_SRC
+
+**** i3.el
+Major mode to write ~i3~ conf file.
+
+#+BEGIN_SRC emacs-lisp
+(defvar i3-font-lock-keywords
+  '(;; for ~/.config/i3/config
+    ("bindsym" . font-lock-keyword-face)
+    ("^set" . font-lock-keyword-face)
+    ("^mode" . font-lock-keyword-face)
+    ("^exec" . font-lock-keyword-face)
+    ("^workspace" . font-lock-keyword-face)
+    ("^bar" . font-lock-builtin-face)
+    ("^assign" . font-lock-keyword-face)
+    ("^for_window" . font-lock-keyword-face)
+    ("\\(colors\\) [{]+" 1 font-lock-builtin-face t)
+    ("^font" . font-lock-builtin-face)
+    ("^floating_modifier" . font-lock-builtin-face)
+    ("bindsym \\([^ ]*\\)" 1 font-lock-function-name-face t)
+    ;; for ~/.i3status.conf file
+    ("^[ \t]*\\(.+?\\)\\(?:\\[\\(.*?\\)\\]\\)?[ \t]*[^+]=" 1 font-lock-variable-name-face t)
+    ("\\(^order\\) \\(?:[+][=]+\\)" 1 font-lock-keyword-face t)
+    ("\\(general\\) [{]+" 1 font-lock-builtin-face t)
+    ("\\(run_watch VPN\\) [{]+" 1 font-lock-builtin-face t)
+    ("\\(run_watch DHCP\\) [{]+" 1 font-lock-builtin-face t)
+    ("\\(wireless _first_\\) [{]+" 1 font-lock-builtin-face t)
+    ("\\(disk\\) .* [{]+" 1 font-lock-builtin-face t)
+    ("\\(load\\) [{]+" 1 font-lock-builtin-face t)
+    ("\\(cpu_usage\\) [{]+" 1 font-lock-builtin-face t)
+    ("\\(battery 0\\) [{]+" 1 font-lock-builtin-face t)
+    ("\\(tztime local\\) [{]+" 1 font-lock-builtin-face t)
+    )
+  "Font lock keywords to use in i3-mode.
+
+These keywords are used in the i3 configuration file (~/.config/i3/config)
+and i3status configuration file (~/.i3status.conf).")
+
+
+(define-derived-mode i3-mode sh-mode "i3-mode"
+  "Major mode for i3 configuration files."
+  (font-lock-add-keywords nil i3-font-lock-keywords))
+
+
+(provide 'i3)
+#+END_SRC
+
+**** insight.el
+Enhances your /browsing/ experience and the /insight/ you have of your
+displayed buffers.  ~insight-mode~ mode /binds/ *one character keys* to
+various /scrolling/ commands, /zooming/ commands, /narrowing/ commands and
+outline-minor-mode /navigating/ commands.
+
+#+BEGIN_SRC emacs-lisp
+;;; insight.el --- Minor mode to browse buffers -*- lexical-binding: t -*-
+
+;; Copyright (C) 2020  Tony aldon
+
+;; Author: Tony Aldon
+;; Maintainer: Tony Aldon <tony.aldon.adm@gmail.com>
+;; URL: ???
+;; Version: 0.1.0
+;; Keywords: scroll, zoom, narrow, outline
+;; Package-Requires: ???
+
+;;; Commentary:
+;;
+;; Insight enhances your browsing experience and the insight you have of
+;; your displayed buffers. `insight-mode' mode binds one character keys
+;; to various scrolling commands, zooming commands, narrowing commands and
+;; `outline-minor-mode' navigating commands.
+
+;; Bind globaly `insight-mode' to any keys that is convenient for your
+;; usage, e.g:
+
+;; (global-set-key (kbd "M-i") 'insight-mode)
+
+;; Enable it anytime you want to scroll, zoom, narrow or navigate your code.
+;; You can disable it by pressing the 'q' key .
+
+;; If the one character keys don't fit your workflow, change the bindings in
+;; `insight-mode-map'.
+
+;; With `insight-ace-window' command, you can interactively choose the displayed
+;; buffer to be scroll by commands like `scroll-other-window' and
+;; `scroll-other-window-down'. To work well we advice `scroll-other-window'
+;; and `scroll-other-window-down' commmands. To do so, add this line to your
+;; emacs configuration file:
+
+;; (insight-set-window-advices)
+
+;; At any moment you can revoke it by running: M-x insight-unset-advices.
+
+;; To set up `insight-mode' to change the cursor color to `insight-cursor-color'
+;; when `insight-mode' is turned on, add this line to your emacs configuration file:
+
+;; (insight-use-cursor-color)
+
+;; You can set the cursor color in `insight-mode', for instance to blue (#0000ff),
+;; by setting the variable `insight-cursor-color' like this:
+
+;; (setq insight-cursor-color "#0000ff")
+
+;; So a standard configuration with `insight-cursor-color' blue is:
+
+;; (setq insight-cursor-color "#0000ff")
+;; (insight-use-cursor-color)
+;; (insight-set-window-advices)
+
+;;; Change Log: ???
+
+;;; Code:
+
+;;; Cursor
+
+(defvar insight-cursor-color "#fd971f"
+  "Color of the cursor when `insight-mode' is turned on.")
+
+(setq insight-use-cursor-color nil)
+(setq insight-cursor-color-default nil)
+
+(defun insight-check-cursor-color ()
+  "Check if the cursor color is well set according to `insight-mode'."
+  (interactive)
+  (let ((cursor-color (face-attribute 'cursor :background)))
+    (if insight-mode
+        (unless (string= cursor-color insight-cursor-color)
+          (set-cursor-color insight-cursor-color))
+      (when (string= cursor-color insight-cursor-color)
+        (set-cursor-color insight-cursor-color-default)))))
+
+(defun insight-use-cursor-color ()
+  "Set up `insight-mode' to change the cursor color to `insight-cursor-color'
+when `insight-mode' is turned on."
+  (interactive)
+  (if insight-use-cursor-color
+      (progn
+        (setq insight-use-cursor-color nil)
+        (setq insight-cursor-color-default nil)
+        (remove-hook 'post-command-hook 'insight-check-cursor-color))
+    (setq insight-cursor-color-default (face-attribute 'cursor :background))
+    (setq insight-use-cursor-color t)
+    (add-hook 'post-command-hook 'insight-check-cursor-color)))
+
+(defun insight-switch-cursor-color (insight-mode)
+  "Modify the color of the cursor when `insight-mode' is turned on
+
+and `insight-use-cursor-color' is 't'."
+  (when insight-use-cursor-color
+    (if insight-mode
+        (progn
+          (setq-local insight-cursor-color-default-local (face-attribute 'cursor :background))
+          (set-cursor-color insight-cursor-color))
+      (set-cursor-color insight-cursor-color-default-local))))
+
+;;; Tweaked scroll commands
+
+(defun insight-scroll-down-line ()
+  "Scroll down of one line"
+  (interactive)
+  (scroll-up-line -1))
+
+(defun insight-scroll-up-line ()
+  "Scroll up of one line"
+  (interactive)
+  (scroll-up-line))
+
+(defun insight-scroll-other-window-up-line ()
+  "Scroll up of one line in other window."
+  (interactive)
+  (scroll-other-window 1))
+
+(defun insight-scroll-other-window-down-line ()
+  "Scroll up of one line in other window."
+  (interactive)
+  (scroll-other-window-down 1))
+
+(defun insight--half-window-height ()
+  "Compute half window height."
+  (/ (window-body-height) 2))
+
+(defun insight-scroll-down-half-window ()
+  "Scroll down of half window height."
+  (interactive)
+  (scroll-down (insight--half-window-height)))
+
+(defun insight-scroll-up-half-window ()
+  "Scroll up of half window height."
+  (interactive)
+  (scroll-up (insight--half-window-height)))
+
+(defun insight-scroll-other-window-down-half-window ()
+  "Scroll other window down of half window height."
+  (interactive)
+  (scroll-other-window-down (insight--half-window-height)))
+
+(defun insight-scroll-other-window-up-half-window ()
+  "Scroll other window up of half window of half window height."
+  (interactive)
+  (scroll-other-window (insight--half-window-height)))
+
+;;; Scroll other window with `ace-window'
+
+(declare-function ace-window "ext:ace-window")
+
+(defun insight-ace-window ()
+  "Interactively choose the displayed buffer to be scroll by commands
+like `scroll-other-window' and `scroll-other-window-down'."
+  (interactive)
+  (let ((initial-window (selected-window)))
+    (save-excursion
+      (call-interactively 'ace-window)
+      (setq other-window-scroll-buffer (current-buffer)))
+    (select-window initial-window)))
+
+(defun insight-reset-other-window-scroll-buffer (&optional arg)
+  "Reset `other-window-scroll-buffer' to nil if its value is not
+a buffer being displayed.
+
+Use this function to advice :before `scroll-other-window' and
+`scroll-other-window-down'. This prevents to popup the buffer
+`other-window-scroll-buffer' if it was not being displayed."
+  (when (and other-window-scroll-buffer
+             (or (not (eq 1 (length (get-buffer-window-list other-window-scroll-buffer))))
+                 (eq (get-buffer-window other-window-scroll-buffer) (selected-window))))
+    (setq other-window-scroll-buffer nil)))
+
+(defun insight-set-window-advices ()
+  "Advice `scroll-other-window' and `scroll-other-window-down'.
+
+See `insight-ace-window' and
+`insight-reset-other-window-scroll-buffer'."
+  (interactive)
+  (advice-add 'scroll-other-window :before 'insight-reset-other-window-scroll-buffer)
+  (advice-add 'scroll-other-window-down :before 'insight-reset-other-window-scroll-buffer))
+
+(defun insight-unset-window-advices ()
+  "Advice `scroll-other-window' and `scroll-other-window-down'.
+
+See `insight-ace-window' and
+`insight-reset-other-window-scroll-buffer'."
+  (interactive)
+  (advice-remove 'scroll-other-window 'insight-reset-other-window-scroll-buffer)
+  (advice-remove 'scroll-other-window-down 'insight-reset-other-window-scroll-buffer))
+
+;;; narrow
+
+(declare-function org-toggle-narrow-to-subtree "org")
+(declare-function org-narrow-to-element "org")
+(declare-function sp-narrow-to-sexp "ext:smartparens")
+
+(defun insight-sp-toggle-narrow (arg)
+  "Toggle between `widen' and `sp-narrow-to-sexp'."
+  (interactive "P")
+  (if (buffer-narrowed-p) (widen)
+    (sp-narrow-to-sexp arg)))
+
+;;; keymap
+
+(defvar insight-mode-map
+  (let ((map (make-sparse-keymap)))
+    ;; outline commands
+    (define-key map (kbd "p") 'outline-previous-visible-heading)
+    (define-key map (kbd "n") 'outline-next-visible-heading)
+    (define-key map (kbd "f") 'outline-forward-same-level)
+    (define-key map (kbd "b") 'outline-backward-same-level)
+    (define-key map (kbd "i") 'outline-up-heading)
+    ;; scrolling commands
+    (define-key map (kbd ")") 'scroll-left)
+    (define-key map (kbd "(") 'scroll-right)
+    (define-key map (kbd "<prior>") 'beginning-of-buffer)
+    (define-key map (kbd "<next>") 'end-of-buffer)
+    (define-key map (kbd "<backspace>") 'scroll-down)
+    (define-key map (kbd "SPC") 'scroll-up)
+    (define-key map (kbd "d") 'insight-scroll-down-half-window)
+    (define-key map (kbd "s") 'insight-scroll-up-half-window)
+    (define-key map (kbd "l") 'insight-scroll-down-line)
+    (define-key map (kbd "r") 'insight-scroll-up-line)
+    (define-key map (kbd "e") 'insight-scroll-other-window-down-half-window)
+    (define-key map (kbd "o") 'insight-scroll-other-window-up-half-window)
+    ;; (define-key map (kbd "/") 'insight-scroll-other-window-down-line)
+    ;; (define-key map (kbd "`") 'insight-scroll-other-window-up-line)
+    (define-key map (kbd "a") 'insight-ace-window)
+    ;; narrowing commands
+    (define-key map (kbd ".") 'org-toggle-narrow-to-subtree)
+    (define-key map (kbd ":") 'org-narrow-to-element)
+    (define-key map (kbd ",") 'insight-sp-toggle-narrow)
+    (define-key map (kbd ";") 'narrow-to-region)
+    (define-key map (kbd "]") 'widen)
+    ;; scaling commands
+    (define-key map (kbd "+") 'text-scale-increase)
+    (define-key map (kbd "-") 'text-scale-decrease)
+    (define-key map (kbd "0") 'text-scale-adjust)
+    ;; other
+    (define-key map (kbd "q") 'insight-mode)
+    map)
+  "Keymap for `insight-mode'.")
+
+
+;;; Mode
+
+(define-minor-mode insight-mode
+  "Convenient keybindings for zooming, scrolling and narrowing.
+
+Mainly one key binding."
+  :lighter " Insight"
+  :keymap insight-mode-map
+  (insight-switch-cursor-color insight-mode))
+
+(insight-mode -1)
+
+(provide 'insight)
+#+END_SRC
+
+**** outline-speed-commands.el
+Minor mode that bring kind of ~org-speed-commands~ that respect
+~outline-regexp~.
+
+#+BEGIN_SRC emacs-lisp
+(require 'outline)
+
+;;; outline-self-insert-command
+(defun outline-self-insert-command (N)
+  "Like `self-insert-command' but allow speed commands
+
+define in `outline-speed-commands-default' and `outline-speed-commands-user'
+when the cursor is at the beginning of an outline headline.
+
+This is a ligth adaptation of `org-self-insert-command'."
+  (interactive "p")
+  ;; (org-check-before-invisible-edit 'insert)
+  (cond
+   ((and outline-use-speed-commands
+         (let ((kv (this-command-keys-vector)))
+           (setq outline-speed-command
+                 (run-hook-with-args-until-success
+                  'outline-speed-command-hook
+                  (make-string 1 (aref kv (1- (length kv))))))))
+    (cond
+     ((commandp outline-speed-command)
+      (setq this-command outline-speed-command)
+      (call-interactively outline-speed-command))
+     ((functionp outline-speed-command)
+      (funcall outline-speed-command))
+     ((and outline-speed-command (listp outline-speed-command))
+      (eval outline-speed-command))
+     (t (let (outline-use-speed-commands)
+          (call-interactively 'outline-self-insert-command)))))
+   (t
+    (setq this-command 'self-insert-command)
+    (self-insert-command N))))
+
+
+;;; Speed keys
+(defvar outline-speed-commands-user nil
+  "Alist of additional speed commands.
+This list will be checked before `outline-speed-commands-default'.
+when the cursor is at the beginning of a headline.
+The car of each entry is a string with a single letter, which must
+be assigned to `self-insert-command' in the global map.
+The cdr is either a command to be called interactively, a function
+to be called, or a form to be evaluated.
+An entry that is just a list with a single string will be interpreted
+as a descriptive headline that will be added when listing the speed
+commands in the Help buffer using the `?' speed command.")
+
+(defvar outline-speed-command-hook '(outline-speed-command-activate)
+  "Hook for activating speed commands at strategic locations.
+Hook functions are called in sequence until a valid handler is
+found.
+
+Each hook takes a single argument, a user-pressed command key
+which is also a `self-insert-command' from the global map.
+
+Within the hook, examine the cursor position and the command key
+and return nil or a valid handler as appropriate.  Handler could
+be one of an interactive command, a function, or a form.
+
+Turn on `outline-speed-commands-mode' to enable this hook.")
+
+(defconst outline-speed-commands-default
+  '(("Outline Navigation")
+    ("n" . (outline-speed-move-safe 'outline-next-visible-heading))
+    ("p" . (outline-speed-move-safe 'outline-previous-visible-heading))
+    ("f" . (outline-speed-move-safe 'outline-forward-same-level))
+    ("b" . (outline-speed-move-safe 'outline-backward-same-level))
+    ("u" . (outline-speed-move-safe 'outline-up-heading))
+    ("Outline Visibility")
+    ("i" . outline-show-children)
+    ("s" . outline-show-subtree)
+    ("d" . outline-hide-subtree)
+    ("t" . outline-hide-body)
+    ("a" . outline-show-all)
+    ("c" . outline-hide-entry)
+    ("e" . outline-show-entry)
+    ("l" . outline-hide-leaves)
+    ("k" . outline-show-branches)
+    ("q" . outline-hide-sublevels)
+    ("o" . outline-hide-other)
+    ("Outline Structure Editing")
+    ("@" . outline-mark-subtree)
+    ("^". outline-move-subtree-up)
+    ("v". outline-move-subtree-down)
+    ("<". outline-promote)
+    (">". outline-demote)
+    ("m". outline-insert-heading)
+    "The default Outline speed commands."))
+
+(defun outline-speed-move-safe (cmd)
+  "Execute CMD, but make sure that the cursor always ends up in a headline.
+If not, return to the original position and throw an error."
+  (interactive)
+  (let ((pos (point)))
+    (call-interactively cmd)
+    (unless (and (bolp) (outline-on-heading-p t))
+      (goto-char pos)
+      (error "Boundary reached while executing %s" cmd))))
+
+(defun outline-speed-command-activate (keys)
+  "Hook for activating single-letter speed commands.
+`outline-speed-commands-default' specifies a minimal command set.
+Use `outline-speed-commands-user' for further customization."
+  (when (and (bolp) (looking-at outline-regexp))
+    (cdr (assoc keys (append outline-speed-commands-user
+                             outline-speed-commands-default)))))
+
+;;; outline-speed-commands-mode
+(define-minor-mode outline-speed-commands-mode
+  "Toggle outline-speed-commands-mode mode on or off."
+  :global nil
+  (if outline-speed-commands-mode
+      (progn
+        (setq-local outline-use-speed-commands t)
+        (local-set-key [remap self-insert-command] 'outline-self-insert-command))
+    (makunbound 'outline-use-speed-commands)
+    (local-set-key [remap self-insert-command] nil)))
+
+
+
+(provide 'outline-speed-commands)
+#+END_SRC
+
+**** quick-access.el
+Mecanism that uses ~ivy~ to /access/ to the files and directories I use
+the most.
+
+#+BEGIN_SRC emacs-lisp
+(declare-function ivy-read "ext:ivy")
+
+(defvar quick-access-alist ()
+  "Association list of quick-access names and its full filename.
+
+The value is an alist with quick-access of the form
+
+ (QUICK-ACCESS-NAME . FILENAME).
+
+QUICK-ACCESS-NAME must be uniq.")
+
+(defun quick-access-all-names ()
+  "Return the list of all the quick-access-name define in `quick-access-alist'."
+  (-map 'car quick-access-alist))
+
+(defun quick-access-get-filename (quick-access-name)
+  "Return the full filename of QUICK-ACCESS-NAME, or nil if none."
+  (assoc-default quick-access-name quick-access-alist))
+
+(defun counsel-quick-access ()
+  "Open a quick-access file listed in `quick-access-alist'."
+  (interactive)
+  (ivy-read "Open quick-access: "
+            (quick-access-all-names)
+            :history 'quick-access-history
+            :action (lambda (x)
+                      (find-file (quick-access-get-filename x)))
+            :caller 'counsel-quick-access))
+
+
+(provide 'quick-access)
+#+END_SRC
+
+**** refactor.el
+Toggle in *write* or *read* /mode/ for several modes (~grep-mode~,
+~dired-mode~,...).
+
+#+BEGIN_SRC emacs-lisp
+;;; Packages
+;;; Code
+
+(setq refactor-wgrep-mode-list '(grep-mode ivy-occur-grep-mode rg-mode))
+
+(defun refactor-write-mode ()
+  "Toggle to the Writable variant of the current mode.
+
+Call command `dired-toggle-read-only' if `major-mode' is equal
+`dired-mode' and call command `wgrep-change-to-wgrep-mode' if
+`major-mode' is in `refactor-wgrep-mode-list'."
+  (interactive)
+  (cond ((string-equal major-mode "dired-mode")
+         (call-interactively 'dired-toggle-read-only))
+        ((string-equal major-mode "occur-mode")
+         (call-interactively 'occur-edit-mode))
+        ((memq major-mode refactor-wgrep-mode-list)
+         (call-interactively 'wgrep-change-to-wgrep-mode))
+        (t (message "In `%s' you can't toggle to `wgrep' like mode"
+                    major-mode))))
+
+(defun refactor-abort-changes ()
+  "Abort changes and return to the appropiate mode.
+
+Call command `wdired-abort-changes' if `major-mode' is
+`wdired-mode' and call command `wgrep-abort-changes' if
+`major-mode' is in `refactor-wgrep-mode-list'."
+  (interactive)
+  (cond ((string-equal major-mode "wdired-mode")
+         (call-interactively 'wdired-abort-changes))
+        ((memq major-mode refactor-wgrep-mode-list)
+         (call-interactively 'wgrep-abort-changes))
+        (t nil)))
+
+(defun refactor-exit ()
+  "Exit writable mode and return to the appropiate mode.
+
+Call command `wdired-exit' if `major-mode' is
+`wdired-mode' and call command `wgrep-exit' if
+`major-mode' is in `refactor-wgrep-mode-list'."
+  (interactive)
+  (cond ((string-equal major-mode "wdired-mode")
+         (call-interactively 'wdired-exit))
+        ((memq major-mode refactor-wgrep-mode-list)
+         (call-interactively 'wgrep-exit))
+        (t nil)))
+
+(defun refactor-finish-edit ()
+  "Abort changes and return to the appropiate mode.
+
+Call command `wdired-finish-edit' if `major-mode' is
+`wdired-mode' and call command `wgrep-finish-edit' if
+`major-mode' is in `refactor-wgrep-mode-list'."
+  (interactive)
+  (cond ((string-equal major-mode "wdired-mode")
+         (call-interactively 'wdired-finish-edit))
+        ((string-equal major-mode "occur-edit-mode")
+         (call-interactively 'occur-cease-edit))
+        ((memq major-mode refactor-wgrep-mode-list)
+         (call-interactively 'wgrep-finish-edit))
+        (t nil)))
+
+;;; Footer
+
+(provide 'refactor)
+
+#+END_SRC
+
+**** screencast.el
+Minor global *mode* that *sets up* ~emacs~ to *record* /screencast/.
+
+#+BEGIN_SRC emacs-lisp
+;;; Packages
+(require 'moody)
+(require 'minions)
+(require 'keycast)
+
+;;; Mode line
+
+;;;; Format
+
+(defvar screencast-mode-line-format
+  '("%e"
+    mode-line-front-space
+    mode-line-mule-info
+    mode-line-client
+    mode-line-modified
+    mode-line-remote
+    mode-line-frame-identification
+    moody-mode-line-buffer-identification
+    "  "
+    minions-mode-line-modes)
+  "`mode-line-format' to be used when `screencast-mode' is enable.")
+
+;;;; moody
+
+(defvar screencast-moody-mode-line-height 30
+  "`moody-mode-line-height' to be used when `screencast-mode' is enable.")
+
+;;;; minions
+
+(defvar screencast-minions-direct '(insight-mode)
+  "`minions-direct' to be used when `screencast-mode' is enable.")
+
+(defvar screencast-minions-mode-line-lighter ""
+  "`minions-mode-line-lighter' to be used when `screencast-mode' is enable.")
+
+(defvar screencast-minions-mode-line-delimiters '("" . "")
+  "`minions-mode-line-delimiters' to be used when `screencast-mode' is enable.")
+
+(defvar screencast--minions-variables '(minions-direct
+                                        minions-mode-line-lighter
+                                        minions-mode-line-delimiters)
+  "List of `minions' variables that are modified when `screencast-mode' is enable.")
+
+(setq screencast--minions-variables-alist nil)
+
+(defun screencast-set-minions ()
+  "Set `minions' variables used by `screencast-mode'."
+  (if screencast-mode
+      (progn
+        (setq screencast--minions-variables-alist
+              (--map (cons it (symbol-value it)) screencast--minions-variables))
+        (--each screencast--minions-variables
+          (let ((item it)
+                (item-value (symbol-value
+                             (intern (s-concat "screencast-" (symbol-name it))))))
+            (set item item-value))))
+    (--each screencast--minions-variables
+      (let ((item it)
+            (item-value (cdr (assoc it screencast--minions-variables-alist))))
+        (set item item-value)))))
+
+;;;; keycast
+
+(defvar screencast-keycast-separator-width 2
+  "`keycast-separator-width' to be used when `screencast-mode' is enable.")
+
+(defvar screencast-keycast-insert-after 'moody-mode-line-buffer-identification
+  "`keycast-insert-after' to be used when `screencast-mode' is enable.")
+
+(defvar screencast-keycast-window-predicate  'moody-window-active-p
+  "`keycast-window-predicate' to be used when `screencast-mode' is enable.")
+
+(defvar screencast-keycast-remove-tail-elements nil
+  "`keycast-remove-tail-elements' to be used when `screencast-mode' is enable.")
+
+(defvar screencast-keycast-substitute-alist
+  '((self-insert-command "." "self-insert-command")
+    (org-self-insert-command "." "org-self-insert-command")
+    (outline-self-insert-command "." "outline-self-insert-command"))
+  "`keycast-substitute-alist' to be used when `screencast-mode' is enable.")
+
+(defvar screencast--keycast-variables '(keycast-separator-width
+                                        keycast-insert-after
+                                        keycast-window-predicate
+                                        keycast-remove-tail-elements
+                                        keycast-substitute-alist)
+  "List of `keycast' variables that are modified when `screencast-mode' is enable.")
+
+(setq screencast--keycast-variables-alist nil)
+
+(defun screencast-set-keycast ()
+  "Set `keycast' variables used by `screencast-mode'."
+  (if screencast-mode
+      (progn
+        (setq screencast--keycast-variables-alist
+              (--map (cons it (symbol-value it)) screencast--keycast-variables))
+        (--each screencast--keycast-variables
+          (let ((item it)
+                (item-value (symbol-value
+                             (intern (s-concat "screencast-" (symbol-name it))))))
+            (set item item-value))))
+    (--each screencast--keycast-variables
+      (let ((item it)
+            (item-value (cdr (assoc it screencast--keycast-variables-alist))))
+        (set item item-value)))))
+
+;;; Other
+
+(defvar screencast-display-buffer-alist '()
+  "`display-buffer-alist' to be used when `screencast-mode' is enable.")
+
+(defvar screencast-hook-to-remove-alist '()
+  "A list of alist (HOOK . FUNCTION) to be removed when `screencast-mode'
+is enable.
+
+For instance a valid list is:
+  '((window-configuration-change-hook . my-function-1)
+    (buffer-list-update-hook . my-function-2))")
+
+;;; Mode
+
+(setq screencast--mode-line-format nil)
+(setq screencast--display-buffer-alist nil)
+(setq screencast--moody-mode-line-height nil)
+
+(define-minor-mode screencast-mode
+  "Toggle Screencast mode on or off.
+
+Set emacs layout to record screencasts.
+
+Turn on `keycast-mode', clean the `mode-line-format', adapt `display-buffer-alist'
+to a smaller window frame than usual."
+  :global t
+  (if screencast-mode
+      (progn
+        (--each screencast-hook-to-remove-alist (remove-hook (car it) (cdr it)))
+        (setq screencast--display-buffer-alist display-buffer-alist)
+        (setq display-buffer-alist screencast-display-buffer-alist)
+        (setq screencast--moody-mode-line-height moody-mode-line-height)
+        (setq moody-mode-line-height screencast-moody-mode-line-height)
+        (screencast-set-minions)
+        (screencast-set-keycast)
+        (setq screencast--mode-line-format mode-line-format)
+        (setq-default mode-line-format screencast-mode-line-format)
+        (keycast-mode))
+    (--each screencast-hook-to-remove-alist (add-hook (car it) (cdr it)))
+    (setq display-buffer-alist screencast--display-buffer-alist)
+    (setq screencast--display-buffer-alist nil)
+    (setq moody-mode-line-height screencast--moody-mode-line-height)
+    (setq screencast--moody-mode-line-height nil)
+    (screencast-set-minions)
+    (screencast-set-keycast)
+    (keycast-mode -1) ; should be called before setting mode-line-format
+    (setq-default mode-line-format screencast--mode-line-format)
+    (setq screencast--mode-line-format nil)))
+
+;;; Footer
+
+(provide 'screencast)
+#+END_SRC
+
+**** sidebar.el
+/Sidebar/ with both ~dired~ and ~ibuffer~ on the /left side/.
+
+#+BEGIN_SRC emacs-lisp
+(require 'dired)
+(require 'dired-hacks-utils)
+(require 'ibuffer)
+(require 'ibuf-ext)
+
+;;; Utility functions
+
+;;;; Windows
+
+(defun sidebar--dired-width (dir)
+  "Return the number of characters of the bigger file or directory in
+
+a dired buffer generate with DIR as `dired-directory'."
+  (with-current-buffer (dired-noselect dir)
+    (-max (--map (length (-last-item (s-split "/" it)))
+                 (dired-utils-get-all-files)))))
+
+(defun sidebar--delete-window (window mode)
+  "Delete WINDOW if in MODE mode."
+  (select-window window)
+  (when (equal major-mode mode)
+    (delete-window)))
+
+(defun sidebar--delete-dired-windows ()
+  "Delete `dired-mode' windows in `window-list'."
+  (save-selected-window
+    (--each (window-list) (sidebar--delete-window it 'dired-mode))))
+
+(defun sidebar--delete-ibuffer-windows ()
+  "Delete `ibuffer-mode' windows in `window-list'."
+  (save-selected-window
+    (--each (window-list) (sidebar--delete-window it 'ibuffer-mode))))
+
+(defun sidebar-delete-windows ()
+  "Delete `ibuffer-mode' and `dired-mode' windows in `window-list'."
+  (sidebar--delete-dired-windows)
+  (sidebar--delete-ibuffer-windows))
+
+;;;; Side windows
+
+(defun sidebar--side-window-to-window ()
+  "Make selected side window the only window in the frame."
+  (interactive)
+  (let ((buffer (current-buffer))
+        wnd-list)
+    (delete-window)
+    (display-buffer-at-bottom buffer nil)
+    (setq wnd-list (window-list))
+    (select-window
+     (nth (-elem-index buffer (-map 'window-buffer wnd-list))
+          wnd-list))
+    (delete-other-windows)))
+
+(defun sidebar--side-window-p (window)
+  "Return t if WINDOW is a side window."
+  (-contains?
+   (-map 'car (window-parameters window))
+   'window-side))
+
+(defun sidebar-delete-other-windows ()
+  "Delete other windows also when the `selected-window' is a side window."
+  (interactive)
+  (let ((side-window-p (sidebar--side-window-p (selected-window))))
+    (if side-window-p (sidebar--side-window-to-window) (delete-other-windows))))
+
+;;;; Frame
+
+(defun sidebar--window-top-left ()
+  "Return the window at the top left corner of the current frame."
+  (car (--filter (equal '(0 0) (-take 2 (window-edges it)))
+                 (window-list))))
+
+(defun sidebar--window-mode (window)
+  "Return the `major-mode' of WINDOW."
+  (save-selected-window
+    (select-window window)
+    major-mode))
+
+(defun sidebar-frame-p ()
+  "Return true if there is a sidebar display in the frame."
+  (interactive)
+  (save-selected-window
+    (let ((window-top-left (sidebar--window-top-left)))
+      (and (equal (sidebar--window-mode window-top-left) 'dired-mode)
+           (progn (select-window window-top-left)
+                  (ignore-errors (windmove-down))
+                  (equal (sidebar--window-mode (selected-window))
+                         'ibuffer-mode))))))
+
+;;;; Ibuffer
+
+(defun sidebar-project-name (dir)
+  "Return the name of the project the DIR belongs too.
+
+If DIR doesn't belongs to any project, DIR plays the 'role' of project.
+
+See `project-current'."
+  (let ((proj dir))
+    (when-let (proj-cur (project-current nil dir))
+      (setq proj (cdr proj-cur)))
+    (nth 1 (nreverse (s-split "/" proj)))))
+
+(defun sidebar-ibuffer-buffer-list (dir)
+  "Return buffer list of the project the DIR belongs too.
+
+If DIR doesn't belongs to any project, DIR plays the 'role' of project.
+In this case, only buffers with `buffer-file-name' are kept.
+
+See `project-current'."
+  (if-let (proj (project-current nil dir))
+      (project--buffer-list proj)
+    (--filter
+     (when-let (bfname (buffer-file-name it))
+       (s-contains-p dir bfname))
+     (buffer-list))))
+
+(define-ibuffer-filter sidebar-filter
+    "Show Ibuffer with all buffers in the `sidebar-ibuffer-buffer-list'."
+  (:description nil)
+  (with-current-buffer buf
+    (-contains-p qualifier buf)))
+
+;;; Sidebar
+
+(setq sidebar-window-state nil)
+
+(defun sidebar ()
+  "Pop up a dired buffer on the left of the frame where `dired-directory'
+
+is the `default-directory' of the current buffer.
+If the frame contains buffers in `dired-mode', delete them."
+  (interactive)
+  (cond ((and (sidebar-frame-p)
+              (not (eq last-command 'sidebar)))
+         (sidebar-delete-windows))
+        ((and (eq last-command 'sidebar) sidebar-window-state)
+         (progn
+           (window-state-put sidebar-window-state)
+           (setq sidebar-window-state nil)))
+        (t
+         (setq sidebar-window-state (window-state-get))
+         (sidebar-delete-windows)
+         (sidebar-delete-other-windows)
+         (let* ((dir default-directory)
+                (ibuffer-buffer-name (format "*sidebar-%s*"
+                                             (sidebar-project-name dir))))
+           (split-window-right (+ (sidebar--dired-width dir) 10)) ; 10 is arbitrary margin
+           (ibuffer nil ibuffer-buffer-name
+                    (list (cons 'sidebar-filter (sidebar-ibuffer-buffer-list dir))))
+           ;; TODO: ibuffer-formats ((modified vc-status-mini " " name))
+           (setq-local ibuffer-formats (-concat '((modified " " name)) ibuffer-formats))
+           ;; TODO: set ibuffer-groups to (ta-ibuffer-vc-generate-filter-groups-by-vc-root)
+           (split-window-below)
+           (dired dir)))))
+
+;;; Footer
+
+(provide 'sidebar)
+
+#+END_SRC
+
+** dired-mode
+
+#+BEGIN_SRC emacs-lisp
+;;; Packages
+
+(require 'dired)
+(require 'dired-hacks-utils)
+(require 'dired-subtree)
+(require 'dired-narrow)
+(require 'dired-hide-dotfiles)
+(require 'dired-open)
+(require 's)
+(require 'dash)
+(require 'dired-toggle-sudo)
+(require 'dired-collapse)
+(require 'wdired)
+(require 'dired-x)
+(require 'peep-dired)
+(require 'dired-rainbow)
+
+;;; Global
+(dired-hide-dotfiles-mode)
+
+(setq dired-keep-marker-rename t)
+(setq wdired-allow-to-change-permissions nil)
+(setq wdired-create-parent-directories t)
+(setq dired-narrow-exit-when-one-left t)
+(setq dired-clean-up-buffers-too t)
+(setq dired-clean-confirm-killing-deleted-buffers t)
+(setq dired-dwim-target t)
+(setq dired-recursive-copies 'always)
+(setq dired-recursive-deletes 'always)
+(setq-default dired-listing-switches "-lhAX --group-directories-first")
+(setq dired-open-extensions
+      '(("pdf" . "evince")
+        ("jpg" . "eog")
+        ("png" . "eog")))
+(setq-default dired-subtree-line-prefix "  ")
+(setq-default dired-subtree-use-backgrounds nil)
+
+;; dired-broken-symlink color??
+
+;;; auto-revert-mode
+
+(defun ta-dired-auto-revert ()
+  "Set `auto-revert-mode' in `dired-mode' buffers."
+  (auto-revert-mode 1)
+  (set (make-local-variable 'auto-revert-verbose) nil))
+
+(add-hook 'dired-mode-hook 'ta-dired-auto-revert)
+
+;;; peep-dired
+
+(setq peep-dired-cleanup-on-disable t)
+(setq peep-dired-cleanup-eagerly nil)
+(setq peep-dired-enable-on-directories nil)
+(setq peep-dired-ignored-extensions
+      '("mkv" "webm" "mp4" "mp3" "ogg" "iso" "pdf"))
+(setq peep-dired-with-register nil)
+
+
+;;; Subtree
+
+(defun ta-dired-subtree-toggle-all ()
+  "Apply `dired-subtree-toggle' to all root directories
+
+in the dired buffer"
+  (interactive)
+  (setq deactivate-mark t)
+  (save-excursion
+    (cond
+     ((eq last-command 'dired-subtree-toggle-overview)
+      (goto-char (point-min))
+      (next-line)
+      (while (not (eobp))
+        (if (dired-utils-is-dir-p) (dired-subtree-toggle))
+        (dired-subtree-next-sibling))
+      (message "ALL"))
+     ((eq last-command 'ta-dired-subtree-toggle-all)
+      (goto-char (point-min))
+      (next-line)
+      (while (not (eobp))
+        (if (dired-utils-is-dir-p) (dired-subtree-toggle))
+        (dired-subtree-next-sibling))
+      (message "ALL"))
+     (t
+      (goto-char (point-max))
+      (previous-line)
+      (setq number-line-before-remove (line-number-at-pos))
+      (dired-subtree-remove)
+      (while (not (bobp))
+        (while (not (equal number-line-before-remove (line-number-at-pos)))
+          (setq number-line-before-remove (line-number-at-pos))
+          (dired-subtree-remove))
+        (previous-line))
+      (message "OVERVIEW")
+      (setq this-command 'dired-subtree-toggle-overview)))))
+
+;;; Header line
+
+(define-minor-mode dired-header-line-mode
+  "Show only the last two directories of the path to the current directory
+that `dired-mode' is displaying."
+  :init-value nil :group 'header-line :group 'dired
+  (unless (derived-mode-p 'dired-mode)
+    (error "You must be in Dired or a mode derived from it to use this command"))
+  (if dired-header-line-mode
+      (progn
+        (setq path-len (length (s-split "/" (expand-file-name dired-directory))))
+        (setq header-line-directories
+              (car (last (s-split-up-to "/" (expand-file-name dired-directory)
+                                        (- path-len 3)))))
+        (setq header-line-format (concat " ↪[" header-line-directories "]")))
+    (setq header-line-format  (default-value 'header-line-format))))
+
+(defface ta-dired-header-face nil
+  "Face for dired header, first line of buffer in `dired-mode'"
+  :group 'dired)
+
+(font-lock-add-keywords
+ 'dired-mode
+ '(("\\(^.*:$\\)" . 'ta-dired-header-face)))
+
+(font-lock-add-keywords
+ 'wdired-mode
+ '(("\\(^.*:$\\)" . 'ta-dired-header-face)))
+
+(add-hook 'dired-before-readin-hook 'dired-header-line-mode)
+
+
+;;; dired-rainbow
+(dired-rainbow-define-chmod executable-unix "#7fffd4" "-.*x.*")
+(dired-rainbow-define media "#d4fbcb"
+                      ("mp3" "mp4" "MP3" "MP4" "avi" "mpg" "flv" "ogg" "m4a"))
+(dired-rainbow-define image "#a4c30d" ("jpg" "jpeg" "png"))
+(dired-rainbow-define svg "#8a510f" ("svg"))
+(dired-rainbow-define media-editing "#e421e8" ("kdenlive" "aup"))
+(dired-rainbow-define plain-text "#ffd500" ("org" "md"))
+(dired-rainbow-define emacs-lisp "#00bdd6" ("el"))
+(dired-rainbow-define python "#d16500" ("py"))
+(dired-rainbow-define js "#bb8415" ("js"))
+(dired-rainbow-define shadow (:inherit shadow) "\\.git.*" )
+
+;;; Hooks
+
+(add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1)))
+
+;;; Footer
+
+(provide 'setup-dired)
+
+#+END_SRC
+
+** ibuffer
+
+#+BEGIN_SRC emacs-lisp
+;;; Packages
+(require 'ibuffer)
+
+;;; Global
+
+(defalias 'list-buffers 'ibuffer)
+(setq ibuffer-expert t)
+(setq ibuffer-use-header-line nil)
+(setq ibuffer-never-show-predicates '("^\\*Help" "\\*Backtrace" "\\*Message"
+                                      "\\*Warning" "\\*eldoc" "\\*scratch"
+                                      "\\*Ibuffer"))
+
+(setq ibuffer-default-sorting-reversep nil)
+;;; Format
+
+(setq ibuffer-formats
+      '((mark modified vc-status-mini
+              " " (name 18 18 :left :elide)
+              " " vc-relative-file)
+        (mark modified vc-status-mini " "
+              (name 24 24 :left :elide)
+              " " filename-and-process)))
+
+;;; Filters
+
+(setq ibuffer-show-empty-filter-groups nil)
+
+(setq ibuffer-filter-group-name-face
+      '(:inherit font-lock-type-face
+        :weight bold
+        :underline t))
+
+(setq ibuffer-saved-filter-groups
+      '(("Default"
+         ("Notes" (or (name . "notes.org")
+                      (name . "extra.org")))
+         ("Readme" (name . "\\README"))
+         ("Youtube" (filename . "youtube"))
+         ("Help" (or (name . "\*Help\*")
+                     (name . "\*Apropos\*")
+                     (name . "\*info\*"))))))
+
+;;; Hooks
+
+(defun ta-ibuffer-mode-hook ()
+  "Forme to be runned in by `'ibuffer-mode-hook'."
+  (ibuffer-auto-mode 1)
+  (ibuffer-switch-to-saved-filter-groups "Default")
+  (ibuffer-do-sort-by-alphabetic-directory-first))
+
+(add-hook 'ibuffer-mode-hook 'ta-ibuffer-mode-hook)
+
+;;; Utility functions
+
+(define-ibuffer-sorter alphabetic-directory-first
+  "Sort buffers by their names, puting buffer in `dired-mode' first.
+Ordering is lexicographic."
+  (:description "buffer name and dired-mode")
+  (let ((major-mode-a (buffer-local-value 'major-mode (car a)))
+        (major-mode-b (buffer-local-value 'major-mode (car b))))
+    (cond ((and (equal major-mode-a 'dired-mode) (equal major-mode-b 'dired-mode))
+           (string-lessp
+            (buffer-name (car a))
+            (buffer-name (car b))))
+          ((equal major-mode-a 'dired-mode) t)
+          (t
+           (string-lessp
+            (buffer-name (car a))
+            (buffer-name (car b)))))))
+
+(defun ta-ibuffer-vc-reduce-group-title (title)
+  "Reduce the title string.
+
+\"Git: ~/path-to-vc-root/vc-root/\" ---> \"vc-root\""
+  (-second-item (nreverse (s-split "/" title))))
+
+(defun ta-ibuffer-vc-generate-filter-groups-by-vc-root ()
+  "Wrapper on `ibuffer-vc-generate-filter-groups-by-vc-root' that reduce
+
+the group title length."
+  (let ((filter-groups (ibuffer-vc-generate-filter-groups-by-vc-root)))
+    (--map (list (ta-ibuffer-vc-reduce-group-title (car it))
+                 (cadr it))
+           filter-groups)))
+
+(setq ta-ibuffer-current-filter-groups 0)
+
+(defun ta-ibuffer-switch-filter-groups ()
+  "Switch this buffer's filter groups to one off `ibuffer-saved-filter-groups'
+or a vc filter groups generated by `ibuffer-vc-generate-filter-groups-by-vc-root'
+and `ta-ibuffer-vc-generate-filter-groups-by-vc-root'."
+  (interactive)
+  (unless (local-variable-p 'ta-ibuffer-current-filter-groups)
+    (make-local-variable 'ta-ibuffer-current-filter-groups))
+  (let* ((filter-groups-list
+          (-concat (list (ta-ibuffer-vc-generate-filter-groups-by-vc-root)
+                         (ibuffer-vc-generate-filter-groups-by-vc-root))
+                   (-map 'cdr ibuffer-saved-filter-groups)))
+         (fgl-length (length filter-groups-list)))
+    (setq ta-ibuffer-current-filter-groups
+          (if (>= ta-ibuffer-current-filter-groups (1- fgl-length))
+              0
+            (1+ ta-ibuffer-current-filter-groups)))
+    (setq ibuffer-filter-groups (nth ta-ibuffer-current-filter-groups filter-groups-list))
+    (ibuffer-update nil t)))
+
+(setq ta-ibuffer--never-show-predicates nil)
+
+(defun ta-ibuffer-toggle-show-buffers-with-predicates ()
+  "Toggle between showing or not buffers that match `ibuffer-never-show-predicates'."
+  (interactive)
+  (unless (local-variable-p 'ta-ibuffer--never-show-predicates)
+    (make-local-variable 'ta-ibuffer--never-show-predicates))
+  (unless (local-variable-p 'ibuffer-never-show-predicates)
+    (make-local-variable 'ibuffer-never-show-predicates))
+  (if ta-ibuffer--never-show-predicates
+      (progn
+        (setq ibuffer-never-show-predicates ta-ibuffer--never-show-predicates)
+        (setq ta-ibuffer--never-show-predicates nil))
+    (setq ta-ibuffer--never-show-predicates ibuffer-never-show-predicates)
+    (setq ibuffer-never-show-predicates nil))
+  (ibuffer-update nil t))
+
+#+END_SRC
+
+** Completion framework
+I used [[https://github.com/abo-abo/swiper][ivy]] as general completion framework and [[https://github.com/company-mode/company-mode][company-mode]] as code
+completion.  My completion user interface is composed of [[https://github.com/muffinmad/emacs-mini-frame][mini-frame]]
+and [[https://github.com/Yevgnen/ivy-rich][ivy-rich]].
+
+I'm using a [[https://github.com/abo-abo/swiper/issues/649][hack]] to resize minibuffer when completing with ~ivy~.
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-ivy-resize--minibuffer-setup-hook ()
+  "Minibuffer setup hook."
+  (add-hook 'post-command-hook #'ta-ivy-resize--post-command-hook nil t))
+
+(defun ta-ivy-resize--post-command-hook ()
+  "Hook run every command in minibuffer."
+  ;; ignore-errors is for handling the case where ivy do the completion
+  ;; in a child frame (eg. with mini-frame-mode) where you can't `shrink-window'
+  (ignore-errors (when ivy-mode
+                   (shrink-window (1+ ivy-height)))))  ; Plus 1 for the input field.
+
+(add-hook 'minibuffer-setup-hook 'ta-ivy-resize--minibuffer-setup-hook)
+#+END_SRC
+
+** fzf
+
+#+BEGIN_SRC emacs-lisp
+(require 'fzf)
+
+;;; fzf options
+
+(setq fzf/directory-start "~/work/")
+
+(setq fzf/window-height 15) ; default
+(setq fzf/executable "/home/tony/.linuxbrew/bin/fzf")
+(setq fzf/git-grep-args "-i --line-number %s") ; default
+(setq fzf/position-bottom nil) ; default
+
+(setq fzf/with-ace-hacks t)
+(setq fzf/ace-hacks-keys '(:left  ?b :right ?f :up ?p :down ?n :ace ?e))
+
+;; fzf/args
+;; 1. don't use "--reverse" argument, the way fzf/after-term-handle-exit
+;;    handle the parsing to retrieve the selected file doesn't cover this case.
+;; 2. "--print-query" is a mandatory argument, if you remove it, fzf/after-term-handle-exit
+;;    doesn't do well its job.
+(setq ta-fzf/bind
+      (concat " --bind "
+              "'"
+              "ctrl-s:reload(fd),"                               ;; in ctrl-s 's' stands for Standard
+              "ctrl-h:reload(fd --hidden --exclude \".git/*\")," ;; in ctrl-h 'h' stands for Hidden
+              "ctrl-n:reload(fd --hidden --no-ignore),"          ;; in ctrl-n 'n' stands for No-ignore
+              "ctrl-d:reload(fd --type d),"                      ;; in ctrl-d 'd' stands for Directory
+              "ctrl-l:reload(fd --type d --hidden --no-ignore)," ;; in ctrl-l 'l' because can't take upcase 'D'
+              "ctrl-f:reload(fd --type f),"                      ;; in ctrl-f 'f' stands for File
+              "ctrl-b:reload(fd --type f --hidden --no-ignore)"  ;; in ctrl-b 'b' because can't take upcase 'F'
+              "'"))
+(setq fzf/args (concat "--print-query " ta-fzf/bind))
+
+;;; Custom fzf command using 'fd'
+
+(defun ta-fzf-emacs-settings ()
+  "fzf in my emacs settings directory."
+  (interactive)
+  (let ((process-environment (cons (concat "FZF_DEFAULT_COMMAND=fd")
+                                   process-environment)))
+    (fzf/start "~/work/settings/emacs.d/.emacs.d/")))
+
+(defun ta-fzf-directory ()
+  "Start a fzf session frome `fzf/directory-start'."
+  (interactive)
+  (let ((process-environment (cons (concat "FZF_DEFAULT_COMMAND=fd")
+                                   process-environment)))
+    (fzf/start fzf/directory-start)))
+
+(defun ta-fzf-default-directory ()
+  "Start a fzf session at the specified directory.
+
+Select the start directory from `default-directory'."
+  (interactive)
+  (let ((process-environment (cons (concat "FZF_DEFAULT_COMMAND=fd")
+                                   process-environment)))
+    (fzf/start (read-directory-name "Directory:" default-directory))))
+
+(defun ta-fzf-project ()
+  "Start a fzf session in current project.
+
+If there is no current project, use the `default-directory'."
+  (interactive)
+  (let ((process-environment (cons (concat "FZF_DEFAULT_COMMAND=fd")
+                                   process-environment)))
+    (if-let ((proj (cdr (project-current))))
+        (fzf/start proj)
+      (fzf/start default-directory))))
+
+(defun ta-fzf-dwim (&optional arg)
+  "Start a fzf session in current project.
+
+If there is no current project, use the `default-directory'.
+
+With \\[universal-argument] prefix, ask to choose a directory to start fzf.
+With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'."
+  (interactive "p")
+  (cond
+   ((equal arg 4) (call-interactively 'ta-fzf-default-directory))
+   ((equal arg 16) (call-interactively 'ta-fzf-directory))
+   (t (call-interactively 'ta-fzf-project))))
+#+END_SRC
+
+** Discarded Packages (in the setup)
+I no longer use [[https://github.com/tumashu/ivy-posframe][ivy-posframe]].  I replaced it by [[https://github.com/muffinmad/emacs-mini-frame][mini-frame]].  I seems
+simpler to use and also just work fine.
+
+| packages/modes | links        |
+|----------------+--------------|
+| ~ivy-posframe~   | [[https://github.com/tumashu/ivy-posframe][ivy-posframe]] |
+** New Packages (in the setup)
+| packages/modes         | links                  |
+|------------------------+------------------------|
+| ~aggressive-indent-mode~ | [[https://github.com/Malabarba/aggressive-indent-mode][aggressive-indent-mode]] |
+| ~dumb-jump~              | [[https://github.com/jacktasia/dumb-jump][dumb-jump]]              |
+| ~fzf.el~                 | [[https://github.com/bling/fzf.el][fzf.el]]                 |
+| ~rg.el~                  | [[https://github.com/dajva/rg.el][rg.el]]                  |
+| ~clojure-mode~           | [[https://github.com/clojure-emacs/clojure-mode][clojure-mode]]           |
+| ~cider~                  | [[https://github.com/clojure-emacs/cider][cider]]                  |
+** New commands (in the setup)
+| packages/modes        | links    |
+|-----------------------+----------|
+| ~recenter-top-bottom~   | built-in |
+| ~xref-find-definitions~ | built-in |
+| ~xref-pop-marker-stack~ | built-in |
+| ~counsel-rg~            | [[https://github.com/abo-abo/swiper][ivy]]      |
+| ~rg-dwim~               | [[https://github.com/dajva/rg.el][rg.el]]    |
+** emacs-lisp-mode
+I'm using ~fuco-lisp-indent-function~ as ~lisp-indent-function~ function.
+See [[https://github.com/Fuco1/.emacs.d/blob/af82072196564fa57726bdbabf97f1d35c43b7f7/site-lisp/redef.el#L20-L94][fuco-lisp-indent-function]] on github.
+
+#+BEGIN_SRC emacs-lisp
+(setq lisp-indent-function 'fuco-lisp-indent-function)
+
+(defun fuco-lisp-indent-function (indent-point state)
+  "This function is the normal value of the variable `lisp-indent-function'.
+The function `calculate-lisp-indent' calls this to determine
+if the arguments of a Lisp function call should be indented specially.
+INDENT-POINT is the position at which the line being indented begins.
+Point is located at the point to indent under (for default indentation);
+STATE is the `parse-partial-sexp' state for that position.
+If the current line is in a call to a Lisp function that has a non-nil
+property `lisp-indent-function' (or the deprecated `lisp-indent-hook'),
+it specifies how to indent.  The property value can be:
+- `defun', meaning indent `defun'-style
+  \(this is also the case if there is no property and the function
+  has a name that begins with \"def\", and three or more arguments);
+- an integer N, meaning indent the first N arguments specially
+  (like ordinary function arguments), and then indent any further
+  arguments like a body;
+- a function to call that returns the indentation (or nil).
+  `lisp-indent-function' calls this function with the same two arguments
+  that it itself received.
+This function returns either the indentation to use, or nil if the
+Lisp function does not specify a special indentation.
+
+Also redefines the silly indent of keyword lists:
+before
+  (:foo bar
+        :baz qux)
+after
+  (:foo bar
+   :baz qux)
+
+see: https://github.com/Fuco1/.emacs.d/blob/af82072196564fa57726bdbabf97f1d35c43b7f7/site-lisp/redef.el#L20-L94"
+  (let ((normal-indent (current-column))
+        (orig-point (point)))
+    (goto-char (1+ (elt state 1)))
+    (parse-partial-sexp (point) calculate-lisp-indent-last-sexp 0 t)
+    (cond
+     ;; car of form doesn't seem to be a symbol, or is a keyword
+     ((and (elt state 2)
+           (or (not (looking-at "\\sw\\|\\s_"))
+               (looking-at ":")))
+      (if (not (> (save-excursion (forward-line 1) (point))
+                  calculate-lisp-indent-last-sexp))
+          (progn (goto-char calculate-lisp-indent-last-sexp)
+                 (beginning-of-line)
+                 (parse-partial-sexp (point)
+                                     calculate-lisp-indent-last-sexp 0 t)))
+      ;; Indent under the list or under the first sexp on the same
+      ;; line as calculate-lisp-indent-last-sexp.  Note that first
+      ;; thing on that line has to be complete sexp since we are
+      ;; inside the innermost containing sexp.
+      (backward-prefix-chars)
+      (current-column))
+     ((and (save-excursion
+             (goto-char indent-point)
+             (skip-syntax-forward " ")
+             (not (looking-at ":")))
+           (save-excursion
+             (goto-char orig-point)
+             (looking-at ":")))
+      (save-excursion
+        (goto-char (+ 2 (elt state 1)))
+        (current-column)))
+     (t
+      (let ((function (buffer-substring (point)
+                                        (progn (forward-sexp 1) (point))))
+            method)
+        (setq method (or (function-get (intern-soft function)
+                                       'lisp-indent-function)
+                         (get (intern-soft function) 'lisp-indent-hook)))
+        (cond ((or (eq method 'defun)
+                   (and (null method)
+                        (> (length function) 3)
+                        (string-match "\\`def" function)))
+               (lisp-indent-defform state indent-point))
+              ((integerp method)
+               (lisp-indent-specform method state
+                                     indent-point normal-indent))
+              (method
+               (funcall method indent-point state))))))))
+#+END_SRC
+
+** advices
+
+#+BEGIN_SRC emacs-lisp
+(defadvice isearch-occur (before ta-occur-delete-other-windows activate)
+  (delete-other-windows))
+
+(defadvice rg-run (before ta-rg-delete-other-windows activate)
+  (delete-other-windows))
+#+END_SRC
+
+** Custom commands
+*** Git related
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-prepare-commit-msg-toggle ()
+  "Set the git hook \"prepare-commit-msg\".
+
+If it already exist (ie: not ends with \".sample\") bypass it. It is mandatory when
+you rebase/rewrite your git history.
+If it doesn't exist, create it with the following content:
+\"
+#!/bin/bash
+COMMIT_MSG_FILEPATH=$1
+HINT=`cat $COMMIT_MSG_FILEPATH`
+
+echo \"Subject line\" > $COMMIT_MSG_FILEPATH
+echo \"\" >> $COMMIT_MSG_FILEPATH
+for cached_file in `git diff --cached --name-only | sed 's/ /\n/g'`;do
+    echo \"* $cached_file:\" >> $COMMIT_MSG_FILEPATH;
+done
+echo \"$HINT\" >> $COMMIT_MSG_FILEPATH
+\""
+  (interactive)
+  (when-let* ((hooks (concat (cdr (project-current)) ".git/hooks/"))
+              (prepare-commit-msg (concat hooks "prepare-commit-msg")))
+    (if (file-exists-p prepare-commit-msg)
+        (progn (delete-file prepare-commit-msg)
+               (message "\"%s\" has been removed" (file-name-nondirectory prepare-commit-msg)))
+      (with-temp-file prepare-commit-msg
+        (insert
+         "#!/bin/bash
+COMMIT_MSG_FILEPATH=$1
+HINT=`cat $COMMIT_MSG_FILEPATH`
+
+echo \"Subject line\" > $COMMIT_MSG_FILEPATH
+echo \"\" >> $COMMIT_MSG_FILEPATH
+for cached_file in `git diff --cached --name-only | sed 's/ /\\n/g'`;do
+    echo \"* $cached_file:\" >> $COMMIT_MSG_FILEPATH;
+done
+echo \"$HINT\" >> $COMMIT_MSG_FILEPATH"))
+      (shell-command (concat "chmod +x " prepare-commit-msg))
+      (message "\"%s\" has been created" (file-name-nondirectory prepare-commit-msg)))))
+#+END_SRC
+*** smartparens tweak
+
+#+BEGIN_SRC emacs-lisp
+(defun indent-between-pair (&rest _ignored)
+  "See: http://xenodium.com/emacs-smartparens-auto-indent/."
+  (newline)
+  (indent-according-to-mode)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+(sp-local-pair 'prog-mode "{" nil :post-handlers '((indent-between-pair "RET")))
+(sp-local-pair 'prog-mode "[" nil :post-handlers '((indent-between-pair "RET")))
+(sp-local-pair 'prog-mode "(" nil :post-handlers '((indent-between-pair "RET")))
+#+END_SRC
+
+*** transient command to get info
+
+#+BEGIN_SRC emacs-lisp
+;;; Get info
+
+(declare-function transient-define-prefix "ext:transient")
+(declare-function transient-define-suffix "ext:transient")
+(declare-function yas-describe-tables "ext:yasnippet")
+
+(defmacro ta-transient-define-suffix (command)
+  "Create a command COMMAND--transient that is a transient suffix command
+that call interactively COMMAND."
+  (let ((func-name (concat (symbol-name command) "--transient")))
+    `(transient-define-suffix ,(intern func-name) ()
+       (interactive)
+       (call-interactively (quote ,command)))))
+
+(ta-transient-define-suffix describe-key)
+(ta-transient-define-suffix describe-function)
+(ta-transient-define-suffix describe-variable)
+(ta-transient-define-suffix describe-mode)
+(ta-transient-define-suffix yas-describe-tables)
+(ta-transient-define-suffix apropos)
+(ta-transient-define-suffix info)
+
+(transient-define-prefix ta-get-info ()
+  "Show menu buffer for describe commands, info commands,
+apropos commands and other information about emacs."
+  [["Describe"
+    ("k" "describe-key" describe-key--transient)
+    ("f" "describe-function" describe-function--transient)
+    ("v" "describe-variable" describe-variable--transient)
+    ("m" "describe-mode" describe-mode--transient)]
+   ["Other info"
+    ("y" "yas-describe-tables" yas-describe-tables--transient)
+    ("a" "apropos" apropos--transient)
+    ("i" "info" info--transient)]])
+
+#+END_SRC
+
+** emacs-lisp
+To write my own ~emacs~ commands, I started using the following
+~variables~, ~functions~, ~macros~ and ~special forms~.
+*** variables
+- ~process-environment~
+- ~default-directory~
+*** hooks
+- ~post-command-hook~
+- ~dired-mode-hook~
+- ~minibuffer-setup-hook~
+- ~window-configuration-change-hook~
+*** special forms
+- ~quote~
+*** macros
+**** from [[https://github.com/magnars/dash.el][dash]]
+- ~--map~
+**** from [[https://github.com/Fuco1/dired-hacks#dired-rainbow][dired-rainbow]]
+- ~dired-rainbow-define-chmod~
+- ~dired-rainbow-define~
+**** from [[https://github.com/dajva/rg.el][rg.el]]
+- ~rg-define-search~
+**** from [[https://github.com/magit/transient][transient]]
+- ~transient-define-prefix~
+- ~transient-define-suffix~
+**** built-in
+- ~save-selected-window~
+- ~when-let~
+- ~declare-function~
+- ~define-minor-mode~
+- ~setq-local~
+*** functions
+**** from [[https://github.com/magnars/dash.el][dash]]
+- ~--filter~
+- ~-contains~?
+- ~-elem-index~
+- ~-second-item~
+- ~-take~
+**** from [[https://github.com/abo-abo/swiper][ivy]]
+- ~ivy-done~
+- ~ivy-set-action~
+- ~ivy-state-caller~
+**** from [[https://github.com/magnars/s.el][s]]
+- ~s-split~
+**** from ace-hacks
+- ~ace-hacks-visite~
+**** built-in
+- ~add-hook~
+- ~advice-add~
+- ~advice-remove~
+- ~alist-get~
+- ~append~
+- ~aref~
+- ~assoc~
+- ~bolp~
+- ~buffer-list~
+- ~buffer-narrowed-p~
+- ~buffer-substring~
+- ~bufferp~
+- ~define-key~
+- ~delete-window~
+- ~dired-file-name-at-point~
+- ~display-buffer-at-bottom~
+- ~expand-file-name~
+- ~face-attribute~
+- ~frame-native-width~
+- ~funcall~
+- ~get-buffer-window~
+- ~get-buffer-window-list~
+- ~getenv~
+- ~ibuffer-update~
+- ~ibuffer-vc-generate-filter-groups-by-vc-root~
+- ~ignore-errors~
+- ~intern~
+- ~isearch-yank-string~
+- ~local-set-key~
+- ~local-variable-p~
+- ~make-local-variable~
+- ~make-sparse-keymap~
+- ~make-string~
+- ~makunbound~
+- ~nreverse~
+- ~one-window-p~
+- ~pop-to-buffer~
+- ~project-current~
+- ~provide~
+- ~recenter~
+- ~remove-hook~
+- ~run-hook-with-args-until-success~
+- ~scroll-down~
+- ~scroll-other-window~
+- ~scroll-other-window-down~
+- ~scroll-up~
+- ~scroll-up-line~
+- ~select-window~
+- ~self-insert-command~
+- ~set-cursor-color~
+- ~shrink-window~
+- ~string-lessp~
+- ~switch-to-buffer~
+- ~symbol-name~
+- ~this-command-keys-vector~
+- ~windmove-down~
+- ~window-body-height~
+* Step 10 (July 29, 2020)
+commit f760601bfc92bac7570f74396dbe1e4910af86af (v1.4.0)
+
+I used emacs 28.50.
+
+I started using ~subword-mode~ in ~js-mode~.  I no longer use
+[[https://github.com/AndreaCrotti/yasnippet-snippets][yasnippet-snippets]].  I added some features to ~peep-dired~.
+
+** Discarded Packages (in the setup)
+I no longer use [[https://github.com/AndreaCrotti/yasnippet-snippets][yasnippet-snippets]] because most of the snippets,
+althought interesting, don't fit my workflow.
+
+| packages/modes     | links              |
+|--------------------+--------------------|
+| ~yasnippet-snippets~ | [[https://github.com/AndreaCrotti/yasnippet-snippets][yasnippet-snippets]] |
+** New Packages (in the setup)
+| packages/modes     | links              |
+|--------------------+--------------------|
+| ~org-indent-mode~    | built-in           |
+| ~subword-mode~       | built-in           |
+** emacs-lisp
+To write my own ~emacs~ commands, I started using the following
+~variables~, ~functions~, ~macros~ and ~special forms~.
+*** functions
+- ~window-list~
+- ~string-equal~
+- ~file-name-directory~
+- ~flush-lines~
+*** macros
+**** from [[https://github.com/magnars/dash.el][dash]]
+- ~--each~
+* Step 9 (June 23, 2020 - July 01, 2020)
+commit bfaa085b7e8659e1736aa54c0ce2852e2e1ceb24 (v1.3.14)
+
+I used emacs 28.50.
+
+I replaced ~js~ completion with [[https://github.com/ternjs/tern][tern]] and [[https://github.com/kevinushey/company-tern][company-tern]] by [[https://github.com/ananthakumaran/tide][tide]] that uses
+[[https://github.com/Microsoft/TypeScript/wiki/Standalone-Server-%28tsserver%29][tsserver]] backend.  I started using [[https://github.com/bbatsov/projectile][projectile]].  I set up the
+~mode-line-format~.  I added to it the total number of lines in the
+buffer.  I wrote a mini package ~quick-access~ that leverages ~ivy~
+completion framework to access quickly to a bunch choosen of files.
+I wrote ~ivy~ actions that leverage ~ace-window~ packages.  These actions
+let you *visite* a ~file~ or a ~buffer~ (the selection) wherever you want in
+your emacs layout creating appropriate window if needed.  When using
+[[https://github.com/facebook/create-react-app][create-react-app]], I had some conflicts with ~lockfiles~ so I wrote a
+command to toggle ~create-lockfiles~ value.  I also wrote commands to
+/switch/ my keyboard-layout and to /comment/ line in ~js-jsx-mode~.
+
+** UI
+*** mode-line-format
+
+#+BEGIN_SRC emacs-lisp
+(require 'moody)
+(require 'minions)
+(require 'keycast)
+
+(defun ta-number-of-lines-mode ()
+  "Return the number of lines in the whole buffer."
+  (interactive)
+  (int-to-string (count-lines (point-min) (point-max))))
+
+(setq-default mode-line-format
+      '("%e"
+       mode-line-front-space
+       mode-line-mule-info
+       mode-line-client
+       mode-line-modified
+       mode-line-remote
+       mode-line-frame-identification
+       mode-line-buffer-identification
+       "   "
+       (:eval (format "NL%s" (ta-number-of-lines-mode)))
+       " "
+       mode-line-position
+       (vc-mode vc-mode)
+       "  " mode-line-modes
+       mode-line-misc-info
+       mode-line-end-spaces))
+
+(setq x-underline-at-descent-line t)
+(setq minions-mode-line-lighter "")
+(setq minions-mode-line-delimiters '("" . ""))
+(setq moody-mode-line-height 30)
+(setq keycast-separator-width 2)
+(setq keycast-insert-after 'moody-mode-line-buffer-identification)
+(setq keycast-window-predicate  'moody-window-active-p)
+
+(column-number-mode -1)
+(line-number-mode t)
+(moody-replace-mode-line-buffer-identification)
+(moody-replace-vc-mode)
+(minions-mode 1)
+
+(defun set-moody-face (frame)
+  (let ((line (face-attribute 'mode-line :underline frame)))
+    (set-face-attribute 'mode-line          frame :overline   line)
+    (set-face-attribute 'mode-line-inactive frame :overline   line)
+    (set-face-attribute 'mode-line-inactive frame :underline  line)
+    (set-face-attribute 'mode-line          frame :box        nil)
+    (set-face-attribute 'mode-line-inactive frame :box        nil)))
+
+(add-to-list 'after-make-frame-functions 'set-moody-face t)
+(add-to-list 'keycast-substitute-alist '(self-insert-command "." "Typing…"))
+(add-to-list 'keycast-substitute-alist '(org-self-insert-command "." "Typing…"))
+#+END_SRC
+
+** Discarded Packages (in the setup)
+I replaced ~js~ completion with [[https://github.com/ternjs/tern][tern]] and [[https://github.com/kevinushey/company-tern][company-tern]] by [[https://github.com/ananthakumaran/tide][tide]] that uses
+[[https://github.com/Microsoft/TypeScript/wiki/Standalone-Server-%28tsserver%29][tsserver]] backend.
+
+| packages/modes | links        |
+|----------------+--------------|
+| ~company-tern~   | [[https://github.com/kevinushey/company-tern][company-tern]] |
+
+** New Packages (in the setup)
+| packages/modes     | links              |
+|--------------------+--------------------|
+| ~projectile~         | [[https://github.com/bbatsov/projectile][projectile]]         |
+| ~company-web~        | [[https://github.com/osv/company-web][company-web]]        |
+| ~ac-html-csswatcher~ | [[https://github.com/osv/ac-html-csswatcher][ac-html-csswatcher]] |
+| ~tide~               | [[https://github.com/ananthakumaran/tide][tide]]               |
+** New commands (in the setup)
+| commands                    | packages   |
+|-----------------------------+------------|
+| ~projectile-find-file~        | [[https://github.com/bbatsov/projectile][projectile]] |
+| ~projectile-switch-to-buffer~ | [[https://github.com/bbatsov/projectile][projectile]] |
+** Custom commands
+*** Comment in ~js-jsx-mode~
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-jsx-uncomment-line ()
+  "Comment line of elements or components in js-jsx-mode."
+  (back-to-indentation)
+  (save-excursion
+    (delete-char 3)
+    (end-of-line)
+    (delete-char -3)))
+
+(defun ta-jsx-comment-line ()
+  "Uncomment line of elements or components in js-jsx-mode."
+  (back-to-indentation)
+  (save-excursion
+    (insert "{/*")
+    (end-of-line)
+    (insert "*/}")))
+
+(defun ta-jsx-comment-or-uncomment-line ()
+  "Comment element in js-jsx-mode."
+  (interactive)
+  (back-to-indentation)
+  (if (looking-at "{/\\*")
+      (ta-jsx-uncomment-line)
+    (ta-jsx-comment-line)))
+#+END_SRC
+
+*** ivy actions
+
+#+BEGIN_SRC emacs-lisp
+(defvar ta-ivy-aw-callers
+  '(ivy-switch-buffer
+    ivy-switch-buffer-other-window
+    counsel-find-file
+    counsel-quick-access
+    projectile-completing-read)
+  "List of callers used with ivy.")
+
+(defun ta--ivy-aw-find (buffer-or-file caller)
+  "Function to be used within ivy actions."
+  (cond
+   ((equal caller 'counsel-quick-access)
+    (find-file (quick-access-get-filename buffer-or-file)))
+   ((member caller '(ivy-switch-buffer ivy-switch-buffer-other-window))
+    (ivy--switch-buffer-action buffer-or-file))
+   ((equal caller 'projectile-completing-read)
+    (find-file (projectile-expand-root buffer-or-file))
+    (run-hooks 'projectile-find-file-hook))
+   (t
+    (find-file (expand-file-name buffer-or-file ivy--directory)))))
+
+(defun ta--ivy-aw-find-action (buffer-or-file)
+  "Action to be used in `ta-ivy-aw-find'."
+  (let ((caller (ivy-state-caller ivy-last)))
+    (if (not (member caller ta-ivy-aw-callers))
+        (message "caller (%s) not listed in ta-ivy-aw-callers" caller)
+      (call-interactively 'ace-window)
+      (ta--ivy-aw-find buffer-or-file caller))))
+
+(defun ta-ivy-aw-find ()
+  "Ivy command that use ace-window to select a window and \"open\"
+
+the selected thing. This command must be bind in ivy-minibuffer-map."
+  (interactive)
+  (ivy-set-action 'ta--ivy-aw-find-action)
+  (ivy-done))
+
+(defun ta--ivy-aw-find-split-up (buffer-or-file)
+  "Action to be used in `ta-ivy-aw-find-split-up'."
+  (let ((caller (ivy-state-caller ivy-last)))
+    (if (not (member caller ta-ivy-aw-callers))
+        (message "caller (%s) not listed in ta-ivy-aw-callers" caller)
+      (call-interactively 'ace-window)
+      (split-window-below)
+      (ta--ivy-aw-find buffer-or-file caller))))
+
+(defun ta-ivy-aw-find-split-up ()
+  "Open ivy selection in the up part window selected with `ace-window'
+
+after spliting it verticaly."
+  (interactive)
+  (ivy-set-action 'ta--ivy-aw-find-split-up)
+  (ivy-done))
+
+(defun ta--ivy-aw-find-split-down (buffer-or-file)
+  "Action to be used in `ta-ivy-aw-find-split-down'."
+  (let ((caller (ivy-state-caller ivy-last)))
+    (if (not (member caller ta-ivy-aw-callers))
+        (message "caller (%s) not listed in ta-ivy-aw-callers" caller)
+      (call-interactively 'ace-window)
+      (split-window-below)
+      (windmove-down)
+      (ta--ivy-aw-find buffer-or-file caller))))
+
+(defun ta-ivy-aw-find-split-down ()
+  "Open ivy selection in the down part window selected with `ace-window'
+
+after spliting it verticaly."
+  (interactive)
+  (ivy-set-action 'ta--ivy-aw-find-split-down)
+  (ivy-done))
+
+(defun ta--ivy-aw-find-split-left (buffer-or-file)
+  "Action to be used in `ta-ivy-aw-find-split-left'."
+  (let ((caller (ivy-state-caller ivy-last)))
+    (if (not (member caller ta-ivy-aw-callers))
+        (message "caller (%s) not listed in ta-ivy-aw-callers" caller)
+      (call-interactively 'ace-window)
+      (split-window-right)
+      (ta--ivy-aw-find buffer-or-file caller))))
+
+(defun ta-ivy-aw-find-split-left ()
+  "Open ivy selection in the left part window selected with `ace-window'
+
+after spliting it horizontaly."
+  (interactive)
+  (ivy-set-action 'ta--ivy-aw-find-split-left)
+  (ivy-done))
+
+(defun ta--ivy-aw-find-split-right (buffer-or-file)
+  "Action to be used in `ta-ivy-aw-find-split-right'."
+  (let ((caller (ivy-state-caller ivy-last)))
+    (if (not (member caller ta-ivy-aw-callers))
+        (message "caller (%s) not listed in ta-ivy-aw-callers" caller)
+      (call-interactively 'ace-window)
+      (split-window-right)
+      (windmove-right)
+      (ta--ivy-aw-find buffer-or-file caller))))
+
+(defun ta-ivy-aw-find-split-right ()
+  "Open ivy selection in the righ part window selected with `ace-window'
+
+after spliting it horizontaly."
+  (interactive)
+  (ivy-set-action 'ta--ivy-aw-find-split-right)
+  (ivy-done))
+
+(defun ta-ivy-switch-to-buffer ()
+  "Wrapper on `switch-to-buffer' to be used in `ivy-minibuffer-map'."
+  (interactive)
+  (ivy-set-action 'ivy--switch-buffer-action)
+  (ivy-done))
+
+(define-key ivy-minibuffer-map (kbd "C-e") 'ta-ivy-aw-find)
+(define-key ivy-minibuffer-map (kbd "C-p") 'ta-ivy-aw-find-split-up)
+(define-key ivy-minibuffer-map (kbd "C-n") 'ta-ivy-aw-find-split-down)
+(define-key ivy-minibuffer-map (kbd "C-b") 'ta-ivy-aw-find-split-left)
+(define-key ivy-minibuffer-map (kbd "C-f") 'ta-ivy-aw-find-split-right)
+(define-key ivy-minibuffer-map (kbd "C-a") 'ta-ivy-switch-to-buffer)
+#+END_SRC
+
+*** Keyboard layout
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-switch-keyboard-layout ()
+  "Switch keyboard layout variant between\"takbl\" and \"takbl fr\"."
+  (interactive)
+  (let ((variant (shell-command-to-string "setxkbmap -query | grep variant | awk -F' '  '{ print $2 }'")))
+    (if (string= variant "fr\n")
+        (progn
+          (shell-command-to-string "setxkbmap -layout takbl")
+          (message "takbl"))
+      (shell-command-to-string "setxkbmap -layout takbl -variant fr")
+      (message "takbl - fr"))))
+#+END_SRC
+
+*** Mark things
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-point-in-string-p (pt)
+  "Returns t if PT is in a string"
+  (eq 'string (syntax-ppss-context (syntax-ppss pt))))
+
+(defun ta-goto-begining-of-string (pt)
+  "Go to begining of the string if PT is inside a string.
+Return nil if PT isn't inside a string. See the function `ta-point-in-string-p'"
+  (if (ta-point-in-string-p pt)
+      (goto-char (nth 8 (syntax-ppss pt)))
+    nil))
+
+(defun ta-mark-inside-pairs ()
+  "An other way to do `er/mark-inside-pairs' but work for sgml-tag too."
+  (interactive)
+  (ta-goto-begining-of-string (point))
+  ;; todo: do thing when inside a tag <tag name="tony"> (maybe use the function sgml-begining-of-tag)
+  (sp-backward-up-sexp)
+  (sp-mark-sexp)
+  (sp-down-sexp)
+  (exchange-point-and-mark)
+  (sp-backward-down-sexp)
+  (exchange-point-and-mark))
+
+(defun ta-mark-inside-quotes-or-pairs (&optional arg)
+  "Mark inside quotes calling `er/mark-inside-quotes'.
+
+When ARG is 4, mark inside pairs calling `ta-mark-inside-pairs'."
+  (interactive "p")
+  (if (equal arg 4)
+      (call-interactively 'ta-mark-inside-pairs)
+    (call-interactively 'er/mark-inside-quotes)))
+#+END_SRC
+
+*** Miscellaneous
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-copy-buffer-file-name ()
+  "Push current `buffer-file-name' to the `kill-ring'."
+  (interactive)
+  (kill-new (buffer-file-name)))
+
+(defun ta-toggle-create-lockfiles ()
+  "Toggle the value of `create-lockfiles' interactively."
+  (interactive)
+  (setq create-lockfiles (not create-lockfiles))
+  (message "create-lockfiles set to: %s" create-lockfiles))
+#+END_SRC
+
+** advices
+I removed the advice on ~back-to-indentation~ command that pushes the
+mark because it seems that ~back-to-indentation~ is called each time you
+use ~org-self-insert-command~ in ~org-mode~.  This causes to call
+~push-mark~ every time you insert a character which is really bad.
+
+#+BEGIN_SRC emacs-lisp
+# I removed this advice
+(defadvice back-to-indentation (before back-to-indentation-advice activate)
+  (if (not mark-active) (push-mark)))
+#+END_SRC
+
+** Custom packages
+*** quick-access
+
+#+BEGIN_SRC emacs-lisp
+(declare-function ivy-read "ext:ivy")
+
+(defvar quick-access-alist ()
+  "Association list of quick-access names and its full filename.
+
+The value is an alist with quick-access of the form
+
+ (QUICK-ACCESS-NAME . FILENAME).
+
+QUICK-ACCESS-NAME must be uniq.")
+
+(defun quick-access-all-names ()
+  "Return the list of all the quick-access-name define in `quick-access-alist'."
+  (-map 'car quick-access-alist))
+
+(defun quick-access-get-filename (quick-access-name)
+  "Return the full filename of QUICK-ACCESS-NAME, or nil if none."
+  (assoc-default quick-access-name quick-access-alist))
+
+(defun counsel-quick-access ()
+  "Open a quick-access file listed in `quick-access-alist'."
+  (interactive)
+  (ivy-read "Open quick-access: "
+            (quick-access-all-names)
+            :history 'quick-access-history
+            :action (lambda (x)
+                      (find-file (quick-access-get-filename x)))
+            :caller 'counsel-quick-access))
+
+
+(provide 'quick-access)
+#+END_SRC
+
+** emacs-lisp
+To write my own ~emacs~ commands, I started using the following
+~variables~, ~functions~, ~macros~ and ~special forms~.
+*** functions
+**** from [[https://github.com/magnars/dash.el][dash]]
+- ~-map~
+**** from [[https://github.com/abo-abo/swiper][ivy]]
+- ~ivy-read~
+**** built-in
+- ~assoc-default~
+- ~get-buffer-window~
+- ~kill-new~
+- ~string=~
+- ~shell-command-to-string~
+- ~count-lines~
+* Step 8 (June 12, 2020 - June 22, 2020)
+commit d80d9be33cdb0c756f510820a9888d4e298f914d (v1.3.12)
+
+I used emacs 28.50.
+
+I tweaked a command around the command ~bicycle-cycle-global~ and I used
+~counsel-outline~ to navigate any code as if I was in ~org-mode~.  I
+started using ~clone-indirect-buffer-other-window~ that creates an
+indirect buffer that is a twin copy of the current buffer.  It allows
+you to see two different parts of a same files at the same time and
+side by side.  I used an ~hydra~ for commands that apply in ~sgml-mode~.
+My completion user interface is composed of [[https://github.com/tumashu/ivy-posframe][ivy-posframe]] and [[https://github.com/Yevgnen/ivy-rich][ivy-rich]].
+I started using [[https://github.com/tarsius/keycast][keycast]] that displays the command and event in the
+~mode-line~.  I wrote commands that, when you are in a ~dired~ buffer, let
+you visite a file that you place wherever you want in your emacs
+layout leveraging [[https://github.com/abo-abo/ace-window][ace-window]] package.
+
+** Completion framework
+I used [[https://github.com/abo-abo/swiper][ivy]] as general completion framework and [[https://github.com/company-mode/company-mode][company-mode]] as code
+completion.  My completion user interface is composed of [[https://github.com/tumashu/ivy-posframe][ivy-posframe]]
+and [[https://github.com/Yevgnen/ivy-rich][ivy-rich]].
+** UI
+
+#+BEGIN_SRC emacs-lisp
+(setq linum-format " %7i ")
+(setq frame-resize-pixelwise t)
+#+END_SRC
+
+** dired-mode
+
+#+BEGIN_SRC emacs-lisp
+(require 'dired)
+(require 'dired-hacks-utils)
+(require 'dired-subtree)
+(require 'dired-narrow)
+(require 'dired-hide-dotfiles)
+(require 'dired-open)
+(require 's)
+(require 'dash)
+(require 'dired-hacks-utils)
+(require 'dired-toggle-sudo)
+(require 'dired-collapse)
+(require 'wdired)
+(require 'dired-x)
+(require 'peep-dired)
+(require 'dired-rainbow)
+
+(dired-hide-dotfiles-mode)
+
+(setq dired-keep-marker-rename t)
+(setq wdired-allow-to-change-permissions nil)
+(setq wdired-create-parent-directories t)
+(setq dired-narrow-exit-when-one-left t)
+(setq dired-clean-up-buffers-too t)
+(setq dired-clean-confirm-killing-deleted-buffers t)
+(setq dired-dwim-target t)
+(setq dired-recursive-copies 'always)
+(setq dired-recursive-deletes 'always)
+(setq-default dired-listing-switches "-lhAX --group-directories-first")
+(setq dired-open-extensions
+      '(("pdf" . "evince")
+        ("jpg" . "eog")
+        ("png" . "eog")))
+(setq-default dired-subtree-line-prefix "  ")
+(setq-default dired-subtree-use-backgrounds nil)
+(setq peep-dired-cleanup-on-disable t)
+(setq peep-dired-cleanup-eagerly nil)
+(setq peep-dired-enable-on-directories nil)
+(setq peep-dired-ignored-extensions
+      '("mkv" "webm" "mp4" "mp3" "ogg" "iso" "pdf"))
+
+(declare-function ace-window "ext:ace-window")
+
+(defun ta-dired-aw-find-file ()
+  "Open file at point in window selected with `ace-window'."
+  (interactive)
+  (let ((file-at-point (dired-file-name-at-point)))
+    (call-interactively 'ace-window)
+    (if file-at-point (find-file (expand-file-name file-at-point)))))
+
+(defun ta-dired-aw-find-file-split-down ()
+  "Open file at point in the part below window selected after
+
+spliting it verticaly."
+  (interactive)
+  (let ((file-at-point (dired-file-name-at-point)))
+    (call-interactively 'ace-window)
+    (split-window-below)
+    (recenter)
+    (windmove-down)
+    (recenter)
+    (if file-at-point (find-file (expand-file-name file-at-point)))))
+
+(defun ta-dired-aw-find-file-split-up ()
+  "Open file at point in the part up window selected after
+
+spliting it verticaly."
+  (interactive)
+  (let ((file-at-point (dired-file-name-at-point)))
+    (call-interactively 'ace-window)
+    (split-window-below)
+    (recenter)
+    (if file-at-point (find-file (expand-file-name file-at-point)))))
+
+(defun ta-dired-aw-find-file-split-right ()
+  "Open file at point in window at the right selected with `ace-window'
+
+and splited horizontaly."
+  (interactive)
+  (let ((file-at-point (dired-file-name-at-point)))
+    (call-interactively 'ace-window)
+    (split-window-right)
+    (recenter)
+    (windmove-right)
+    (recenter)
+    (if file-at-point (find-file (expand-file-name file-at-point)))))
+
+(defun ta-dired-aw-find-file-split-left ()
+  "Open file at point in window at the left selected with `ace-window'
+
+and splited horizontaly."
+  (interactive)
+  (let ((file-at-point (dired-file-name-at-point)))
+    (call-interactively 'ace-window)
+    (split-window-right)
+    (recenter)
+    (if file-at-point (find-file (expand-file-name file-at-point)))))
+
+(defun ta-dired-subtree-toggle-all ()
+  "Apply `dired-subtree-toggle' to all root directories
+
+in the dired buffer"
+  (interactive)
+  (setq deactivate-mark t)
+  (save-excursion
+    (cond
+     ((eq last-command 'dired-subtree-toggle-overview)
+      (goto-char (point-min))
+      (next-line)
+      (while (not (eobp))
+        (if (dired-utils-is-dir-p) (dired-subtree-toggle))
+        (dired-subtree-next-sibling))
+      (message "ALL"))
+     ((eq last-command 'ta-dired-subtree-toggle-all)
+      (goto-char (point-min))
+      (next-line)
+      (while (not (eobp))
+        (if (dired-utils-is-dir-p) (dired-subtree-toggle))
+        (dired-subtree-next-sibling))
+      (message "ALL"))
+     (t
+      (goto-char (point-max))
+      (previous-line)
+      (setq number-line-before-remove (line-number-at-pos))
+      (dired-subtree-remove)
+      (while (not (bobp))
+        (while (not (equal number-line-before-remove (line-number-at-pos)))
+          (setq number-line-before-remove (line-number-at-pos))
+          (dired-subtree-remove))
+        (previous-line))
+      (message "OVERVIEW")
+      (setq this-command 'dired-subtree-toggle-overview)))))
+
+(defun ta-dired-width (dir)
+  "Return the number of characters of the bigger file or directory in
+
+a dired buffer generate with DIR as `dired-directory'."
+  (with-current-buffer (dired-noselect dir)
+    (-max (--map (length (-last-item (s-split "/" it)))
+                 (dired-utils-get-all-files)))))
+
+(defun ta-sidebar ()
+  "Pop a buffer on the left of the frame in `dired-mode'
+
+with the parent directory of the current `buffer-file-name' if non-nil
+or, your home directory \"~/\".
+
+If the frame contains buffers in `dired-mode', delete them."
+  (interactive)
+  (let ((initial-window (selected-window))
+        dired-window-deleted-p
+        buff-file-name)
+    (--each (window-list)
+      (select-window it)
+      (if (string-equal major-mode "dired-mode")
+          (progn (delete-window) (setq dired-window-deleted-p t))))
+    (unless dired-window-deleted-p
+      (select-window initial-window)
+      (delete-other-windows)
+      (setq buff-file-name
+            (file-name-directory (cond (buffer-file-name) ("~/"))))
+      (let ((width (ta-dired-width buff-file-name)))
+        (split-window-right (+ 10 width))) ; 10 is arbitrary
+      (dired buff-file-name))))
+
+(define-minor-mode dired-header-line-mode
+  "Show only the last two directories of the path to the current directory
+that `dired-mode' is displaying."
+  :init-value nil :group 'header-line :group 'dired
+  (unless (derived-mode-p 'dired-mode)
+    (error "You must be in Dired or a mode derived from it to use this command"))
+  (if dired-header-line-mode
+      (progn
+        (setq path-len (length (s-split "/" (expand-file-name dired-directory))))
+        (setq header-line-directories
+              (car (last (s-split-up-to "/" (expand-file-name dired-directory)
+                                        (- path-len 3)))))
+        (setq header-line-format (concat " ↪[" header-line-directories "]")))
+    (setq header-line-format  (default-value 'header-line-format))))
+
+(defface ta-dired-header-face nil
+  "Face for dired header, first line of buffer in `dired-mode'"
+  :group 'dired)
+
+(font-lock-add-keywords
+ 'dired-mode
+ '(("\\(^.*:$\\)" . 'ta-dired-header-face)))
+
+(font-lock-add-keywords
+ 'wdired-mode
+ '(("\\(^.*:$\\)" . 'ta-dired-header-face)))
+
+;; see discreet-theme.el
+(dired-rainbow-define-chmod executable-unix "#7fffd4" "-.*x.*")
+(dired-rainbow-define media "#d4fbcb"
+                      ("mp3" "mp4" "MP3" "MP4" "avi" "mpg" "flv" "ogg" "m4a"))
+(dired-rainbow-define image "#a4c30d" ("jpg" "jpeg" "png"))
+(dired-rainbow-define svg "#8a510f" ("svg"))
+(dired-rainbow-define media-editing "#e421e8" ("kdenlive" "aup"))
+(dired-rainbow-define plain-text "#ffd500" ("org" "md"))
+(dired-rainbow-define emacs-lisp "#00bdd6" ("el"))
+(dired-rainbow-define python "#d16500" ("py"))
+(dired-rainbow-define js "#bb8415" ("js"))
+(dired-rainbow-define shadow (:inherit shadow) "\\.git.*" )
+
+(add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1)))
+(add-hook 'dired-before-readin-hook 'dired-header-line-mode)
+
+#+END_SRC
+
+** hydra
+
+#+BEGIN_SRC emacs-lisp
+(defhydra hydra-sgml
+  (:pre (hydra-color-pre-sgml)
+   :post (hydra-color-post)
+   :hint nil)
+  ("t" hydra-sp/body :color blue)
+  ("DEL" sgml-delete-tag)
+  ("p" ta-previous-attribute)
+  ("n" ta-next-attribute)
+  ("b" emmet-prev-edit-point)
+  ("f" emmet-next-edit-point)
+  ("&" sgml-namify-char)
+  ("." emmet-wrap-with-markup)
+  ("c" sgml-close-tag)
+  ("e" emmet-expand-yas)
+  ("i" emmet-expand-line)
+  ;; ---
+  ("g" cleanup-buffer)
+  ("M--" undo)
+  ("q" nil))
+#+END_SRC
+
+** Discarded Packages (in the setup)
+I no longer use [[https://github.com/purcell/diredfl][diredfl]].  I prefer using ~dired-rainbow~ from
+[[https://github.com/Fuco1/dired-hacks][dired-hacks]].
+
+| packages/modes | links   |
+|----------------+---------|
+| ~diredfl~        | [[https://github.com/purcell/diredfl][diredfl]] |
+** New Packages (in the setup)
+| packages/modes | links    |
+|----------------+----------|
+| keycast        | [[https://github.com/tarsius/keycast][keycast]]  |
+| ivy-rich       | [[https://github.com/Yevgnen/ivy-rich][ivy-rich]] |
+** New commands (in the setup)
+| commands                           | packages |
+|------------------------------------+----------|
+| ~clone-indirect-buffer-other-window~ | built-in |
+| ~counsel-outline~                    | [[https://github.com/abo-abo/swiper][ivy]]      |
+** Custom commands
+*** Outline
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-outline-toggle-global ()
+  "Toggle visibility of all outline (see `outline-mode') sections.
+
+This command toggle between this following levels:
+1. TREES:    Show all headings, treaing top-level code blocks
+             as sections (i.e. their first line is treated as
+             a heading).
+2. ALL:      Show everything, except code blocks that have been
+             collapsed individually (using a `hideshow' command
+             or function).
+
+This is a variant off the `bicycle-cycle-global' with two
+level less."
+  (interactive)
+  (setq deactivate-mark t)
+  (save-excursion
+    (goto-char (point-min))
+    (unless (re-search-forward outline-regexp nil t)
+      (user-error "Found no heading"))
+    (cond
+     ((eq last-command 'outline-cycle-trees)
+      (outline-show-all)
+      (bicycle--message "ALL"))
+     (t
+      (outline-hide-sublevels (bicycle--level))
+      (outline-map-region
+       (lambda ()
+         (when (bicycle--top-level-p)
+           (outline-show-branches)))
+       (point-min)
+       (point-max))
+      (bicycle--message "TREES")
+      (setq this-command 'outline-cycle-trees)))))
+#+END_SRC
+
+*** Miscellaneous
+
+#+BEGIN_SRC emacs-lisp
+(defun ta--dired-side-by-side (current-directory)
+  "Do the layout job of `ta-dired-side-by-side'."
+  (delete-other-windows)
+  (dired current-directory)
+  (split-window-right))
+
+(defun ta-dired-side-by-side ()
+  "Pop two dired buffer side by side.
+
+If `current-buffer' is visiting a file, the root directory of this
+file becomes `dired-directory' of the popped dired buffers. If not
+visiting a file, the $HOME directory is chosen to be the
+`dired-directory'"
+  (interactive)
+  (let ((current-buffer-file-name (buffer-file-name))
+        (current-dired-directory dired-directory))
+    (cond
+     (current-buffer-file-name
+      (ta--dired-side-by-side (file-name-directory current-buffer-file-name)))
+     (current-dired-directory
+      (ta--dired-side-by-side current-dired-directory))
+     (t
+      (ta--dired-side-by-side (expand-file-name "~/"))))))
+#+END_SRC
+
+** advices
+
+#+BEGIN_SRC emacs-lisp
+(defadvice clone-indirect-buffer-other-window
+    (after ta-clone-indirect-buffer-other-window-advice activate)
+  (recenter))
+#+END_SRC
+
+** emacs-lisp
+To write my own ~emacs~ commands, I started using the following
+~variables~, ~functions~, ~macros~ and ~special forms~.
+*** functions
+- ~point-min~
+- ~point-max~
+- ~deactivate-mark~
+- ~outline-show-all~
+* Step 7 (June 11, 2020)
+commit 534087a4e106a6c72186ea0ec6b41b983a210d9e (v1.3.7)
+
+I wrote ~framer~, my first package.  It's a kind undo package for windows
+layout in frame that doesn't lost the layout when the frame dies.  It
+uses ~ring~ built-in package.
+
+** Custom package
+*** framer
+
+#+BEGIN_SRC emacs-lisp
+(require 'ring)
+
+(defvar framer-ring-size 10)
+(defvar framer-ring nil)
+(defvar framer-undo-counter nil)
+(defvar framer-redo-frame nil)
+
+(defun framer-set-ring ()
+  "Initialize `framer-ring' to an empty ring if not define yet."
+  (unless framer-ring
+    (setq framer-ring (make-ring framer-ring-size))))
+
+(defun framer-flush ()
+  "Flush `framer-ring'."
+  (interactive)
+  (setq framer-ring (make-ring framer-ring-size)))
+
+(defun framer-push ()
+  "Push the window's state into `framer-ring'."
+  (interactive)
+  (framer-set-ring)
+  (ring-insert framer-ring (window-state-get)))
+
+(defun framer-undo ()
+  "Cycle through `framer-ring'."
+  (interactive)
+  (unless (eq last-command 'framer-undo)
+    (setq framer-redo-frame (window-state-get))
+    (setq framer-undo-counter 0)
+    (framer-set-ring))
+  (unless (ring-empty-p framer-ring)
+    (window-state-put (ring-ref framer-ring framer-undo-counter))
+    (cl-incf framer-undo-counter)))
+
+(defun framer-redo ()
+  "Go back to the last window's state before start to
+
+cycling in `framer-ring' with `framer-undo'."
+  (interactive)
+  (if (eq last-command 'framer-undo)
+      (window-state-put framer-redo-frame)))
+
+
+(provide 'framer)
+#+END_SRC
+
+** emacs-lisp
+To write my own ~emacs~ commands, I started using the following
+~variables~, ~functions~, ~macros~ and ~special forms~.
+*** functions
+- ~make-ring~
+- ~ring-insert~
+- ~window-state-get~
+- ~ring-empty-p~
+- ~window-state-put~
+- ~ring-ref~
+*** macros
+- ~cl-incf~
+*** variables
+- ~last-command~
+
+* Step 6 (February 2020 - June 10, 2020)
+commit 3f93d24627cb312f18f23e0e4a3ee782acb7c836 (v1.3.6)
+
+I used emacs 28.50.
+
+I started customizing ~display-buffer-alist~.  This gave me more control
+of my emacs layout that is more predictable.  I used ~peep-dired~ to
+browse file at a glance in directories.  This is really effective to
+discover new projects.  I forked [[https://github.com/tonyaldon/peep-dired][peep-dired]] and started working on my
+own features.  I started using ~iy-go-to-char~ that brings short movement
+to another level.  I started using ~outline-minor-mode~.  This is really
+handy to navigate your code and to get a quick overview of the content
+in a file.  I switched from ~shell~ to ~term~.  I started using ~recentf~.
+I started using ~magit~.  Althought I only use the basics of ~magit~, it's
+really change the game of ~git~.  I wrote two commands for navigating to
+the next or previous attribute in ~sgml-mode~.  I learnt a lot on
+/regexp/.  I wrote a /custom/ ~newline~ command for ~make-mode~.  I think this
+was the first time I understood that any key, including ~RET,~ is bound
+to a command and so can do anything.  I wrote a /minor mode/ for ~i3~
+config files that just /fontify/ some /keywords/.
+
+** Problems
+I had some problems with the key binding ~M-[~ when I was using ~emacs~
+inside a ~TTY~ (without windows).  I couldn't figure out what was the
+problem, so I stop using this binding.
+
+I had some problems with dead keys.  I don't find a better solution
+that stopped binding dead keys.
+** Miscellaneous
+
+#+BEGIN_SRC emacs-lisp
+(setq browse-url-browser-function 'browse-url-chromium)
+(setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
+
+(setq-default tab-width 2)
+
+(set-language-environment "UTF-8")
+
+(setenv "PATH" (concat "~/.local/bin:" (getenv "PATH")))
+(add-to-list 'exec-path "~/.local/bin")
+
+(add-to-list `auto-mode-alist '("\\.svg\\'" . fundamental-mode))
+
+(recentf-mode 1)
+(setq recentf-save-file "~/.emacs.d/recentf")
+(setq recentf-max-saved-items 25)
+
+(setq save-interprogram-paste-before-kill t)
+(defalias 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+
+** Installation
+I use ~make~ and ~Makefile~ to install ~emacs~ and ~Cask~.
+** UI
+
+#+BEGIN_SRC emacs-lisp
+(set-face-attribute 'default nil :family "DejaVu Sans Mono")
+(set-fontset-font t 'unicode "Symbola" nil 'prepend)
+
+(setq inhibit-startup-screen t)
+(setq frame-title-format
+      '(buffer-file-name "%f" (dired-directory dired-directory "%b")))
+
+(setq-default cursor-type '(bar . 2))
+(blink-cursor-mode -1)
+(make-variable-buffer-local 'global-hl-line-mode)
+
+(add-hook 'help-mode-hook (lambda () (visual-line-mode t)))
+(setq
+ display-buffer-alist
+ '(("\\*Help.*"
+    (display-buffer-in-side-window)
+    (window-width . 0.3)
+    (side . left)
+    (slot . -1))
+   ("\\*Messages.*\\|\\*Warnings.*\\|\\*Backtrace.*\\|*Apropos.*"
+    (display-buffer-in-side-window)
+    (window-width . 0.3)
+    (side . left)
+    (slot . 1))
+   ("\\*info.*"
+    (display-buffer-in-side-window)
+    (window-width . 0.36)
+    (side . left)
+    (slot . 1))
+   ("*scratch.*\\|*YASnippet Tables by NAMEHASH*\\|*YASnippet Tables*"
+    (display-buffer-in-side-window)
+    (window-width . 0.3)
+    (side . left)
+    (slot . 2))
+   ("\\*.*occur.*\\|\\*grep.*"
+    (display-buffer-in-side-window)
+    (window-height . 0.3)
+    (side . top)
+    (slot . 1))
+   ("\\*terminal.*"
+    (display-buffer-in-side-window)
+    (window-height . 0.25)
+    (side . top)
+    (slot . -1))
+   ("magit:.*\\|magit-diff:.*"
+    (display-buffer-in-direction)
+    (direction . left))
+   ("magit-log:.*"
+    (display-buffer-below-selected))))
+
+#+END_SRC
+
+** dired-mode
+
+#+BEGIN_SRC emacs-lisp
+(require 'dired)
+(require 'dired-subtree)
+(require 'dired-narrow)
+(require 'dired-hide-dotfiles)
+(require 'dired-open)
+(require 's)
+(require 'dash)
+(require 'dired-hacks-utils)
+(require 'dired-toggle-sudo)
+(require 'dired-collapse)
+(require 'wdired)
+(require 'dired-x)
+(require 'diredfl)
+(require 'peep-dired)
+
+(dired-hide-dotfiles-mode)
+
+(setq dired-keep-marker-rename t)
+(setq wdired-allow-to-change-permissions nil)
+(setq wdired-create-parent-directories t)
+(setq dired-narrow-exit-when-one-left t)
+(setq dired-clean-up-buffers-too t)
+(setq dired-clean-confirm-killing-deleted-buffers t)
+(setq dired-dwim-target t)
+(setq dired-recursive-copies 'always)
+(setq dired-recursive-deletes 'always)
+(setq-default dired-listing-switches "-lhA --group-directories-first")
+(setq dired-open-extensions
+      '(("pdf" . "evince")
+        ("jpg" . "eog")
+        ("png" . "eog")))
+(setq-default dired-subtree-line-prefix "  ")
+(setq-default dired-subtree-use-backgrounds nil)
+(setq peep-dired-cleanup-on-disable t)
+(setq peep-dired-cleanup-eagerly nil)
+(setq peep-dired-enable-on-directories nil)
+(setq peep-dired-ignored-extensions
+        '("mkv" "webm" "mp4" "mp3" "ogg" "iso" "pdf"))
+
+(defun ta-size-bigger-file-or-directory-in-dired ()
+  "Return the number of characters of the bigger FILE-OR-DIRECTORY in current dired buffer."
+  (with-current-buffer (current-buffer)
+    (-max (--map (length (-last-item (s-split "/" it)))
+                 (dired-utils-get-all-files)))))
+
+(defun ta-sidebar ()
+  "Pop a buffer on the left of the frame in `dired-mode'
+
+with the parent directory of the current `buffer-file-name' if not `nil' and
+if the frame contains any buffer in `dired-mode'. If the frame contains buffers
+in `dired-mode', delete them.
+"
+  (interactive)
+  ;; TODO: - check the case of buffer-file-name is nil
+  ;; TODO: - check the case of the is only one buffer in dired-mode
+  (setq current-window (car (avy-window-list)))
+  (setq window-list (avy-window-list))
+  (setq dired-buffer-into-frame-p nil)
+  (while window-list
+    (select-window (car window-list))
+    (if (string-equal major-mode "dired-mode")
+        (progn
+          (setq dired-buffer-into-frame-p t)
+          (delete-window)))
+    (setq window-list (cdr window-list)))
+  (if dired-buffer-into-frame-p
+      nil
+    (select-window current-window)
+    (delete-other-windows)
+    (let ((width (with-current-buffer
+                     (dired-noselect (file-name-directory (buffer-file-name)))
+                   (ta-size-bigger-file-or-directory-in-dired))))
+      (split-window-right (+ 10 width))) ; 10 is arbitrary
+    (dired (file-name-directory (buffer-file-name)))))
+
+(define-minor-mode dired-header-line-mode
+  "Show only the last two directories of the path to the current directory
+that `dired-mode' is displaying."
+  :init-value nil :group 'header-line :group 'dired
+  (unless (derived-mode-p 'dired-mode)
+    (error "You must be in Dired or a mode derived from it to use this command"))
+  (if dired-header-line-mode
+      (progn
+        (setq path-len
+              (length
+               (s-split "/" (expand-file-name dired-directory))))
+        (setq header-line-directories
+              (car
+               (last
+                (s-split-up-to "/" (expand-file-name dired-directory)
+                 (- path-len 3)))))
+        (setq header-line-format (concat "..." header-line-directories)))
+    (setq header-line-format  (default-value 'header-line-format))))
+
+(defface ta-dired-header-face
+  nil
+  "Face for dired header, first line of buffer in `dired-mode'"
+  :group 'dired)
+
+(font-lock-add-keywords
+ 'dired-mode
+ '(("\\(^.*:$\\)" . 'ta-dired-header-face)))
+
+(font-lock-add-keywords
+ 'wdired-mode
+ '(("\\(^.*:$\\)" . 'ta-dired-header-face)))
+
+(add-hook 'dired-mode-hook 'diredfl-mode)
+(add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1)))
+(add-hook 'dired-before-readin-hook 'dired-header-line-mode)
+#+END_SRC
+** Project management tool
+I use [[https://github.com/cask/cask][Cask]] as project management tool.
+** Discarded Packages (in the setup)
+I stopped using ~ivy-posframe~.  I removed ~minimap~ package because I
+wasn't using it.  I didn't find it useful to code.
+
+| packages/modes | links        |
+|----------------+--------------|
+| ~ivy-posframe~   | [[https://github.com/tumashu/ivy-posframe][ivy-posframe]] |
+| ~minimap~        | [[https://github.com/dengste/minimap][minimap]]      |
+** New Packages (in the setup)
+| packages/modes     | links             |
+|--------------------+-------------------|
+| ~outline-minor-mode~ | built-in          |
+| ~recentf~            | built-in          |
+| ~sql~                | built-in          |
+| ~bicycle~            | [[https://github.com/tarsius/bicycle][bicycle]]           |
+| ~cask~               | [[https://github.com/cask/cask][Cask]]              |
+| ~company-emoji~      | [[https://github.com/dunn/company-emoji][company-emoji]]     |
+| ~dired-collapse~     | [[https://github.com/Fuco1/dired-hacks][dired-hacks]]       |
+| ~dired-toggle-sudo~  | [[https://github.com/renard/dired-toggle-sudo][dired-toggle-sudo]] |
+| ~diredfl~            | [[https://github.com/purcell/diredfl][diredfl]]           |
+| ~iy-go-to-char~      | [[https://github.com/doitian/iy-go-to-char][iy-go-to-char]]     |
+| ~magit~              | [[https://github.com/magit/magit][magit]]             |
+| ~peep-dired~         | [[https://github.com/asok/peep-dired][peep-dired]]        |
+| ~sql-indent~         | [[https://github.com/alex-hhh/emacs-sql-indent][sql-indent]]        |
+| ~sqlup-mode~         | [[https://github.com/Trevoke/sqlup-mode.el][sqlup-mode]]        |
+** New commands (in the setup)
+| commands               | packages      |
+|------------------------+---------------|
+| undo-redo              | built-in      |
+| query-replace-regexp   | built-in      |
+| iy-go-to-char          | [[https://github.com/doitian/iy-go-to-char][iy-go-to-char]] |
+| iy-go-to-char-backward | [[https://github.com/doitian/iy-go-to-char][iy-go-to-char]] |
+| magit-status           | [[https://github.com/magit/magit][magit]]         |
+** Custom commands
+*** Describe
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-describe-thing-at-point ()
+  "Display the full documentation of the `thing-at-point'
+
+that is either a function or a variable.
+Return nil if the symbol of the `thing-at-point' is neither a function
+nor a variable."
+  (interactive)
+  (let ((current-symbol (symbol-at-point)))
+    (cond
+     ((not current-symbol))
+     ((boundp current-symbol) (describe-variable current-symbol))
+     ((fboundp current-symbol) (describe-function current-symbol))
+     (t (message "The symbol-at-point is neither a variable or a function")))))
+#+END_SRC
+
+*** emacs-lisp-mode
+
+#+BEGIN_SRC emacs-lisp
+(declare-function yas-expand "ext:yasnippet")
+
+(defun ta-defun-above ()
+  "Expand the `def' yasnippet above the current root node.
+
+Before doing so, push `symbol-at-point' into the `kill-ring'.
+See `yas-expand'. "
+  (interactive)
+  (if (symbol-at-point) (kill-new (symbol-name (symbol-at-point))))
+  (re-search-backward "^[(]" nil t)
+  (open-line 2)
+  (insert "def")
+  (call-interactively 'yas-expand))
+#+END_SRC
+
+*** make-mode
+
+#+BEGIN_SRC emacs-lisp
+(defun ta-newline-smart ()
+  "Perform `newline-and-indent' or `newline' depending of the context."
+  (interactive)
+  (if (looking-back "\t")
+      (progn (delete-char -1) (newline))
+    (if (looking-back "\n\n")
+        (newline)
+      (newline)
+      (indent-for-tab-command))))
+
+(define-key makefile-gmake-mode-map (kbd "RET") 'ta-newline-smart)
+#+END_SRC
+
+*** sgml-mode
+
+#+BEGIN_SRC emacs-lisp
+(defconst ta-sgml-attr-value-re "\\(?:[^\"'/><]\\|\"[^\"]*\"\\|'[^']*'\\)")
+(defconst ta-sgml-name-re sgml-name-re)
+(defconst ta-sgml-attr-re
+  (concat "[[:space:]]\\{1\\}" ta-sgml-name-re "=" ta-sgml-attr-value-re))
+
+
+(defun ta-next-attribute ()
+  "Move forward to the next attribute"
+  (interactive)
+  (save-excursion (setq beg-of-tag (sgml-beginning-of-tag)))
+  (if beg-of-tag
+      (progn
+        (looking-at "\\(/>\\|>\\)")
+        (let ((end-of-tag-symbol (match-string 0)))
+          (cond
+           ((equal end-of-tag-symbol "/>") (forward-char 2))
+           ((equal end-of-tag-symbol ">") (forward-char 1))
+           (t (let ((end-of-tag
+                     (save-excursion
+                       (sgml-tag-end (car (sgml-get-context))))))
+                (if (search-forward-regexp ta-sgml-attr-re end-of-tag t)
+                    (progn (goto-char (match-beginning 0))
+                           (forward-char 1))
+                  (goto-char end-of-tag)
+                  (if (looking-back "/>")
+                      (backward-char 2)
+                    (backward-char 1))))))))
+    ;;2nd if part
+    (search-forward-regexp sgml-tag-name-re nil t)
+    (let ((tag-type (substring (match-string 0) 0 2)))
+      (if (equal tag-type "</")
+          (sgml-skip-tag-forward 1)
+        (unless (looking-at ">")
+          (progn
+            (search-forward-regexp ta-sgml-attr-re nil t)
+            (goto-char (match-beginning 0))
+            (forward-char 1)))))))
+
+(defun ta-previous-attribute ()
+  "Move forward to the next attribute"
+  (interactive)
+  (save-excursion
+    (setq inside-tag (sgml-beginning-of-tag))
+    (if inside-tag (setq beg-of-tag (point))))
+  (if inside-tag
+      (if (search-backward-regexp ta-sgml-attr-re beg-of-tag t)
+          (forward-char 1)
+        (goto-char beg-of-tag))
+    (search-backward-regexp ">" nil t)
+    (save-excursion (setq tag-type
+                          (sgml-tag-type (car (sgml-get-context)))))
+    (cond
+     ((equal tag-type 'empty) (backward-char 1))
+     ((equal tag-type 'close) (sgml-beginning-of-tag)))))
+#+END_SRC
+
+** advices
+
+#+BEGIN_SRC emacs-lisp
+(defadvice windmove-do-window-select
+    (before windmove-do-window-select-advice activate)
+  "Push `selected-window' in the ring used by `aw-flip-window'.
+
+The function `windmove-left', `windmove-right', `windmove-up' and
+`windmove-down' are interactive wrappers to `windmove-do-window-select'."
+  (aw--push-window (selected-window)))
+
+(defadvice sgml-delete-tag (after sgml-delete-tag-advice activate)
+  (indent-buffer))
+
+(defadvice magit-status (before ta-magit-status-advice activate)
+  (unless (s-contains-p "magit" (buffer-name)) (delete-other-windows)))
+
+(defadvice magit-commit-create (before ta-magit-commit-create-advice activate)
+  (delete-other-windows))
+#+END_SRC
+
+** Custom minor modes
+
+#+BEGIN_SRC emacs-lisp
+(defvar i3-font-lock-keywords
+  '(("bindsym" . font-lock-keyword-face)
+    ("^set" . font-lock-keyword-face)
+    ("^mode" . font-lock-keyword-face)
+    ("^exec" . font-lock-keyword-face)
+    ("^workspace" . font-lock-keyword-face)
+    ("^bar" . font-lock-builtin-face)
+    ("\\(colors\\) [{]+" 1 font-lock-builtin-face t)
+    ("^font" . font-lock-builtin-face)
+    ("^floating_modifier" . font-lock-builtin-face)
+    ;; for ~/.i3status.conf file
+    ("^[ \t]*\\(.+?\\)\\(?:\\[\\(.*?\\)\\]\\)?[ \t]*[^+]="
+     1 font-lock-variable-name-face t)
+    ("\\(^order\\) \\(?:[+][=]+\\)" 1 font-lock-keyword-face t)
+    ("\\(general\\) [{]+" 1 font-lock-builtin-face t)
+    ("\\(run_watch VPN\\) [{]+" 1 font-lock-builtin-face t)
+    ("\\(run_watch DHCP\\) [{]+" 1 font-lock-builtin-face t)
+    ("\\(wireless _first_\\) [{]+" 1 font-lock-builtin-face t)
+    ("\\(disk\\) .* [{]+" 1 font-lock-builtin-face t)
+    ("\\(load\\) [{]+" 1 font-lock-builtin-face t)
+    ("\\(cpu_usage\\) [{]+" 1 font-lock-builtin-face t)
+    ("\\(battery 0\\) [{]+" 1 font-lock-builtin-face t)
+    ("\\(tztime local\\) [{]+" 1 font-lock-builtin-face t)
+    )
+  "Font lock keywords to use in i3-conf-mode.
+
+These keywords are used in the i3 configuration file and i3status
+configuration.")
+
+
+(define-derived-mode i3-conf-mode sh-mode "i3-conf"
+  "Major mode for i3 configuration files."
+  (font-lock-add-keywords nil i3-font-lock-keywords))
+#+END_SRC
+
+** emacs-lisp
+To write my own ~emacs~ commands, I started using the following
+~variables~, ~functions~, ~macros~ and ~special forms~.
+*** macros
+- ~save-excursion~
+*** functions
+**** from [[https://github.com/magnars/s.el][s]]
+- ~s-contains-p~
+**** built-in
+- ~buffer-name~
+- ~car~
+- ~delete-other-windows~
+- ~equal~
+- ~kill-new~
+- ~looking-back~
+- ~match-string~
+- ~open-line~
+- ~search-forward-regexp~
+- ~search-forward-regexp~
+- ~sgml-beginning-of-tag~
+- ~sgml-get-context~
+- ~sgml-skip-tag-forward~
+- ~symbol-at-point~
+- ~symbol-at-point~
+- ~symbol-name~
 * Step 5 (August 2019 - January 2020)
 commit d61293297bd0c77126cb969ea5520775d1c83f7c (v1.0.0).
 
@@ -1459,7 +5331,7 @@ At that moment, I had a version control of my ~emacs~ setup, but ~git~
 was still new for me.  As a consequence, I don't know if there is
 private information in the ~git~ history, so I didn't make it public.
 
-It was new to me to write commits and so it's not so easy to follow
+It was new to me to write commits and so it is not so easy to follow
 the flow of the modifications of my setup.  But I found the way to
 extract some informations.
 
