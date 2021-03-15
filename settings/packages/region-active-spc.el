@@ -16,6 +16,46 @@
 
 ;;; Code
 
+(defvar region-active-spc-exchange-p t
+  "If set to t, exchange `point' and `mark' before moving point
+under certain conditions.
+
+Consider the following event sequence:
+1. you call a command in `region-active-spc-mark-commands',
+2. this set the mark and the point (we assume that point is less
+   than mark),
+3. now you call a command in `region-active-spc-map',
+4. if the command would have make the point greater than
+   the mark (and so belong to `region-active-spc-forward-commands'),
+   we exchange the point and mark before running the command
+  (if `region-active-spc-exchange-p' is set to t).
+
+See: `region-active-spc-exchange-point-and-mark'.")
+
+(defvar region-active-spc-mark-commands
+  '(handy-expand-region-dwim
+    handy-mark-dwim
+    handy-mark-inside-dwim
+    handy-mark-line
+    mark-paragraph)
+  "List of mouvement commands that move the cursor backward.")
+
+(defvar region-active-spc-backward-commands
+  '(backward-word
+    previous-logical-line
+    sp-backward-sexp
+    beginning-of-line
+    backward-paragraph)
+  "List of mouvement commands that move the cursor backward.")
+
+(defvar region-active-spc-forward-commands
+  '(forward-word
+    next-logical-line
+    sp-forward-sexp
+    end-of-line
+    forward-paragraph)
+  "List of mouvement commands that move the cursor forward.")
+
 (defvar region-active-spc-self-insert-commands
   '(self-insert-command
     org-self-insert-command
@@ -57,7 +97,28 @@ any command like `self-insert-command'."
              (speed-command
               (cdr (assoc key-string region-active-spc-map))))
         (when speed-command
+          (setq this-command speed-command)
           (call-interactively speed-command) t))))
+
+(defun point-<-mark-p ()
+  "Return t if `point' is less than `mark'."
+  (< (point) (mark)))
+
+(defun region-active-spc-exchange-point-and-mark (&rest r)
+  "Exchange `point' and `mark' if the cursor movement
+would have change the order between `point' and `mark', but only
+the first time after having marked a thing with a command in
+`region-active-spc-mark-commands'."
+  (when (and (region-active-p)
+             (-contains-p region-active-spc-mark-commands last-command))
+    (cond
+     ((and (point-<-mark-p)
+           (-contains-p region-active-spc-forward-commands this-command))
+      (exchange-point-and-mark))
+     ((and (not (point-<-mark-p))
+           (-contains-p region-active-spc-backward-commands this-command))
+      (exchange-point-and-mark))
+     (t nil))))
 
 ;;; region-active-spc-mode
 
@@ -70,12 +131,18 @@ any command like `self-insert-command'."
       (progn
         (--each region-active-spc-self-insert-commands
           (advice-add it :before-until 'region-active-spc-trigger))
+        (--each (append region-active-spc-backward-commands
+                        region-active-spc-forward-commands)
+          (advice-add it :before 'region-active-spc-exchange-point-and-mark))
         (when (boundp delete-selection-mode)
           (setq region-active-spc-delete-selection-mode-user
                 delete-selection-mode)
           (delete-selection-mode -1)))
     (--each region-active-spc-self-insert-commands
       (advice-remove it 'region-active-spc-trigger))
+    (--each (append region-active-spc-backward-commands
+                    region-active-spc-forward-commands)
+      (advice-remove it 'region-active-spc-exchange-point-and-mark))
     (when region-active-spc-delete-selection-mode-user
       (delete-selection-mode t)
       (setq region-active-spc-delete-selection-mode-user nil))))
@@ -97,6 +164,11 @@ any command like `self-insert-command'."
   (cdr (assoc "x" '(("n" . next-line) ("p" . previous-line))))) ; error
 
  (type-of (cdr (assoc "n" '(("n" . next-line) ("p" . previous-line))))) ; symbol
+
+ (let ((_a '(a b c)))
+   (append _a '(d e))
+   _a) ; (a b c)
+
  )
 
 (comment ; vectorp, this-command-keys-vector, make-string, aref, symbol-name
