@@ -16,6 +16,14 @@
 (setq system-time-locale "C")
 (setq org-log-done 'time)
 
+;;; filtering
+
+(defun ta-org-sparse-tree-beginning-of-line (&rest r)
+  "Intended to be advice of `org-sparse-tree'."
+  (beginning-of-line))
+
+(advice-add 'org-sparse-tree :after 'ta-org-sparse-tree-beginning-of-line)
+
 ;;; tags
 (setq org-tags-column -77) ; default value
 
