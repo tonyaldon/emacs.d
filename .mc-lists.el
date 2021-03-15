@@ -67,6 +67,7 @@
         handy-mark-dwim
         handy-mark-inside-dwim
         handy-mark-inside-pairs
+        handy-mark-line
         handy-mark-pop-local
         handy-sexp-reshape/body
         handy-sexp-reshape/handy-line/body-and-exit
@@ -184,6 +185,7 @@
         sp-remove-active-pair-overlay
         sp-select-next-thing-exchange
         ta-mark-sexp-at-point
+        ta-unfill-paragraph
         ta-zap-back-to-char
         transpose-words
         upcase-region
@@ -265,6 +267,7 @@
         hydra-mc/nil
         hydra-mc/query-replace-and-exit
         hydra-mc/query-replace-regexp-and-exit
+        hydra-mc/replace-regexp-and-exit
         hydra-mostly-visited/body
         hydra-mostly-visited/nil
         hydra-mutiple-cursors/mc/mark-next-like-this
@@ -302,6 +305,7 @@
         next-buffer
         org-ctrl-c-ret
         org-open-at-mouse
+        org-previous-visible-heading
         outline-next-heading
         previous-buffer
         push-button
