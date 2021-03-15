@@ -744,11 +744,10 @@ Note: Modify the internal-border-width of the frame."
 (require 'quick-access)
 
 (setq quick-access-alist
-      '(("notes" . "~/work/notes.org")
-        ("extra" . "~/work/extra.org")
-        ("contact" . "~/work/contact/contact.org")
+      '(("rich-project/weekly-reports-2021" . "~/work/rich-project/reports/weekly-reports-2021.org")
         ("rich-project/videos" . "~/work/rich-project/videos/videos.csv")
-        ("rich-project/weekly-reports" . "~/work/rich-project/weekly-reports/weekly-reports-2021.org")
+        ("notes" . "~/work/notes.org")
+        ("contact" . "~/work/contact/contact.org")
         ("tmp" . "~/work/tmp/")
         ("tonyaldon.com" . "~/work/apps/tonyaldon.com/")
         ("Jack Inside - private" . "~/work/jackinside/private/")
