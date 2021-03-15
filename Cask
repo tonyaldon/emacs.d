@@ -35,6 +35,7 @@
 (depends-on "hydra")
 (depends-on "ibuffer-vc")
 (depends-on "iedit")
+(depends-on "info-colors")
 (depends-on "ivy-rich")
 (depends-on "iy-go-to-char")
 (depends-on "key-chord")

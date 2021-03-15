@@ -568,6 +568,12 @@ Note: Modify the internal-border-width of the frame."
 ;; Workaround: turn it on in the after-make-frames-functions list.
 (add-to-list 'after-make-frame-functions 'mini-frame-mode t)
 
+;;;; Info-mode
+
+(require 'info-colors)
+
+(add-hook 'Info-selection-hook 'info-colors-fontify-node)
+
 ;;;; isearch-mode
 
 (require 'isearch)
