@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: insert
+# key: i
+# --
+(insert $0)
