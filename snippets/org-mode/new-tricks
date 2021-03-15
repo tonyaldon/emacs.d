@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # name: new tricks
-# key: nt
+# key: ntr
 # --
 *** ${2:How can I}$3?
 - ${4:Use} ${5:~command~ command.}

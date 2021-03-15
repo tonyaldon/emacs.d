@@ -1,10 +1,27 @@
 # -*- mode: snippet -*-
-# name: weekly-report
-# key: wr
+# name: new-weekly-report
+# key: nr
 # --
+** Week `(format-time-string "%W")` - `(format-time-string "[%F %a]")`
+*** Plan
+- Goal :: $0
+- Deadline ::
+- Resources ::
+**** Monday [/]
+
+**** Tueday [/]
+
+**** Wednesday [/]
+
+**** Thursday [/]
+
+**** Friday [/]
+
+**** Saturday [/]
+
+**** Sunday [/]
+
 *** Done
-$0
-*** Next Week Tasks
 
 *** Improvement
 

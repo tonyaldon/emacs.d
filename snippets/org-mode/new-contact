@@ -1,24 +1,35 @@
 # -*- mode: snippet -*-
-# name: new contact
+# name: new-contact
 # key: nc
 # --
 * ${1:name}
 ** Basic Informations
-| name          |$1|
-| skills        |$0|
-| personal_link |  |
-|---------------+--|
+| name          |$1 |
+| nickname      |   |
+| skills        |   |
+| personal_link |   |
+|---------------+---|
+| discord       |   |
 | email         |   |
 | facebook      |   |
+| github        |   |
 | linkedin      |   |
 | mobile        |   |
+| reddit        |   |
 | twitter       |   |
-** First Meeting
-| meet_at_city   |  |
-| meet_at_event  |  |
-| meet_on        |  |
-|----------------+--|
-| who_introduced |  |
-| feeling        |  |
+| work_at       |   |
+** First Interaction
+*** Details
+| where          |                  |
+| where excatly  |                  |
+| when           | `(format-time-string "[%F %a]")` |
+|----------------+------------------|
+| who_introduced |                  |
+| feeling        |                  |
+*** Context
+$0
+** Futur
 ** History
-- [DATE] ::
+*** `(format-time-string "[%F %a]")`
+
+** Miscellaneous
