@@ -1,14 +1,781 @@
 #+TITLE: Emacs Setup History
 #+AUTHOR: Tony aldon
-#+DATE: <2021-03-14 Sun>
+#+DATE: <2021-03-15 Mon>
 
 * About
-I need to know how I end up with the emacs setup I'm using now.  Emacs
-is so versatile and powerful that you can easily getting lost bowels.  This
-document main goal is to give me more visibility on my setup.  This
-should give me more confidence.  And maybe I'll get rid of lot unused
-and not necessary code.  Who knows?
+This document contains the *history* of my [[https://github.com/tonyaldon/emacs.d][emacs setup]].  It is a kind of
+/autobiography/ of my *emacs* /journey/.
+* Motivation
+I /need/ to know how I *end up* with the [[https://github.com/tonyaldon/emacs.d][emacs setup]] I'm using now.  *Emacs*
+is so /versatile/ and /powerful/ that you can easily /getting lost bowels/.
 
+This document *main goal* is to give me more *visibility* on my /setup/.
+
+This should give me more /confidence/.  And maybe I'll *get rid of* lot
+/unused/ and  /unnecessary/ code.  *WHO KNOWS?*
+* Step 13 (January 29, 2021 - March 15, 2021)
+commit 2d27690620cf4d59b93952f0f666db417ca84941 (v4.0.0)
+
+I used emacs 28.50.
+
+I gathered a few *handy* commands I'm using daily that suits my style of
+programming in my custom package ~handy~.  These commands are mostly used:
+1. to operate on lines,
+2. to operate on sexp,
+3. and to mark things.
+
+I also focused my attention on the way I mark things (select things).
+I updated and added new marking commands that are in ~handy~ package.  And
+I also wrote a new custom mode ~region-active-spc-mode~ that brings a
+really new way of modifying an active region (a selection).  When
+~region-active-spc-mode~ is turned on, this changes the way
+~self-insert-command~ (and other /insert commands/) works.  For instance,
+with the stantard setup, when a region is active and you type ~b~, the
+command ~backward-word~ is called instead of inserting the character ~b~,
+which *speed* marking (selecting) operations.
+
+As ~emacs~ seems endless, I felt the need to write this history of my
+emacs setup.  I started writting this history on wednesday 17
+February, 2021.
+
+** Discarded Packages (in the setup)
+I no longer use ~pending-delete-mode~ because it is in conflict with my
+new custom mode ~region-active-spc-mode~.
+
+| packages/modes      | links    |
+|---------------------+----------|
+| ~pending-delete-mode~ | built-in |
+** Discarded commands (in the setup)
+| commands                         | links    |
+|----------------------------------+----------|
+| ta-mark-end-of-line              | custom   |
+| ta-jsx-comment-or-uncomment-line | custom   |
+| ta-avy-mark-region               | custom   |
+| ta-avy-kill-yank-whole-line      | custom   |
+| ta-avy-kill-sexp                 | custom   |
+| cleanup-buffer                   | custom   |
+| zap-up-to-char                   | built-in |
+| goto-line                        | built-in |
+| swiper                           | [[https://github.com/abo-abo/swiper][ivy]]      |
+| avy-copy-line                    | [[https://github.com/abo-abo/avy][avy]]      |
+** New Packages (in the setup)
+| packages/modes       | links                |
+|----------------------+----------------------|
+| info-colors          | [[https://github.com/ubolonton/info-colors][info-colors]]          |
+** Custom commands
+*** in ~linux.el~
+
+#+BEGIN_SRC emacs-lisp
+(defun linux-switch-keyboard-layout ()
+  "Switch keyboard layout variant between\"takbl\" and \"takbl fr\"."
+  (interactive)
+  (let ((variant (shell-command-to-string "setxkbmap -query | grep variant | awk -F' '  '{ print $2 }'")))
+    (cond ((string= variant "")
+           (shell-command-to-string "setxkbmap -layout takbl -variant fr")
+           (message "takbl - fr"))
+          ((string= variant "fr\n")
+           (shell-command-to-string "setxkbmap -layout takbl -variant es")
+           (message "takbl - es"))
+          ((string= variant "es\n")
+           (shell-command-to-string "setxkbmap -layout takbl")
+           (message "takbl")))))
+#+END_SRC
+
+** Custom modes
+*** region-active-spc.el
+
+#+BEGIN_SRC emacs-lisp
+;;; About
+
+;; When `region-active-spc-mode' is turned on, this modify some
+;; typed character (self-insert-command) when the `region-active-p' is
+;; true and instead of inserting the typed character it trigger any
+;; command you set in `region-active-spc-map' variable.
+;;
+;; With the stantard setup, when a region is active and you type "b",
+;; the command `backward-word' is call instead of inserting character
+;; "b".
+;;
+;; "spc" in `region-active-spc-mode' means SPeed Command.
+;;
+;; `region-active-spc-mode' mode is incompatible with
+;; `pending-delete-mode' alias of `delete-selection-mode'.
+
+;;; Code
+
+(defvar region-active-spc-exchange-p t
+  "If set to t, exchange `point' and `mark' before moving point
+under certain conditions.
+
+Consider the following event sequence:
+1. you call a command in `region-active-spc-mark-commands',
+2. this set the mark and the point (we assume that point is less
+   than mark),
+3. now you call a command in `region-active-spc-map',
+4. if the command would have make the point greater than
+   the mark (and so belong to `region-active-spc-forward-commands'),
+   we exchange the point and mark before running the command
+  (if `region-active-spc-exchange-p' is set to t).
+
+See: `region-active-spc-exchange-point-and-mark'.")
+
+(defvar region-active-spc-mark-commands
+  '(handy-expand-region-dwim
+    handy-mark-dwim
+    handy-mark-inside-dwim
+    handy-mark-line
+    mark-paragraph)
+  "List of mouvement commands that move the cursor backward.")
+
+(defvar region-active-spc-backward-commands
+  '(backward-word
+    previous-logical-line
+    sp-backward-sexp
+    beginning-of-line
+    backward-paragraph)
+  "List of mouvement commands that move the cursor backward.")
+
+(defvar region-active-spc-forward-commands
+  '(forward-word
+    next-logical-line
+    sp-forward-sexp
+    end-of-line
+    forward-paragraph)
+  "List of mouvement commands that move the cursor forward.")
+
+(defvar region-active-spc-self-insert-commands
+  '(self-insert-command
+    org-self-insert-command
+    outline-spc-self-insert-command)
+  "List of command like `self-insert-command' we want to
+advice \":before-until\" with `region-active-spc-trigger'.")
+
+(defvar region-active-spc-map
+  '(("." . narrow-to-region)
+    (":" . eval-region)
+    ("," . kill-region)
+    ("c" . kill-ring-save)
+    ("q" . backward-delete-char-untabify)
+    ("t" . exchange-point-and-mark)
+    ("p" . previous-logical-line)
+    ("n" . next-logical-line)
+    ("b" . backward-word)
+    ("f" . forward-word)
+    ("u" . sp-backward-sexp)
+    ("i" . sp-forward-sexp)
+    ("a" . beginning-of-line)
+    ("e" . end-of-line)
+    ("y" . backward-paragraph)
+    ("x" . forward-paragraph))
+  "Alist of speed commands.
+The car of each entry is a string with a single letter, which must
+be assigned to `self-insert-command' in the global map.
+The cdr is either a command to be called interactively.")
+
+(defun region-active-spc-trigger (&rest r)
+  "When region is active, trigger a command instead of inserting
+the character if it is mapped to a command in `region-active-spc-map'.
+
+Function intended to be used as advice \":before-until\" of
+any command like `self-insert-command'."
+  (if (region-active-p)
+      (let* ((key-vector (this-command-keys-vector))
+             (key-string (make-string 1 (aref key-vector 0)))
+             (speed-command
+              (cdr (assoc key-string region-active-spc-map))))
+        (when speed-command
+          (setq this-command speed-command)
+          (call-interactively speed-command) t))))
+
+(defun point-<-mark-p ()
+  "Return t if `point' is less than `mark'."
+  (< (point) (mark)))
+
+(defun region-active-spc-exchange-point-and-mark (&rest r)
+  "Exchange `point' and `mark' if the cursor movement
+would have change the order between `point' and `mark', but only
+the first time after having marked a thing with a command in
+`region-active-spc-mark-commands'."
+  (when (and (region-active-p)
+             (-contains-p region-active-spc-mark-commands last-command))
+    (cond
+     ((and (point-<-mark-p)
+           (-contains-p region-active-spc-forward-commands this-command))
+      (exchange-point-and-mark))
+     ((and (not (point-<-mark-p))
+           (-contains-p region-active-spc-backward-commands this-command))
+      (exchange-point-and-mark))
+     (t nil))))
+
+;;; region-active-spc-mode
+
+(defvar region-active-spc-delete-selection-mode-user nil)
+
+(define-minor-mode region-active-spc-mode
+  "Toggle `region-active-spc-mode' mode on or off."
+  :global nil
+  (if region-active-spc-mode
+      (progn
+        (--each region-active-spc-self-insert-commands
+          (advice-add it :before-until 'region-active-spc-trigger))
+        (--each (append region-active-spc-backward-commands
+                        region-active-spc-forward-commands)
+          (advice-add it :before 'region-active-spc-exchange-point-and-mark))
+        (when (boundp delete-selection-mode)
+          (setq region-active-spc-delete-selection-mode-user
+                delete-selection-mode)
+          (delete-selection-mode -1)))
+    (--each region-active-spc-self-insert-commands
+      (advice-remove it 'region-active-spc-trigger))
+    (--each (append region-active-spc-backward-commands
+                    region-active-spc-forward-commands)
+      (advice-remove it 'region-active-spc-exchange-point-and-mark))
+    (when region-active-spc-delete-selection-mode-user
+      (delete-selection-mode t)
+      (setq region-active-spc-delete-selection-mode-user nil))))
+
+;;; Comments
+
+(comment ; when, call-interactively, assoc, type-of
+ (when nil "uie")
+ (when t "uie" "uieee")
+
+ (equal t (call-interactively 'next-line)) ; nil
+ (assoc "a" '(("a" . jim) ("b" . tony))) ; ("a" . jim)
+ (assoc "c" '(("a" . jim) ("b" . tony))) ; nil
+
+ (call-interactively nil) ; error
+ (call-interactively
+  (cdr (assoc "n" '(("n" . next-line) ("p" . previous-line)))))
+ (call-interactively
+  (cdr (assoc "x" '(("n" . next-line) ("p" . previous-line))))) ; error
+
+ (type-of (cdr (assoc "n" '(("n" . next-line) ("p" . previous-line))))) ; symbol
+
+ (let ((_a '(a b c)))
+   (append _a '(d e))
+   _a) ; (a b c)
+
+ )
+
+(comment ; vectorp, this-command-keys-vector, make-string, aref, symbol-name
+ (vectorp (this-command-keys-vector)) ; t
+ (vectorp (make-string 2 (aref (this-command-keys-vector) 0))) ; error
+ (vectorp (make-string 2 (symbol-name (aref (this-command-keys-vector) 0)))) ; error
+ (type-of (aref (this-command-keys-vector) 0)) ; symbol
+ (make-string 1 'a) ; error
+ (symbol-name 'a) ; "a"
+ )
+
+(comment ; read-key-sequence-vector, num-input-keys, this-command-keys-vector
+ ;; (info "(elisp) Key Sequence Input")
+ (let ((dot (read-key-sequence-vector "type a dot:")))
+   ;; (equal [46] dot)
+   (equal [?.] dot))
+ (read-key-sequence-vector nil)
+ (read-key-sequence-vector "type key")
+ (read-key-sequence "type key")
+ num-input-keys
+ (this-command-keys-vector)
+ (advice-remove 'self-insert-command 'region-active-spc-trigger)
+ (advice-remove 'org-self-insert-command 'region-active-spc-trigger)
+ (advice-remove 'outline-spc-self-insert-command 'region-active-spc-trigger)
+ )
+
+;;; Footer
+
+(provide 'region-active-spc)
+
+#+END_SRC
+*** rename
+I rename and refactor ~outline-speed-commands.el~ to ~outline-spc.el~.
+
+#+BEGIN_SRC emacs-lisp
+;;; About
+
+;; `outline-spc' (SPeed Commands) brings speed commands capability
+;; to any major-mode with `outline-minor-mode' turned on.  To use
+;; it, you just have to turn on the minor mode `outline-spc-mode'.
+;; Then when you are at the beginning of an outline defined in
+;; `outline-regexp', typing a single key where the mapping is
+;; defined either in `outline-spc-user' or
+;; `outline-spc-default'variables, trigger an outline
+;; commands instead of inserting the character typed.  For instance,
+;; by default, if you are at the beginning of an outline and you
+;; type "n", this call `outline-next-visible-heading' command.
+
+;;; Packages
+
+(require 'outline)
+
+;;; The self insert command
+
+(defun outline-spc-self-insert-command (N)
+  "Like `self-insert-command' but allow speed commands
+
+define in `outline-spc-default' and `outline-spc-user'
+when the cursor is at the beginning of an outline headline.
+
+This is a ligth adaptation of `org-self-insert-command'."
+  (interactive "p")
+  (cond
+   ((and outline-spc-mode
+         (let ((kv (this-command-keys-vector)))
+           (setq outline-spc-speed-command
+                 (run-hook-with-args-until-success
+                  'outline-spc-hook
+                  (make-string 1 (aref kv (1- (length kv))))))))
+    (cond
+     ((commandp outline-spc-speed-command)
+      (setq this-command outline-spc-speed-command)
+      (call-interactively outline-spc-speed-command))
+     ((functionp outline-spc-speed-command)
+      (funcall outline-spc-speed-command))
+     ((and outline-spc-speed-command (listp outline-spc-speed-command))
+      (eval outline-spc-speed-command))
+     (t (call-interactively 'outline-spc-self-insert-command))))
+   (t
+    (setq this-command 'self-insert-command)
+    (self-insert-command N))))
+
+
+;;; Speed keys
+
+(defvar outline-spc-user nil
+  "Alist of additional speed commands.
+This list will be checked before `outline-spc-default'.
+when the cursor is at the beginning of a headline.
+The car of each entry is a string with a single letter, which must
+be assigned to `self-insert-command' in the global map.
+The cdr is either a command to be called interactively, a function
+to be called, or a form to be evaluated.
+An entry that is just a list with a single string will be interpreted
+as a descriptive headline that will be added when listing the speed
+commands in the Help buffer using the `?' speed command.")
+
+(defvar outline-spc-hook '(outline-spc-activate)
+  "Hook for activating speed commands at strategic locations.
+Hook functions are called in sequence until a valid handler is
+found.
+
+Each hook takes a single argument, a user-pressed command key
+which is also a `self-insert-command' from the global map.
+
+Within the hook, examine the cursor position and the command key
+and return nil or a valid handler as appropriate.  Handler could
+be one of an interactive command, a function, or a form.
+
+Turn on `outline-spc-mode' to enable this hook.")
+
+(defconst outline-spc-default
+  '(("Outline Navigation")
+    ("n" . (outline-spc-move-safe 'outline-next-visible-heading))
+    ("p" . (outline-spc-move-safe 'outline-previous-visible-heading))
+    ("f" . (outline-spc-move-safe 'outline-forward-same-level))
+    ("b" . (outline-spc-move-safe 'outline-backward-same-level))
+    ("u" . (outline-spc-move-safe 'outline-up-heading))
+    ("Outline Visibility")
+    ("i" . outline-show-children)
+    ("s" . outline-show-subtree)
+    ("d" . outline-hide-subtree)
+    ("t" . outline-hide-body)
+    ("a" . outline-show-all)
+    ("c" . outline-hide-entry)
+    ("e" . outline-show-entry)
+    ("l" . outline-hide-leaves)
+    ("k" . outline-show-branches)
+    ("q" . outline-hide-sublevels)
+    ("o" . outline-hide-other)
+    ("Outline Structure Editing")
+    ("@" . outline-mark-subtree)
+    ("^". outline-move-subtree-up)
+    ("v". outline-move-subtree-down)
+    ("<". outline-promote)
+    (">". outline-demote)
+    ("m". outline-insert-heading)
+    "The default Outline speed commands."))
+
+(defun outline-spc-move-safe (cmd)
+  "Execute CMD, but make sure that the cursor always ends up in a headline.
+If not, return to the original position and throw an error."
+  (interactive)
+  (let ((pos (point)))
+    (call-interactively cmd)
+    (unless (and (bolp) (outline-on-heading-p t))
+      (goto-char pos)
+      (error "Boundary reached while executing %s" cmd))))
+
+(defun outline-spc-activate (keys)
+  "Hook for activating single-letter speed commands.
+`outline-spc-default' specifies a minimal command set.
+Use `outline-spc-user' for further customization."
+  (when (and (bolp) (looking-at outline-regexp))
+    (cdr (assoc keys (append outline-spc-user
+                             outline-spc-default)))))
+
+;;; outline-spc-mode
+
+(define-minor-mode outline-spc-mode
+  "Toggle `outline-spc-mode' mode on or off."
+  :global nil
+  (if outline-spc-mode
+      (local-set-key [remap self-insert-command]
+                     'outline-spc-self-insert-command)
+    (local-set-key [remap self-insert-command] nil)))
+
+
+;;; Footer
+
+(provide 'outline-spc)
+
+#+END_SRC
+
+** Custom packages
+
+#+BEGIN_SRC emacs-lisp
+;;; About
+
+;; A few HANDY commands I'm using daily that suits my style of
+;; programming.
+;;
+;; These commands are mostly used:
+;;   1. to operate on lines,
+;;   2. to operate on sexp,
+;;   3. and to mark things.
+
+;;; Declare functions
+
+(declare-function avy-goto-word-or-subword-1 "ext:avy")
+
+(declare-function sp-transpose-sexp "ext:smartparens")
+(declare-function sp-backward-sexp "ext:smartparens")
+(declare-function sp-forward-sexp "ext:smartparens")
+(declare-function sp-previous-sexp "ext:smartparens")
+(declare-function sp-get-thing "ext:smartparens")
+(declare-function sp-get "ext:smartparens")
+(declare-function sp-backward-up-sexp "ext:smartparens")
+(declare-function sp-backward-down-sexp "ext:smartparens")
+(declare-function sp-mark-sexp "ext:smartparens")
+(declare-function sp-down-sexp "ext:smartparens")
+
+(declare-function er/expand-region "ext:expand-region")
+(declare-function er/mark-word "ext:expand-region")
+(declare-function er/mark-sentence "ext:expand-region")
+(declare-function er/mark-url "ext:expand-region")
+(declare-function er--point-inside-string-p "ext:expand-region")
+(declare-function er/mark-inside-quotes "ext:expand-region")
+
+(declare-function org-table-beginning-of-field "org")
+(declare-function org-at-table-p "ext:smartparens")
+
+;;; Operate on lines
+
+(defun handy-line-kill ()
+  "Kill the whole current line."
+  (interactive)
+  (let ((column-position (current-column)))
+    (kill-whole-line)
+    (move-to-column column-position)))
+
+(defun handy-line-copy ()
+  "Copy current line."
+  (interactive)
+  (copy-region-as-kill (point-at-bol) (point-at-eol)))
+
+(defun handy-line-copy-paste-below ()
+  "Copy current line and past it below "
+  (interactive)
+  (let ((init-point (point))
+        (line (buffer-substring-no-properties (point-at-bol) (point-at-eol))))
+    (save-excursion
+      (next-line)
+      (beginning-of-line)
+      (insert (s-concat line "\n")))))
+
+(defun handy-line-comment ()
+  "Comment or uncomment the current line.
+
+See `comment-or-uncomment-region'."
+  (interactive)
+  (comment-or-uncomment-region (point-at-bol) (point-at-eol)))
+
+(defun handy-line-add-above ()
+  "Add an empty line above and move the cursor to this line."
+  (interactive)
+  (back-to-indentation)
+  (split-line))
+
+(defun handy-line-add-below ()
+  "Add an empty line below and move the cursor to this line."
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+
+;;; Operate on sexps
+
+(defun handy-sp-touch ()
+  "Indicate if cursor is \"touching\" the right or the left of a sp-sexp.
+
+If the cursor touches the right of a sp-sexp, return symbol 'right.
+If the cursor touches the left of a sp-sexp, return symbol 'left.
+If the cursor is strickly inside a symbol 'symbol.
+If the cursor doesn't touch any sp-sexp, return nil."
+  (let ((beg-of-next-thing (plist-get (sp-get-thing) :beg))
+        (end-of-prev-thing (plist-get (sp-get-thing t) :end)))
+    (cond ((equal (point) beg-of-next-thing) 'left)
+          ((equal (point) end-of-prev-thing) 'right)
+          ((< end-of-prev-thing (point) beg-of-next-thing) nil)
+          (t 'symbol))))
+
+(defun handy-sp-drag-backward ()
+  "Drag sp-sexp at point backward."
+  (interactive)
+  (let ((delta (- (point) (plist-get (sp-get-thing) :beg))))
+    (cond
+     ((equal (handy-sp-touch) 'left)
+      (sp-transpose-sexp)
+      (sp-backward-sexp 2))
+     ((equal (handy-sp-touch) 'right)
+      (sp-backward-sexp)
+      (sp-transpose-sexp)
+      (sp-previous-sexp))
+     ((equal (handy-sp-touch) 'symbol)
+      (sp-backward-sexp)
+      (sp-transpose-sexp)
+      (sp-backward-sexp 2)
+      (forward-char delta)))))
+
+(defun handy-sp-drag-forward ()
+  "Drag next sexp to the left of the previous sexp."
+  (interactive)
+  (let ((delta (- (point) (plist-get (sp-get-thing) :beg))))
+    (cond
+     ((equal (handy-sp-touch) 'left)
+      (sp-forward-sexp)
+      (sp-transpose-sexp)
+      (sp-backward-sexp))
+     ((equal (handy-sp-touch) 'right)
+      (sp-transpose-sexp))
+     ((equal (handy-sp-touch) 'symbol)
+      (sp-forward-sexp)
+      (sp-transpose-sexp)
+      (sp-backward-sexp)
+      (forward-char delta)))))
+
+(defun handy-avy-copy-past-sexp ()
+  "Past sexp copied using `avy' at current cursor position."
+  (interactive)
+  (let ((initial-window (selected-window)))
+    (save-excursion
+      (call-interactively 'avy-goto-word-or-subword-1)
+      (sp-copy-sexp))
+    (select-window initial-window)
+    (yank)))
+
+;;; Mark things
+
+(defun handy-mark-pop-local ()
+  (interactive)
+  (set-mark-command t))
+
+(defun handy-point-in-string-p (pt)
+  "Returns t if PT is in a string"
+  (eq 'string (syntax-ppss-context (syntax-ppss pt))))
+
+(defun handy-point-in-url-p ()
+  "Return the url at `point' if `point' is in an url."
+  (thing-at-point 'url))
+
+(defun handy-point-at-beginning-of-sexp-delimited-by-pairs-p ()
+  "Return t if point is at beginning of sexp delimited by pairs."
+  (let ((sexp (sp-get-thing)))
+    (and (eq (point) (sp-get sexp :beg))
+         (not (string-empty-p (sp-get sexp :op))))))
+
+(defun handy-mark-goto-beginning-of-string (pt)
+  "Go to begining of the string if PT is inside a string.
+
+Return nil if PT isn't inside a string.
+See the function `handy-point-in-string-p'"
+  (if (handy-point-in-string-p pt)
+      (goto-char (nth 8 (syntax-ppss pt)))
+    nil))
+
+(defun handy-mark-line (arg)
+  "Mark the current line.
+
+If call with `universal-argument', copy the line."
+  (interactive "p")
+  (if (equal arg 4)
+      (handy-line-copy)
+    ;; HACK: Have to use both `push-mark' and `set-mark' in this order
+    ;;       to get expected result.
+    (end-of-line)
+    (push-mark (point))
+    (set-mark (point))
+    (beginning-of-line)))
+
+(defun handy-mark-sexp-at-point ()
+  "Mark the `sexp' at point."
+  (let ((sexp-beg (beginning-of-thing 'sexp))
+        (sexp-end (end-of-thing 'sexp)))
+    (goto-char sexp-end)
+    ;; HACK: Have to use both `push-mark' and `set-mark' in this order to
+    ;;       expected result.
+    (push-mark sexp-end)
+    (set-mark sexp-end)
+    (goto-char sexp-beg)))
+
+(defun handy-mark-inside-pairs ()
+  "An other way to do `er/mark-inside-pairs' but work for sgml-tag too."
+  (interactive)
+  (handy-mark-goto-beginning-of-string (point))
+  ;; todo: do thing when inside a tag <tag name="tony"> (maybe use the function sgml-begining-of-tag)
+  (sp-backward-up-sexp)
+  (sp-mark-sexp)
+  (sp-down-sexp)
+  (exchange-point-and-mark)
+  (sp-backward-down-sexp)
+  (exchange-point-and-mark))
+
+(defun handy-mark-inside-field ()
+  "Mark current field inside org-table."
+  (interactive)
+  (when (org-at-table-p)
+    (push-mark (point))
+    (re-search-forward "|")
+    (backward-char)
+    (skip-chars-backward " ")
+    (push-mark (point))
+    (set-mark (point))
+    (org-table-beginning-of-field 1)))
+
+;;;; dwim
+
+(defun handy-expand-region-dwim (arg)
+  "If region is active, call `er/expand-region'.  If not call `er/mark-word'."
+  (interactive "p")
+  (if (or (region-active-p) (equal last-command this-command))
+      (er/expand-region arg)
+    (er/mark-word)
+    (if (equal arg 4) (exchange-point-and-mark))))
+
+(defun handy-mark-dwim (arg)
+  "Mark the url, sexp or sentence at point.
+
+If point is in a url, call `er/mark-url'.  If not mark sexp at point.
+If call 2 times consecutively, call `er/mark-sentence'."
+  (interactive "p")
+  (cond
+   ((equal last-command this-command)
+    (er/mark-sentence))
+   ((handy-point-in-url-p)
+    (er/mark-url))
+   ((or (handy-point-at-beginning-of-sexp-delimited-by-pairs-p)
+        (eq (following-char) ?<))
+    (sp-mark-sexp))
+   ((eq (preceding-char) ?\")
+    (sp-backward-sexp)
+    (sp-mark-sexp))
+   ((and (memq (following-char) '(32 ?\) ?\] ?\} ?>))
+         (looking-back "[[:alnum:]]" 1))
+    (backward-char 1)
+    (handy-mark-sexp-at-point))
+   (t (handy-mark-sexp-at-point)))
+  (if (equal arg 4) (exchange-point-and-mark)))
+
+(defun handy-mark-inside-dwim (&optional arg)
+  "Mark things inside quotes if point is inside a string.
+
+If not inside string, mark inside table field in `org-mode'.
+In other modes, mark things inside pairs.
+If call two times consecutively mark inside pairs."
+  (interactive)
+  (cond ((equal last-command this-command)
+         (call-interactively 'handy-mark-inside-pairs))
+        ((er--point-inside-string-p)
+         (call-interactively 'er/mark-inside-quotes))
+        ((and (equal major-mode 'org-mode) (org-at-table-p))
+         (handy-mark-inside-field))
+        (t (call-interactively 'handy-mark-inside-pairs))))
+
+;;; Miscellaneous
+
+(defun handy-cycle-spacing ()
+  "Wrapper on `cycle-spacing' to call it in \"fast\" mode."
+  (interactive)
+  (cycle-spacing nil nil 'fast))
+
+(defun handy-add-space ()
+  "Add space at point without moving."
+  (interactive)
+  (insert " ")
+  (goto-char (- (point) 1)))
+
+;;; Comments
+
+(comment ; plist-get, <, handy-sp-touch
+ (plist-get (sp-get-thing) :beg)
+ (plist-get (sp-get-thing t) :beg)
+ (handy-sp-touch)
+ (< 1 3 5) ;; t
+ (< 1 3 3) ;; nil
+ (global-set-key (kbd "C-<f1>") 'handy-sp-touch)
+ ;; (test-1 test-3 test-2)
+ ;; (test-d-e-f)
+ ;; (test-a-b-c)
+ ;; (test-g-h-i)
+ )
+
+(comment ; thing-at-point, handy-point-in-url-p
+ (with-temp-buffer
+   (insert "https://tonyaldon.com and ...")
+   (search-backward "tony")
+   (handy-point-in-url-p))
+ (thing-at-point 'sentence)
+ (thing-at-point 'word)
+ (thing-at-point 'url)
+ )
+
+;;; Footer
+
+(provide 'handy)
+
+#+END_SRC
+
+** emacs-lisp
+To write my own ~emacs~ commands, I used the following ~variables~,
+~functions~, ~macros~ and ~special forms~.
+*** variables
+- ~this-command~
+- ~last-command~
+*** functions
+**** from [[https://github.com/magnars/expand-region.el][expand-region]]
+- ~er--point-inside-string-p~
+**** built-in
+- ~region-active-p~
+- ~this-command-keys-vector~
+- ~make-string~
+- ~aref~
+- ~cdr~
+- ~assoc~
+- ~exchange-point-and-mark~
+- ~commandp~
+- ~functionp~
+- ~funcall~
+- ~eval~
+- ~self-insert-command~
+- ~outline-on-heading-p~
+- ~error~
+- ~bolp~
+- ~local-set-key~
+- ~cycle-spacing~
+- ~skip-chars-backward~
+- ~push-mark~
+- ~set-mark~
+- ~thing-at-point~
+- ~string-empty-p~
+- ~split-line~
 * Step 12 (November 08, 2020 - January 28, 2021)
 commit f7a3031f308c1716ebe28cb458d7b08d54cc34de (v3.0.0).
 
