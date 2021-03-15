@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: new-task
+# key: nt
+# --
+$0***** TODO ${1:task}
+:PROPERTIES:
+:Effort:   ${2:0}
+:END:
