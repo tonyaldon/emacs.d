@@ -6,6 +6,7 @@
 (setq org-use-speed-commands t)
 (setq org-return-follows-link t)
 (setq org-export-backends '(ascii beamer html icalendar latex md))
+(setq org-hide-emphasis-markers t)
 (set-default 'org-link-frame-setup '((file . find-file)))
 (add-to-list 'org-file-apps '(directory . emacs))
 
