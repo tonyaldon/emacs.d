@@ -213,8 +213,8 @@ nor a variable."
   ("]" handy-line-add-below :color blue)
   ("_" handy-add-space :color blue)
   ;; quick motions
-  ("n" next-logical-line)
-  ("p" previous-logical-line)
+  ("n" next-line)
+  ("p" previous-line)
   ("f" forward-char)
   ("b" backward-char)
   ("i" back-to-indentation)

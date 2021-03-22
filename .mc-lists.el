@@ -52,10 +52,12 @@
         handy-line/lambda-u
         handy-line/move-beginning-of-line
         handy-line/move-end-of-line
+        handy-line/next-line
         handy-line/next-logical-line
         handy-line/open-line
         handy-line/org-backward-sentence
         handy-line/org-forward-sentence
+        handy-line/previous-line
         handy-line/previous-logical-line
         handy-line/set-mark-command
         handy-line/ta-back-to-indent-split-line-and-exit
@@ -164,7 +166,9 @@
         org-open-line
         org-return-indent
         org-self-insert-command
+        org-shiftdown
         org-shifttab
+        org-shiftup
         org-table-blank-field
         org-yank
         orgtbl-hijacker-command-109
@@ -215,6 +219,7 @@
         backward-kill-sentence
         beginning-of-buffer
         c-electric-semi&comma
+        clone-buffer
         comment-dwim
         counsel-M-x
         counsel-find-file
@@ -298,6 +303,7 @@
         kmacro-start-macro
         linux-switch-keyboard-layout
         magit-copy-buffer-revision
+        magit-status
         mouse-buffer-menu
         mouse-save-then-kill
         mouse-set-region
