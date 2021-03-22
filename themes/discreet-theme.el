@@ -16,7 +16,7 @@
       (d-red           "#ff6c60")
       (d-orange-1      "#fd721f")
       (d-orange-2      "#fd971f")
-      (d-yellow-1      "#ffd500") ; not used here (for cursor)
+      (d-yellow-1      "#ffd500")       ; not used here (for cursor)
       (d-yellow-2      "#eedc82")
       (d-yellow-3      "#f5ebb6")
       (d-green-1       "#60ff6c")
@@ -28,8 +28,8 @@
       (d-cyan-1        "#457f8b")
       (d-cyan-2        "#5297a5")
       (d-blue-1        "#87cefa")
-      (d-blue-2        "#8795fa") ; not used here (for cursor)
-      (d-pink-1        "#fa87ce") ; not used here (for cursor)
+      (d-blue-2        "#8795fa")       ; not used here (for cursor)
+      (d-pink-1        "#fa87ce")       ; not used here (for cursor)
       (d-pink-2        "#f92672"))
 
 
@@ -160,7 +160,12 @@
    `(font-lock-reference-face ((t (:foreground ,d-yellow-3))))
    `(font-lock-regexp-grouping-backslash ((t (:foreground ,d-blue-1))))
    `(font-lock-regexp-grouping-construct ((t (:foreground ,d-blue-1))))
-   `(font-lock-number-face ((t (:foreground ,d-yellow-2))))))
+   `(font-lock-number-face ((t (:foreground ,d-yellow-2))))
+
+   ;; org-mode
+   `(org-mode-line-clock ((t (:inherit mode-line))))
+   `(org-mode-line-clock-overrun ((t (:inherit mode-line :background ,d-red))))
+   ))
 
 
 ;;;###autoload
