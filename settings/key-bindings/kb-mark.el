@@ -69,7 +69,7 @@ Intended to be use as advice before of `mouse-set-point'."
 (global-set-key (kbd "M-c") 'hydra-mc/body)
 (global-set-key (kbd "<C-down-mouse-1>") 'mc/add-cursor-on-click)
 
-(key-chord-define-global "{p" 'iedit-mode)
+(key-chord-define-global "<p" 'iedit-mode)
 (global-set-key (kbd "<mouse-3>") 'ta-mouse-iedit-mode)
 
 ;;; TODO

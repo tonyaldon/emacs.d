@@ -46,7 +46,7 @@
 
 ;;;; completion
 
-(global-set-key (kbd "M-{") 'counsel-quick-access)
+(global-set-key (kbd "M-<") 'counsel-quick-access)
 (global-set-key (kbd "C->") 'counsel-outline)
 (global-set-key (kbd "M-e") 'counsel-find-file)
 (global-set-key (kbd "C-a") 'project-switch-to-buffer)
@@ -691,7 +691,6 @@ that call interactively COMMAND."
 (define-key org-mode-map (kbd "M-e") nil)
 (define-key org-mode-map (kbd "C-a") nil)
 (define-key org-mode-map (kbd "M-a") nil)
-(define-key org-mode-map (kbd "M-{") nil)
 
 (define-key org-mode-map (kbd "M-m") 'ta-org-table-previous-row)
 (define-key org-mode-map (kbd "C-<tab>") 'org-shifttab)
@@ -708,19 +707,20 @@ that call interactively COMMAND."
         ("b" . (org-speed-move-safe 'org-backward-heading-same-level))
         ("i" . (org-speed-move-safe 'outline-up-heading))
         ("Sparse tree navigation")
-        ("y" . previous-error)
-        ("x" . next-error)
+        ("x" . previous-error)
+        ("o" . next-error)
         ("Outline Structure Editing")
         ("." . org-toggle-narrow-to-subtree)
         ("@" . org-mark-subtree)
-        ("`". org-metaup)
-        (",". org-metadown)
-        ("]". org-shiftmetaright)
-        ("[". org-shiftmetaleft)
-        (")". org-metaright)
-        ("(". org-metaleft)
-        ("+". (progn (forward-char 1) (call-interactively
-                                       'org-insert-heading-respect-content)))
+        ("`" . org-metaup)
+        ("," . org-metadown)
+        ("]" . org-shiftmetaright)
+        ("[" . org-shiftmetaleft)
+        (")" . org-metaright)
+        ("(" . org-metaleft)
+        ("+" . (progn (forward-char 1) (call-interactively
+                                        'org-insert-heading-respect-content)))
+        ("C" . org-copy-subtree)
         ("Meta Data Editing")
         ("t" . org-todo)
         (":" . org-set-tags-command)
@@ -731,7 +731,7 @@ that call interactively COMMAND."
         ("Clock commands")
         ("s" . org-clock-in)
         ("S" . org-clock-out)
-        ("C" . org-clock-cancel)
+        ;; ("C" . org-clock-cancel)
         ("v" . org-clock-goto)
         ("r" . org-clock-report)
         ("d" . org-clock-display)
@@ -739,6 +739,7 @@ that call interactively COMMAND."
         ("Columns")
         ("c" . org-columns)
         ("Misc")
+        ("P" . org-set-property)
         ("?" . org-speed-command-help)))
 
 
