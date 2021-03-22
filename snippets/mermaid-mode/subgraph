@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: subgraph
+# key: s
+# --
+subgraph ${1:id} ${2:[title]}
+$0
+end

@@ -40,11 +40,14 @@
  'org-babel-load-languages '((js . t)
                              (shell . t)
                              (python . t)
-                             (dot . t)))
+                             (dot . t)
+                             (mermaid . t)))
 
 (defun ta-org-confirm-babel-evaluate (lang body)
   (and (not (string= lang "emacs-lisp"))
-       (not (string= lang "dot"))))  ; don't ask for ditaa
+       (not (string= lang "dot"))
+       (not (string= lang "mermaid"))
+       (not (string= lang "shell"))))  ; don't ask for ditaa
 
 (setq org-confirm-babel-evaluate 'ta-org-confirm-babel-evaluate)
 

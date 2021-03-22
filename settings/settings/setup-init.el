@@ -509,6 +509,21 @@ Intended to be used in the hook `makefile-gmake-mode-hook'."
 (define-key makefile-gmake-mode-map (kbd "M-n") 'windmove-down)
 (define-key makefile-gmake-mode-map (kbd "M-p") 'windmove-up)
 
+;;;; mermaid-mode
+(require 'mermaid-mode)
+
+(add-to-list `auto-mode-alist '("\\.mmd\\'" . mermaid-mode))
+
+(defun mermaid-compile-on-save ()
+  "Intended to be use as a hook of `after-save-hook'.
+
+Live preview of the mermaid file being edited each time
+you save the file."
+  (when (eq major-mode 'mermaid-mode)
+    (mermaid-compile)))
+
+(add-hook 'after-save-hook 'mermaid-compile-on-save)
+
 ;;;; mini-frame
 (require 'mini-frame)
 
