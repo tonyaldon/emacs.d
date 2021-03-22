@@ -713,6 +713,19 @@ Note: Modify the internal-border-width of the frame."
 (sp-local-pair 'prog-mode "[" nil :post-handlers '((indent-between-pair "RET")))
 (sp-local-pair 'prog-mode "(" nil :post-handlers '((indent-between-pair "RET")))
 
+;;;; org-mode
+
+(defun ta-org-smartparens ()
+  "Intended to be used in the hook `org-mode-hook'."
+  (sp-local-pair 'org-mode "*" "*" :actions '(wrap navigate))
+  (sp-local-pair 'org-mode "/" "/" :actions '(wrap navigate))
+  (sp-local-pair 'org-mode "_" "_" :actions '(wrap navigate))
+  (sp-local-pair 'org-mode "=" "=" :actions '(wrap navigate))
+  (sp-local-pair 'org-mode "~" "~" :actions '(wrap navigate)))
+
+(add-hook 'org-mode-hook 'ta-org-smartparens)
+
+
 ;;;; visual-line-mode
 
 (require 'adaptive-wrap)
