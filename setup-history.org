@@ -1432,8 +1432,8 @@ margin).  We welcome these new packages in the setup:
 - ~i3.el~
 - ~insight.el~
 - ~outline-speed-commands.el~
-~- ~quick-access
-~- ~refactor.el~
+- ~quick-access~
+- ~refactor.el~
 - ~screencast.el~
 - ~sidebar.el~
 
