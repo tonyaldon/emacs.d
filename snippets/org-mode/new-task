@@ -4,5 +4,9 @@
 # --
 $0***** TODO ${1:task}
 :PROPERTIES:
-:Effort:   ${2:0}
-:END:
+:ESTIMATED_TIME_TODAY: ${3:0:30}
+:ESTIMATED_TIME_TOTAL: ${2:0:30}
+:PLANNED:  no
+:PLANNED_FOR_THE_FIRST_TIME_ON: `(format-time-string "[%F %a]")`
+:TASK_ID: ${1:$(plan-generate-task-id yas-text)}
+:END: ${4:- specify the task}
