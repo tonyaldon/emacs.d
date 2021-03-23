@@ -37,12 +37,14 @@ See: `region-active-spc-exchange-point-and-mark'.")
     handy-mark-dwim
     handy-mark-inside-dwim
     handy-mark-line
-    mark-paragraph)
-  "List of mouvement commands that move the cursor backward.")
+    mark-paragraph
+    org-mark-subtree)
+  "List of marking commands that are adviced when
+`region-active-spc-exchange-p' is t.")
 
 (defvar region-active-spc-backward-commands
   '(backward-word
-    previous-logical-line
+    previous-line
     sp-backward-sexp
     beginning-of-line
     backward-paragraph)
@@ -50,7 +52,7 @@ See: `region-active-spc-exchange-point-and-mark'.")
 
 (defvar region-active-spc-forward-commands
   '(forward-word
-    next-logical-line
+    next-line
     sp-forward-sexp
     end-of-line
     forward-paragraph)
