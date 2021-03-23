@@ -728,6 +728,7 @@ that call interactively COMMAND."
         ("Agenda Views etc")
         ("a" . org-agenda)
         ("/" . org-sparse-tree)
+        ("%" . plan-sparse-tree-task-id)
         ("Clock commands")
         ("s" . org-clock-in)
         ("S" . org-clock-out)

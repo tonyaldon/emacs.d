@@ -10,9 +10,12 @@
 (set-default 'org-link-frame-setup '((file . find-file)))
 (add-to-list 'org-file-apps '(directory . emacs))
 
+;;; Plan
 
+(require 'plan)
 
 ;;; time
+
 (setq system-time-locale "C")
 (setq org-log-done 'time)
 
