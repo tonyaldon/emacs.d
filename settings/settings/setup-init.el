@@ -234,8 +234,10 @@ This function should called whenever the window configuration changes
 (add-hook 'window-configuration-change-hook 'ta-frame-set-display-alist)
 ;;;; PATH
 
-(setenv "PATH" (concat "~/.local/bin:" (getenv "PATH")))
+(setenv "PATH" (concat "~/.local/bin:~/.linuxbrew/bin:"
+                       (getenv "PATH")))
 (add-to-list 'exec-path "~/.local/bin")
+(add-to-list 'exec-path "~/.linuxbrew/bin/")
 
 ;;;; Other
 
