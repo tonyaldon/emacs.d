@@ -47,10 +47,8 @@
 ;;;; completion
 
 (global-set-key (kbd "M-<") 'counsel-quick-access)
-(global-set-key (kbd "C->") 'counsel-outline)
 (global-set-key (kbd "M-e") 'counsel-find-file)
-(global-set-key (kbd "C-a") 'project-switch-to-buffer)
-(global-set-key (kbd "M-a") 'ivy-switch-buffer-other-window)
+(global-set-key (kbd "C-a") 'ivy-switch-buffer)
 
 (global-set-key (kbd "C-M-n") 'counsel-rg)
 
