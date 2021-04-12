@@ -2,7 +2,7 @@
 # name: new-task
 # key: nt
 # --
-$0***** TODO ${1:task}
+$0**** TODO ${1:task}
 :PROPERTIES:
 :ESTIMATED_TIME_TODAY: ${3:0:30}
 :ESTIMATED_TIME_TOTAL: ${2:0:30}

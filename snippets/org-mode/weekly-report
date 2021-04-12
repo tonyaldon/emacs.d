@@ -3,26 +3,19 @@
 # key: nr
 # --
 ** Week `(format-time-string "%W")` - `(format-time-string "[%F %a]")`
-*** Plan
 - Goal :: $0
 - Deadline ::
 - Resources ::
-**** Monday [/]
+*** Monday [/]
 
-**** Tueday [/]
+*** Tueday [/]
 
-**** Wednesday [/]
+*** Wednesday [/]
 
-**** Thursday [/]
+*** Thursday [/]
 
-**** Friday [/]
+*** Friday [/]
 
-**** Saturday [/]
+*** Saturday [/]
 
-**** Sunday [/]
-
-*** Done
-
-*** Improvement
-
-*** Learning
+*** Sunday [/]
