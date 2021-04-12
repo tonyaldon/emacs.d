@@ -143,95 +143,22 @@
 
 ;;;; Window layout
 ;;;;; display-buffer-alist
-(setq window-sides-vertical nil)
 
-(setq ta-display-buffer-alist-monitor
-      '(;; side windows
-        ("\\*Help.*"
-         (display-buffer-in-side-window)
-         (window-height . 0.5)
-         (side . top)
-         (slot . -1))
-        ("\\*scratch.*"
-         (display-buffer-in-side-window)
-         (window-height . 0.5)
-         (side . top)
-         (slot . 1))
-        ("\\*Messages.*\\|\\*Warnings.*\\|\\*Backtrace.*"
-         (display-buffer-in-side-window)
-         (window-width . 0.36)
-         (side . left)
-         (slot . 1))
-        ("\\*YASnippet Tables by NAMEHASH\\*\\|\\*YASnippet Tables\\*"
-         (display-buffer-in-side-window)
-         (window-width . 0.36)
-         (side . left)
-         (slot . 2))
-        (".*occur.*\\|\\*grep.*\\|\\*rg.*\\|*Occur.*"
-         (display-buffer-in-side-window)
-         (window-width . 0.5)
-         (side . left)
-         (slot . 2))
-        ;; Normal windows
-        ("\\*info.*\\|\\*Apropos.*"
-         (display-buffer-same-window))
-        ("magit:.*\\|magit-diff:.*"
-         (display-buffer-in-direction)
-         (direction . left))
-        ("magit-log:.*"
-         (display-buffer-below-selected))
-        ("\\*terminal.*"
-         (display-buffer-below-selected))))
+(setq-default
+ display-buffer-alist
+ '((".*occur.*\\|\\*grep.*\\|\\*rg.*\\|*Occur.*"
+    (display-buffer-same-window))
+   ("\\*Help.*\\|\\*Messages.*\\|\\*Warnings.*\\|\\*Backtrace.*"
+    (display-buffer-same-window))
+   ("\\*YASnippet Tables by NAMEHASH\\*\\|\\*YASnippet Tables\\*"
+    (display-buffer-same-window))
+   ("\\*info.*\\|\\*Apropos.*"
+    (display-buffer-same-window))
+   ("magit:.*"
+    (display-buffer-same-window))
+   ("magit-log:.*"
+    (display-buffer-same-window))))
 
-(setq ta-display-buffer-alist-half-monitor
-      '(;; side windows
-        ("\\*Help.*"
-         (display-buffer-in-side-window)
-         (window-height . 0.5)
-         (side . top)
-         (slot . -1))
-        ("\\*scratch.*"
-         (display-buffer-in-side-window)
-         (window-height . 0.5)
-         (side . top)
-         (slot . 1))
-        ("\\*Messages.*\\|\\*Warnings.*\\|\\*Backtrace.*"
-         (display-buffer-in-side-window)
-         (window-height . 0.5)
-         (side . bottom)
-         (slot . -1))
-        ("\\*YASnippet Tables by NAMEHASH\\*\\|\\*YASnippet Tables\\*"
-         (display-buffer-in-side-window)
-         (window-height . 0.5)
-         (side . bottom)
-         (slot . 1))
-        (".*occur.*\\|\\*grep.*\\|\\*rg.*\\|*Occur.*"
-         (display-buffer-in-side-window)
-         (window-height . 0.5)
-         (side . bottom)
-         (slot . 1))
-        ;; Normal windows
-        ("\\*info.*\\|\\*Apropos.*"
-         (display-buffer-same-window))
-        ("magit:.*\\|magit-diff:.*"
-         (display-buffer-below-selected))
-        ("magit-log:.*"
-         (display-buffer-below-selected))
-        ("\\*terminal.*"
-         (display-buffer-below-selected))))
-
-(setq ta-frame-width-monitor 1916)
-
-(defun ta-frame-set-display-alist ()
-  "Set the `display-buffer-alist' regarding the window configuration.
-
-This function should called whenever the window configuration changes
-(`window-configuration-change-hook')."
-  (if (eq (frame-native-width) ta-frame-width-monitor)
-      (setq display-buffer-alist ta-display-buffer-alist-monitor)
-    (setq display-buffer-alist ta-display-buffer-alist-half-monitor)))
-
-(add-hook 'window-configuration-change-hook 'ta-frame-set-display-alist)
 ;;;; PATH
 
 (setenv "PATH" (concat "~/.local/bin:~/.linuxbrew/bin:"
