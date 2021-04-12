@@ -157,9 +157,9 @@ but (C--) is really handy when used with the command `windmove-down'."
 
 ;;;; miscellaneous
 
-(defun ta-term-bash ()
+(defun ta-ansi-term-bash ()
   (interactive)
-  (ta-term "/bin/bash"))
+  (ansi-term "/bin/bash"))
 
 (defun ta-split-window-right ()
   "Chain `split-window-right' and `windmove-right'."
@@ -225,7 +225,7 @@ Other window is selected with `ace-window'."
   ("'" aw-flip-window :color blue)
   ("<next>" window-toggle-side-windows)
   ("i" clone-indirect-buffer-other-window)
-  ("r" ta-term-bash :color blue)
+  ("r" ta-ansi-term-bash :color blue)
   ("l" ta-dired-side-by-side)
   ("e" ta-split-window-right)
   ("," ta-split-window-down)
