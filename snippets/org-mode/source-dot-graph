@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: source-dot-graph
+# key: dg
+# --
+#+BEGIN_SRC dot :file ${1:output}.png :cmdline -Tpng
+$0
+#+END_SRC

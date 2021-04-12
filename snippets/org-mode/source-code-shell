@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: source-code-shell
+# key: ss
+# --
+#+BEGIN_SRC shell :results output
+$0
+#+END_SRC

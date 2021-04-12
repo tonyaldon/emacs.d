@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: expense
+# key: x
+# --
+`(format-time-string "%F")`,fruit-vegetable,${1:price},nieves
+`(format-time-string "%F")`,fish,${2:price},nieves
+`(format-time-string "%F")`,supermaket-not-food,${3:price},nieves
+`(format-time-string "%F")`,supermaket-food,${4:price},nieves
+`(format-time-string "%F")`,meat,${0:price},nieves
