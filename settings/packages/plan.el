@@ -4,7 +4,7 @@
 ;; rich-project and Jack Inside.
 ;;
 ;; I rely on `org-clock', `org-columns' and `org-agenda'.  So the
-;; utilitise and configuration uses those packages.
+;; utilities and configurations use those packages.
 ;;
 ;; To plan my work, I use the following `org-mode' properties:
 ;; - ESTIMATED_TIME_TODAY (`org-effort-property')
@@ -37,11 +37,7 @@
 
 (defun plan-generate-task-id (heading)
   "Generate `plan-task-id' string from HEADING."
-  (s-concat
-   (s-replace " " "_"
-              (s-truncate 50 (org-link-display-format heading)))
-   "--"
-   (sha1 (time-stamp-string))))
+  (sha1 (s-concat (time-stamp-string) heading)))
 
 (defun plan-get-task-id ()
   "Get value of the `plan-task-id' property for the current entry."
@@ -69,16 +65,13 @@
 (comment ; org-link-display-format, org-sparse-tree
  ;; /home/tony/work/learning/apps/emacs/lisp/org/ol.el 1195 (org-link-display-format)
  (org-link-display-format "[[https://github.com/tonyaldon/emacs.d][emacs.d]] uieuie uie") ; "emacs.d uieuie uie"
- (org-link-display-format "[[https://github.com/tonyaldon/emacs.d][emacs.d]]uieuie uie") ; "emacs.duieuie uie"
 
  ;; /home/tony/work/learning/apps/emacs/lisp/org/org.el 11394 (org-sparse-tree)
  )
 
 (comment ; plan-generate-task-id
- (plan-generate-task-id "plan of the week") ; "plan_of_the_week--3c0a9d0fd8391fc8ea8b2a21ff45b7b22577ef5e"
- (plan-generate-task-id "update [[https://github.com/tonyaldon/emacs.d][emacs.d]] settings") ; "update_emacs.d_settings--843c4c3b22c5a3a7f04b95238965351138116381"
+ (plan-generate-task-id "plan of the week") ; "4cda3931b68da2275e927600e519d6bac894cc61"
  )
-
 ;;; Footer
 
 (provide 'plan)
