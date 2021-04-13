@@ -299,10 +299,6 @@ of the columns."
 
 ;; todo: add company completion
 
-;;;; i3-mode
-
-(require 'i3)
-
 ;;;; insight-mode
 
 (require 'insight)
