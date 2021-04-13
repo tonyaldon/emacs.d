@@ -449,12 +449,6 @@ that call interactively COMMAND."
 
 (global-set-key (kbd "M-t") 'hydra-refactor/body)
 
-;;;; sidebar
-
-(require 'sidebar)
-
-(global-set-key (kbd "M-]") 'sidebar)
-
 ;;;; undo
 
 (global-set-key (kbd "M--") 'undo)
