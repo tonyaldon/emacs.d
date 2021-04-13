@@ -342,7 +342,6 @@ that call interactively COMMAND."
 
 (ta-transient-define-suffix linux-switch-keyboard-layout)
 (ta-transient-define-suffix linux-turn-off-laptop-output)
-(ta-transient-define-suffix linux-toggle-i3bar)
 (ta-transient-define-suffix linux-toggle-dpi)
 (ta-transient-define-suffix linux-toggle-git-commit-msg)
 
@@ -371,7 +370,6 @@ that call interactively COMMAND."
    ["linux"
     ("lk" "linux-switch-keyboard-layout" linux-switch-keyboard-layout--transient)
     ("ll" "linux-turn-off-laptop-output" linux-turn-off-laptop-output--transient)
-    ("li" "linux-toggle-i3bar" linux-toggle-i3bar--transient)
     ("ld" "linux-toggle-dpi" linux-toggle-dpi--transient)
     ("lg" "linux-toggle-git-commit-msg" linux-toggle-git-commit-msg--transient)]
    ["yasnippet"

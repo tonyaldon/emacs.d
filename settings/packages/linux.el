@@ -1,10 +1,11 @@
 ;;; About
+;;
 ;; In this file, we define commands that modify some behaviour of
-;; linux OS where emacs lives in, like (i3, xrandr, dpi rendering...)
+;; linux OS where emacs lives in, like (xrandr, dpi rendering...)
 
-;;; i3
+;;; Packages
 
-;;;; Toggle laptop output
+(require 'comment) ; https://github.com/tonyaldon/emacs.d/blob/master/settings/packages/comment.el
 
 ;;; Turn off laptop output
 
@@ -13,26 +14,6 @@
 
 This is not persistent across linux sessions."
   (interactive)
-;;;; Toggle i3bar visibility
-
-(defun linux--i3bar-is-hidden-p ()
-  "Return t if i3bar is hidden."
-  (s-blank-p (shell-command-to-string "i3-msg -t get_tree | grep '\"class\":\"i3bar\"'")))
-
-(defun linux-toggle-i3bar ()
-  "Toggle visibility of i3bar."
-  (interactive)
-  (let ((inhibit-message t))
-    (if (linux--i3bar-is-hidden-p)
-        (shell-command "i3-msg bar mode dock")
-      (shell-command "i3-msg bar mode invisible"))))
-
-;; COMMENTS
-;; (s-blank-p "")
-;; (shell-command-to-string "ls")
-;; (shell-command-to-string "i3-msg -t get_tree | grep '\"class\":\"i3bar\"'")
-;; (shell-command "i3-msg bar mode invisible")
-;; (shell-command "i3-msg bar mode dock")
   (shell-command-to-string "xrandr --output eDP-1 --off"))
 
 ;;; Monitor DPI
@@ -123,10 +104,12 @@ echo \"$HINT\" >> $COMMIT_MSG_FILEPATH"))
       (shell-command (concat "chmod +x " prepare-commit-msg))
       (message "\"%s\" has been created" (file-name-nondirectory prepare-commit-msg)))))
 
-;; COMMENTS
-;; (shell-command "ls")
-;; (shell-command-to-string "ls")
-;; (global-set-key (kbd "C-<f1>") 'linux-toggle-git-commit-msg)
+;;; Comments
+
+(comment ; shell-command-to-string, shell-command
+ (shell-command "ls")
+ (shell-command-to-string "ls"))
 
 ;;; Footer
+
 (provide 'linux)
