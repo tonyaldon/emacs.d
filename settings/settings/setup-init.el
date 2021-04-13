@@ -704,7 +704,6 @@ Note: Modify the internal-border-width of the frame."
         ("tmp" . "~/work/tmp/")
         ("tonyaldon.com" . "~/work/apps/tonyaldon.com/")
         ("Jack Inside - private" . "~/work/jackinside/private/")
-        ("i3 config" . "~/work/settings/i3/.config/i3/config")
         ("inkscape config" . "~/work/settings/uconfig/.config/inkscape/keys/default.xml")
         ("settings emacs" . "~/work/settings/emacs.d/.emacs.d/settings/")
         ("settings linux" . "~/work/settings/")
