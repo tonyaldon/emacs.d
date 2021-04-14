@@ -449,65 +449,6 @@ you save the file."
 
 (add-hook 'after-save-hook 'mermaid-compile-on-save)
 
-;;;; mini-frame
-(require 'mini-frame)
-
-(setq mini-frame-ignore-commands '(dired-do-delete
-                                   dired-do-flagged-delete
-                                   kill-this-buffer
-                                   eval-expression
-                                   cider-find-var
-                                   dired-do-flagged-delete
-                                   org-ctrl-c-ctrl-c
-                                   org-time-stamp
-                                   org-table-create-or-convert-from-region
-                                   swiper
-                                   swiper-isearch-toggle
-                                   swiper-all
-                                   swiper-thing-at-point
-                                   revert-buffer
-                                   ta-zap-back-to-char
-                                   counsel-outline
-                                   counsel-rg
-                                   isearch-edit-string
-                                   counsel-fzf
-                                   counsel-yank-pop))
-(setq mini-frame-show-parameters
-      '((left . 0.5)
-        (top . 0.08)
-        (width . 0.6)
-        (height . 1)
-        (background-color . "#151515")))
-(setq mini-frame-internal-border-color "#01676b")
-(setq mini-frame-resize t)
-
-(defun mini-frame--make-frame (parameters)
-  "Make frame with common parameters and PARAMETERS.
-
-Note: Modify the internal-border-width of the frame."
-  (let ((frame (make-frame (append parameters
-                                   '((visibility . nil)
-                                     (user-position . t)
-                                     (user-size . t)
-                                     (keep-ratio . t)
-                                     (undecorated . t)
-                                     (desktop-dont-save . t)
-                                     (internal-border-width . 2) ; default value was 3
-                                     (drag-internal-border . t))))))
-    (set-face-background 'fringe nil frame)
-    (when mini-frame-internal-border-color
-      (set-face-background 'internal-border mini-frame-internal-border-color frame))
-    frame))
-
-
-;; 1. must be turn on after setting the preceding variables.
-;; 2. warning, if you turn on the mode in your init file directly,
-;; when you start the emacs daemon (without inside a frame) you get the error:
-;; Warning (initialization): An error occurred while loading ‘/home/tony/.emacs.d/init.el’:
-;; error: Unknown terminal type
-;; Workaround: turn it on in the after-make-frames-functions list.
-(add-to-list 'after-make-frame-functions 'mini-frame-mode t)
-
 ;;;; Info-mode
 
 (require 'info-colors)
@@ -822,14 +763,6 @@ see: http://github.com/magnars"
 (defun ta-find-file-notes ()
   (interactive)
   (find-file "~/work/notes.org"))
-
-(defun ta-mini-frame-ignore-commands ()
-  "Visite file \"~/.emacs.d/settings/settings/setup-init.el\" and
-go to the variable `mini-frame-ignore-commands'"
-  (interactive)
-  (find-file "~/.emacs.d/settings/settings/setup-init.el")
-  (goto-line 431)
-  (search-forward "'("))
 
 ;;; Footer
 

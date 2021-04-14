@@ -43,7 +43,6 @@
 (depends-on "lsp-mode")
 (depends-on "magit")
 (depends-on "mermaid-mode")
-(depends-on "mini-frame")
 (depends-on "minions")
 (depends-on "moody")
 (depends-on "multiple-cursors")

@@ -127,7 +127,6 @@ to a smaller window frame than usual."
   :global t
   (if screencast-mode
       (progn
-        (when mini-frame-mode (mini-frame-mode -1))
         (setq ivy-height 7)
         (--each screencast-hook-to-remove-alist (remove-hook (car it) (cdr it)))
         (setq screencast--display-buffer-alist display-buffer-alist)
@@ -138,7 +137,6 @@ to a smaller window frame than usual."
         (setq-default mode-line-format screencast-mode-line-format)
         (keycast-mode)
         (set-face-attribute 'mode-line-buffer-id nil :foreground "#151515"))
-    (mini-frame-mode 1)
     (setq ivy-height 25)
     (--each screencast-hook-to-remove-alist (add-hook (car it) (cdr it)))
     (setq display-buffer-alist screencast--display-buffer-alist)
