@@ -2,7 +2,6 @@
 
 (require 'dired)
 (require 'dired-hacks-utils)
-(require 'dired-narrow)
 (require 'dired-hide-dotfiles)
 (require 'dired-open)
 (require 'wdired)

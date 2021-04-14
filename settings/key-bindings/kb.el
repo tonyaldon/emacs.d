@@ -105,7 +105,6 @@
 
 (define-key dired-mode-map (kbd "[") 'dired-hide-details-mode)
 (define-key dired-mode-map (kbd ".") 'dired-hide-dotfiles-mode)
-(define-key dired-mode-map (kbd "/") 'dired-narrow)
 (define-key dired-mode-map (kbd ")") 'ta-aw-other-window-scroll-buffer)
 
 (define-key dired-mode-map (kbd "M-s") 'isearch-forward)

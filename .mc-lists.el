@@ -229,7 +229,6 @@
         dired-do-redisplay
         dired-hide-details-mode
         dired-mark
-        dired-narrow
         dired-next-line
         dired-previous-line
         dired-unmark-all-files

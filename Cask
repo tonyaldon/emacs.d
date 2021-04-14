@@ -14,7 +14,6 @@
 (depends-on "counsel")
 (depends-on "csv-mode")
 (depends-on "dired-hide-dotfiles")
-(depends-on "dired-narrow")
 (depends-on "dired-open")
 (depends-on "drag-stuff")
 (depends-on "dumb-jump")
