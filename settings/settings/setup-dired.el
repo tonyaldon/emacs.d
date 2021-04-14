@@ -12,7 +12,6 @@
 (require 'dired-collapse)
 (require 'wdired)
 (require 'dired-x)
-(require 'dired-rainbow)
 
 ;;; Global
 (dired-hide-dotfiles-mode)
@@ -127,20 +126,6 @@ that `dired-mode' is displaying."
  '(("\\(^.*:$\\)" . 'ta-dired-header-face)))
 
 (add-hook 'dired-before-readin-hook 'dired-header-line-mode)
-
-
-;;; dired-rainbow
-(dired-rainbow-define-chmod executable-unix "#7fffd4" "-.*x.*")
-(dired-rainbow-define media "#d4fbcb"
-                      ("mp3" "mp4" "MP3" "MP4" "avi" "mpg" "flv" "ogg" "m4a"))
-(dired-rainbow-define image "#a4c30d" ("jpg" "jpeg" "png"))
-(dired-rainbow-define svg "#8a510f" ("svg"))
-(dired-rainbow-define media-editing "#e421e8" ("kdenlive" "aup"))
-(dired-rainbow-define plain-text "#ffd500" ("org" "md"))
-(dired-rainbow-define emacs-lisp "#00bdd6" ("el"))
-(dired-rainbow-define python "#d16500" ("py"))
-(dired-rainbow-define js "#bb8415" ("js"))
-(dired-rainbow-define shadow (:inherit shadow) "\\.git.*" )
 
 ;;; Hooks
 

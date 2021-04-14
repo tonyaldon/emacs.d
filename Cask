@@ -17,7 +17,6 @@
 (depends-on "dired-hide-dotfiles")
 (depends-on "dired-narrow")
 (depends-on "dired-open")
-(depends-on "dired-rainbow")
 (depends-on "dired-subtree")
 (depends-on "dired-toggle-sudo")
 (depends-on "drag-stuff")
