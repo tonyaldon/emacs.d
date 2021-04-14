@@ -8,7 +8,6 @@
 (require 's)
 (require 'dash)
 (require 'dired-toggle-sudo)
-(require 'dired-collapse)
 (require 'wdired)
 (require 'dired-x)
 
