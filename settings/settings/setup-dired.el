@@ -5,9 +5,6 @@
 (require 'dired-narrow)
 (require 'dired-hide-dotfiles)
 (require 'dired-open)
-(require 's)
-(require 'dash)
-(require 'dired-toggle-sudo)
 (require 'wdired)
 (require 'dired-x)
 
