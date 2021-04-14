@@ -675,6 +675,36 @@ you save the file."
         ("Jack Inside (notes)" . "~/work/jackinside/notes.org")
         ("foreign languages - Anglais Modern" . "~/work/learning/foreign-languages/Anglais-Moderne.csv")))
 
+;;;; dired, wdired and ranger
+
+(require 'dired)
+
+(setq dired-keep-marker-rename t)
+(setq dired-clean-up-buffers-too t)
+(setq dired-clean-confirm-killing-deleted-buffers t)
+(setq dired-recursive-copies 'always)
+(setq dired-recursive-deletes 'always)
+(setq dired-dwim-target t)
+
+(defun ta-dired-auto-revert ()
+  "Set `auto-revert-mode' in `dired-mode' buffers."
+  (auto-revert-mode 1)
+  (set (make-local-variable 'auto-revert-verbose) nil))
+
+(add-hook 'dired-mode-hook 'ta-dired-auto-revert)
+
+(require 'wdired)
+
+(setq wdired-allow-to-change-permissions nil)
+(setq wdired-create-parent-directories t)
+
+(require 'dired-open)
+
+(setq dired-open-extensions
+      '(("pdf" . "evince")
+        ("jpg" . "eog")
+        ("png" . "eog")))
+
 ;;;; rg
 
 (require 'rg)
