@@ -103,14 +103,6 @@
 (define-key ta-dired-find-file-map (kbd "'") 'dired-do-find-marked-files)
 (define-key dired-mode-map (kbd "e") 'ta-dired-find-file-map)
 
-(define-key dired-mode-map (kbd "C-SPC") 'ta-dired-subtree-toggle-all)
-(define-key dired-mode-map (kbd "C-<tab>") 'dired-subtree-toggle)
-(define-key dired-mode-map (kbd "<tab>") 'dired-subtree-cycle)
-(define-key dired-mode-map (kbd "<backspace>") 'dired-subtree-remove)
-(define-key dired-mode-map (kbd ":") 'dired-subtree-up)
-(define-key dired-mode-map (kbd "b") 'dired-subtree-previous-sibling)
-(define-key dired-mode-map (kbd "f") 'dired-subtree-next-sibling)
-
 (define-key dired-mode-map (kbd "[") 'dired-hide-details-mode)
 (define-key dired-mode-map (kbd ".") 'dired-hide-dotfiles-mode)
 (define-key dired-mode-map (kbd "/") 'dired-narrow)

@@ -2,7 +2,6 @@
 
 (require 'dired)
 (require 'dired-hacks-utils)
-(require 'dired-subtree)
 (require 'dired-narrow)
 (require 'dired-hide-dotfiles)
 (require 'dired-open)
@@ -30,10 +29,6 @@
       '(("pdf" . "evince")
         ("jpg" . "eog")
         ("png" . "eog")))
-(setq-default dired-subtree-line-prefix "  ")
-(setq-default dired-subtree-use-backgrounds nil)
-
-;; dired-broken-symlink color??
 
 ;;; auto-revert-mode
 
