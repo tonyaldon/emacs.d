@@ -103,14 +103,9 @@
 (define-key ta-dired-find-file-map (kbd "'") 'dired-do-find-marked-files)
 (define-key dired-mode-map (kbd "e") 'ta-dired-find-file-map)
 
-(define-key dired-mode-map (kbd "[") 'dired-hide-details-mode)
-(define-key dired-mode-map (kbd ")") 'ta-aw-other-window-scroll-buffer)
-
 (define-key dired-mode-map (kbd "M-s") 'isearch-forward)
 (define-key dired-mode-map (kbd "M-r") 'isearch-backward)
 (define-key dired-mode-map (kbd "(") 'avy-goto-line)
-
-(define-key dired-mode-map (kbd "C-t") 'ta-toggle-dired-sort)
 
 ;;;; describe
 
