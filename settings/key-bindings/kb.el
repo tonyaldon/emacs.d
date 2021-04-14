@@ -55,58 +55,6 @@
 (global-set-key (kbd "C-x C-e") 'ta-fzf-emacs-settings)
 (global-set-key (kbd "C-e") 'ta-fzf-dwim)
 
-
-;;;; dired-mode-map
-
-(define-key dired-mode-map (kbd "C-M-p") nil)
-(define-key dired-mode-map (kbd "C-M-n") nil)
-
-(define-key dired-mode-map (kbd ",") 'dired-mark)
-(define-key dired-mode-map (kbd "t") 'dired-toggle-marks)
-(define-key dired-mode-map (kbd "u") 'dired-unmark)
-(define-key dired-mode-map (kbd "k") 'dired-do-kill-lines)
-(define-prefix-command 'ta-dired-mark-map)
-(define-key ta-dired-mark-map (kbd "r") 'dired-mark-files-regexp)
-(define-key ta-dired-mark-map (kbd "e") 'dired-mark-extension)
-(define-key ta-dired-mark-map (kbd "d") 'dired-mark-directories)
-(define-key ta-dired-mark-map (kbd "u") 'dired-unmark-all-marks)
-(define-key dired-mode-map (kbd "]") 'ta-dired-mark-map)
-
-(define-key dired-mode-map (kbd "v") 'dired-view-file)
-(define-key dired-mode-map (kbd "y") 'dired-show-file-type)
-(define-key dired-mode-map (kbd "!") 'dired-do-shell-command)
-(define-key dired-mode-map (kbd "&") 'dired-do-async-shell-command)
-(define-key dired-mode-map (kbd "=") 'dired-diff)
-(define-key dired-mode-map (kbd "g") 'revert-buffer)
-(define-key dired-mode-map (kbd "L") 'dired-do-load)
-
-(define-key dired-mode-map (kbd "i") 'dired-up-directory)
-(define-key dired-mode-map (kbd "p") 'dired-previous-line)
-(define-key dired-mode-map (kbd "n") 'dired-next-line)
-(define-key dired-mode-map (kbd "M-)") 'dired-next-marked-file)
-(define-key dired-mode-map (kbd "M-(") 'dired-next-marked-file)
-
-(define-key dired-mode-map (kbd "+") 'dired-create-directory)
-(define-key dired-mode-map (kbd "r") 'dired-do-rename)
-(define-key dired-mode-map (kbd "c") 'dired-do-copy)
-(define-key dired-mode-map (kbd "x") 'dired-do-flagged-delete)
-(define-key dired-mode-map (kbd "w") 'dired-copy-filename-as-kill)
-(define-key dired-mode-map (kbd "S") 'dired-do-symlink)
-(define-key dired-mode-map (kbd "R") 'dired-do-relsymlink)
-
-(define-prefix-command 'ta-dired-find-file-map)
-(define-key ta-dired-find-file-map (kbd "e") 'ace-hacks-dired-find-file)
-(define-key ta-dired-find-file-map (kbd "p") 'ace-hacks-dired-find-file-split-up)
-(define-key ta-dired-find-file-map (kbd "n") 'ace-hacks-dired-find-file-split-down)
-(define-key ta-dired-find-file-map (kbd "b") 'ace-hacks-dired-find-file-split-left)
-(define-key ta-dired-find-file-map (kbd "f") 'ace-hacks-dired-find-file-split-right)
-(define-key ta-dired-find-file-map (kbd "'") 'dired-do-find-marked-files)
-(define-key dired-mode-map (kbd "e") 'ta-dired-find-file-map)
-
-(define-key dired-mode-map (kbd "M-s") 'isearch-forward)
-(define-key dired-mode-map (kbd "M-r") 'isearch-backward)
-(define-key dired-mode-map (kbd "(") 'avy-goto-line)
-
 ;;;; describe
 
 (defun ta-describe-thing-at-point ()

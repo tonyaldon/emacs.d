@@ -677,6 +677,8 @@ you save the file."
 
 ;;;; dired, wdired and ranger
 
+;;;;; dired and wdired
+
 (require 'dired)
 (require 'dired-toggle-sudo)
 
@@ -707,8 +709,41 @@ you save the file."
         ("jpg" . "eog")
         ("png" . "eog")))
 
-(define-key dired-mode-map (kbd "C-c C-s") 'dired-toggle-sudo)
-(define-key dired-mode-map (kbd "[") 'dired-hide-details-mode)
+;;;;; dired-mode-map
+
+(define-key dired-mode-map (kbd "C-M-p") nil)
+(define-key dired-mode-map (kbd "C-M-n") nil)
+(define-key dired-mode-map (kbd "M-s") 'isearch-forward)
+(define-key dired-mode-map (kbd "M-r") 'isearch-backward)
+
+(define-key dired-mode-map (kbd "b") 'dired-up-directory)
+(define-key dired-mode-map (kbd "f") 'dired-open-file)
+(define-key dired-mode-map (kbd "p") 'dired-previous-line)
+(define-key dired-mode-map (kbd "n") 'dired-next-line)
+
+(define-key dired-mode-map (kbd "+") 'dired-create-directory)
+
+(define-key dired-mode-map (kbd ".") 'dired-mark)
+(define-key dired-mode-map (kbd "t") 'dired-toggle-marks)
+(define-key dired-mode-map (kbd "u") 'dired-unmark)
+(define-key dired-mode-map (kbd "U") 'dired-unmark-all-marks)
+
+(define-key dired-mode-map (kbd "F") 'dired-do-find-marked-files)
+
+(define-key dired-mode-map (kbd "r") 'dired-do-rename)
+(define-key dired-mode-map (kbd "c") 'dired-do-copy)
+(define-key dired-mode-map (kbd "C") 'dired-copy-filename-as-kill)
+
+(define-key dired-mode-map (kbd "d") 'dired-flag-file-deletion)
+(define-key dired-mode-map (kbd "x") 'dired-do-flagged-delete)
+
+(define-key dired-mode-map (kbd "i") 'dired-show-file-type)
+(define-key dired-mode-map (kbd "!") 'dired-do-shell-command)
+(define-key dired-mode-map (kbd "g") 'revert-buffer)
+
+(define-key dired-mode-map (kbd "S") 'dired-toggle-sudo)
+(define-key dired-mode-map (kbd "TAB") 'dired-hide-details-mode)
+
 ;;;; rg
 
 (require 'rg)
