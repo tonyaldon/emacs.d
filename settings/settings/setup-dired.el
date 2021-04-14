@@ -2,13 +2,11 @@
 
 (require 'dired)
 (require 'dired-hacks-utils)
-(require 'dired-hide-dotfiles)
 (require 'dired-open)
 (require 'wdired)
 (require 'dired-x)
 
 ;;; Global
-(dired-hide-dotfiles-mode)
 
 (setq dired-keep-marker-rename t)
 (setq wdired-allow-to-change-permissions nil)
