@@ -1,10 +1,8 @@
 ;;; Packages
 
 (require 'dired)
-(require 'dired-hacks-utils)
 (require 'dired-open)
 (require 'wdired)
-(require 'dired-x)
 
 ;;; Global
 
