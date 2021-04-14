@@ -96,37 +96,6 @@ in the dired buffer"
       (message "OVERVIEW")
       (setq this-command 'dired-subtree-toggle-overview)))))
 
-;;; Header line
-
-(define-minor-mode dired-header-line-mode
-  "Show only the last two directories of the path to the current directory
-that `dired-mode' is displaying."
-  :init-value nil :group 'header-line :group 'dired
-  (unless (derived-mode-p 'dired-mode)
-    (error "You must be in Dired or a mode derived from it to use this command"))
-  (if dired-header-line-mode
-      (progn
-        (setq path-len (length (s-split "/" (expand-file-name dired-directory))))
-        (setq header-line-directories
-              (car (last (s-split-up-to "/" (expand-file-name dired-directory)
-                                        (- path-len 3)))))
-        (setq header-line-format (concat " ↪[" header-line-directories "]")))
-    (setq header-line-format  (default-value 'header-line-format))))
-
-(defface ta-dired-header-face nil
-  "Face for dired header, first line of buffer in `dired-mode'"
-  :group 'dired)
-
-(font-lock-add-keywords
- 'dired-mode
- '(("\\(^.*:$\\)" . 'ta-dired-header-face)))
-
-(font-lock-add-keywords
- 'wdired-mode
- '(("\\(^.*:$\\)" . 'ta-dired-header-face)))
-
-(add-hook 'dired-before-readin-hook 'dired-header-line-mode)
-
 ;;; Hooks
 
 (add-hook 'dired-mode-hook (lambda () (dired-hide-details-mode 1)))
