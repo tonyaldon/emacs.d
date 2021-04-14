@@ -12,7 +12,6 @@
 (require 'dired-collapse)
 (require 'wdired)
 (require 'dired-x)
-(require 'peep-dired)
 (require 'dired-rainbow)
 
 ;;; Global
@@ -60,16 +59,6 @@ Directories are always listed first."
   (set (make-local-variable 'auto-revert-verbose) nil))
 
 (add-hook 'dired-mode-hook 'ta-dired-auto-revert)
-
-;;; peep-dired
-
-(setq peep-dired-cleanup-on-disable t)
-(setq peep-dired-cleanup-eagerly nil)
-(setq peep-dired-enable-on-directories nil)
-(setq peep-dired-ignored-extensions
-      '("mkv" "webm" "mp4" "mp3" "ogg" "iso" "pdf"))
-(setq peep-dired-with-register nil)
-
 
 ;;; Subtree
 
