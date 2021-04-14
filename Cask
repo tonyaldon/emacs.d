@@ -14,6 +14,7 @@
 (depends-on "counsel")
 (depends-on "csv-mode")
 (depends-on "dired-open")
+(depends-on "dired-toggle-sudo")
 (depends-on "drag-stuff")
 (depends-on "dumb-jump")
 (depends-on "edit-indirect")

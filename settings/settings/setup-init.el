@@ -678,6 +678,7 @@ you save the file."
 ;;;; dired, wdired and ranger
 
 (require 'dired)
+(require 'dired-toggle-sudo)
 
 (setq dired-keep-marker-rename t)
 (setq dired-clean-up-buffers-too t)
@@ -685,6 +686,7 @@ you save the file."
 (setq dired-recursive-copies 'always)
 (setq dired-recursive-deletes 'always)
 (setq dired-dwim-target t)
+(setq-default dired-listing-switches "-al")
 
 (defun ta-dired-auto-revert ()
   "Set `auto-revert-mode' in `dired-mode' buffers."
@@ -705,6 +707,8 @@ you save the file."
         ("jpg" . "eog")
         ("png" . "eog")))
 
+(define-key dired-mode-map (kbd "C-c C-s") 'dired-toggle-sudo)
+(define-key dired-mode-map (kbd "[") 'dired-hide-details-mode)
 ;;;; rg
 
 (require 'rg)
