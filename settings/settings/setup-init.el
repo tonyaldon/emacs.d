@@ -13,6 +13,11 @@
 (set-face-attribute 'default nil :family "DejaVu Sans Mono")
 (set-fontset-font t 'unicode "Symbola" nil 'prepend)
 
+;;;;; Window
+
+(setq-default fringe-indicator-alist
+              (push '(truncation nil nil) fringe-indicator-alist))
+
 ;;;;; Frame
 
 (setq inhibit-startup-screen t)
