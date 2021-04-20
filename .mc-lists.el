@@ -99,7 +99,10 @@
         handy-sexp/sp-beginning-of-sexp
         handy-sexp/sp-change-enclosing-and-exit
         handy-sexp/sp-change-inner-and-exit
+        handy-sexp/sp-clone-sexp
         handy-sexp/sp-down-sexp
+        handy-sexp/sp-end-of-next-sexp
+        handy-sexp/sp-end-of-previous-sexp
         handy-sexp/sp-end-of-sexp
         handy-sexp/sp-forward-sexp
         handy-sexp/sp-forward-slurp-sexp
@@ -122,6 +125,7 @@
         hydra-mc/replace-string-and-exit
         hydra-mutiple-cursors/nil
         hydra-org/org-ctrl-c-star
+        hydra-refactor/refactor-finish-edit-and-exit
         hydra-sgml/body
         hydra-sgml/emmet-expand-line
         hydra-sgml/emmet-expand-yas
@@ -171,6 +175,7 @@
         org-shiftup
         org-table-blank-field
         org-yank
+        orgtbl-hijacker-command-102
         orgtbl-hijacker-command-109
         orgtbl-self-insert-command
         outline-spc-self-insert-command
@@ -193,6 +198,7 @@
         ta-zap-back-to-char
         transpose-words
         upcase-region
+        wdired--self-insert
         wdired-downcase-word
         wdired-finish-edit
         xah-insert-random-number
@@ -203,6 +209,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+        Info-copy-current-node-name
         Info-exit
         Info-mouse-follow-nearest-node
         LaTeX-babel-insert-hyphen
@@ -218,6 +225,7 @@
         avy-goto-word-or-subword-1
         backward-kill-sentence
         beginning-of-buffer
+        bicycle-cycle
         c-electric-semi&comma
         clone-buffer
         comment-dwim
@@ -239,6 +247,7 @@
         end-of-defun
         eval-last-sexp
         fill-paragraph
+        forward-button
         forward-sentence
         handle-switch-frame
         handy-line/drag-stuff-down

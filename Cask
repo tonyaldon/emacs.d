@@ -42,6 +42,7 @@
 (depends-on "moody")
 (depends-on "multiple-cursors")
 (depends-on "ob-mermaid")
+(depends-on "package-lint")
 (depends-on "py-autopep8")
 (depends-on "pydoc")
 (depends-on "pyvenv")
