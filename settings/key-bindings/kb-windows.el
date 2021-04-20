@@ -159,7 +159,9 @@ but (C--) is really handy when used with the command `windmove-down'."
 
 (defun ta-ansi-term-bash ()
   (interactive)
-  (ansi-term "/bin/bash"))
+  (let ((term-name
+         (s-concat "term:.../" (f-filename default-directory) "/")))
+    (ansi-term "/bin/bash" term-name)))
 
 (defun ta-split-window-right ()
   "Chain `split-window-right' and `windmove-right'."
