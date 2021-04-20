@@ -688,7 +688,7 @@ you save the file."
 (setq dired-recursive-copies 'always)
 (setq dired-recursive-deletes 'always)
 (setq dired-dwim-target t)
-(setq-default dired-listing-switches "-al")
+(setq-default dired-listing-switches "-al --group-directories-first")
 
 (defun ta-dired-auto-revert ()
   "Set `auto-revert-mode' in `dired-mode' buffers."
