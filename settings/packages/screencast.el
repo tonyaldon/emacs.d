@@ -137,7 +137,6 @@ to a smaller window frame than usual."
         (setq-default mode-line-format screencast-mode-line-format)
         (keycast-mode)
         (set-face-attribute 'mode-line-buffer-id nil :foreground "#151515"))
-    (setq ivy-height 25)
     (--each screencast-hook-to-remove-alist (add-hook (car it) (cdr it)))
     (setq display-buffer-alist screencast--display-buffer-alist)
     (setq screencast--display-buffer-alist nil)
