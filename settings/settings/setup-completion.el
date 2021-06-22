@@ -167,14 +167,11 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
 
 ;;;;; TODO: Web development
 
-;; (require 'ac-html-csswatcher)
 
 ;; (add-hook 'mhtml-mode-hook 'ta-company-html-mode)
 ;; (add-hook 'html-mode-hook 'ta-company-html-mode)
 ;; (add-hook 'css-mode-hook 'ta-company-css-mode)
 ;; (add-hook 'js-mode-hook 'ta-company-js-mode)
-;; (add-hook 'js-mode-hook 'ac-html-csswatcher+)
-;; (add-hook 'js-jsx-mode-hook 'ac-html-csswatcher+)
 
 
 ;;; counsel-rg

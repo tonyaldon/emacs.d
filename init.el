@@ -8,12 +8,9 @@
 ;;; load-path
 
 (add-to-list 'load-path "~/.emacs.d/settings/settings/")
-(add-to-list 'load-path "~/.emacs.d/settings/utils/")
 (add-to-list 'load-path "~/.emacs.d/settings/key-bindings/")
 (add-to-list 'load-path "~/.emacs.d/settings/packages/")
 
-(add-to-list 'load-path "~/.emacs.d/packages/")
-(add-to-list 'load-path "~/.emacs.d/packages/ac-html-csswatcher/")
 (add-to-list 'load-path "~/.emacs.d/packages/fzf.el/")
 
 (add-to-list 'load-path "~/.emacs.d/packages/inside-emacs-tooling/")
