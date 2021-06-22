@@ -3,8 +3,6 @@
 (require 'counsel)
 (require 'ivy)
 
-(require 'flx)
-
 ;;; ivy and counsel
 (counsel-mode 1)
 (ivy-mode 1)
@@ -148,31 +146,6 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
   (setq company-backends '(company-capf company-files company-dabbrev)))
 
 (add-hook 'org-mode-hook 'ta-company-org-mode)
-
-;;;;; TODO: python-mode
-
-;; I don't know if I am using `company-jedi'
-;; (require 'company-jedi)
-
-;; (defun ta-company-python-mode ()
-;;   "Setup `company-mode' for `python-mode-hook'"
-;;   (company-mode 1)
-;;  (set (make-local-variable 'company-backends)
-;;        '((company-anaconda
-;;           company-dabbrev-code
-;;           company-files)
-;;          company-capf)))
-
-;; (add-hook 'python-mode-hook 'ta-company-python-mode)
-
-;;;;; TODO: Web development
-
-
-;; (add-hook 'mhtml-mode-hook 'ta-company-html-mode)
-;; (add-hook 'html-mode-hook 'ta-company-html-mode)
-;; (add-hook 'css-mode-hook 'ta-company-css-mode)
-;; (add-hook 'js-mode-hook 'ta-company-js-mode)
-
 
 ;;; counsel-rg
 

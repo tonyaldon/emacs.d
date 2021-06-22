@@ -410,8 +410,6 @@ see: https://github.com/Fuco1/.emacs.d/blob/af82072196564fa57726bdbabf97f1d35c43
 (setq graphviz-dot-auto-preview-on-save t)
 (setq graphviz-dot-dot-program "dot")
 
-;; todo: add company completion
-
 ;;;; insight-mode
 
 (require 'insight)
