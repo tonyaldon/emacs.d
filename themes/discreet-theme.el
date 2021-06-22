@@ -128,17 +128,6 @@
    `(ivy-minibuffer-match-face-4 ((t (:underline "#59a5fe" :foreground ,d-white-0 :bold t))))
    `(ivy-prompt-match ((t (:inherit ivy-current-match))))
 
-   `(swiper-background-match-face-1 ((t (:underline ,d-orange-2 :bold t))))
-   `(swiper-background-match-face-2 ((t (:underline "#feb259" :foreground ,d-white-0 :bold t))))
-   `(swiper-background-match-face-3 ((t (:underline "#59feb2" :foreground ,d-white-0 :bold t))))
-   `(swiper-background-match-face-4 ((t (:underline "#59a5fe" :foreground ,d-white-0 :bold t))))
-   `(swiper-isearch-current-match ((t (:background "black" :foreground "white"))))
-   `(swiper-line-face ((t (:underline ,d-white-1 :bold t))))
-   `(swiper-match-face-1 ((nil)))
-   `(swiper-match-face-2 ((nil)))
-   `(swiper-match-face-3 ((nil)))
-   `(swiper-match-face-4 ((nil)))
-
    `(counsel--mark-ring-highlight ((t (:inherit highlight))))
    `(counsel-application-name ((t (:inherit font-lock-builtin-face))))
    `(counsel-key-binding ((t (:inherit font-lock-keyword-face))))

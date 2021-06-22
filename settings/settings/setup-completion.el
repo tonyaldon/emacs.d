@@ -2,7 +2,6 @@
 
 (require 'counsel)
 (require 'ivy)
-(require 'swiper)
 (require 'flx)
 
 ;;; ivy and counsel
@@ -14,16 +13,7 @@
 (setq ivy-extra-directories '("./"))
 (setq ivy-use-virtual-buffers nil)
 (setq ivy-count-format "(%d/%d) ")
-;; (setq ivy-re-builders-alist '((swiper . ivy--regex-ignore-order)
-;;                               (swiper-all . ivy--regex-ignore-order)
-;;                               (counsel-rg . ivy--regex-ignore-order)
-;;                               (counsel-outline . ivy--regex-ignore-order)
-;;                               (t . ivy--regex-fuzzy)))
-
 (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
-
-(ivy-set-occur 'swiper 'swiper-occur)
-(ivy-set-occur 'swiper-isearch 'swiper-occur)
 
 ;;; fzf
 ;;;; Packages
@@ -109,33 +99,6 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
    ((equal arg 16) (call-interactively 'ta-fzf-directory))
    (t (call-interactively 'ta-fzf-project))))
 
-;;; ivy (to sort)
-
-(defun ta-ivy-switch-to-buffer ()
-  "Wrapper on `switch-to-buffer' to be used in `ivy-minibuffer-map'."
-  (interactive)
-  (ivy-set-action 'ivy--switch-buffer-action)
-  (ivy-done))
-
-(defadvice swiper (after ta-ivy-occur-delete-other-windows activate)
-  (when (equal major-mode 'ivy-occur-grep-mode)
-    (let ((bname (buffer-name)))
-      (other-window 1)
-      (delete-other-windows)
-      (pop-to-buffer bname))))
-
-(defadvice swiper-all (after ta-ivy-occur-delete-other-windows activate)
-  (when (equal major-mode 'ivy-occur-mode)
-    (let ((bname (buffer-name)))
-      (other-window 1)
-      (delete-other-windows)
-      (pop-to-buffer bname))))
-
-;; (ad-unadvise 'swiper) ; for debugging
-;; (ad-unadvise 'swiper-all)
-
-
-
 ;;; company
 ;;;; Packages
 
@@ -164,10 +127,6 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
   (setq company-minimum-prefix-length 1))
 
 (add-hook 'emacs-lisp-mode-hook 'ta-company-emacs-lisp-mode)
-
-;;;;; TODO: clojure
-
-
 
 ;;;;; sh-mode
 

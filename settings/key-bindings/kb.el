@@ -528,13 +528,9 @@ If called with universal argument, call `pp-eval-expression'."
 (define-key isearch-mode-map (kbd "C-r") 'isearch-toggle-regexp)
 (define-key isearch-mode-map (kbd "M-e") 'isearch-edit-string)
 
-(define-key isearch-mode-map (kbd "M-t") 'swiper-isearch-toggle)
-
-
-;;;; ivy-minibuffer-map and swiper-map
+;;;; ivy-minibuffer-map
 
 (require 'ivy)
-(require 'swiper)
 
 (define-key ivy-minibuffer-map (kbd "<left>") 'ivy-previous-history-element)
 (define-key ivy-minibuffer-map (kbd "<right>") 'ivy-next-history-element)
@@ -553,12 +549,6 @@ If called with universal argument, call `pp-eval-expression'."
 (define-key ivy-minibuffer-map (kbd "C-a") 'ta-ivy-switch-to-buffer)
 
 (define-key ivy-minibuffer-map (kbd "C-M-n") 'ta-counsel-rg-ivy-command)
-
-(define-key swiper-map (kbd "M-q") 'minibuffer-keyboard-quit)
-(define-key swiper-map (kbd "M-c") 'swiper-mc)
-(define-key swiper-map (kbd "M-t") 'swiper-isearch-toggle)
-
-
 
 ;;;; magit
 

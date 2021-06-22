@@ -327,9 +327,6 @@
         save-some-buffers
         scroll-down
         suspend-frame
-        swiper
-        swiper-mc
-        swiper-thing-at-point
         ta-avy-goto-end-of-line
         ta-dired-current-buffer-file-toggle
         ta-find-file-notes
