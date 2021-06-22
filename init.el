@@ -32,7 +32,6 @@
 (require 'setup-completion)
 (require 'setup-ibuffer)
 (require 'setup-org)
-(require 'setup-python-mode)
 (require 'setup-inside-emacs)
 
 ;;; key bindings files
