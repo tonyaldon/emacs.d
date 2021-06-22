@@ -98,30 +98,6 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
    ((equal arg 16) (call-interactively 'ta-fzf-directory))
    (t (call-interactively 'ta-fzf-project))))
 
-;;; counsel-rg
-
-(setq ta-counsel-rg-ivy-callers-alist
-      '((counsel-quick-access . (lambda (selection)
-                                  (file-name-directory (quick-access-get-filename selection))))
-        (counsel-find-file . (lambda (selection)
-                               (expand-file-name selection ivy--directory)))))
-
-(defun ta-counsel-rg-ivy-command ()
-  "Trigger `counsel-rg' with `ivy' selection as initial directory.
-
-Inteded to be bind in `ivy-minibuffer-map'."
-  (interactive)
-  (ivy-set-action
-   (lambda (selection)
-     (let ((caller (ivy-state-caller ivy-last)))
-       (if (not (alist-get caller ta-counsel-rg-ivy-callers-alist))
-           (message "caller (%s) not listed in ta-counsel-rg-ivy-callers-alist" caller)
-         (when-let (resolver (alist-get caller ta-counsel-rg-ivy-callers-alist))
-           (counsel-rg nil (funcall resolver selection)))))))
-  (ivy-done))
-
-(define-key ivy-minibuffer-map (kbd "C-M-a") 'ta-counsel-rg-ivy-command)
-
 ;;; Footer
 
 (provide 'setup-completion)
