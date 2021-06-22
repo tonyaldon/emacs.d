@@ -582,13 +582,6 @@ If called with universal argument, call `pp-eval-expression'."
 (define-key magit-log-mode-map (kbd "<prior>") 'insight-scroll-down-half-window)
 (define-key magit-log-mode-map (kbd "<next>") 'insight-scroll-up-half-window)
 
-
-;;;; markdown-mode
-
-(require 'markdown-mode)
-
-(define-key markdown-mode-map (kbd "C-M-i") nil)
-
 ;;;; occur-mode
 
 (require 'replace)

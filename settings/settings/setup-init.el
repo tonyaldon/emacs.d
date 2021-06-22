@@ -278,6 +278,8 @@ of the columns."
 
 (add-hook 'clojure-mode-hook 'ta-outline-clojure-mode-hook)
 
+(define-key clojure-mode-map (kbd "TAB") 'bicycle-cycle)
+
 ;;;; emacs-lisp-mode
 
 (require 'outline)
@@ -294,6 +296,8 @@ of the columns."
 (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
 (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
 (add-hook 'emacs-lisp-mode-hook 'ta-outline-emacs-lisp-mode-hook)
+
+(define-key emacs-lisp-mode-map (kbd "TAB") 'bicycle-cycle)
 
 ;;;;; indent function (from Fuco)
 
@@ -535,6 +539,38 @@ Intended to be used in the hook `makefile-gmake-mode-hook'."
 (define-key makefile-gmake-mode-map (kbd "M-n") 'windmove-down)
 (define-key makefile-gmake-mode-map (kbd "M-p") 'windmove-up)
 
+;;;; markdown-mode
+
+(require 'markdown-mode)
+(require 'bicycle)
+(require 'outline)
+(require 'outline-spc)
+
+(defun ta-markdown-tab ()
+  "If on an outline header cycle visibility else insert \"\\t\".
+We use `bicycle-cycle' to cycle the visibility.
+See `outline-regexp' and `outline-level'."
+  (interactive)
+  (if (outline-on-heading-p)
+      (call-interactively 'bicycle-cycle)
+    (insert "\t")))
+
+(defun ta-markdown-outline-level ()
+  "Markdown mode `outline-level' function."
+  (- (match-end 0) (match-beginning 0)))
+
+(defun ta-markdown-mode-outline ()
+  "Hook to turn on `outline-minor-mode'."
+  (outline-minor-mode t)
+  (outline-spc-mode t)
+  (setq-local outline-regexp "##* \\|<details>")
+  (setq-local outline-level #'ta-markdown-outline-level))
+
+(add-hook 'markdown-mode-hook #'ta-markdown-mode-outline)
+
+(define-key markdown-mode-map (kbd "C-M-i") nil)
+(define-key markdown-mode-map (kbd "TAB") 'ta-markdown-tab)
+
 ;;;; mermaid-mode
 (require 'mermaid-mode)
 
@@ -550,14 +586,12 @@ you save the file."
 
 (add-hook 'after-save-hook 'mermaid-compile-on-save)
 
-;;;; outline-mode
+;;;; outline-mode, outline-spc, bicycle
 
 (require 'bicycle)
 (require 'outline)
 (require 'outline-spc)
 
-(define-key emacs-lisp-mode-map (kbd "TAB") 'bicycle-cycle)
-(define-key clojure-mode-map (kbd "TAB") 'bicycle-cycle)
 (global-set-key (kbd "C-M-b") 'outline-previous-visible-heading)
 (global-set-key (kbd "C-M-f") 'outline-next-visible-heading)
 (global-set-key (kbd "C-SPC") 'ta-outline-toggle-global)
