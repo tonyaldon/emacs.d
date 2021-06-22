@@ -21,20 +21,6 @@
 
 ;;; Utility functions
 
-(declare-function yas-expand "ext:yasnippet")
-
-(defun ta-defun-above ()
-  "Expand the `def' yasnippet above the current root node.
-
-Before doing so, push `symbol-at-point' into the `kill-ring'.
-See `yas-expand'. "
-  (interactive)
-  (if (symbol-at-point) (kill-new (symbol-name (symbol-at-point))))
-  (re-search-backward "^[(]" nil t)
-  (open-line 2)
-  (insert "d")
-  (call-interactively 'yas-expand))
-
 (defun fuco-lisp-indent-function (indent-point state)
   "This function is the normal value of the variable `lisp-indent-function'.
 The function `calculate-lisp-indent' calls this to determine
@@ -115,14 +101,6 @@ see: https://github.com/Fuco1/.emacs.d/blob/af82072196564fa57726bdbabf97f1d35c43
               (method
                (funcall method indent-point state))))))))
 
-
-
-;;; Key bindings
-
-(define-key emacs-lisp-mode-map (kbd "C-c C-f") 'ta-defun-above)
-
-;; FIXME: unbind C-M-i in emacs-lisp-mode
-;; (define-key emacs-lisp-mode-map (kbd "C-M-i") nil)
 
 
 ;;; Footer
