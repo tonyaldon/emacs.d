@@ -9,10 +9,9 @@
 
 (add-to-list 'load-path "~/.emacs.d/settings/settings/")
 (add-to-list 'load-path "~/.emacs.d/settings/key-bindings/")
-(add-to-list 'load-path "~/.emacs.d/settings/packages/")
 
+(add-to-list 'load-path "~/.emacs.d/packages/")
 (add-to-list 'load-path "~/.emacs.d/packages/fzf.el/")
-
 (add-to-list 'load-path "~/.emacs.d/packages/inside-emacs-tooling/")
 (add-to-list 'load-path "~/.emacs.d/packages/inside-emacs-tooling/kdenlive/")
 (add-to-list 'load-path "~/.emacs.d/packages/inside-emacs-tooling/ie-story/")
