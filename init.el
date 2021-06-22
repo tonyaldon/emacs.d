@@ -29,7 +29,6 @@
 
 (require 'setup-init)
 (require 'setup-completion)
-(require 'setup-org)
 
 ;;; key bindings files
 

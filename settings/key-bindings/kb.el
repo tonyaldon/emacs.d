@@ -484,67 +484,6 @@ If called with universal argument, call `pp-eval-expression'."
 (define-key occur-mode-map (kbd "M-p") 'nil)
 (define-key occur-mode-map (kbd "M-n") 'nil)
 
-;;;; org-mode-map
-;; Note that `org' package must be loaded before using org-mode-map
-
-(define-key org-mode-map (kbd "C-e") nil)
-(define-key org-mode-map (kbd "M-e") nil)
-(define-key org-mode-map (kbd "C-a") nil)
-(define-key org-mode-map (kbd "M-a") nil)
-
-(define-key org-mode-map (kbd "M-m") 'ta-org-table-previous-row)
-(define-key org-mode-map (kbd "C-<tab>") 'org-shifttab)
-(define-key org-mode-map (kbd "<M-return>") 'ta-org-meta-return)
-(define-key org-mode-map (kbd "M-S-<down>") 'ta-org-shiftmetadown)
-(define-key org-mode-map (kbd "C-t") 'org-toggle-inline-images)
-
-(setq org-speed-commands-default nil)
-(setq org-speed-commands-user
-      '(("Outline Navigation")
-        ("n" . (org-speed-move-safe 'org-next-visible-heading))
-        ("p" . (org-speed-move-safe 'org-previous-visible-heading))
-        ("f" . (org-speed-move-safe 'org-forward-heading-same-level))
-        ("b" . (org-speed-move-safe 'org-backward-heading-same-level))
-        ("i" . (org-speed-move-safe 'outline-up-heading))
-        ("Sparse tree navigation")
-        ("x" . previous-error)
-        ("o" . next-error)
-        ("Outline Structure Editing")
-        ("." . org-toggle-narrow-to-subtree)
-        ("@" . org-mark-subtree)
-        ("`" . org-metaup)
-        ("," . org-metadown)
-        ("]" . org-shiftmetaright)
-        ("[" . org-shiftmetaleft)
-        (")" . org-metaright)
-        ("(" . org-metaleft)
-        ("+" . (progn (forward-char 1) (call-interactively
-                                        'org-insert-heading-respect-content)))
-        ("C" . org-copy-subtree)
-        ("Meta Data Editing")
-        ("t" . org-todo)
-        (":" . org-set-tags-command)
-        ;; ("c" . org-comment-dwim)
-        ("Agenda Views etc")
-        ("a" . org-agenda)
-        ("/" . org-sparse-tree)
-        ("%" . plan-sparse-tree-task-id)
-        ("Clock commands")
-        ("s" . org-clock-in)
-        ("S" . org-clock-out)
-        ;; ("C" . org-clock-cancel)
-        ("v" . org-clock-goto)
-        ("r" . org-clock-report)
-        ("d" . org-clock-display)
-        ("e" . org-set-effort)
-        ("Columns")
-        ("c" . org-columns)
-        ("Misc")
-        ("P" . org-set-property)
-        ("?" . org-speed-command-help)))
-
-
-
 ;;;; text-mode
 
 (define-key text-mode-map (kbd "C-c C-l") 'ta-magit-log-other-window)
