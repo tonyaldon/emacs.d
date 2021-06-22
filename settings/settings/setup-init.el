@@ -187,7 +187,7 @@
 (setq create-lockfiles nil)
 
 (setq browse-url-browser-function 'browse-url-chromium)
-(setq backup-directory-alist '(("." . "~/.emacs.d/backup")))
+(setq backup-directory-alist '(("." . "~/.emacs.d/generated/backup")))
 (add-to-list `auto-mode-alist '("\\.svg\\'" . nxml-mode))
 
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -198,8 +198,8 @@
 (global-auto-revert-mode 1)
 (recentf-mode 1)
 
-(setq save-place-file "~/.emacs.d/places")
-(setq recentf-save-file "~/.emacs.d/recentf")
+(setq save-place-file "~/.emacs.d/generated/places")
+(setq recentf-save-file "~/.emacs.d/generated/recentf")
 (setq recentf-max-saved-items 25)
 
 (setq scroll-preserve-screen-position 1) ; TODO: maybe add a command to switch between `t' and `1' in `insight-mode'
