@@ -6,120 +6,154 @@
 (defalias 'list-buffers 'ibuffer)
 (setq ibuffer-expert t)
 (setq ibuffer-use-header-line nil)
-(setq ibuffer-never-show-predicates '("^\\*Help" "\\*Backtrace" "\\*Message"
-                                      "\\*Warning" "\\*eldoc" "\\*scratch"
-                                      "\\*Ibuffer"))
-
-(setq ibuffer-default-sorting-reversep nil)
+;; (setq ibuffer-never-show-predicates '("^\\*Help" "\\*Backtrace" "\\*Message"
+;;                                       "\\*Warning" "\\*eldoc" "\\*scratch"
+;;                                       "\\*Ibuffer"))
+;;
+;; (setq ibuffer-default-sorting-reversep nil)
 ;;; Format
 
 (setq ibuffer-formats
-      '((mark modified vc-status-mini
-              " " (name 18 18 :left :elide)
-              " " vc-relative-file)
-        (mark modified vc-status-mini " "
-              (name 24 24 :left :elide)
+      '((mark modified
+              ;; vc-status-mini
+              ;; " " (name 18 18 :left :elide)
+              " " (name 48 48 :left :elide)
+              " "
+              ;; vc-relative-file
+              )
+        (mark modified
+              ;; vc-status-mini ;; don't no why but now gives me error
+              " "
+              (name 48 48 :left :elide)
               " " filename-and-process)))
 
 ;;; Filters
 
-(setq ibuffer-show-empty-filter-groups nil)
+;; (setq ibuffer-show-empty-filter-groups nil)
+;;
+;; (setq ibuffer-filter-group-name-face
+;;       '(:inherit font-lock-type-face
+;;         :weight bold
+;;         :underline t))
+;;
+;; (setq ibuffer-saved-filter-groups
+;;       '(("Default"
+;;          ("Notes" (or (name . "notes.org")
+;;                       (name . "extra.org")))
+;;          ("Readme" (name . "\\README"))
+;;          ("Youtube" (filename . "youtube"))
+;;          ("Help" (or (name . "\*Help\*")
+;;                      (name . "\*Apropos\*")
+;;                      (name . "\*info\*"))))))
 
-(setq ibuffer-filter-group-name-face
-      '(:inherit font-lock-type-face
-        :weight bold
-        :underline t))
+;;; advices
 
-(setq ibuffer-saved-filter-groups
-      '(("Default"
-         ("Notes" (or (name . "notes.org")
-                      (name . "extra.org")))
-         ("Readme" (name . "\\README"))
-         ("Youtube" (filename . "youtube"))
-         ("Help" (or (name . "\*Help\*")
-                     (name . "\*Apropos\*")
-                     (name . "\*info\*"))))))
+(defun ta-ibuffer-preview ()
+  "Preview buffer at `point'."
+  (interactive)
+  (when-let ((buffer-at-point (ibuffer-current-buffer t)))
+    (if (eq 2 (length (window-list)))
+        (display-buffer buffer-at-point t)
+      (display-buffer buffer-at-point '(display-buffer-in-direction
+                                        (direction . right)
+                                        (window-width . 0.66))))))
+
+(defun ta-ibuffer-previous ()
+  "Preview buffer on the previous line."
+  (interactive)
+  (ibuffer-backward-line)
+  (ta-ibuffer-preview))
+
+(defun ta-ibuffer-next ()
+  "Preview buffer on the next line."
+  (interactive)
+  (ibuffer-forward-line)
+  (ta-ibuffer-preview))
+
+(define-key ibuffer-mode-map (kbd "P") 'ta-ibuffer-preview)
+(define-key ibuffer-mode-map (kbd "p") 'ta-ibuffer-previous)
+(define-key ibuffer-mode-map (kbd "n") 'ta-ibuffer-next)
 
 ;;; Hooks
 
-(defun ta-ibuffer-mode-hook ()
-  "Forme to be runned in by `'ibuffer-mode-hook'."
-  (ibuffer-auto-mode 1)
-  (ibuffer-switch-to-saved-filter-groups "Default")
-  (ibuffer-do-sort-by-alphabetic-directory-first))
-
-(add-hook 'ibuffer-mode-hook 'ta-ibuffer-mode-hook)
+;; (defun ta-ibuffer-mode-hook ()
+;;   "Forme to be runned in by `'ibuffer-mode-hook'."
+;;   (ibuffer-auto-mode 1)
+;;   (ibuffer-switch-to-saved-filter-groups "Default")
+;;   (ibuffer-do-sort-by-alphabetic-directory-first))
+;;
+;; (add-hook 'ibuffer-mode-hook 'ta-ibuffer-mode-hook)
 
 ;;; Utility functions
 
-(define-ibuffer-sorter alphabetic-directory-first
-  "Sort buffers by their names, puting buffer in `dired-mode' first.
-Ordering is lexicographic."
-  (:description "buffer name and dired-mode")
-  (let ((major-mode-a (buffer-local-value 'major-mode (car a)))
-        (major-mode-b (buffer-local-value 'major-mode (car b))))
-    (cond ((and (equal major-mode-a 'dired-mode) (equal major-mode-b 'dired-mode))
-           (string-lessp
-            (buffer-name (car a))
-            (buffer-name (car b))))
-          ((equal major-mode-a 'dired-mode) t)
-          (t
-           (string-lessp
-            (buffer-name (car a))
-            (buffer-name (car b)))))))
-
-(defun ta-ibuffer-vc-reduce-group-title (title)
-  "Reduce the title string.
-
-\"Git: ~/path-to-vc-root/vc-root/\" ---> \"vc-root\""
-  (-second-item (nreverse (s-split "/" title))))
-
-(defun ta-ibuffer-vc-generate-filter-groups-by-vc-root ()
-  "Wrapper on `ibuffer-vc-generate-filter-groups-by-vc-root' that reduce
-
-the group title length."
-  (let ((filter-groups (ibuffer-vc-generate-filter-groups-by-vc-root)))
-    (--map (list (ta-ibuffer-vc-reduce-group-title (car it))
-                 (cadr it))
-           filter-groups)))
-
-(setq ta-ibuffer-current-filter-groups 0)
-
-(defun ta-ibuffer-switch-filter-groups ()
-  "Switch this buffer's filter groups to one off `ibuffer-saved-filter-groups'
-or a vc filter groups generated by `ibuffer-vc-generate-filter-groups-by-vc-root'
-and `ta-ibuffer-vc-generate-filter-groups-by-vc-root'."
-  (interactive)
-  (unless (local-variable-p 'ta-ibuffer-current-filter-groups)
-    (make-local-variable 'ta-ibuffer-current-filter-groups))
-  (let* ((filter-groups-list
-          (-concat (list (ta-ibuffer-vc-generate-filter-groups-by-vc-root)
-                         (ibuffer-vc-generate-filter-groups-by-vc-root))
-                   (-map 'cdr ibuffer-saved-filter-groups)))
-         (fgl-length (length filter-groups-list)))
-    (setq ta-ibuffer-current-filter-groups
-          (if (>= ta-ibuffer-current-filter-groups (1- fgl-length))
-              0
-            (1+ ta-ibuffer-current-filter-groups)))
-    (setq ibuffer-filter-groups (nth ta-ibuffer-current-filter-groups filter-groups-list))
-    (ibuffer-update nil t)))
-
-(setq ta-ibuffer--never-show-predicates nil)
-
-(defun ta-ibuffer-toggle-show-buffers-with-predicates ()
-  "Toggle between showing or not buffers that match `ibuffer-never-show-predicates'."
-  (interactive)
-  (unless (local-variable-p 'ta-ibuffer--never-show-predicates)
-    (make-local-variable 'ta-ibuffer--never-show-predicates))
-  (unless (local-variable-p 'ibuffer-never-show-predicates)
-    (make-local-variable 'ibuffer-never-show-predicates))
-  (if ta-ibuffer--never-show-predicates
-      (progn
-        (setq ibuffer-never-show-predicates ta-ibuffer--never-show-predicates)
-        (setq ta-ibuffer--never-show-predicates nil))
-    (setq ta-ibuffer--never-show-predicates ibuffer-never-show-predicates)
-    (setq ibuffer-never-show-predicates nil))
-  (ibuffer-update nil t))
+;; (define-ibuffer-sorter alphabetic-directory-first
+;;   "Sort buffers by their names, puting buffer in `dired-mode' first.
+;; Ordering is lexicographic."
+;;   (:description "buffer name and dired-mode")
+;;   (let ((major-mode-a (buffer-local-value 'major-mode (car a)))
+;;         (major-mode-b (buffer-local-value 'major-mode (car b))))
+;;     (cond ((and (equal major-mode-a 'dired-mode) (equal major-mode-b 'dired-mode))
+;;            (string-lessp
+;;             (buffer-name (car a))
+;;             (buffer-name (car b))))
+;;           ((equal major-mode-a 'dired-mode) t)
+;;           (t
+;;            (string-lessp
+;;             (buffer-name (car a))
+;;             (buffer-name (car b)))))))
+;;
+;; (defun ta-ibuffer-vc-reduce-group-title (title)
+;;   "Reduce the title string.
+;;
+;; \"Git: ~/path-to-vc-root/vc-root/\" ---> \"vc-root\""
+;;   (-second-item (nreverse (s-split "/" title))))
+;;
+;; (defun ta-ibuffer-vc-generate-filter-groups-by-vc-root ()
+;;   "Wrapper on `ibuffer-vc-generate-filter-groups-by-vc-root' that reduce
+;;
+;; the group title length."
+;;   (let ((filter-groups (ibuffer-vc-generate-filter-groups-by-vc-root)))
+;;     (--map (list (ta-ibuffer-vc-reduce-group-title (car it))
+;;                  (cadr it))
+;;            filter-groups)))
+;;
+;; (setq ta-ibuffer-current-filter-groups 0)
+;;
+;; (defun ta-ibuffer-switch-filter-groups ()
+;;   "Switch this buffer's filter groups to one off `ibuffer-saved-filter-groups'
+;; or a vc filter groups generated by `ibuffer-vc-generate-filter-groups-by-vc-root'
+;; and `ta-ibuffer-vc-generate-filter-groups-by-vc-root'."
+;;   (interactive)
+;;   (unless (local-variable-p 'ta-ibuffer-current-filter-groups)
+;;     (make-local-variable 'ta-ibuffer-current-filter-groups))
+;;   (let* ((filter-groups-list
+;;           (-concat (list (ta-ibuffer-vc-generate-filter-groups-by-vc-root)
+;;                          (ibuffer-vc-generate-filter-groups-by-vc-root))
+;;                    (-map 'cdr ibuffer-saved-filter-groups)))
+;;          (fgl-length (length filter-groups-list)))
+;;     (setq ta-ibuffer-current-filter-groups
+;;           (if (>= ta-ibuffer-current-filter-groups (1- fgl-length))
+;;               0
+;;             (1+ ta-ibuffer-current-filter-groups)))
+;;     (setq ibuffer-filter-groups (nth ta-ibuffer-current-filter-groups filter-groups-list))
+;;     (ibuffer-update nil t)))
+;;
+;; (setq ta-ibuffer--never-show-predicates nil)
+;;
+;; (defun ta-ibuffer-toggle-show-buffers-with-predicates ()
+;;   "Toggle between showing or not buffers that match `ibuffer-never-show-predicates'."
+;;   (interactive)
+;;   (unless (local-variable-p 'ta-ibuffer--never-show-predicates)
+;;     (make-local-variable 'ta-ibuffer--never-show-predicates))
+;;   (unless (local-variable-p 'ibuffer-never-show-predicates)
+;;     (make-local-variable 'ibuffer-never-show-predicates))
+;;   (if ta-ibuffer--never-show-predicates
+;;       (progn
+;;         (setq ibuffer-never-show-predicates ta-ibuffer--never-show-predicates)
+;;         (setq ta-ibuffer--never-show-predicates nil))
+;;     (setq ta-ibuffer--never-show-predicates ibuffer-never-show-predicates)
+;;     (setq ibuffer-never-show-predicates nil))
+;;   (ibuffer-update nil t))
 
 
 
