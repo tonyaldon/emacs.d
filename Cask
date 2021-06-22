@@ -10,7 +10,7 @@
 (depends-on "clojure-mode")
 (depends-on "company")
 (depends-on "company-jedi")
-(depends-on "company-lsp")
+;;(depends-on "company-lsp") ; I'm no longer able to retrieve that package with Cask.
 (depends-on "counsel")
 (depends-on "csv-mode")
 (depends-on "dired-open")
@@ -32,7 +32,7 @@
 (depends-on "iedit")
 (depends-on "info-colors")
 (depends-on "ivy-rich")
-(depends-on "iy-go-to-char")
+;; (depends-on "iy-go-to-char") ; I'm no longer able to retrieve that package with Cask.
 (depends-on "key-chord")
 (depends-on "keycast")
 (depends-on "lsp-mode")
