@@ -592,7 +592,9 @@ you save the file."
   (sp-local-pair 'org-mode "/" "/" :actions '(wrap navigate))
   (sp-local-pair 'org-mode "_" "_" :actions '(wrap navigate))
   (sp-local-pair 'org-mode "=" "=" :actions '(wrap navigate))
-  (sp-local-pair 'org-mode "~" "~" :actions '(wrap navigate)))
+  (sp-local-pair 'org-mode "~" "~" :actions '(wrap navigate))
+  (sp-local-pair 'org-mode "\"" "\"" :actions '(wrap navigate))
+  (sp-local-pair 'org-mode "'" "'" :actions '(wrap navigate)))
 
 (add-hook 'org-mode-hook 'ta-org-smartparens)
 
