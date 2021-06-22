@@ -206,7 +206,7 @@
 (setq scroll-conservatively 100)
 (setq recenter-positions '(middle top bottom))
 
-(setq custom-file "~/.emacs.d/custom.el")
+(setq custom-file "~/.emacs.d/generated/custom.el")
 (load custom-file)
 
 (setq comment-empty-lines t)
