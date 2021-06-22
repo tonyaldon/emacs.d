@@ -40,5 +40,4 @@
 (require 'kb)
 (require 'kb-mark)
 (require 'kb-string)
-(require 'kb-term)
 (require 'kb-windows)

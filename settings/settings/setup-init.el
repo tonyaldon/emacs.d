@@ -789,6 +789,25 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
 (sp-local-pair 'prog-mode "[" nil :post-handlers '((indent-between-pair "RET")))
 (sp-local-pair 'prog-mode "(" nil :post-handlers '((indent-between-pair "RET")))
 
+;;;; term-mode
+
+(require 'term)
+(require 'eterm-256color)
+
+(defun ta-term-disable-hl-line-mode ()
+  "Disable `hl-line-mode' in `term-mode'."
+  (setq global-hl-line-mode nil))
+
+(add-hook 'term-mode-hook #'eterm-256color-mode)
+(add-hook 'term-mode-hook #'ta-term-disable-hl-line-mode)
+
+(define-key term-raw-map (kbd "<left>") nil)
+(define-key term-raw-map (kbd "<right>") nil)
+(define-key term-raw-map (kbd "C-x") nil)
+(define-key term-raw-map (kbd "M-x") nil)
+(define-key term-raw-map (kbd "M-t") 'term-line-mode)
+(define-key term-mode-map (kbd "M-t") 'term-char-mode)
+
 ;;;; org-mode
 
 (defun ta-org-smartparens ()
