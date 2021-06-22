@@ -11,7 +11,7 @@
 (ivy-mode 1)
 (ivy-rich-mode 1)
 
-(setq ivy-height 25)
+(setq ivy-height 8)
 (setq ivy-wrap t)
 (setq ivy-extra-directories '("./"))
 (setq ivy-use-virtual-buffers nil)
@@ -26,21 +26,6 @@
 
 (ivy-set-occur 'swiper 'swiper-occur)
 (ivy-set-occur 'swiper-isearch 'swiper-occur)
-
-;;; ivy: resize minibuffer hack
-;; [[https://github.com/abo-abo/swiper/issues/649]]
-(defun ta-ivy-resize--minibuffer-setup-hook ()
-  "Minibuffer setup hook."
-  (add-hook 'post-command-hook #'ta-ivy-resize--post-command-hook nil t))
-
-(defun ta-ivy-resize--post-command-hook ()
-  "Hook run every command in minibuffer."
-  ;; ignore-errors is for handling the case where ivy do the completion
-  ;; in a child frame (eg. with mini-frame-mode) where you can't `shrink-window'
-  (ignore-errors (when ivy-mode
-                   (shrink-window (1+ ivy-height)))))  ; Plus 1 for the input field.
-
-(add-hook 'minibuffer-setup-hook 'ta-ivy-resize--minibuffer-setup-hook)
 
 
 ;;; counsel-outline
