@@ -267,16 +267,17 @@ of the columns."
 
 ;;;; clojure-mode
 
+(require 'clojure-mode)
 (require 'outline)
 (require 'outline-spc)
 
-(defun ta-outline-clojure-mode-hook ()
+(defun ta-clojure-mode-outline ()
   "Hook to turn on `outline-minor-mode'."
   (outline-minor-mode t)
   (outline-spc-mode t)
   (setq-local outline-regexp ";;;;* \\|("))
 
-(add-hook 'clojure-mode-hook 'ta-outline-clojure-mode-hook)
+(add-hook 'clojure-mode-hook #'ta-clojure-mode-outline)
 
 (define-key clojure-mode-map (kbd "TAB") 'bicycle-cycle)
 
@@ -288,14 +289,14 @@ of the columns."
 
 (setq lisp-indent-function 'fuco-lisp-indent-function)
 
-(defun ta-outline-emacs-lisp-mode-hook ()
+(defun ta-emacs-lisp-mode-outline ()
   "Hook to turn on `outline-minor-mode'."
   (outline-minor-mode t)
   (outline-spc-mode t))
 
 (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-(add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
-(add-hook 'emacs-lisp-mode-hook 'ta-outline-emacs-lisp-mode-hook)
+(add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
+(add-hook 'emacs-lisp-mode-hook #'ta-emacs-lisp-mode-outline)
 
 (define-key emacs-lisp-mode-map (kbd "TAB") 'bicycle-cycle)
 
