@@ -1053,12 +1053,6 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
 (define-key ivy-minibuffer-map (kbd "M-o") 'ivy-occur)
 (define-key ivy-minibuffer-map (kbd "M-p") 'ivy-reverse-i-search)
 
-(define-key ivy-minibuffer-map (kbd "C-e") 'ace-hacks-ivy-visit)
-(define-key ivy-minibuffer-map (kbd "C-p") 'ace-hacks-ivy-visit-split-up)
-(define-key ivy-minibuffer-map (kbd "C-n") 'ace-hacks-ivy-visit-split-down)
-(define-key ivy-minibuffer-map (kbd "C-b") 'ace-hacks-ivy-visit-split-left)
-(define-key ivy-minibuffer-map (kbd "C-f") 'ace-hacks-ivy-visit-split-right)
-
 (define-key ivy-minibuffer-map (kbd "C-M-n") 'ta-counsel-rg-ivy-command)
 
 ;;;; php-mode
