@@ -159,6 +159,8 @@
     (display-buffer-same-window))
    ("\\*info.*\\|\\*Apropos.*"
     (display-buffer-same-window))
+   ("\\*Pp Eval Output.*\\|\\*Org Src .*"
+    (display-buffer-same-window))
    ("magit:.*"
     (display-buffer-same-window))
    ("magit-log:.*"
