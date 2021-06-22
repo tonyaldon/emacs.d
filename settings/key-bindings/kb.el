@@ -395,53 +395,6 @@ If called with universal argument, call `pp-eval-expression'."
 (define-key rg-mode-map (kbd "C-p") 'rg-prev-file)
 (define-key rg-mode-map (kbd "C-n") 'rg-next-file)
 
-;;;; ibuffer-mode-map
-
-(define-key ibuffer-mode-map (kbd "M-p") nil)
-(define-key ibuffer-mode-map (kbd "M-n") nil)
-(define-key ibuffer-mode-map (kbd "M-o") nil)
-(define-key ibuffer-mode-map (kbd "C-o") nil)
-
-(define-key ibuffer-mode-map (kbd ",") 'ibuffer-toggle-sorting-mode)
-(define-key ibuffer-mode-map (kbd "s i") 'ibuffer-invert-sorting)
-(define-key ibuffer-mode-map (kbd "s a") 'ibuffer-do-sort-by-alphabetic)
-(define-key ibuffer-mode-map (kbd "s v") 'ibuffer-do-sort-by-recency)
-(define-key ibuffer-mode-map (kbd "s s") 'ibuffer-do-sort-by-size)
-(define-key ibuffer-mode-map (kbd "s f") 'ibuffer-do-sort-by-filename/process)
-(define-key ibuffer-mode-map (kbd "s m") 'ibuffer-do-sort-by-major-mode)
-(define-key ibuffer-mode-map (kbd "s .") 'ibuffer-do-sort-by-vc-status)
-(define-key ibuffer-mode-map (kbd "s d") 'ibuffer-do-sort-by-alphabetic-directory-first)
-
-(define-prefix-command 'ta-ibuffer-visite-buffer-map)
-(define-key ta-ibuffer-visite-buffer-map (kbd "e") 'ace-hacks-ibuffer-visit-buffer)
-(define-key ta-ibuffer-visite-buffer-map (kbd "p") 'ace-hacks-ibuffer-visit-buffer-split-up)
-(define-key ta-ibuffer-visite-buffer-map (kbd "n") 'ace-hacks-ibuffer-visit-buffer-split-down)
-(define-key ta-ibuffer-visite-buffer-map (kbd "b") 'ace-hacks-ibuffer-visit-buffer-split-left)
-(define-key ta-ibuffer-visite-buffer-map (kbd "f") 'ace-hacks-ibuffer-visit-buffer-split-right)
-
-(define-key ibuffer-mode-map (kbd "e") 'ta-ibuffer-visite-buffer-map)
-(define-key ibuffer-mode-map (kbd "RET") 'ibuffer-visit-buffer)
-
-(define-key ibuffer-mode-map (kbd "d") 'ibuffer-mark-for-delete)
-(define-key ibuffer-mode-map (kbd "C-d") 'ibuffer-mark-for-delete-backwards)
-(define-key ibuffer-mode-map (kbd "x") 'ibuffer-do-kill-on-deletion-marks)
-(define-key ibuffer-mode-map (kbd "U") 'ibuffer-unmark-all-marks)
-(define-key ibuffer-mode-map (kbd "m") 'ibuffer-mark-forward)
-(define-key ibuffer-mode-map (kbd "t") 'ibuffer-toggle-marks)
-(define-key ibuffer-mode-map (kbd "u") 'ibuffer-unmark-forward)
-
-(define-key ibuffer-mode-map (kbd "n") 'ibuffer-forward-line)
-(define-key ibuffer-mode-map (kbd "p") 'ibuffer-backward-line)
-(define-key ibuffer-mode-map (kbd "g") 'ibuffer-update)
-(define-key ibuffer-mode-map (kbd "C-p") 'ibuffer-backward-filter-group)
-(define-key ibuffer-mode-map (kbd "C-n") 'ibuffer-forward-filter-group)
-
-(define-key ibuffer-mode-map (kbd "TAB") 'ibuffer-toggle-filter-group)
-(define-key ibuffer-mode-map (kbd "C-b") 'ta-ibuffer-toggle-show-buffers-with-predicates)
-(define-key ibuffer-mode-map (kbd "SPC") 'ta-ibuffer-switch-filter-groups)
-
-(define-key ibuffer-mode-map (kbd "M-s") 'isearch-forward)
-
 ;;;; Info-mode-map and help-mode-map
 
 (define-key Info-mode-map (kbd "d") 'insight-scroll-down-half-window)
