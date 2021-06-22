@@ -418,19 +418,6 @@ If called with universal argument, call `pp-eval-expression'."
 
 (define-key emacs-lisp-mode-map (kbd "C-M-i") nil)
 
-;;;; company-mode-map
-
-(require 'company)
-
-(define-key company-active-map (kbd "<up>") 'company-select-previous-or-abort)
-(define-key company-active-map (kbd "<down>") 'company-select-next-or-abort)
-(define-key company-active-map (kbd "<prior>") 'company-previous-page)
-(define-key company-active-map (kbd "<next>") 'company-next-page)
-(define-key company-active-map (kbd "<tab>") 'company-complete-common)
-
-(define-key company-active-map (kbd "M-t") 'company-filter-candidates)
-(define-key company-active-map (kbd "M-q") 'company-abort)
-
 ;;;; grep-mode-map, rg-mode-map
 
 (require 'grep)

@@ -295,6 +295,14 @@ of the columns."
 (make-variable-buffer-local 'company-minimum-prefix-length)
 (make-variable-buffer-local 'company-backends)
 
+(define-key company-active-map (kbd "<up>") 'company-select-previous-or-abort)
+(define-key company-active-map (kbd "<down>") 'company-select-next-or-abort)
+(define-key company-active-map (kbd "<prior>") 'company-previous-page)
+(define-key company-active-map (kbd "<next>") 'company-next-page)
+(define-key company-active-map (kbd "<tab>") 'company-complete-common)
+(define-key company-active-map (kbd "M-t") 'company-filter-candidates)
+(define-key company-active-map (kbd "M-q") 'company-abort)
+
 ;;;; emacs-lisp-mode
 
 (require 'outline)
