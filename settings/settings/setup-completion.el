@@ -98,17 +98,6 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
    ((equal arg 16) (call-interactively 'ta-fzf-directory))
    (t (call-interactively 'ta-fzf-project))))
 
-;;;;; org-mode
-
-(defun ta-company-org-mode ()
-  "Setup `company-mode' for `org-mode-hook'"
-  (company-mode 1)
-  (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
-  (setq company-minimum-prefix-length 4)
-  (setq company-backends '(company-capf company-files company-dabbrev)))
-
-(add-hook 'org-mode-hook 'ta-company-org-mode)
-
 ;;; counsel-rg
 
 (setq ta-counsel-rg-ivy-callers-alist

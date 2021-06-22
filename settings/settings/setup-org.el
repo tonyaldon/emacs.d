@@ -183,8 +183,17 @@ to blank table field if we start typing just after using it as `org-cycle',
                 (1+ org-self-insert-command-undo-counter))))))))
 ;;; Hooks
 
-(add-hook 'org-mode-hook 'org-indent-mode)
-(add-hook 'text-mode-hook 'turn-on-auto-fill)
+
+(defun ta-org-mode-company ()
+  "Setup `company-mode' for `org-mode-hook'"
+  (company-mode 1)
+  (add-hook 'completion-at-point-functions 'pcomplete-completions-at-point nil t)
+  (setq company-minimum-prefix-length 4)
+  (setq company-backends '(company-capf company-files company-dabbrev)))
+
+(add-hook 'org-mode-hook #'ta-org-mode-company)
+(add-hook 'org-mode-hook #'org-indent-mode)
+(add-hook 'text-mode-hook #'turn-on-auto-fill)
 
 ;;; Footer
 
