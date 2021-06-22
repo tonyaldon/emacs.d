@@ -46,7 +46,7 @@
 
 ;;;; completion
 
-(global-set-key (kbd "M-<") 'counsel-quick-access)
+(global-set-key (kbd "M->") 'counsel-quick-access)
 (global-set-key (kbd "M-e") 'counsel-find-file)
 (global-set-key (kbd "C-a") 'ivy-switch-buffer)
 
@@ -332,7 +332,7 @@ that call interactively COMMAND."
 
 (global-set-key (kbd "<f5>") 'ta-find-file-notes)
 (key-chord-define-global ";;" 'counsel-M-x)
-(global-set-key (kbd "C-<") 'delete-char)
+(global-set-key (kbd "C->") 'delete-char)
 (global-set-key (kbd "<C-backspace>") 'backward-kill-word)
 (global-set-key (kbd "M-l") 'recenter-top-bottom)
 (global-set-key (kbd "C-v") 'visual-line-mode)
