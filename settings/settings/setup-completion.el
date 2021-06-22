@@ -98,27 +98,6 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
    ((equal arg 16) (call-interactively 'ta-fzf-directory))
    (t (call-interactively 'ta-fzf-project))))
 
-;;;; Per mode
-;;;;; emacs-lisp-mode
-
-(defun ta-company-emacs-lisp-mode ()
-  "Setup `company-mode' for `emacs-lisp-mode-hook'"
-  (company-mode 1)
-  (setq company-backends '((company-capf company-files)))
-  (setq company-idle-delay 0.3)
-  (setq company-minimum-prefix-length 1))
-
-(add-hook 'emacs-lisp-mode-hook 'ta-company-emacs-lisp-mode)
-
-;;;;; sh-mode
-
-(defun ta-company-sh-mode ()
-  "Setup `company-mode' for `sh-mode-hook'"
-  (company-mode 1)
-  (setq company-backends '((company-capf company-files))))
-
-(add-hook 'sh-mode-hook 'ta-company-sh-mode)
-
 ;;;;; org-mode
 
 (defun ta-company-org-mode ()

@@ -308,9 +308,17 @@ of the columns."
   (outline-minor-mode t)
   (outline-spc-mode t))
 
+(defun ta-emacs-lisp-mode-company ()
+  "Setup `company-mode' for `emacs-lisp-mode-hook'"
+  (company-mode 1)
+  (setq company-backends '((company-capf company-files)))
+  (setq company-idle-delay 0.3)
+  (setq company-minimum-prefix-length 1))
+
 (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
 (add-hook 'emacs-lisp-mode-hook #'eldoc-mode)
 (add-hook 'emacs-lisp-mode-hook #'ta-emacs-lisp-mode-outline)
+(add-hook 'emacs-lisp-mode-hook #'ta-emacs-lisp-mode-company)
 
 (define-key emacs-lisp-mode-map (kbd "TAB") 'bicycle-cycle)
 
@@ -756,6 +764,17 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
 (add-hook 'nxml-mode-hook 'ta-outline-nxml-mode-hook)
 
 (define-key nxml-mode-map (kbd "TAB") 'bicycle-cycle)
+
+;;;; sh-mode
+
+(require 'sh-script)
+
+(defun ta-sh-mode-company ()
+  "Setup `company-mode' for `sh-mode-hook'"
+  (company-mode 1)
+  (setq company-backends '((company-capf company-files))))
+
+(add-hook 'sh-mode-hook #'ta-sh-mode-company)
 
 ;;;; sql-mode
 
