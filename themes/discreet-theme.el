@@ -66,14 +66,15 @@
 
    `(header-line ((t (:background ,d-black-1 :foreground ,d-pink-2 :weight bold))))
    `(ta-dired-header-face ((t (:foreground ,d-black-1))))
-   `(dired-directory ((t (:foreground ,d-aquamarine-2 :weight bold :underline t))))
+   `(dired-directory ((t (:foreground ,d-aquamarine-4 :weight bold))))
    `(dired-flagged ((t (:inherit error))))
-   `(dired-header ((t (:inherit ta-dired-header-face))))
+   `(dired-header ((t (:inherit dired-directory))))
    `(dired-ignored ((t (:inherit shadow))))
    `(dired-mark ((t (:inherit font-lock-variable-name-face))))
    `(dired-marked ((t (:inherit font-lock-variable-name-face))))
    `(dired-perm-write ((t (:inherit font-lock-comment-delimiter-face))))
    `(dired-symlink ((t (:foreground ,d-yellow-2))))
+   `(dired-broken-symlink ((t (:foreground ,d-red))))
    `(dired-warning ((t (:inherit font-lock-warning-face))))
 
    `(mode-line ((t (:background ,d-aquamarine-4 :foreground ,d-black-1))))
