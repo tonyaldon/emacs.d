@@ -31,7 +31,6 @@
 (depends-on "ibuffer-vc")
 (depends-on "iedit")
 (depends-on "info-colors")
-(depends-on "ivy-rich")
 ;; (depends-on "iy-go-to-char") ; I'm no longer able to retrieve that package with Cask.
 (depends-on "key-chord")
 (depends-on "keycast")

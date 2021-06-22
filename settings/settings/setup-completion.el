@@ -2,14 +2,12 @@
 
 (require 'counsel)
 (require 'ivy)
-(require 'ivy-rich)
 (require 'swiper)
 (require 'flx)
 
 ;;; ivy and counsel
 (counsel-mode 1)
 (ivy-mode 1)
-(ivy-rich-mode 1)
 
 (setq ivy-height 8)
 (setq ivy-wrap t)
