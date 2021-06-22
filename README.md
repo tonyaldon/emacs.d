@@ -192,21 +192,6 @@ If you are using `cask` for your emacs configuration, add this to your
 
 To show the help about `cask`, run the command `cask help`.
 
-# Tests
-
-To run the `tests` perform with `ert`, run the command:
-
-	make test
-
-To test the whole emacs setting, run the command:
-
-	make test_all
-
-Install the pre-commit hook, so that the tests are always running:
-
-    cp pre-commit .git/hooks/pre-commit
-
-
 # My Emacs Setup History
 
 If you're interested in the path I've taken to get to the `emacs`
