@@ -98,23 +98,6 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
    ((equal arg 16) (call-interactively 'ta-fzf-directory))
    (t (call-interactively 'ta-fzf-project))))
 
-;;; company
-;;;; Packages
-
-(require 'company)
-
-;;;; Global
-
-(setq company-selection-wrap-around t)
-(setq company-tooltip-limit 10)
-(setq company-require-match nil)
-(setq company-idle-delay 0)
-(setq company-backends '(company-capf company-files))
-(setq company-format-margin-function nil)
-(make-variable-buffer-local 'company-idle-delay)
-(make-variable-buffer-local 'company-minimum-prefix-length)
-(make-variable-buffer-local 'company-backends)
-
 ;;;; Per mode
 ;;;;; emacs-lisp-mode
 

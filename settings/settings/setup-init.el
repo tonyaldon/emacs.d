@@ -281,6 +281,20 @@ of the columns."
 
 (define-key clojure-mode-map (kbd "TAB") 'bicycle-cycle)
 
+;;;; company-mode
+
+(require 'company)
+
+(setq company-selection-wrap-around t)
+(setq company-tooltip-limit 10)
+(setq company-require-match nil)
+(setq company-idle-delay 0)
+(setq company-backends '(company-capf company-files))
+(setq company-format-margin-function nil)
+(make-variable-buffer-local 'company-idle-delay)
+(make-variable-buffer-local 'company-minimum-prefix-length)
+(make-variable-buffer-local 'company-backends)
+
 ;;;; emacs-lisp-mode
 
 (require 'outline)
