@@ -248,10 +248,10 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
 (setq company-require-match nil)
 (setq company-idle-delay 0)
 (setq company-backends '(company-capf company-files))
+(setq company-format-margin-function nil)
 (make-variable-buffer-local 'company-idle-delay)
 (make-variable-buffer-local 'company-minimum-prefix-length)
 (make-variable-buffer-local 'company-backends)
-
 
 ;;;; Per mode
 ;;;;; emacs-lisp-mode
