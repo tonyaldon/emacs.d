@@ -6,10 +6,10 @@
 
 (declare-function linux-toggle-dpi "ext:linux")
 
-(setq screencast-hook-to-remove-alist
-      '((window-configuration-change-hook . ta-frame-set-display-alist)))
+(setq ie-last-video-main-dir "~/work/inside-emacs/videos/")
 
-(setq screencast-display-buffer-alist '())
+(setq screencast-hook-to-remove-alist nil)
+(setq screencast-display-buffer-alist display-buffer-alist)
 
 (global-set-key (kbd "C-c d") 'linux-toggle-dpi)
 (global-set-key (kbd "C-c s") 'screencast-mode)
