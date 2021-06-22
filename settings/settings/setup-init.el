@@ -1030,6 +1030,37 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
 
 
 
+;;;; ivy and counsel
+
+(require 'counsel)
+(require 'ivy)
+
+(counsel-mode 1)
+(ivy-mode 1)
+
+(setq ivy-height 8)
+(setq ivy-wrap t)
+(setq ivy-extra-directories '("./"))
+(setq ivy-use-virtual-buffers nil)
+(setq ivy-count-format "(%d/%d) ")
+(setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
+
+(define-key ivy-minibuffer-map (kbd "<left>") 'ivy-previous-history-element)
+(define-key ivy-minibuffer-map (kbd "<right>") 'ivy-next-history-element)
+(define-key ivy-minibuffer-map (kbd "<up>") 'ivy-previous-line)
+(define-key ivy-minibuffer-map (kbd "<down>") 'ivy-next-line)
+(define-key ivy-minibuffer-map (kbd "M-e") 'ivy-immediate-done)
+(define-key ivy-minibuffer-map (kbd "M-o") 'ivy-occur)
+(define-key ivy-minibuffer-map (kbd "M-p") 'ivy-reverse-i-search)
+
+(define-key ivy-minibuffer-map (kbd "C-e") 'ace-hacks-ivy-visit)
+(define-key ivy-minibuffer-map (kbd "C-p") 'ace-hacks-ivy-visit-split-up)
+(define-key ivy-minibuffer-map (kbd "C-n") 'ace-hacks-ivy-visit-split-down)
+(define-key ivy-minibuffer-map (kbd "C-b") 'ace-hacks-ivy-visit-split-left)
+(define-key ivy-minibuffer-map (kbd "C-f") 'ace-hacks-ivy-visit-split-right)
+
+(define-key ivy-minibuffer-map (kbd "C-M-n") 'ta-counsel-rg-ivy-command)
+
 ;;;; php-mode
 
 (eval-after-load 'php-mode '(require 'php-extras))

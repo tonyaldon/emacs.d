@@ -1,19 +1,3 @@
-;;; Packages
-
-(require 'counsel)
-(require 'ivy)
-
-;;; ivy and counsel
-(counsel-mode 1)
-(ivy-mode 1)
-
-(setq ivy-height 8)
-(setq ivy-wrap t)
-(setq ivy-extra-directories '("./"))
-(setq ivy-use-virtual-buffers nil)
-(setq ivy-count-format "(%d/%d) ")
-(setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
-
 ;;; fzf
 ;;;; Packages
 

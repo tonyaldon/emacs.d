@@ -433,28 +433,6 @@ If called with universal argument, call `pp-eval-expression'."
 (define-key isearch-mode-map (kbd "C-r") 'isearch-toggle-regexp)
 (define-key isearch-mode-map (kbd "M-e") 'isearch-edit-string)
 
-;;;; ivy-minibuffer-map
-
-(require 'ivy)
-
-(define-key ivy-minibuffer-map (kbd "<left>") 'ivy-previous-history-element)
-(define-key ivy-minibuffer-map (kbd "<right>") 'ivy-next-history-element)
-(define-key ivy-minibuffer-map (kbd "<up>") 'ivy-previous-line)
-(define-key ivy-minibuffer-map (kbd "<down>") 'ivy-next-line)
-(define-key ivy-minibuffer-map (kbd "M-e") 'ivy-immediate-done)
-(define-key ivy-minibuffer-map (kbd "M-a") 'ivy-dispatching-done)
-(define-key ivy-minibuffer-map (kbd "M-o") 'ivy-occur)
-(define-key ivy-minibuffer-map (kbd "M-p") 'ivy-reverse-i-search)
-
-(define-key ivy-minibuffer-map (kbd "C-e") 'ace-hacks-ivy-visit)
-(define-key ivy-minibuffer-map (kbd "C-p") 'ace-hacks-ivy-visit-split-up)
-(define-key ivy-minibuffer-map (kbd "C-n") 'ace-hacks-ivy-visit-split-down)
-(define-key ivy-minibuffer-map (kbd "C-b") 'ace-hacks-ivy-visit-split-left)
-(define-key ivy-minibuffer-map (kbd "C-f") 'ace-hacks-ivy-visit-split-right)
-(define-key ivy-minibuffer-map (kbd "C-a") 'ta-ivy-switch-to-buffer)
-
-(define-key ivy-minibuffer-map (kbd "C-M-n") 'ta-counsel-rg-ivy-command)
-
 ;;;; magit
 
 (require 'magit)
