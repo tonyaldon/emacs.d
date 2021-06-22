@@ -303,8 +303,17 @@ that call interactively COMMAND."
 
 ;;;; eval
 
+(defun ta-eval-expression (&optional arg)
+  "Call `eval-expression'.
+If called with universal argument, call `pp-eval-expression'."
+  (interactive "P")
+  (if arg
+      (call-interactively 'pp-eval-expression)
+    (call-interactively 'eval-expression)))
+
 (global-set-key (kbd "<f1>") 'eval-defun)
 (global-set-key (kbd "<f2>") 'eval-last-sexp)
+(global-set-key (kbd "M-:") 'ta-eval-expression)
 
 ;;;; insight-mode
 
