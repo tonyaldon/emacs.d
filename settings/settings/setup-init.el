@@ -716,6 +716,7 @@ you save the file."
 (setq dired-open-extensions
       '(("pdf" . "evince")
         ("jpg" . "eog")
+        ("jpeg" . "eog")
         ("png" . "eog")))
 
 ;;;;; dired-mode-map
