@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: with-current-buffer
+# key: wcb
+# --
+(with-current-buffer ${1:buffer-or-name}
+       $0)

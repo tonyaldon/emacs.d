@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: current-buffer
+# key: cb
+# --
+$0(current-buffer)
