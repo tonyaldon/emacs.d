@@ -2,6 +2,7 @@
 
 (require 'counsel)
 (require 'ivy)
+
 (require 'flx)
 
 ;;; ivy and counsel
@@ -166,40 +167,7 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
 
 ;;;;; TODO: Web development
 
-;; (require 'company-web)
-;; (require 'company-web-html)
 ;; (require 'ac-html-csswatcher)
-
-;; ;; (company-web-csswatcher-setup)
-
-;; (defun ta-company-js-mode ()
-;;   "Setup `company-mode' for `js-mode-hook'"
-;;   (company-mode 1)
-;;  (setq company-backends '((company-tide
-;;                            company-dabbrev-code
-;;                            company-web-html
-;;                            company-files))))
-
-;; (defun ta-company-html-mode ()
-;;   "Setup `company-mode' for `html-mode'"
-;;   (set (make-local-variable 'company-backends)
-;;        '((company-dabbrev-code
-;;           company-web-html
-;;           company-yasnippet
-;;           company-files)
-;;          company-dabbrev
-;;          company-capf)))
-
-;; (defun ta-company-css-mode ()
-;;   "Setup `company-mode' for `css-mode'"
-;;   (set (make-local-variable 'company-backends)
-;;        '((;; company-dabbrev-code
-;;           company-css
-;;          company-web-html
-;;           ;; company-files
-;;          )
-;;          company-dabbrev
-;;          company-capf)))
 
 ;; (add-hook 'mhtml-mode-hook 'ta-company-html-mode)
 ;; (add-hook 'html-mode-hook 'ta-company-html-mode)
