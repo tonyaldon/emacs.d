@@ -18,7 +18,6 @@
 (define-key term-raw-map (kbd "C-x") nil)
 (define-key term-raw-map (kbd "M-x") nil)
 (define-key term-raw-map (kbd "C-y") nil)
-(define-key term-raw-map (kbd "C-y") 'ta-term-yank)
 (define-key term-raw-map (kbd "C-M-b") 'ta-windmove-left)
 (define-key term-raw-map (kbd "C-M-f") 'ta-windmove-right)
 
