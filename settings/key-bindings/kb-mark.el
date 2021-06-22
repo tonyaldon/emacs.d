@@ -8,6 +8,8 @@
 
 ;;; Global variables
 
+(setq mc/list-file "~/.emacs.d/generated/.mc-list.el")
+
 (setq mark-ring-max 8)
 (setq global-mark-ring-max 8)
 (setq expand-region-preferred-python-mode 'fgallina-python)
