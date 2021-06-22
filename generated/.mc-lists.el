@@ -195,7 +195,6 @@
         sp-select-next-thing-exchange
         ta-mark-sexp-at-point
         ta-unfill-paragraph
-        ta-zap-back-to-char
         transpose-words
         upcase-region
         wdired--self-insert
@@ -335,7 +334,6 @@
         ta-windmove-down
         ta-windmove-left
         ta-windmove-right
-        ta-zap-back-to-char
         undefined
         undo-redo
         wdired-next-line

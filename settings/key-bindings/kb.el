@@ -377,16 +377,6 @@ If called with universal argument, call `pp-eval-expression'."
 (global-set-key (kbd "M--") 'undo)
 (global-set-key (kbd "M-+") 'undo-redo)
 
-;;;; zap-up-to-char
-
-(defun ta-zap-back-to-char (char)
-  "As `zap-to-char' but backward."
-  (interactive (list (read-char-from-minibuffer
-                      "Zap back to char: " nil 'read-char-history)))
-  (zap-to-char -1 char))
-
-(global-set-key (kbd "M-m") 'ta-zap-back-to-char)
-
 ;;; Per Mode
 
 ;;;; emacs-lisp-mod-map
