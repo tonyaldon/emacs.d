@@ -34,7 +34,6 @@
 
 (require 'setup-init)
 (require 'setup-completion)
-(require 'setup-emacs-lisp-mode)
 (require 'setup-ibuffer)
 (require 'setup-org)
 (require 'setup-python-mode)
