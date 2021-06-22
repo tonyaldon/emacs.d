@@ -137,8 +137,8 @@ nor a variable."
   ("M-b" backward-word)
   ("M-e" org-forward-sentence)
   ("M-a" org-backward-sentence)
-  ("C-M-a" iy-go-to-char-backward :color blue)
-  ("C-M-e" iy-go-to-char :color blue)
+  ;; ("C-M-a" iy-go-to-char-backward :color blue)
+  ;; ("C-M-e" iy-go-to-char :color blue)
   ;; drag stuff
   ("d" drag-stuff-up)
   ("s" drag-stuff-down)
@@ -312,17 +312,17 @@ that call interactively COMMAND."
 
 ;;;; iy-go-to-char
 
-(require 'iy-go-to-char)
+;; (require 'iy-go-to-char)
 
-(global-set-key (kbd "C-M-a") 'iy-go-to-char-backward)
-(global-set-key (kbd "C-M-e") 'iy-go-to-char)
+;; (global-set-key (kbd "C-M-a") 'iy-go-to-char-backward)
+;; (global-set-key (kbd "C-M-e") 'iy-go-to-char)
 
-(define-key iy-go-to-char-keymap (kbd "C-b") 'backward-char)
-(define-key iy-go-to-char-keymap (kbd "C-f") 'forward-char)
-(define-key iy-go-to-char-keymap (kbd "M-s") 'iy-go-to-char-isearch)
-(define-key iy-go-to-char-keymap (kbd "M-r") 'iy-go-to-char-isearch-backward)
-(define-key iy-go-to-char-keymap (kbd "C-w") 'iy-go-to-char-kill-region)
-(define-key iy-go-to-char-keymap (kbd "M-w") 'iy-go-to-char-kill-ring-save)
+;; (define-key iy-go-to-char-keymap (kbd "C-b") 'backward-char)
+;; (define-key iy-go-to-char-keymap (kbd "C-f") 'forward-char)
+;; (define-key iy-go-to-char-keymap (kbd "M-s") 'iy-go-to-char-isearch)
+;; (define-key iy-go-to-char-keymap (kbd "M-r") 'iy-go-to-char-isearch-backward)
+;; (define-key iy-go-to-char-keymap (kbd "C-w") 'iy-go-to-char-kill-region)
+;; (define-key iy-go-to-char-keymap (kbd "M-w") 'iy-go-to-char-kill-ring-save)
 
 ;;;; keyboard-quit
 
