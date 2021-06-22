@@ -4,7 +4,6 @@
 (require 'framer)
 (require 'kb)
 (require 'transpose-frame)
-(require 'markdown-mode)
 (require 'windmove)
 
 ;;; Set up variables
@@ -314,10 +313,6 @@ See `clone-indirect-buffer'."
 (global-set-key (kbd "M-f") 'ta-windmove-right)
 (global-set-key (kbd "M-p") 'ta-windmove-up)
 (global-set-key (kbd "M-n") 'ta-windmove-down)
-(define-key markdown-mode-map (kbd "M-b") 'ta-windmove-left)
-(define-key markdown-mode-map (kbd "M-f") 'ta-windmove-right)
-(define-key markdown-mode-map (kbd "M-p") 'ta-windmove-up)
-(define-key markdown-mode-map (kbd "M-n") 'ta-windmove-down)
 (define-key Info-mode-map (kbd "M-n") 'windmove-down)
 
 (define-key dired-mode-map (kbd "C-o") nil)
