@@ -1046,6 +1046,18 @@ current dir instead of project root."
 (define-key yas-keymap (kbd "M-d")
   (yas-filtered-definition yas-maybe-skip-and-clear-field))
 
+;;; Inside Emacs Setup
+
+(require 'screencast)
+(require 'ie-story-generate)
+(require 'ie-last-video)
+
+(setq ie-last-video-main-dir "~/work/inside-emacs/videos/")
+(setq screencast-hook-to-remove-alist nil)
+(setq screencast-display-buffer-alist display-buffer-alist)
+
+(global-set-key (kbd "C-c i") 'ie-last-video-find-readme)
+
 ;;; TODO: to dispatch in appropriate setup files
 (defun rename-current-buffer-file ()
   "Renames current buffer and file it is visiting.
