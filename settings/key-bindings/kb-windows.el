@@ -198,9 +198,27 @@ Other window is selected with `ace-window'."
   ("n" (enlarge-window 5))
   ("q" nil))
 
-(defadvice clone-indirect-buffer-other-window
-    (after ta-clone-indirect-buffer-other-window-advice activate)
-  (recenter))
+(defun ta-clone-indirect-buffer (narrow)
+  "Create an indirect buffer with name composed with NARROW string.
+
+NARROW, a string, is the name of the section/function you are narrowing
+in the indirect buffer.  The name of the indirect buffer is composed
+with the `buffer-name' and NARROW.
+
+The indirect buffer is displayed in the selected window.
+
+See `clone-indirect-buffer'."
+  (interactive
+   (progn
+     (if (get major-mode 'no-clone-indirect)
+         (error "Cannot indirectly clone a buffer in %s mode" mode-name))
+     (list (read-string "Narrowed part name: "))))
+  (let* ((newname (format "%s::%s" (buffer-name) narrow))
+         (name (generate-new-buffer-name newname))
+         (buffer (make-indirect-buffer (current-buffer) name t)))
+    (switch-to-buffer buffer)
+    buffer))
+
 
 ;;;; hydra-windows
 
@@ -226,7 +244,7 @@ Other window is selected with `ace-window'."
   ("c" ace-window)
   ("'" aw-flip-window :color blue)
   ("<next>" window-toggle-side-windows)
-  ("i" clone-indirect-buffer-other-window)
+  ("i" ta-clone-indirect-buffer)
   ("r" ta-ansi-term-bash :color blue)
   ("l" ta-dired-side-by-side)
   ("e" ta-split-window-right)
