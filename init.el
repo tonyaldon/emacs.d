@@ -28,7 +28,6 @@
 ;;; setup files
 
 (require 'setup-init)
-(require 'setup-completion)
 
 ;;; key bindings files
 
