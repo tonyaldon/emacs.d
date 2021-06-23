@@ -27,16 +27,6 @@
 ;; If the one character keys don't fit your workflow, change the bindings in
 ;; `insight-mode-map'.
 
-;; With `insight-ace-window' command, you can interactively choose the displayed
-;; buffer to be scroll by commands like `scroll-other-window' and
-;; `scroll-other-window-down'. To work well we advice `scroll-other-window'
-;; and `scroll-other-window-down' commmands. To do so, add this line to your
-;; emacs configuration file:
-
-;; (insight-set-window-advices)
-
-;; At any moment you can revoke it by running: M-x insight-unset-advices.
-
 ;; To set up `insight-mode' to change the cursor color to `insight-cursor-color'
 ;; when `insight-mode' is turned on, add this line to your emacs configuration file:
 
@@ -51,7 +41,6 @@
 
 ;; (setq insight-cursor-color "#0000ff")
 ;; (insight-use-cursor-color)
-;; (insight-set-window-advices)
 
 ;;; Change Log: ???
 
@@ -145,50 +134,6 @@ and `insight-use-cursor-color' is 't'."
   (interactive)
   (scroll-other-window (insight--half-window-height)))
 
-;;; Scroll other window with `ace-window'
-
-(declare-function ace-window "ext:ace-window")
-
-(defun insight-ace-window ()
-  "Interactively choose the displayed buffer to be scroll by commands
-like `scroll-other-window' and `scroll-other-window-down'."
-  (interactive)
-  (let ((initial-window (selected-window)))
-    (save-excursion
-      (call-interactively 'ace-window)
-      (setq other-window-scroll-buffer (current-buffer)))
-    (select-window initial-window)))
-
-(defun insight-reset-other-window-scroll-buffer (&optional arg)
-  "Reset `other-window-scroll-buffer' to nil if its value is not
-a buffer being displayed.
-
-Use this function to advice :before `scroll-other-window' and
-`scroll-other-window-down'. This prevents to popup the buffer
-`other-window-scroll-buffer' if it was not being displayed."
-  (when (and other-window-scroll-buffer
-             (or (not (eq 1 (length (get-buffer-window-list other-window-scroll-buffer))))
-                 (eq (get-buffer-window other-window-scroll-buffer) (selected-window))))
-    (setq other-window-scroll-buffer nil)))
-
-(defun insight-set-window-advices ()
-  "Advice `scroll-other-window' and `scroll-other-window-down'.
-
-See `insight-ace-window' and
-`insight-reset-other-window-scroll-buffer'."
-  (interactive)
-  (advice-add 'scroll-other-window :before 'insight-reset-other-window-scroll-buffer)
-  (advice-add 'scroll-other-window-down :before 'insight-reset-other-window-scroll-buffer))
-
-(defun insight-unset-window-advices ()
-  "Advice `scroll-other-window' and `scroll-other-window-down'.
-
-See `insight-ace-window' and
-`insight-reset-other-window-scroll-buffer'."
-  (interactive)
-  (advice-remove 'scroll-other-window 'insight-reset-other-window-scroll-buffer)
-  (advice-remove 'scroll-other-window-down 'insight-reset-other-window-scroll-buffer))
-
 ;;; narrow
 
 (declare-function org-toggle-narrow-to-subtree "org")
@@ -226,7 +171,6 @@ See `insight-ace-window' and
     (define-key map (kbd "o") 'insight-scroll-other-window-up-half-window)
     ;; (define-key map (kbd "/") 'insight-scroll-other-window-down-line)
     ;; (define-key map (kbd "`") 'insight-scroll-other-window-up-line)
-    (define-key map (kbd "a") 'insight-ace-window)
     ;; narrowing commands
     (define-key map (kbd ".") 'org-toggle-narrow-to-subtree)
     (define-key map (kbd ":") 'org-narrow-to-element)

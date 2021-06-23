@@ -445,9 +445,6 @@ see: https://github.com/Fuco1/.emacs.d/blob/af82072196564fa57726bdbabf97f1d35c43
 (setq fzf/git-grep-args "-i --line-number %s") ; default
 (setq fzf/position-bottom nil) ; default
 
-(setq fzf/with-ace-hacks t)
-(setq fzf/ace-hacks-keys '(:left  ?b :right ?f :up ?p :down ?n :ace ?e))
-
 ;; fzf/args
 ;; 1. don't use "--reverse" argument, the way fzf/after-term-handle-exit
 ;;    handle the parsing to retrieve the selected file doesn't cover this case.
@@ -567,7 +564,6 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
 (require 'insight)
 (setq insight-cursor-color "#fd971f")
 (insight-use-cursor-color)
-(insight-set-window-advices)
 (define-key insight-mode-map (kbd "t") 'handy-line/body)
 
 ;;;; js-mode
@@ -1274,23 +1270,6 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
 (setq wgrep-auto-save-buffer t)
 
 ;;; Per package
-;;;; ace-hacks
-(require 'ace-hacks)
-
-(declare-function counsel-quick-access "ext:quick-access")
-(declare-function quick-access-get-filename "ext:quick-access")
-(declare-function ivy--directory "ext:ivy")
-(declare-function  ivy--switch-buffer-action "ext:ivy")
-
-(setq ace-hacks-ivy-callers-alist
-      '((ivy-switch-buffer . ivy--switch-buffer-action)
-        (ivy-switch-buffer-other-window . ivy--switch-buffer-action)
-        (counsel-find-file . (lambda (file)
-                               (find-file (expand-file-name file ivy--directory))))
-        (counsel-quick-access . (lambda (selection)
-                                  (find-file (quick-access-get-filename selection))))
-        (counsel-rg . counsel-git-grep-action)))
-
 
 ;;;; dump-jump
 (require 'dumb-jump)
