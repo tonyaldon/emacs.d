@@ -267,8 +267,7 @@ See `clone-indirect-buffer'."
 
 (global-set-key (kbd "C-o") 'delete-other-windows)
 (global-set-key (kbd "M-o") 'delete-window)
-(global-set-key (kbd "<f7>") 'winner-undo)
-(global-set-key (kbd "C-+") 'winner-redo)
+(global-set-key (kbd "M-n") 'other-window)
 (global-set-key (kbd "M-u") 'hydra-windows/body)
 
 ;;;; PATH
