@@ -1,3 +1,8 @@
+;;; Key bindings
+
+;;;; remapping
+
+(define-key key-translation-map (kbd "C-<return>") (kbd "C-c"))
 ;;; Global
 
 ;;;; Appearance
