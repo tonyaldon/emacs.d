@@ -162,22 +162,6 @@ but (C--) is really handy when used with the command `windmove-down'."
          (s-concat "term:.../" (f-filename default-directory) "/")))
     (ansi-term "/bin/bash" term-name)))
 
-(defun ta-split-window-right ()
-  "Chain `split-window-right' and `windmove-right'."
-  (interactive)
-  (split-window-right)
-  (recenter)
-  (windmove-right)
-  (recenter))
-
-(defun ta-split-window-down ()
-  "Chain `split-window-below' and `windmove-down'."
-  (interactive)
-  (split-window-below)
-  (recenter)
-  (windmove-down)
-  (recenter))
-
 (defun ta-ace-kill-buffer ()
   "Kill buffer in other window.
 
@@ -246,8 +230,6 @@ See `clone-indirect-buffer'."
   ("i" ta-clone-indirect-buffer)
   ("r" ta-ansi-term-bash :color blue)
   ("l" ta-dired-side-by-side)
-  ("e" ta-split-window-right)
-  ("," ta-split-window-down)
   ("d" ace-delete-window)
   ("k" ta-ace-kill-buffer)
   ("u" winner-undo)
