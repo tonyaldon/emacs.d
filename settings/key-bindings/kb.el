@@ -36,19 +36,12 @@
 (global-set-key (kbd "M-(") 'avy-goto-line)
 (global-set-key (kbd "<down>") 'avy-goto-char)
 
-;;;; buffers
 
-(global-set-key [escape] 'kill-this-buffer)
-(global-set-key (kbd "<f6>") 'save-buffer)
-(global-set-key (kbd "<left>") 'previous-buffer)
-(global-set-key (kbd "<right>") 'next-buffer)
-(key-chord-define-global "::" 'ibuffer)
 
 ;;;; completion
 
 (global-set-key (kbd "M->") 'counsel-quick-access)
 (global-set-key (kbd "M-e") 'counsel-find-file)
-(global-set-key (kbd "C-a") 'ivy-switch-buffer)
 
 (global-set-key (kbd "C-M-n") 'counsel-rg)
 

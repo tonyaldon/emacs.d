@@ -105,10 +105,60 @@
 
 (add-to-list 'after-make-frame-functions 'set-moody-face t)
 
-;;;; Buffer editing
+;;;; Buffers
+
+(require 'ivy)
 
 (set-language-environment "UTF-8")
 (setq save-interprogram-paste-before-kill t)
+
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting.
+
+see: http://github.com/magnars"
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
+
+(defun ta-clone-indirect-buffer (narrow)
+  "Create an indirect buffer with name composed with NARROW string.
+
+NARROW, a string, is the name of the section/function you are narrowing
+in the indirect buffer.  The name of the indirect buffer is composed
+with the `buffer-name' and NARROW.
+
+The indirect buffer is displayed in the selected window.
+
+See `clone-indirect-buffer'."
+  (interactive
+   (progn
+     (if (get major-mode 'no-clone-indirect)
+         (error "Cannot indirectly clone a buffer in %s mode" mode-name))
+     (list (read-string "Narrowed part name: "))))
+  (let* ((newname (format "%s::%s" (buffer-name) narrow))
+         (name (generate-new-buffer-name newname))
+         (buffer (make-indirect-buffer (current-buffer) name t)))
+    (switch-to-buffer buffer)
+    buffer))
+
+(global-set-key (kbd "C-c c") 'ta-clone-indirect-buffer)
+(global-set-key [escape] 'kill-this-buffer)
+(global-set-key (kbd "<f6>") 'save-buffer)
+(global-set-key (kbd "<left>") 'previous-buffer)
+(global-set-key (kbd "<right>") 'next-buffer)
+(global-set-key (kbd "<down>") 'ivy-switch-buffer)
+(global-set-key (kbd "<up>") 'ivy-switch-buffer-other-window)
 
 ;;;; Enable commands
 
@@ -198,11 +248,8 @@
   (":" framer-redo)
   ("q" nil))
 
-
 (global-set-key (kbd "C-o") 'delete-other-windows)
 (global-set-key (kbd "M-o") 'delete-window)
-;; (global-set-key (kbd "????") 'other-window)
-(global-set-key (kbd "M-a") 'ivy-switch-buffer-other-window)
 (global-set-key (kbd "<f7>") 'winner-undo)
 (global-set-key (kbd "C-+") 'winner-redo)
 (global-set-key (kbd "M-u") 'hydra-windows/body)
@@ -599,6 +646,7 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
 (define-key ibuffer-mode-map (kbd "p") 'ta-ibuffer-previous)
 (define-key ibuffer-mode-map (kbd "n") 'ta-ibuffer-next)
 (define-key ibuffer-mode-map (kbd "M-s") 'isearch-forward)
+(key-chord-define-global "::" 'ibuffer)
 
 ;;;; insight-mode
 
@@ -1493,46 +1541,6 @@ current dir instead of project root."
 (global-set-key (kbd "C-c i") 'ie-last-video-find-readme)
 
 ;;; TODO: to dispatch in appropriate section
-
-(defun ta-clone-indirect-buffer (narrow)
-  "Create an indirect buffer with name composed with NARROW string.
-
-NARROW, a string, is the name of the section/function you are narrowing
-in the indirect buffer.  The name of the indirect buffer is composed
-with the `buffer-name' and NARROW.
-
-The indirect buffer is displayed in the selected window.
-
-See `clone-indirect-buffer'."
-  (interactive
-   (progn
-     (if (get major-mode 'no-clone-indirect)
-         (error "Cannot indirectly clone a buffer in %s mode" mode-name))
-     (list (read-string "Narrowed part name: "))))
-  (let* ((newname (format "%s::%s" (buffer-name) narrow))
-         (name (generate-new-buffer-name newname))
-         (buffer (make-indirect-buffer (current-buffer) name t)))
-    (switch-to-buffer buffer)
-    buffer))
-
-(defun rename-current-buffer-file ()
-  "Renames current buffer and file it is visiting.
-
-see: http://github.com/magnars"
-  (interactive)
-  (let ((name (buffer-name))
-        (filename (buffer-file-name)))
-    (if (not (and filename (file-exists-p filename)))
-        (error "Buffer '%s' is not visiting a file!" name)
-      (let ((new-name (read-file-name "New name: " filename)))
-        (if (get-buffer new-name)
-            (error "A buffer named '%s' already exists!" new-name)
-          (rename-file filename new-name 1)
-          (rename-buffer new-name)
-          (set-visited-file-name new-name)
-          (set-buffer-modified-p nil)
-          (message "File '%s' successfully renamed to '%s'"
-                   name (file-name-nondirectory new-name)))))))
 
 (defun ta-copy-buffer-file-name ()
   "Push current `buffer-file-name' to the `kill-ring'."
