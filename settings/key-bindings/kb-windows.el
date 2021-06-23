@@ -8,10 +8,6 @@
 
 (winner-mode t)
 
-(declare-function ta-term "ext:kb-term")
-
-;;; Window commands
-
 (defun ta-swap-window ()
   "Swap buffers of current window and `next-window'."
   (interactive)
@@ -61,7 +57,6 @@ See `clone-indirect-buffer'."
    :hint nil)
   ("t" handy-line/body :color blue)
   ("M-t" transpose-frame)
-  ("<next>" window-toggle-side-windows)
   ("i" ta-clone-indirect-buffer)
   ("r" ta-ansi-term-bash :color blue)
   ("u" winner-undo)
@@ -69,9 +64,6 @@ See `clone-indirect-buffer'."
   ("." framer-push :color blue)
   ("x" framer-undo)
   (":" framer-redo)
-  (">" make-frame :color blue)
-  ("+" balance-windows)
-  ("M-+" balance-windows-area)
   ("q" nil))
 
 
