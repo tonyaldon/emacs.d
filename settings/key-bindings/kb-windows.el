@@ -126,15 +126,6 @@ but (C--) is really handy when used with the command `windmove-down'."
          (s-concat "term:.../" (f-filename default-directory) "/")))
     (ansi-term "/bin/bash" term-name)))
 
-(defun ta-ace-kill-buffer ()
-  "Kill buffer in other window.
-
-Other window is selected with `ace-window'."
-  (interactive)
-  (ace-select-window)
-  (kill-this-buffer)
-  (other-window))
-
 (defun ta-clone-indirect-buffer (narrow)
   "Create an indirect buffer with name composed with NARROW string.
 
@@ -179,7 +170,6 @@ See `clone-indirect-buffer'."
   ("r" ta-ansi-term-bash :color blue)
   ("l" ta-dired-side-by-side)
   ("d" ace-delete-window)
-  ("k" ta-ace-kill-buffer)
   ("u" winner-undo)
   ("]" winner-redo)
   ("." framer-push :color blue)
