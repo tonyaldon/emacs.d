@@ -32,9 +32,9 @@
   (interactive)
   (avy-goto-char ?\n))
 
-(global-set-key (kbd "M-)") 'ta-avy-goto-end-of-line)
-(global-set-key (kbd "M-(") 'avy-goto-line)
-(global-set-key (kbd "<down>") 'avy-goto-char)
+(global-set-key (kbd "M-p") 'avy-goto-char)
+(global-set-key (kbd "M-b") 'avy-goto-line)
+(global-set-key (kbd "M-f") 'ta-avy-goto-end-of-line)
 
 
 
