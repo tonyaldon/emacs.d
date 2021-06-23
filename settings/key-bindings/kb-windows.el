@@ -20,31 +20,6 @@
 
 ;;; Window commands
 
-;;;; dired-mode
-
-(defun ta--dired-side-by-side (current-directory)
-  "Do the layout job of `ta-dired-side-by-side'."
-  (delete-other-windows)
-  (dired current-directory)
-  (split-window-right))
-
-(defun ta-dired-side-by-side ()
-  "Pop two dired buffer side by side.
-
-If `current-buffer' is visiting a file, the root directory of this
-file becomes `dired-directory' of the popped dired buffers. If not
-visiting a file, the $HOME directory is chosen to be the
-`dired-directory'"
-  (interactive)
-  (let ((current-buffer-file-name (buffer-file-name))
-        (current-dired-directory dired-directory))
-    (cond
-     (current-buffer-file-name
-      (ta--dired-side-by-side (file-name-directory current-buffer-file-name)))
-     (current-dired-directory
-      (ta--dired-side-by-side current-dired-directory))
-     (t
-      (ta--dired-side-by-side (expand-file-name "~/"))))))
 
 (defun ta-swap-window ()
   "Swap buffers of current window and `next-window'."
@@ -95,7 +70,6 @@ See `clone-indirect-buffer'."
   ("<next>" window-toggle-side-windows)
   ("i" ta-clone-indirect-buffer)
   ("r" ta-ansi-term-bash :color blue)
-  ("l" ta-dired-side-by-side)
   ("d" ace-delete-window)
   ("u" winner-undo)
   ("]" winner-redo)
