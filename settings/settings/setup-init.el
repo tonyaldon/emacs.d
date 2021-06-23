@@ -7,12 +7,12 @@
 ;;;; to sort
 
 (global-set-key (kbd "M->") 'counsel-quick-access)
-(global-set-key (kbd "M-e") 'counsel-find-file)
+(global-set-key (kbd "C-a") 'counsel-find-file)
 
 (global-set-key (kbd "C-M-n") 'counsel-rg)
 
 (global-set-key (kbd "C-x C-e") 'ta-fzf-emacs-settings)
-(global-set-key (kbd "C-e") 'ta-fzf-dwim)
+(global-set-key (kbd "<up>") 'ta-fzf-dwim)
 
 ;;; Global
 
@@ -173,8 +173,8 @@ See `clone-indirect-buffer'."
 (global-set-key (kbd "<f6>") 'save-buffer)
 (global-set-key (kbd "<left>") 'previous-buffer)
 (global-set-key (kbd "<right>") 'next-buffer)
-(global-set-key (kbd "<down>") 'ivy-switch-buffer)
-(global-set-key (kbd "<up>") 'ivy-switch-buffer-other-window)
+(global-set-key (kbd "<down>") 'ivy-switch-buffer-other-window)
+(global-set-key (kbd "C-e") 'ivy-switch-buffer)
 
 ;;;; Enable commands
 
