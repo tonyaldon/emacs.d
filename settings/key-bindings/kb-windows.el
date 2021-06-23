@@ -20,11 +20,15 @@
 
 ;;; Window commands
 
-
 (defun ta-swap-window ()
   "Swap buffers of current window and `next-window'."
   (interactive)
-  (aw-swap-window (next-window)))
+  (let ((buffer1 (current-buffer))
+        (buffer2 (window-buffer (next-window)))
+        (win (next-window)))
+    (set-window-buffer (selected-window) buffer2)
+    (set-window-buffer (next-window) buffer1)
+    (select-window win)))
 
 (defun ta-ansi-term-bash ()
   (interactive)
