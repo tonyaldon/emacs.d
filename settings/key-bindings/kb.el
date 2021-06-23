@@ -367,15 +367,6 @@ If called with universal argument, call `pp-eval-expression'."
 
 (define-key emacs-lisp-mode-map (kbd "C-M-i") nil)
 
-;;;; grep-mode-map, rg-mode-map
-
-(require 'grep)
-(require 'rg)
-
-
-(define-key rg-mode-map (kbd "C-p") 'rg-prev-file)
-(define-key rg-mode-map (kbd "C-n") 'rg-next-file)
-
 ;;;; Info-mode-map and help-mode-map
 
 (define-key Info-mode-map (kbd "d") 'insight-scroll-down-half-window)
