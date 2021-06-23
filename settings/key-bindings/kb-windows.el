@@ -25,24 +25,6 @@
 
 ;;;; dired-mode
 
-(defun ta-dired-width (dir)
-  "Return the number of characters of the bigger file or directory in
-
-a dired buffer generate with DIR as `dired-directory'."
-  (with-current-buffer (dired-noselect dir)
-    (-max (--map (length (-last-item (s-split "/" it)))
-                 (dired-utils-get-all-files)))))
-
-(defun ta-dired-resize-window-horizontaly ()
-  "In `dired-mode', resize `selected-window' to `ta-dired-width'."
-  (interactive)
-  (let* ((ww (window-width))
-         (dired-width (ta-dired-width dired-directory))
-         (delta (- ww dired-width)))
-    (if (> delta 0)
-        (shrink-window-horizontally (- delta 5)) ; 5 is an arbitrary margin
-      (enlarge-window-horizontally (+ 5 (- delta)))))) ; 5 is an arbitrary margin
-
 (defun ta--dired-side-by-side (current-directory)
   "Do the layout job of `ta-dired-side-by-side'."
   (delete-other-windows)
@@ -184,7 +166,6 @@ See `clone-indirect-buffer'."
     (switch-to-buffer buffer)
     buffer))
 
-
 ;;;; hydra-windows
 
 (defhydra hydra-windows
@@ -215,7 +196,6 @@ See `clone-indirect-buffer'."
   ("x" framer-undo)
   (":" framer-redo)
   (">" make-frame :color blue)
-  ("SPC" ta-dired-resize-window-horizontaly)
   ("s" hydra-windows-size/body :color blue)
   ("+" balance-windows)
   ("M-+" balance-windows-area)
