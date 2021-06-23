@@ -135,16 +135,6 @@ Other window is selected with `ace-window'."
   (kill-this-buffer)
   (other-window))
 
-(defhydra hydra-windows-size
-  (:pre (set-cursor-color "#ffd500")
-   :post (set-cursor-color "#26f9ad")
-   :hint nil)
-  ("b" (shrink-window-horizontally 5))
-  ("f" (enlarge-window-horizontally 5))
-  ("p" (shrink-window 5))
-  ("n" (enlarge-window 5))
-  ("q" nil))
-
 (defun ta-clone-indirect-buffer (narrow)
   "Create an indirect buffer with name composed with NARROW string.
 
@@ -196,7 +186,6 @@ See `clone-indirect-buffer'."
   ("x" framer-undo)
   (":" framer-redo)
   (">" make-frame :color blue)
-  ("s" hydra-windows-size/body :color blue)
   ("+" balance-windows)
   ("M-+" balance-windows-area)
   ("q" nil))
