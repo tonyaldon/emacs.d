@@ -38,15 +38,6 @@
 
 
 
-;;;; completion
-
-(global-set-key (kbd "M->") 'counsel-quick-access)
-(global-set-key (kbd "M-e") 'counsel-find-file)
-
-(global-set-key (kbd "C-M-n") 'counsel-rg)
-
-(global-set-key (kbd "C-x C-e") 'ta-fzf-emacs-settings)
-(global-set-key (kbd "C-e") 'ta-fzf-dwim)
 
 ;;;; describe
 
