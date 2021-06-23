@@ -1155,11 +1155,18 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
       (bicycle--message "FOLDED")
       (setq this-command 'outline-cycle-folded)))))
 
-;;;; Info-mode
+;;;; Info-mode and help-mode
 
+(require 'info)
+(require 'help)
 (require 'info-colors)
 
 (add-hook 'Info-selection-hook 'info-colors-fontify-node)
+
+(define-key Info-mode-map (kbd "d") 'insight-scroll-down-half-window)
+(define-key Info-mode-map (kbd "s") 'insight-scroll-up-half-window)
+(define-key help-mode-map (kbd "d") 'insight-scroll-down-half-window)
+(define-key help-mode-map (kbd "s") 'insight-scroll-up-half-window)
 
 ;;;; isearch-mode
 

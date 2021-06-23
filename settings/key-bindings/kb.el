@@ -367,13 +367,6 @@ If called with universal argument, call `pp-eval-expression'."
 
 (define-key emacs-lisp-mode-map (kbd "C-M-i") nil)
 
-;;;; Info-mode-map and help-mode-map
-
-(define-key Info-mode-map (kbd "d") 'insight-scroll-down-half-window)
-(define-key Info-mode-map (kbd "s") 'insight-scroll-up-half-window)
-(define-key help-mode-map (kbd "d") 'insight-scroll-down-half-window)
-(define-key help-mode-map (kbd "s") 'insight-scroll-up-half-window)
-
 ;;;; isearch-mode
 
 (require 'isearch)
