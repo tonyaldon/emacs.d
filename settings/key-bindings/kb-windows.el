@@ -1,6 +1,5 @@
 ;;; Packages
 
-(require 'ace-window)
 (require 'framer)
 (require 'kb)
 (require 'transpose-frame)
@@ -8,13 +7,6 @@
 ;;; Set up variables
 
 (winner-mode t)
-
-(setq aw-char-position 'top-left)
-(setq aw-ignore-current nil)
-(setq aw-leading-char-style 'char)
-(setq aw-background nil)
-(setq aw-keys '(?s ?r ?d ?l ?t))
-(setq aw-dispatch-always t)
 
 (declare-function ta-term "ext:kb-term")
 
@@ -69,12 +61,9 @@ See `clone-indirect-buffer'."
    :hint nil)
   ("t" handy-line/body :color blue)
   ("M-t" transpose-frame)
-  ("c" ace-window)
-  ("'" aw-flip-window :color blue)
   ("<next>" window-toggle-side-windows)
   ("i" ta-clone-indirect-buffer)
   ("r" ta-ansi-term-bash :color blue)
-  ("d" ace-delete-window)
   ("u" winner-undo)
   ("]" winner-redo)
   ("." framer-push :color blue)

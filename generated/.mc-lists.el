@@ -213,7 +213,6 @@
         Info-mouse-follow-nearest-node
         LaTeX-babel-insert-hyphen
         TeX-insert-quote
-        ace-window
         avy-goto-char
         avy-goto-line
         avy-goto-word-1

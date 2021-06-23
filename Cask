@@ -1,5 +1,4 @@
 
-(depends-on "ace-window")
 (depends-on "adaptive-wrap")
 (depends-on "aggressive-indent")
 (depends-on "avy")
