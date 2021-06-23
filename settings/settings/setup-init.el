@@ -1224,6 +1224,12 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
 (require 'term)
 (require 'eterm-256color)
 
+(defun ta-ansi-term-bash ()
+  (interactive)
+  (let ((term-name
+         (s-concat "term:.../" (f-filename default-directory) "/")))
+    (ansi-term "/bin/bash" term-name)))
+
 (defun ta-term-disable-hl-line-mode ()
   "Disable `hl-line-mode' in `term-mode'."
   (setq global-hl-line-mode nil))
@@ -1237,6 +1243,10 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
 (define-key term-raw-map (kbd "M-x") nil)
 (define-key term-raw-map (kbd "M-t") 'term-line-mode)
 (define-key term-mode-map (kbd "M-t") 'term-char-mode)
+(define-key term-raw-map (kbd "M-o") 'delete-window)
+(define-key term-mode-map (kbd "M-o") 'delete-window)
+
+(global-set-key (kbd "C-c t") 'ta-ansi-term-bash)
 
 ;;;; org-mode
 

@@ -18,12 +18,6 @@
     (set-window-buffer (next-window) buffer1)
     (select-window win)))
 
-(defun ta-ansi-term-bash ()
-  (interactive)
-  (let ((term-name
-         (s-concat "term:.../" (f-filename default-directory) "/")))
-    (ansi-term "/bin/bash" term-name)))
-
 (defun ta-clone-indirect-buffer (narrow)
   "Create an indirect buffer with name composed with NARROW string.
 
@@ -58,7 +52,6 @@ See `clone-indirect-buffer'."
   ("t" handy-line/body :color blue)
   ("M-t" transpose-frame)
   ("i" ta-clone-indirect-buffer)
-  ("r" ta-ansi-term-bash :color blue)
   ("u" winner-undo)
   ("]" winner-redo)
   ("." framer-push :color blue)
@@ -79,8 +72,6 @@ See `clone-indirect-buffer'."
 
 (define-key dired-mode-map (kbd "C-o") nil)
 (define-key ibuffer-mode-map (kbd "C-o") nil)
-(define-key term-raw-map (kbd "M-o") 'delete-window)
-(define-key term-mode-map (kbd "M-o") 'delete-window)
 
 
 ;;; Footer
