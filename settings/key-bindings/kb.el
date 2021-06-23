@@ -416,13 +416,6 @@ If called with universal argument, call `pp-eval-expression'."
 (define-key magit-log-mode-map (kbd "<prior>") 'insight-scroll-down-half-window)
 (define-key magit-log-mode-map (kbd "<next>") 'insight-scroll-up-half-window)
 
-;;;; occur-mode
-
-(require 'replace)
-
-(define-key occur-mode-map (kbd "M-p") 'nil)
-(define-key occur-mode-map (kbd "M-n") 'nil)
-
 ;;;; text-mode
 
 (define-key text-mode-map (kbd "C-c C-l") 'ta-magit-log-other-window)

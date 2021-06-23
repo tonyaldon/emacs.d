@@ -836,6 +836,12 @@ you save the file."
 
 (add-hook 'after-save-hook 'mermaid-compile-on-save)
 
+;;;; occur-mode
+
+(require 'replace)
+
+(define-key occur-mode-map (kbd "M-n") 'nil)
+
 ;;;; org-mode
 
 ;;;;; require
