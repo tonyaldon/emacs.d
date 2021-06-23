@@ -213,10 +213,6 @@
         Info-mouse-follow-nearest-node
         LaTeX-babel-insert-hyphen
         TeX-insert-quote
-        ace-jump-done
-        ace-jump-line-mode
-        ace-jump-mode
-        ace-jump-move
         ace-window
         avy-goto-char
         avy-goto-line
@@ -331,9 +327,6 @@
         ta-find-file-notes
         ta-mouse-describe-thing-at-point
         ta-outline-toggle-global
-        ta-windmove-down
-        ta-windmove-left
-        ta-windmove-right
         undefined
         undo-redo
         wdired-next-line
