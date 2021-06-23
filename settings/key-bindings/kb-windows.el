@@ -262,47 +262,10 @@ See `clone-indirect-buffer'."
   ("M-+" balance-windows-area)
   ("q" nil))
 
-;;; Side windows
 
-(defun ta--side-window-to-window ()
-  "Make selected side window the only window in the frame."
-  (interactive)
-  (let ((buffer (current-buffer))
-        wnd-list)
-    (delete-window)
-    (display-buffer-at-bottom buffer nil)
-    (setq wnd-list (window-list))
-    (select-window
-     (nth (-elem-index buffer (-map 'window-buffer wnd-list))
-          wnd-list))
-    (delete-other-windows)))
+(global-set-key (kbd "C-o") 'delete-other-windows)
+(global-set-key (kbd "M-o") 'delete-window)
 
-(defun ta-side-window-p (window)
-  "Return t if WINDOW is a side window."
-  (-contains?
-   (-map 'car (window-parameters window))
-   'window-side))
-
-(defun ta-delete-other-windows ()
-  "Delete other windows also when the `selected-window' is a side window."
-  (interactive)
-  (let ((side-window-p (ta-side-window-p (selected-window))))
-    (if side-window-p (ta--side-window-to-window) (delete-other-windows))))
-
-(defun ta-delete-window ()
-  "Delete selected window also when other window is a side window."
-  (interactive)
-  (if (and (eq (length (window-list)) 2)
-           (ta-side-window-p (cadr (window-list))))
-      (progn
-        (other-window 1)
-        (ta--side-window-to-window))
-    (delete-window)))
-
-;;; Key bindings
-
-(global-set-key (kbd "C-o") 'ta-delete-other-windows)
-(global-set-key (kbd "M-o") 'ta-delete-window)
 
 (global-set-key (kbd "<f7>") 'winner-undo)
 (global-set-key (kbd "C-+") 'winner-redo)
@@ -320,7 +283,6 @@ See `clone-indirect-buffer'."
 (define-key term-raw-map (kbd "M-o") 'delete-window)
 (define-key term-mode-map (kbd "M-o") 'delete-window)
 
-(global-set-key (kbd "M-<next>") 'window-toggle-side-windows)
 
 ;;; Footer
 
