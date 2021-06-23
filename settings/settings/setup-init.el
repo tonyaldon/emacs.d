@@ -1178,46 +1178,48 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
 
 (require 'isearch)
 
+(setq search-whitespace-regexp ".*?")
+(setq isearch-lazy-count t)
+(setq isearch-repeat-on-direction-change t)
+(setq search-invisible 'open)
+
 (defadvice isearch-occur (before ta-occur-delete-other-windows activate)
   (delete-other-windows))
 
-;;;;; TODO
-(setq search-whitespace-regexp ".*?")
-(setq isearch-lazy-count t)
+(defun ta-isearch-yank-sexp-at-point ()
+  "Pull sexp at point into search string."
+  (interactive)
+  (isearch-yank-string (thing-at-point 'sexp)))
+
+(defun ta-isearch-yank-word-at-point ()
+  "Pull word at point into search string."
+  (interactive)
+  (isearch-yank-string (thing-at-point 'word)))
+
+(defun ta-isearch-other-end ()
+  "End current search in the opposite side of the match."
+  (interactive)
+  (isearch-done)
+  (when isearch-other-end
+    (goto-char isearch-other-end)))
+
+(global-set-key (kbd "M-s") 'isearch-forward)
+(global-set-key (kbd "M-r") 'isearch-backward)
+(define-key isearch-mode-map (kbd "M-s") 'isearch-repeat-forward)
+(define-key isearch-mode-map (kbd "M-r") 'isearch-repeat-backward)
+
+(define-key isearch-mode-map (kbd "<prior>") 'isearch-beginning-of-buffer)
+(define-key isearch-mode-map (kbd "<next>") 'isearch-end-of-buffer)
+(define-key isearch-mode-map (kbd "C-y") 'isearch-yank-kill)
+(define-key isearch-mode-map (kbd "M-.") 'ta-isearch-yank-sexp-at-point)
+(define-key isearch-mode-map (kbd "M-i") 'ta-isearch-yank-word-at-point)
+(define-key isearch-mode-map (kbd "M-t") 'ta-isearch-other-end)
+(define-key isearch-mode-map (kbd "M-o") 'isearch-occur)
+(define-key isearch-mode-map (kbd "M-c") 'isearch-toggle-case-fold)
+(define-key isearch-mode-map (kbd "C-e") 'isearch-edit-string)
+(define-key isearch-mode-map (kbd "M-,") 'isearch-toggle-regexp)
 
 
-
-(setq search-invisible 'open) ; default
-;; (setq search-invisible 'nil) could be interesting to make a search only on the outline headings
-
-;; (setq isearch-other-end nil)
-
-;; isearch-mode-hook
-;; isearch-update-post-hook
-;; isearch-mode-end-hook
-;; isearch-mode-end-hook-quit
-
-;; isearch-mode-map
-
-;; (setq search-highlight t)
-;; (setq search-whitespace-regexp ".*?")
-;; (setq isearch-lax-whitespace t)
-;; (setq isearch-regexp-lax-whitespace nil)
-;; (setq isearch-lazy-highlight t)
-;; ;; All of the following variables were introduced in Emacs 27.1.
-;; (setq lazy-count-prefix-format nil)
-;; (setq lazy-count-suffix-format " (%s/%s)")
-;; (setq isearch-yank-on-move 'shift)
-;; (setq isearch-allow-scroll 'unlimited)
-
-;; (defun prot/isearch-other-end ()
-;;     "End current search in the opposite side of the match.
-;; Particularly useful when the match does not fall within the
-;; confines of word boundaries (e.g. multiple words)."
-;;     (interactive)
-;;     (isearch-done)
-;;     (when isearch-other-end
-;;       (goto-char isearch-other-end)))
 
 
 

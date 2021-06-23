@@ -367,37 +367,6 @@ If called with universal argument, call `pp-eval-expression'."
 
 (define-key emacs-lisp-mode-map (kbd "C-M-i") nil)
 
-;;;; isearch-mode
-
-(require 'isearch)
-
-(defun ta-isearch-yank-sexp-at-point ()
-  "Pull sexp at point into search string."
-  (interactive)
-  (isearch-yank-string (thing-at-point 'sexp)))
-
-(defun ta-isearch-yank-word-at-point ()
-  "Pull word at point into search string."
-  (interactive)
-  (isearch-yank-string (thing-at-point 'word)))
-
-(global-set-key (kbd "M-s") 'isearch-forward)
-(global-set-key (kbd "M-r") 'isearch-backward)
-
-(define-key isearch-mode-map (kbd "M-s") 'isearch-repeat-forward)
-(define-key isearch-mode-map (kbd "M-r") 'isearch-repeat-backward)
-(define-key isearch-mode-map (kbd "<prior>") 'isearch-beginning-of-buffer)
-(define-key isearch-mode-map (kbd "<next>") 'isearch-end-of-buffer)
-(define-key isearch-mode-map (kbd "M-o") 'isearch-occur)
-
-(define-key isearch-mode-map (kbd "C-y") 'isearch-yank-kill)
-(define-key isearch-mode-map (kbd "M-.") 'ta-isearch-yank-sexp-at-point)
-(define-key isearch-mode-map (kbd "M-i") 'ta-isearch-yank-word-at-point)
-
-(define-key isearch-mode-map (kbd "M-c") 'isearch-toggle-case-fold)
-(define-key isearch-mode-map (kbd "C-r") 'isearch-toggle-regexp)
-(define-key isearch-mode-map (kbd "M-e") 'isearch-edit-string)
-
 ;;;; magit
 
 (require 'magit)
