@@ -687,8 +687,6 @@ Intended to be used in the hook `makefile-gmake-mode-hook'."
 (add-hook 'makefile-gmake-mode-hook 'ta-makefile-tabs-settings)
 
 (define-key makefile-gmake-mode-map (kbd "RET") 'ta-newline-smart)
-(define-key makefile-gmake-mode-map (kbd "M-n") 'windmove-down)
-(define-key makefile-gmake-mode-map (kbd "M-p") 'windmove-up)
 
 ;;;; markdown-mode
 

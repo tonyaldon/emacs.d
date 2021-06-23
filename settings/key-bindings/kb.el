@@ -389,9 +389,6 @@ If called with universal argument, call `pp-eval-expression'."
 (require 'rg)
 
 
-(define-key grep-mode-map (kbd "M-p") 'windmove-up)
-(define-key grep-mode-map (kbd "M-n") 'windmove-down)
-
 (define-key rg-mode-map (kbd "C-p") 'rg-prev-file)
 (define-key rg-mode-map (kbd "C-n") 'rg-next-file)
 
@@ -446,12 +443,8 @@ If called with universal argument, call `pp-eval-expression'."
 (define-key magit-section-mode-map (kbd "M-n") 'magit-section-forward-sibling)
 (define-key magit-mode-map (kbd "i") 'magit-section-up)
 
-(define-key magit-status-mode-map (kbd "C-M-p") 'windmove-up)
-(define-key magit-status-mode-map (kbd "C-M-n") 'windmove-down)
 (define-key magit-status-mode-map (kbd "<prior>") 'insight-scroll-down-half-window)
 (define-key magit-status-mode-map (kbd "<next>") 'insight-scroll-up-half-window)
-(define-key magit-log-mode-map (kbd "C-M-p") 'windmove-up)
-(define-key magit-log-mode-map (kbd "C-M-n") 'windmove-down)
 (define-key magit-log-mode-map (kbd "<prior>") 'insight-scroll-down-half-window)
 (define-key magit-log-mode-map (kbd "<next>") 'insight-scroll-up-half-window)
 
