@@ -1219,9 +1219,43 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
 (define-key isearch-mode-map (kbd "C-e") 'isearch-edit-string)
 (define-key isearch-mode-map (kbd "M-,") 'isearch-toggle-regexp)
 
+;;;;; isearch outline headings
 
+(require 'reveal)
+(global-reveal-mode)
 
+(defun ta-isearch-filter-outline (beg end)
+  "Return non-nil if text between BEG and END is on an outline headline.
+This function is intended to be used as `isearch-filter-predicate'.
+See `outline-mode' and `outline-headings'"
+  (save-match-data
+    (save-excursion
+      (goto-char beg)
+      (outline-on-heading-p t))))
 
+(defun ta-isearch-forward-outline ()
+  "`isearch-forward' but matching only strings on outline headings.
+See `outline-mode' and `outline-headings'."
+  (interactive)
+  (setq isearch-filter-predicate 'ta-isearch-filter-outline)
+  (call-interactively 'isearch-forward))
+
+(defun ta-isearch-backward-outline ()
+  "`isearch-backward' but matching only strings on outline headings.
+See `outline-mode' and `outline-headings'."
+  (interactive)
+  (setq isearch-filter-predicate 'ta-isearch-filter-outline)
+  (call-interactively 'isearch-backward))
+
+(defun ta-isearch-mode-end-outline ()
+  "Set `isearch-filter-predicate' to its default value.
+This function is intended to be used in the hook `isearch-mode-end-hook'."
+  (setq isearch-filter-predicate 'isearch-filter-visible))
+
+(add-hook 'isearch-mode-end-hook 'ta-isearch-mode-end-outline)
+
+(global-set-key (kbd "M-a") 'ta-isearch-backward-outline)
+(global-set-key (kbd "M-e") 'ta-isearch-forward-outline)
 
 ;;;; ivy and counsel
 
