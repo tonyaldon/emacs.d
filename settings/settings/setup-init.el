@@ -237,8 +237,8 @@ See `clone-indirect-buffer'."
    ("magit-log:.*"
     (display-buffer-same-window))))
 
-(defun ta-swap-window ()
-  "Swap buffers of current window and `next-window'."
+(defun ta-swap-windows ()
+  "Swap buffers of `selected-window' and `next-window'."
   (interactive)
   (let ((buffer1 (current-buffer))
         (buffer2 (window-buffer (next-window)))
@@ -257,6 +257,7 @@ See `clone-indirect-buffer'."
    :hint nil)
   ("t" handy-line/body :color blue)
   ("M-t" transpose-frame)
+  ("M-s" ta-swap-windows)
   ("u" winner-undo)
   ("]" winner-redo)
   ("." framer-push :color blue)
