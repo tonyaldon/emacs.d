@@ -132,29 +132,11 @@ but (C--) is really handy when used with the command `windmove-down'."
   (interactive "P")
   (windmove-do-window-select 'down (and arg -1)))
 
-;;;; drag windows
 
-(defun ta-drag-window-left ()
-  "Drag current window one window to the left."
+(defun ta-swap-window ()
+  "Swap buffers of current window and `next-window'."
   (interactive)
-  (aw-swap-window (window-in-direction 'left)))
-
-(defun ta-drag-window-right ()
-  "Drag current window one window to the right."
-  (interactive)
-  (aw-swap-window (window-in-direction 'right)))
-
-(defun ta-drag-window-above ()
-  "Drag current window one window to the above."
-  (interactive)
-  (aw-swap-window (window-in-direction 'above)))
-
-(defun ta-drag-window-below ()
-  "Drag current window one window to the below."
-  (interactive)
-  (aw-swap-window (window-in-direction 'below)))
-
-;;;; miscellaneous
+  (aw-swap-window (next-window)))
 
 (defun ta-ansi-term-bash ()
   (interactive)
@@ -214,11 +196,6 @@ See `clone-indirect-buffer'."
            (set-cursor-color "#26f9ad"))
    :hint nil)
   ("t" handy-line/body :color blue)
-  ("C-p" ta-drag-window-above)
-  ("C-n" ta-drag-window-below)
-  ("C-b" ta-drag-window-left)
-  ("C-f" ta-drag-window-right)
-  ("/" ace-swap-window)
   ("b" ta-windmove-left)
   ("f" ta-windmove-right)
   ("p" ta-windmove-up)
