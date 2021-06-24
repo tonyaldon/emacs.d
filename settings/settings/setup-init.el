@@ -447,6 +447,7 @@ of the columns."
 (add-hook 'emacs-lisp-mode-hook #'ta-emacs-lisp-mode-outline)
 (add-hook 'emacs-lisp-mode-hook #'ta-emacs-lisp-mode-company)
 
+(define-key emacs-lisp-mode-map (kbd "C-M-i") nil)
 (define-key emacs-lisp-mode-map (kbd "TAB") 'bicycle-cycle)
 
 ;;;;; indent function (from Fuco)
@@ -775,6 +776,21 @@ the variable `outline-regexp'."
 (advice-add 'magit-status :before 'ta-magit-delete-other-windows)
 (advice-add 'magit-commit-create :before 'ta-magit-delete-other-windows)
 (advice-add 'magit-commit-amend :before 'ta-magit-delete-other-windows)
+
+(define-key magit-section-mode-map (kbd "C-i") 'magit-section-toggle)
+(define-key magit-section-mode-map [C-tab]     'magit-section-cycle)
+(define-key magit-section-mode-map (kbd "C-SPC") 'magit-section-cycle-global)
+(define-key magit-section-mode-map (kbd   "p") 'magit-section-backward)
+(define-key magit-section-mode-map (kbd   "n") 'magit-section-forward)
+(define-key magit-section-mode-map (kbd "M-p") 'magit-section-backward-sibling)
+(define-key magit-section-mode-map (kbd "M-n") 'magit-section-forward-sibling)
+
+(define-key magit-mode-map (kbd "i") 'magit-section-up)
+
+(define-key magit-status-mode-map (kbd "<prior>") 'insight-scroll-down-half-window)
+(define-key magit-status-mode-map (kbd "<next>") 'insight-scroll-up-half-window)
+(define-key magit-log-mode-map (kbd "<prior>") 'insight-scroll-down-half-window)
+(define-key magit-log-mode-map (kbd "<next>") 'insight-scroll-up-half-window)
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
@@ -1633,6 +1649,7 @@ nor a variable."
 ;;;; rg
 
 (require 'rg)
+(require 'outline)
 
 (rg-define-search ta-rg-ask-project-dir
   "Search for a string (given by the user at the prompt) in files matching
@@ -1665,8 +1682,6 @@ current dir instead of project root."
 (defadvice rg-run (before ta-rg-delete-other-windows activate)
   (delete-other-windows))
 
-;;;;; outline
-
 (defun ta-outline-rg-mode ()
   "Set up `outline-mode' for `rg-mode'. See `outline-regexp'."
   (outline-minor-mode t)
@@ -1675,6 +1690,10 @@ current dir instead of project root."
 (add-hook 'rg-mode-hook 'ta-outline-rg-mode)
 
 (define-key rg-mode-map (kbd "TAB") 'bicycle-cycle)
+(define-key rg-mode-map (kbd "C-o") nil)
+
+(global-set-key (kbd "C-r") 'rg-dwim)
+(global-set-key (kbd "C-M-p") 'ta-rg-ask)
 
 ;;;; yasnippet
 

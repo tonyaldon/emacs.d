@@ -266,39 +266,10 @@ If called with universal argument, call `pp-eval-expression'."
 (global-set-key (kbd "C-s") 'linux-switch-keyboard-layout)
 (global-set-key (kbd "C-c f") 'ta-copy-buffer-file-name)
 
-;;;; rg
-
-(global-set-key (kbd "C-r") 'rg-dwim)
-(global-set-key (kbd "C-M-p") 'ta-rg-ask)
-
 ;;;; undo
 
 (global-set-key (kbd "M--") 'undo)
 (global-set-key (kbd "M-+") 'undo-redo)
-
-;;; Per Mode
-
-;;;; emacs-lisp-mod-map
-
-(define-key emacs-lisp-mode-map (kbd "C-M-i") nil)
-
-;;;; magit
-
-(require 'magit)
-
-(define-key magit-section-mode-map (kbd "C-i") 'magit-section-toggle)
-(define-key magit-section-mode-map [C-tab]     'magit-section-cycle)
-(define-key magit-section-mode-map (kbd "C-SPC") 'magit-section-cycle-global)
-(define-key magit-section-mode-map (kbd   "p") 'magit-section-backward)
-(define-key magit-section-mode-map (kbd   "n") 'magit-section-forward)
-(define-key magit-section-mode-map (kbd "M-p") 'magit-section-backward-sibling)
-(define-key magit-section-mode-map (kbd "M-n") 'magit-section-forward-sibling)
-(define-key magit-mode-map (kbd "i") 'magit-section-up)
-
-(define-key magit-status-mode-map (kbd "<prior>") 'insight-scroll-down-half-window)
-(define-key magit-status-mode-map (kbd "<next>") 'insight-scroll-up-half-window)
-(define-key magit-log-mode-map (kbd "<prior>") 'insight-scroll-down-half-window)
-(define-key magit-log-mode-map (kbd "<next>") 'insight-scroll-up-half-window)
 
 ;;; Footer
 
