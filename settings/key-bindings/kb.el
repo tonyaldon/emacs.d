@@ -3,7 +3,6 @@
 
 (require 'avy)
 (require 'hydra)
-(require 'iso-transl)
 (require 'key-chord)
 
 ;;;; avy
