@@ -2,6 +2,7 @@
 
 ;;;; remapping
 
+(define-key key-translation-map (kbd "M-q") (kbd "C-g"))
 (define-key key-translation-map (kbd "C-<return>") (kbd "C-c"))
 
 ;;;; to sort

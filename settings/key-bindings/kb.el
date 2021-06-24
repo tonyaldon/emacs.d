@@ -268,10 +268,6 @@ If called with universal argument, call `pp-eval-expression'."
 ;; (define-key iy-go-to-char-keymap (kbd "C-w") 'iy-go-to-char-kill-region)
 ;; (define-key iy-go-to-char-keymap (kbd "M-w") 'iy-go-to-char-kill-ring-save)
 
-;;;; keyboard-quit
-
-(define-key key-translation-map (kbd "M-q") (kbd "C-g"))
-
 ;;;; miscellaneous
 
 (global-set-key (kbd "<f5>") 'ta-find-file-notes)
