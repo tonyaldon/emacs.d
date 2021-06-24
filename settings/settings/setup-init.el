@@ -406,19 +406,6 @@ See `clone-indirect-buffer'."
 
 ;;; Per Mode
 
-;;;; TODO: abbrev-mode
-;; - emacs abbrevation: in text mode,
-;;   - Diary: fill improvement and learning (Tony Aldon)
-;;   - Diary: set focus and tasks (Tony Aldon)
-;;   - Fill improvement and learning (Tony Aldon)
-;;   - Set focus and tasks (Tony Aldon)
-
-;; abbrev-file-name
-;; write-abbrev-file
-;; edit-abbrevs
-;; /home/tony/work/learning/apps/emacs/lisp/abbrev.el
-;; https://protesilaos.com/dotemacs/#h:57dcf193-0c4e-4ee6-9b2d-6892558b0a84
-
 ;;;; css-mode and sgml-mode
 
 (setq css-indent-offset 2)
