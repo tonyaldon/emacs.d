@@ -15,35 +15,6 @@
 
 ;;; Global key bindings
 
-;;;; describe
-
-(defun ta-describe-thing-at-point ()
-  "Display the full documentation of the `thing-at-point'
-
-that is either a function or a variable.
-Return nil if the symbol of the `thing-at-point' is neither a function
-nor a variable."
-  (interactive)
-  (when-let* ((symbol (symbol-at-point))
-              (symbol-n (symbol-name symbol)))
-    (when (and (eq major-mode 'org-mode)
-               (s-starts-with-p "~" symbol-n)
-               (s-ends-with-p "~" symbol-n))
-      (setq symbol (->> symbol-n
-                        (s-chop-prefix "~")
-                        (s-chop-suffix "~")
-                        (intern))))
-    (describe-symbol symbol)))
-
-(defun ta-mouse-describe-thing-at-point ()
-  "Call `ta-describe-thing-at-point' at cursor position."
-  (interactive)
-  (call-interactively 'mouse-set-point)
-  (call-interactively 'ta-describe-thing-at-point))
-
-(global-set-key (kbd "C-d") 'ta-describe-thing-at-point)
-(global-set-key (kbd "<C-down-mouse-3>") 'ta-mouse-describe-thing-at-point)
-
 ;;;; handy
 
 (require 'handy)
