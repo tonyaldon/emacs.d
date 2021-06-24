@@ -1,7 +1,3 @@
-;;;; handy
-
-(require 'handy)
-
 ;;;; Operate on lines
 
 (require 'drag-stuff)
@@ -74,75 +70,6 @@
   (handy-line-active))
 
 (key-chord-define-global "ld" 'handy-line/body)
-
-;;;; Operate on sexps
-
-(defhydra handy-sexp
-  (:pre (progn (if insight-mode (insight-mode -1))
-               (set-cursor-color "#f92672"))
-   :post (set-cursor-color "#26f9ad")
-   :hint nil)
-  ("t" handy-line/body :color blue)
-  ;; miscellaneous
-  ("~" set-mark-command)
-  ("T" exchange-point-and-mark)
-  ("r" join-line)
-  ;; (";" sp-comment)
-  ("_" handy-add-space :color blue)
-  ;; kill
-  ("M-d" sp-kill-sexp)
-  ("DEL" sp-backward-kill-sexp)
-  ("C" sp-copy-sexp)
-  ("c" handy-avy-copy-past-sexp :color blue)
-  ("C-y" sp-clone-sexp)
-  ;; reshape
-  ("," sp-change-enclosing :color blue)
-  (";" sp-change-inner :color blue)
-  (":" sp-split-sexp)
-  ("M-:" sp-join-sexp)
-  (">" sp-absorb-sexp)
-  ("}" sp-emit-sexp)
-  ("%" sp-convolute-sexp)
-  ("M-f" sp-forward-slurp-sexp)
-  ("M-b" sp-backward-slurp-sexp)
-  ;; ("C-p" sp-add-to-previous-sexp)
-  ;; ("C-n" sp-add-to-next-sexp)
-  ;; ("M-f" sp-forward-barf-sexp)
-  ;; ("M-b" sp-backward-barf-sexp)
-  ("<left>" sp-splice-sexp-killing-backward)
-  ("<right>" sp-splice-sexp-killing-forward)
-  ("<up>" sp-raise-sexp)
-  ("/" sp-splice-sexp)
-  ;; motion
-  ("M-p" sp-beginning-of-previous-sexp)
-  ("M-n" sp-beginning-of-next-sexp)
-  ("C-M-p" sp-end-of-previous-sexp)
-  ("C-M-n" sp-end-of-next-sexp)
-  ("f" sp-forward-sexp)
-  ("b" sp-backward-sexp)
-  ("n" sp-next-sexp)
-  ("p" sp-previous-sexp)
-  ("u" sp-backward-up-sexp)
-  ("i" sp-down-sexp)
-  ("x" sp-up-sexp)
-  ("y" sp-backward-down-sexp)
-  ("a" sp-beginning-of-sexp)
-  ("e" sp-end-of-sexp)
-  ("d" handy-sp-drag-backward)
-  ("s" handy-sp-drag-forward)
-  ;; parenthese type
-  ("$" sp-show-enclosing-pair)
-  ("{" sp-wrap-curly)
-  ("(" sp-wrap-round)
-  ("[" sp-wrap-square)
-  ("M-r" sp-rewrap-sexp)
-  ("]" sp-swap-enclosing-sexp)
-  ;; ---
-  ("M--" undo)
-  ("q" nil))
-
-(key-chord-define-global "-0" 'handy-sexp/body)
-(key-chord-define-global "sr" 'handy-avy-copy-past-sexp)
 
 ;;;; transient key bindings interface
 
