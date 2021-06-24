@@ -8,27 +8,11 @@
 ;;   2. to operate on sexp,
 ;;   3. and to mark things.
 
-;;; Declare functions
+;;; Code
 
-(declare-function avy-goto-word-or-subword-1 "ext:avy")
-
-(declare-function sp-transpose-sexp "ext:smartparens")
-(declare-function sp-backward-sexp "ext:smartparens")
-(declare-function sp-forward-sexp "ext:smartparens")
-(declare-function sp-previous-sexp "ext:smartparens")
-(declare-function sp-get-thing "ext:smartparens")
-(declare-function sp-get "ext:smartparens")
-(declare-function sp-backward-up-sexp "ext:smartparens")
-(declare-function sp-backward-down-sexp "ext:smartparens")
-(declare-function sp-mark-sexp "ext:smartparens")
-(declare-function sp-down-sexp "ext:smartparens")
-
-(declare-function er/expand-region "ext:expand-region")
-(declare-function er/mark-word "ext:expand-region")
-(declare-function er/mark-sentence "ext:expand-region")
-(declare-function er/mark-url "ext:expand-region")
-(declare-function er--point-inside-string-p "ext:expand-region")
-(declare-function er/mark-inside-quotes "ext:expand-region")
+(require 'avy)
+(require 'smartparens)
+(require 'expand-region)
 
 (declare-function org-table-beginning-of-field "org")
 (declare-function org-at-table-p "ext:smartparens")
