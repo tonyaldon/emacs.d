@@ -144,30 +144,6 @@ that call interactively COMMAND."
 
 (global-set-key (kbd "C-M-i") 'ta-remind-me)
 
-;;;; insight-mode
-
-(global-set-key (kbd "M-i") 'insight-mode)
-
-;;;; miscellaneous
-
-(global-set-key (kbd "<f5>") 'ta-find-file-notes)
-(key-chord-define-global ";;" 'counsel-M-x)
-(global-set-key (kbd "C->") 'delete-char)
-(global-set-key (kbd "<C-backspace>") 'backward-kill-word)
-(global-set-key (kbd "M-l") 'recenter-top-bottom)
-(global-set-key (kbd "C-v") 'visual-line-mode)
-(global-set-key (kbd "<f3>") 'yank)
-(global-set-key (kbd "<C-escape>") 'repeat)
-
-
-(global-set-key (kbd "C-s") 'linux-switch-keyboard-layout)
-(global-set-key (kbd "C-c f") 'ta-copy-buffer-file-name)
-
-;;;; undo
-
-(global-set-key (kbd "M--") 'undo)
-(global-set-key (kbd "M-+") 'undo-redo)
-
 ;;; Footer
 
 (provide 'kb)

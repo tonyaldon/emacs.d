@@ -29,6 +29,21 @@
 (global-set-key (kbd "C-x C-e") 'ta-fzf-emacs-settings)
 (global-set-key (kbd "<up>") 'ta-fzf-dwim)
 
+(global-set-key (kbd "<f5>") 'ta-find-file-notes)
+(key-chord-define-global ";;" 'counsel-M-x)
+(global-set-key (kbd "C->") 'delete-char)
+(global-set-key (kbd "<C-backspace>") 'backward-kill-word)
+(global-set-key (kbd "M-l") 'recenter-top-bottom)
+(global-set-key (kbd "C-v") 'visual-line-mode)
+(global-set-key (kbd "<f3>") 'yank)
+(global-set-key (kbd "<C-escape>") 'repeat)
+
+(global-set-key (kbd "C-s") 'linux-switch-keyboard-layout)
+(global-set-key (kbd "C-c f") 'ta-copy-buffer-file-name)
+
+(global-set-key (kbd "M--") 'undo)
+(global-set-key (kbd "M-+") 'undo-redo)
+
 ;;; Global
 
 ;;;; Appearance
@@ -685,7 +700,9 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
 (require 'insight)
 (setq insight-cursor-color "#fd971f")
 (insight-use-cursor-color)
+
 (define-key insight-mode-map (kbd "t") 'handy-line/body)
+(global-set-key (kbd "M-i") 'insight-mode)
 
 ;;;; js-mode
 ;;;;; Packages
