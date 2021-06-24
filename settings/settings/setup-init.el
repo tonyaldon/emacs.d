@@ -1435,6 +1435,23 @@ This function is intended to be used in the hook `isearch-mode-end-hook'."
 
 ;;; Per package
 
+;;;; avy
+
+(require 'avy)
+
+(setq avy-highlight-first t)
+(setq avy-style 'at-full)
+(setq avy-keys (listify-key-sequence "auieyxobnf()].,:;'csghrpqd"))
+
+(defun ta-avy-goto-end-of-line ()
+  "Call `avy-goto-char' with \"\n\" as argument."
+  (interactive)
+  (avy-goto-char ?\n))
+
+(global-set-key (kbd "M-p") 'avy-goto-char)
+(global-set-key (kbd "M-b") 'avy-goto-line)
+(global-set-key (kbd "M-f") 'ta-avy-goto-end-of-line)
+
 ;;;; dump-jump
 (require 'dumb-jump)
 

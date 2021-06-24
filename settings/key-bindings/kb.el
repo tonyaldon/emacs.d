@@ -1,42 +1,19 @@
 ;;; Global key bindings settings
 ;;;; Packages
 
-(require 'avy)
 (require 'hydra)
 (require 'key-chord)
-
-;;;; avy
-
-(setq avy-highlight-first t)
-(setq avy-style 'at-full)
-(setq avy-keys (listify-key-sequence "auieyxowbnfpktsrqdljmcgh()[]<>,;.:"))
 
 ;;;; hydra
 
 (setq-default hydra-hint-display-type  'message)
 
 ;;;; key-chord
-
 (key-chord-mode t)
 (setq key-chord-two-keys-delay 0.1)
 (setq key-chord-one-key-delay 0.2)
 
 ;;; Global key bindings
-;;;; avy
-
-(require 'avy)
-
-(defun ta-avy-goto-end-of-line ()
-  "Call `avy-goto-char' with \"\n\" as argument."
-  (interactive)
-  (avy-goto-char ?\n))
-
-(global-set-key (kbd "M-p") 'avy-goto-char)
-(global-set-key (kbd "M-b") 'avy-goto-line)
-(global-set-key (kbd "M-f") 'ta-avy-goto-end-of-line)
-
-
-
 
 ;;;; describe
 
