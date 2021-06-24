@@ -1815,12 +1815,6 @@ current dir instead of project root."
   (interactive)
   (kill-new (buffer-file-name)))
 
-(defun ta-toggle-create-lockfiles ()
-  "Toggle the value of `create-lockfiles' interactively."
-  (interactive)
-  (setq create-lockfiles (not create-lockfiles))
-  (message "create-lockfiles set to: %s" create-lockfiles))
-
 (defun ta-find-file-notes ()
   (interactive)
   (find-file "~/work/notes.org"))
