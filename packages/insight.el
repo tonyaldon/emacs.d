@@ -197,6 +197,4 @@ Mainly one key binding."
   :keymap insight-mode-map
   (insight-switch-cursor-color insight-mode))
 
-(insight-mode -1)
-
 (provide 'insight)

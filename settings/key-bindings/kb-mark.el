@@ -4,7 +4,6 @@
 (require 'multiple-cursors)
 (require 'expand-region)
 (require 'iedit)
-(require 'smartparens)
 
 ;;; Global variables
 
@@ -12,7 +11,6 @@
 
 (setq mark-ring-max 8)
 (setq global-mark-ring-max 8)
-(setq expand-region-preferred-python-mode 'fgallina-python)
 
 ;;; iedit-mode
 
