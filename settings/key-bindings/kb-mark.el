@@ -8,7 +8,7 @@
 
 ;;; Global variables
 
-(setq mc/list-file "~/.emacs.d/generated/.mc-list.el")
+(setq mc/list-file "~/.emacs.d/generated/mc-lists.el")
 
 (setq mark-ring-max 8)
 (setq global-mark-ring-max 8)
