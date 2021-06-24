@@ -1500,6 +1500,23 @@ Intented to be use in `text-mode-hook'"
 (setq dumb-jump-prefer-searcher 'rg)
 (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 
+;;;; emacs lisp evaluation (pp, simple)
+
+(require 'pp)
+(require 'simple)
+
+(defun ta-eval-expression (&optional arg)
+  "Call `eval-expression'.
+If called with universal argument, call `pp-eval-expression'."
+  (interactive "P")
+  (if arg
+      (call-interactively 'pp-eval-expression)
+    (call-interactively 'eval-expression)))
+
+(global-set-key (kbd "<f1>") 'eval-defun)
+(global-set-key (kbd "<f2>") 'eval-last-sexp)
+(global-set-key (kbd "M-:") 'ta-eval-expression)
+
 ;;;; help
 
 (require 'help-fns)
