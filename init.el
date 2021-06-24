@@ -31,6 +31,5 @@
 
 ;;; key bindings files
 
-(require 'kb)
 (require 'kb-mark)
 (require 'kb-string)
