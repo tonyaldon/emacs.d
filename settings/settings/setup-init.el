@@ -5,6 +5,20 @@
 (define-key key-translation-map (kbd "M-q") (kbd "C-g"))
 (define-key key-translation-map (kbd "C-<return>") (kbd "C-c"))
 
+;;;; hydra
+
+(require 'hydra)
+
+(setq-default hydra-hint-display-type  'message)
+
+;;;; key-chord
+
+(require 'key-chord)
+
+(key-chord-mode t)
+(setq key-chord-two-keys-delay 0.1)
+(setq key-chord-one-key-delay 0.2)
+
 ;;;; to sort
 
 (global-set-key (kbd "M->") 'counsel-quick-access)
