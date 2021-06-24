@@ -1588,6 +1588,22 @@ nor a variable."
 (define-key dired-mode-map (kbd "S") 'dired-toggle-sudo)
 (define-key dired-mode-map (kbd "TAB") 'dired-hide-details-mode)
 
+;;;; refactor
+
+(require 'refactor)
+(require 'hydra)
+
+(defhydra hydra-refactor
+  (:hint nil)
+  ("M-t" refactor-write-mode :color blue)
+  ("a" refactor-abort-changes :color blue)
+  ("e" refactor-exit :color blue)
+  ("f" refactor-finish-edit :color blue)
+  ("M--" undo)
+  ("q" nil))
+
+(global-set-key (kbd "M-t") 'hydra-refactor/body)
+
 ;;;; rg
 
 (require 'rg)

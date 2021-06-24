@@ -292,21 +292,6 @@ If called with universal argument, call `pp-eval-expression'."
 (global-set-key (kbd "C-r") 'rg-dwim)
 (global-set-key (kbd "C-M-p") 'ta-rg-ask)
 
-;;;; refactor
-
-(require 'refactor)
-
-(defhydra hydra-refactor
-  (:hint nil)
-  ("M-t" refactor-write-mode :color blue)
-  ("a" refactor-abort-changes :color blue)
-  ("e" refactor-exit :color blue)
-  ("f" refactor-finish-edit :color blue)
-  ("M--" undo)
-  ("q" nil))
-
-(global-set-key (kbd "M-t") 'hydra-refactor/body)
-
 ;;;; undo
 
 (global-set-key (kbd "M--") 'undo)
