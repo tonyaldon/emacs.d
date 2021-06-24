@@ -1021,7 +1021,6 @@ to blank table field if we start typing just after using it as `org-cycle',
                 (1+ org-self-insert-command-undo-counter))))))))
 ;;;;; Hooks
 
-
 (defun ta-org-mode-company ()
   "Setup `company-mode' for `org-mode-hook'"
   (company-mode 1)
@@ -1030,8 +1029,7 @@ to blank table field if we start typing just after using it as `org-cycle',
   (setq company-backends '(company-capf company-files company-dabbrev)))
 
 (add-hook 'org-mode-hook #'ta-org-mode-company)
-(add-hook 'org-mode-hook #'org-indent-mode)
-(add-hook 'text-mode-hook #'turn-on-auto-fill)
+(add-hook 'org-mode-hook #'org-indent-mode) ()
 
 ;;;;; keybindings
 
@@ -1401,6 +1399,14 @@ This function is intended to be used in the hook `isearch-mode-end-hook'."
 (define-key term-mode-map (kbd "M-o") 'delete-window)
 
 (global-set-key (kbd "C-c t") 'ta-ansi-term-bash)
+
+;;;; text-mode
+
+(require 'text-mode)
+
+(add-hook 'text-mode-hook #'turn-on-auto-fill)
+
+(define-key text-mode-map (kbd "C-c C-l") 'ta-magit-log-other-window)
 
 ;;;; org-mode
 
