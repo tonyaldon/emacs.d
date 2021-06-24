@@ -151,7 +151,6 @@
         hydra-ss/ta-ss-s-snake-case-and-exit
         hydra-ss/ta-ss-s-upcase-and-exit
         indent-new-comment-line
-        iy-go-to-char--command
         keyboard-quit
         kill-region
         kill-sexp
@@ -297,7 +296,6 @@
         indent-for-tab-command
         insight-mode
         ivy-switch-buffer
-        iy-go-to-char-quit
         kill-sentence
         kmacro-set-counter
         kmacro-start-macro
