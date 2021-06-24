@@ -848,6 +848,8 @@ you save the file."
 
 (require 'org)
 (require 'plan)
+(require 'smartparens)
+(require 'company)
 
 ;;;;; Global
 
@@ -1019,7 +1021,18 @@ to blank table field if we start typing just after using it as `org-cycle',
                (setcdr buffer-undo-list (cddr buffer-undo-list)))
           (setq org-self-insert-command-undo-counter
                 (1+ org-self-insert-command-undo-counter))))))))
-;;;;; Hooks
+;;;;; company, smartparens, org-indent-mode
+
+(defun ta-org-smartparens ()
+  "Intended to be used in the hook `org-mode-hook'."
+  (sp-local-pair 'org-mode "*" "*" :actions '(wrap navigate))
+  (sp-local-pair 'org-mode "/" "/" :actions '(wrap navigate))
+  (sp-local-pair 'org-mode "_" "_" :actions '(wrap navigate))
+  (sp-local-pair 'org-mode "=" "=" :actions '(wrap navigate))
+  (sp-local-pair 'org-mode "~" "~" :actions '(wrap navigate))
+  (sp-local-pair 'org-mode "\"" "\"" :actions '(wrap navigate))
+  (sp-local-pair 'org-mode "'" "'" :actions '(wrap navigate))
+  (show-smartparens-mode -1))
 
 (defun ta-org-mode-company ()
   "Setup `company-mode' for `org-mode-hook'"
@@ -1028,8 +1041,9 @@ to blank table field if we start typing just after using it as `org-cycle',
   (setq company-minimum-prefix-length 4)
   (setq company-backends '(company-capf company-files company-dabbrev)))
 
+(add-hook 'org-mode-hook #'ta-org-smartparens)
 (add-hook 'org-mode-hook #'ta-org-mode-company)
-(add-hook 'org-mode-hook #'org-indent-mode) ()
+(add-hook 'org-mode-hook #'org-indent-mode)
 
 ;;;;; keybindings
 
@@ -1404,24 +1418,15 @@ This function is intended to be used in the hook `isearch-mode-end-hook'."
 
 (require 'text-mode)
 
+(defun ta-text-mode-smartparens ()
+  "Disable `show-smartparens-mode'.
+Intented to be use in `text-mode-hook'"
+  (show-smartparens-mode -1))
+
 (add-hook 'text-mode-hook #'turn-on-auto-fill)
+(add-hook 'text-mode-hook #'ta-text-mode-smartparens)
 
 (define-key text-mode-map (kbd "C-c C-l") 'ta-magit-log-other-window)
-
-;;;; org-mode
-
-(defun ta-org-smartparens ()
-  "Intended to be used in the hook `org-mode-hook'."
-  (sp-local-pair 'org-mode "*" "*" :actions '(wrap navigate))
-  (sp-local-pair 'org-mode "/" "/" :actions '(wrap navigate))
-  (sp-local-pair 'org-mode "_" "_" :actions '(wrap navigate))
-  (sp-local-pair 'org-mode "=" "=" :actions '(wrap navigate))
-  (sp-local-pair 'org-mode "~" "~" :actions '(wrap navigate))
-  (sp-local-pair 'org-mode "\"" "\"" :actions '(wrap navigate))
-  (sp-local-pair 'org-mode "'" "'" :actions '(wrap navigate)))
-
-(add-hook 'org-mode-hook 'ta-org-smartparens)
-
 
 ;;;; visual-line-mode
 
