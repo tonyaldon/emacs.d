@@ -24,12 +24,16 @@ that is either a function or a variable.
 Return nil if the symbol of the `thing-at-point' is neither a function
 nor a variable."
   (interactive)
-  (let ((current-symbol (symbol-at-point)))
-    (cond
-     ((not current-symbol))
-     ((boundp current-symbol) (describe-variable current-symbol))
-     ((fboundp current-symbol) (describe-function current-symbol))
-     (t (message "The symbol-at-point is neither a variable or a function")))))
+  (when-let* ((symbol (symbol-at-point))
+              (symbol-n (symbol-name symbol)))
+    (when (and (eq major-mode 'org-mode)
+               (s-starts-with-p "~" symbol-n)
+               (s-ends-with-p "~" symbol-n))
+      (setq symbol (->> symbol-n
+                        (s-chop-prefix "~")
+                        (s-chop-suffix "~")
+                        (intern))))
+    (describe-symbol symbol)))
 
 (defun ta-mouse-describe-thing-at-point ()
   "Call `ta-describe-thing-at-point' at cursor position."
