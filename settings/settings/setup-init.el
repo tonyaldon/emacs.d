@@ -1844,6 +1844,11 @@ nor a variable."
 (setq dired-dwim-target t)
 (setq-default dired-listing-switches "-al --group-directories-first")
 
+(defun ta-dired ()
+  "Visit `default-directory' in `dired-mode'."
+  (interactive)
+  (dired default-directory))
+
 (defun ta-dired-auto-revert ()
   "Set `auto-revert-mode' in `dired-mode' buffers."
   (auto-revert-mode 1)
@@ -1864,7 +1869,7 @@ nor a variable."
         ("jpeg" . "eog")
         ("png" . "eog")))
 
-;;;;; dired-mode-map
+;;;;; dired keybindings
 
 (define-key dired-mode-map (kbd "C-o") nil)
 (define-key dired-mode-map (kbd "M-s") 'isearch-forward)
@@ -1897,6 +1902,7 @@ nor a variable."
 
 (define-key dired-mode-map (kbd "S") 'dired-toggle-sudo)
 (define-key dired-mode-map (kbd "TAB") 'dired-hide-details-mode)
+(global-set-key (kbd "M-]") 'ta-dired)
 
 ;;;; refactor
 
