@@ -1931,6 +1931,11 @@ current dir instead of project root."
 (defadvice rg-run (before ta-rg-delete-other-windows activate)
   (delete-other-windows))
 
+(defun ta-rg-rerun-toggle-hidden ()
+  "Rerun last search with toggled '--hidden' flag."
+  (interactive)
+  (rg-rerun-toggle-flag "--hidden"))
+
 
 (define-key rg-mode-map (kbd "TAB") 'bicycle-cycle)
 (define-key rg-mode-map (kbd "C-o") nil)
