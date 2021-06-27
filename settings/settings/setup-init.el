@@ -24,8 +24,6 @@
 (global-set-key (kbd "C-c q") 'counsel-quick-access)
 (global-set-key (kbd "C-a") 'counsel-find-file)
 
-(global-set-key (kbd "C-M-n") 'counsel-rg)
-
 (global-set-key (kbd "C-x C-e") 'ta-fzf-emacs-settings)
 (global-set-key (kbd "<up>") 'ta-fzf-dwim)
 
