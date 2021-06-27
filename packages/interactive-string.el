@@ -126,4 +126,4 @@ region if actived."
 
 (global-set-key (kbd "C-c s") 'hydra-ss/body)
 
-(provide 'kb-string)
+(provide 'interactive-string)
