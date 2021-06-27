@@ -1897,7 +1897,6 @@ nor a variable."
 ;;;; rg
 
 (require 'rg)
-(require 'outline)
 
 (rg-define-search ta-rg-ask-project-dir
   "Search for a string (given by the user at the prompt) in files matching
@@ -1930,12 +1929,6 @@ current dir instead of project root."
 (defadvice rg-run (before ta-rg-delete-other-windows activate)
   (delete-other-windows))
 
-(defun ta-outline-rg-mode ()
-  "Set up `outline-mode' for `rg-mode'. See `outline-regexp'."
-  (outline-minor-mode t)
-  (setq-local outline-regexp "File:"))
-
-(add-hook 'rg-mode-hook 'ta-outline-rg-mode)
 
 (define-key rg-mode-map (kbd "TAB") 'bicycle-cycle)
 (define-key rg-mode-map (kbd "C-o") nil)
