@@ -96,7 +96,7 @@ that call interactively COMMAND."
     ("t" "image-toggle-display" image-toggle-display--transient)
     ("n" "display-line-numbers-mode" display-line-numbers-mode--transient)]])
 
-(global-set-key (kbd "C-M-i") 'ta-remind-me)
+(global-set-key (kbd "C-c r") 'ta-remind-me)
 
 ;;; Global
 
@@ -351,8 +351,8 @@ See `clone-indirect-buffer'."
 
 (global-set-key (kbd "C-o") 'delete-other-windows)
 (global-set-key (kbd "M-o") 'delete-window)
-(global-set-key (kbd "M-u") 'hydra-windows/body)
 (global-set-key (kbd "M->") 'other-window)
+(global-set-key (kbd "C-c w") 'hydra-windows/body)
 
 ;;;; PATH
 
@@ -758,7 +758,7 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
 (insight-use-cursor-color)
 
 (define-key insight-mode-map (kbd "t") 'handy-line/body)
-(global-set-key (kbd "M-i") 'insight-mode)
+(key-chord-define-global "bn" 'insight-mode)
 
 ;;;; js-mode
 ;;;;; Packages
@@ -1208,8 +1208,8 @@ to blank table field if we start typing just after using it as `org-cycle',
 (require 'outline)
 (require 'outline-spc)
 
-(global-set-key (kbd "C-M-b") 'outline-previous-visible-heading)
-(global-set-key (kbd "C-M-f") 'outline-next-visible-heading)
+(global-set-key (kbd "M-i") 'outline-previous-visible-heading)
+(global-set-key (kbd "C-M-i") 'outline-next-visible-heading)
 (global-set-key (kbd "C-SPC") 'ta-outline-toggle-global)
 
 (setq outline-spc-default nil)
@@ -1667,7 +1667,7 @@ Intented to be use in `text-mode-hook'"
   (interactive)
   (avy-goto-char ?\n))
 
-(global-set-key (kbd "M-p") 'avy-goto-char)
+(global-set-key (kbd "C-M-b") 'avy-goto-char)
 (global-set-key (kbd "M-b") 'avy-goto-line)
 (global-set-key (kbd "M-f") 'ta-avy-goto-end-of-line)
 
@@ -1867,8 +1867,6 @@ nor a variable."
 ;;;;; dired-mode-map
 
 (define-key dired-mode-map (kbd "C-o") nil)
-(define-key dired-mode-map (kbd "C-M-p") nil)
-(define-key dired-mode-map (kbd "C-M-n") nil)
 (define-key dired-mode-map (kbd "M-s") 'isearch-forward)
 (define-key dired-mode-map (kbd "M-r") 'isearch-backward)
 

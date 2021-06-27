@@ -124,6 +124,6 @@ region if actived."
   ("M--" undo)
   ("q" nil))
 
-(global-set-key (kbd "M-<prior>") 'hydra-ss/body)
+(global-set-key (kbd "C-c s") 'hydra-ss/body)
 
 (provide 'kb-string)
