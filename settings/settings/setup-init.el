@@ -1363,6 +1363,16 @@ This function is intended to be used in the hook `isearch-mode-end-hook'."
 (global-set-key (kbd "M-a") 'ta-isearch-backward-outline)
 (global-set-key (kbd "M-e") 'ta-isearch-forward-outline)
 
+;;;;; replace
+
+(require 'replace)
+
+(define-key occur-mode-map (kbd "M-n") 'nil)
+
+(global-set-key (kbd "M-}") 'query-replace)
+(global-set-key (kbd "M-)") 'query-replace-regexp)
+
+;;;;; mutiple buffers isearch
 ;;;;; isearch keybindings
 
 (global-set-key (kbd "M-s") 'isearch-forward)
