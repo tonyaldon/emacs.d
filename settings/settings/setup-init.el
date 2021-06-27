@@ -1898,6 +1898,8 @@ nor a variable."
 
 (require 'rg)
 
+(setq rg-ignore-case 'smart)
+
 (rg-define-search ta-rg-ask-project-dir
   "Search for a string (given by the user at the prompt) in files matching
 the current file under the project root directory."
