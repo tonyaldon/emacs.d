@@ -88,7 +88,7 @@ region if actived."
     (insert (s-collapse-whitespace s-string))
     (goto-char s-beg)))
 
-(defun ta-ss-wrap (region-beg region-end)
+(defun istring-wrap (region-beg region-end)
   "Wrap region with first and second sentences separeted by a space given in the prompt."
   (interactive "r")
   (setq wrappers (s-split " " (read-string "Wrap region with: ")))
@@ -110,7 +110,7 @@ region if actived."
   ("t" istring-titleize :color blue)
   ("c" istring-capitalize :color blue)
   ("," istring-collapse-whitespace :color blue)
-  ("e" ta-ss-wrap :color blue)
+  ("e" istring-wrap :color blue)
   ;; ---
   ("M--" undo)
   ("q" nil))
