@@ -100,21 +100,4 @@ region if actived."
              wrap-beg
              wrap-end))))
 
-(defhydra hydra-istring (:hint nil)
-  ("d" istring-dashed-words)
-  ("s" istring-snake-case)
-  ("l" istring-lower-camel-case)
-  ("r" istring-upper-camel-case)
-  ("<up>" istring-upcase :color blue)
-  ("<down>" istring-downcase :color blue)
-  ("t" istring-titleize :color blue)
-  ("c" istring-capitalize :color blue)
-  ("," istring-collapse-whitespace :color blue)
-  ("e" istring-wrap :color blue)
-  ;; ---
-  ("M--" undo)
-  ("q" nil))
-
-(global-set-key (kbd "C-c s") 'hydra-ss/body)
-
 (provide 'interactive-string)
