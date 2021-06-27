@@ -678,15 +678,6 @@ see: https://github.com/Fuco1/.emacs.d/blob/af82072196564fa57726bdbabf97f1d35c43
                                    process-environment)))
     (fzf/start fzf/directory-start)))
 
-(defun ta-fzf-default-directory ()
-  "Start a fzf session at the specified directory.
-
-Select the start directory from `default-directory'."
-  (interactive)
-  (let ((process-environment (cons (concat "FZF_DEFAULT_COMMAND=fd")
-                                   process-environment)))
-    (fzf/start (read-directory-name "Directory:" default-directory))))
-
 (defun ta-fzf-project ()
   "Start a fzf session in current project.
 
@@ -706,10 +697,9 @@ If there is no current project, use the `default-directory'.
 With \\[universal-argument] prefix, ask to choose a directory to start fzf.
 With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'."
   (interactive "p")
-  (cond
-   ((equal arg 4) (call-interactively 'ta-fzf-default-directory))
-   ((equal arg 16) (call-interactively 'ta-fzf-directory))
-   (t (call-interactively 'ta-fzf-project))))
+  (if (equal arg 4)
+      (call-interactively 'ta-fzf-directory)
+    (call-interactively 'ta-fzf-project)))
 
 ;;;; graphviz-dot-mode
 (require 'graphviz-dot-mode)
