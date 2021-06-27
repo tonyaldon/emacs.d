@@ -1936,6 +1936,62 @@ current dir instead of project root."
   (interactive)
   (rg-rerun-toggle-flag "--hidden"))
 
+;;;;; override rg
+
+;; override the original header line function
+;; mostly to include information about matching in hidden files
+(defun rg-header-render-toggle (ignored)
+  "Return a fontified toggle symbol.
+If IGNORED is non nil, render \"y\" string, otherwise render \"no\"
+string.
+
+Tony Aldon: I override this function because of the semantic of the
+words.  The default words \"on\" and \"off\" used in the header line
+are not clear for me."
+  `(:eval (let* ((ignored ,ignored)
+                 (value (if ignored "y" "no"))
+                 (face (if ignored 'rg-toggle-on-face 'rg-toggle-off-face)))
+            (propertize value 'font-lock-face `(bold ,face)))))
+
+(defun rg-create-header-line (search full-command)
+  "Create the header line for SEARCH.
+If FULL-COMMAND specifies if the full command line search was done.
+
+Tony Aldon: I override this function because I want to rename the
+labels and add a new label for the option \"--hidden\" of \"ripgrep\"
+to show me if the matches include those in the hidden files.  Note
+that by default, `rg' skips hidden files and directory."
+  (let ((itemspace " "))
+    (setq header-line-format
+          (if full-command
+              (list (rg-header-render-label "command line") "no refinement")
+            (list
+             (rg-header-mouse-action 'rg-rerun-toggle-rexexp-literal "Toggle literal/regexp"
+                                     (rg-header-render-label `((rg-search-literal ,search)
+                                                               ("literal" rg-literal-face)
+                                                               ("regexp" rg-regexp-face))))
+             (rg-header-mouse-action 'rg-rerun-change-literal "Change search string"
+                                     `(:eval (rg-search-pattern ,search))) itemspace
+             (rg-header-render-label "files")
+             (rg-header-mouse-action 'rg-rerun-change-files "Change file types"
+                                     `(:eval (rg-search-files ,search))) itemspace
+             ;; label semantic: r-case   -> respect case
+             ;;                 r-git    -> respect .gitignore
+             ;;                 s-hidden -> search matches in hidden files
+             (rg-header-render-label "r-case|r-git|s-hidden")
+             (rg-header-mouse-action 'rg-rerun-toggle-case "Toggle case"
+                                     (rg-header-render-toggle
+                                      `(not (member "-i" (rg-search-flags ,search))))) itemspace
+             (rg-header-mouse-action 'rg-rerun-toggle-ignore "Toggle ignore"
+                                     (rg-header-render-toggle
+                                      `(not (member "--no-ignore" (rg-search-flags ,search))))) itemspace
+             (rg-header-mouse-action 'ta-rg-rerun-toggle-hidden "Toggle hidden"
+                                     (rg-header-render-toggle
+                                      `(member "--hidden" (rg-search-flags ,search)))) itemspace
+             (rg-header-render-label "hits")
+             '(:eval (format "%d" rg-hit-count)))))))
+
+
 ;;;;; rg keybindings
 
 (define-key rg-mode-map (kbd "C-o") nil)
