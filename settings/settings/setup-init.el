@@ -21,7 +21,7 @@
 
 ;;;; to sort
 
-(global-set-key (kbd "M->") 'counsel-quick-access)
+(global-set-key (kbd "C-c q") 'counsel-quick-access)
 (global-set-key (kbd "C-a") 'counsel-find-file)
 
 (global-set-key (kbd "C-M-n") 'counsel-rg)
@@ -353,8 +353,8 @@ See `clone-indirect-buffer'."
 
 (global-set-key (kbd "C-o") 'delete-other-windows)
 (global-set-key (kbd "M-o") 'delete-window)
-(global-set-key (kbd "M-n") 'other-window)
 (global-set-key (kbd "M-u") 'hydra-windows/body)
+(global-set-key (kbd "M->") 'other-window)
 
 ;;;; PATH
 
@@ -2087,7 +2087,7 @@ follow working well with the changes I made in `rg-filter'."
 (define-key rg-mode-map (kbd "p") 'previous-error-no-select)
 (define-key rg-mode-map (kbd "n") 'next-error-no-select)
 
-(global-set-key (kbd "C-M-p") 'ta-rg-ask)
+(global-set-key (kbd "M-n") 'ta-rg-ask)
 
 ;;;; yasnippet
 
