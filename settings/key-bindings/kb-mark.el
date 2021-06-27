@@ -1,8 +1,6 @@
 ;;; Packages
 
-(require 'kb)
 (require 'multiple-cursors)
-(require 'expand-region)
 (require 'iedit)
 
 ;;; Global variables
@@ -45,13 +43,7 @@ Intended to be use as advice before of `mouse-set-point'."
   ("d" mc/unmark-next-like-this)
   ("/" mc/mark-sgml-tag-pair)
   ("i" mc/insert-numbers)
-  ;; TODO: see all cool commands of mc/... all, dwim, defun
   ("a" mc/mark-all-in-region)
-  ;; FIXME: is it a good place here to have 'replace' commands
-  ("M-c" query-replace :color blue)
-  ("c" query-replace-regexp :color blue)
-  ("M-s" replace-string :color blue)
-  ("M-r" replace-regexp :color blue)
   ("q" nil))
 
 (defadvice mc/keyboard-quit (after ta-mc/keyboard-quit-advice activate)
@@ -71,17 +63,6 @@ Intended to be use as advice before of `mouse-set-point'."
 
 (key-chord-define-global ">p" 'iedit-mode)
 (global-set-key (kbd "<mouse-3>") 'ta-mouse-iedit-mode)
-
-;;; TODO
-;; TODO: find a way to use these function
-;; (iedit-mode-toggle-on-function)
-;; (iedit-restrict-current-line)
-;; (iedit-restrict-function)
-;; (iedit-restrict-region)
-
-;; TODO: multiple cursors
-;; TODO: iedit
-;; TODO: replace
 
 ;;; Footer
 
