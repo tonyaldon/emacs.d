@@ -1992,6 +1992,80 @@ that by default, `rg' skips hidden files and directory."
              '(:eval (format "%d" rg-hit-count)))))))
 
 
+;; override file path rendering and match
+;; mostly to add the filename without its directory
+;; (default) File: path-to-file
+;; (new)     File: [filename] path-to-file
+(defun rg-filter ()
+  "Handle match highlighting escape sequences inserted by the rg process.
+This function is called from `compilation-filter-hook'.
+
+Tony Aldon: I override this function because I want to
+modify the rendering of the lines containing the path
+of the file where matches are found.  Precisely, I want
+to add the filename without its directory:
+(default) File: path-to-file
+(new)     File: [filename] path-to-file."
+  (save-excursion
+    (forward-line 0)
+    (let ((end (point)) beg)
+      (goto-char compilation-filter-start)
+      (forward-line 0)
+      (setq beg (point))
+      (when (zerop rg-hit-count)
+        (newline))
+      ;; Only operate on whole lines so we don't get caught with part of an
+      ;; escape sequence in one chunk and the rest in another.
+      (when (< (point) end)
+        (setq end (copy-marker end))
+        ;; Add File: in front of filename
+        (when rg-group-result
+          (while (re-search-forward "^\033\\[[0]*m\033\\[35m\\(.*?\\)\033\\[[0]*m$" end 1)
+            (replace-match (concat (propertize "File:"
+                                               'rg-file-message t
+                                               'face nil
+                                               'font-lock-face 'rg-file-tag-face)
+                                   " "
+                                   (propertize (concat "["
+                                                       (file-name-nondirectory (match-string 1))
+                                                       "]")
+                                               'font-lock-face 'rg-filename-face)
+                                   " "
+                                   (propertize (match-string 1)
+                                               'face nil
+                                               'font-lock-face 'rg-filename-face))
+                           t t))
+          (goto-char beg))
+
+        ;; Highlight rg matches and delete marking sequences.
+        (while (re-search-forward "\033\\[[0]*m\033\\[[3]*1m\033\\[[3]*1m\\(.*?\\)\033\\[[0]*m" end 1)
+          (replace-match (propertize (match-string 1)
+                                     'face nil 'font-lock-face 'rg-match-face)
+                         t t)
+          (cl-incf rg-hit-count))
+
+        (rg-format-line-and-column-numbers beg end)
+
+        ;; Delete all remaining escape sequences
+        (goto-char beg)
+        (while (re-search-forward "\033\\[[0-9;]*[0mK]" end 1)
+          (replace-match "" t t))
+
+        (goto-char beg)
+        (run-hooks 'rg-filter-hook)))))
+
+(setq wgrep-rg-grouped-result-file-regexp "^File: \\[[^]]+] \\(.*\\)$")
+
+(defun rg-match-grouped-filename ()
+  "Match filename backwards when a line/column match is found in grouped output mode.
+
+Tony Aldon: I override this function to allow (rg) to
+follow working well with the changes I made in `rg-filter'."
+  (save-match-data
+    (save-excursion
+      (when (re-search-backward "^File: \\[[^]]+] \\(.*\\)$" (point-min) t)
+        (list (match-string 1))))))
+
 ;;;;; rg keybindings
 
 (define-key rg-mode-map (kbd "C-o") nil)
