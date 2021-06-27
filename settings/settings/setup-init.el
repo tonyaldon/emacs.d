@@ -480,6 +480,31 @@ of the columns."
 (define-key company-active-map (kbd "M-t") 'company-filter-candidates)
 (define-key company-active-map (kbd "M-q") 'company-abort)
 
+;;;; compilation-mode and next-error
+
+(require 'compile)
+(require 'simple)
+
+(defun ta-next-error-no-select (&optional n)
+  "Similar to `next-error-no-select' but highlight match in a right window."
+  (interactive "p")
+  (save-selected-window
+    (let ((next-error-highlight next-error-highlight-no-select)
+          (display-buffer-overriding-action
+           (if (eq 2 (length (window-list)))
+               '(nil (inhibit-same-window . t))
+             '(display-buffer-in-direction (direction . right)
+                                           (window-width . 0.74)))))
+      (next-error n))))
+
+(defun ta-previous-error-no-select (&optional n)
+  "Similar to `previous-error-no-select' but highlight match in a right window."
+  (interactive "p")
+  (ta-next-error-no-select (- (or n 1))))
+
+(defalias 'next-error-no-select 'ta-next-error-no-select)
+(defalias 'previous-error-no-select 'ta-previous-error-no-select)
+
 ;;;; emacs-lisp-mode
 
 (require 'outline)
