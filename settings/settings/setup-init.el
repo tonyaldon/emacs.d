@@ -1296,7 +1296,7 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
 (define-key help-mode-map (kbd "d") 'insight-scroll-down-half-window)
 (define-key help-mode-map (kbd "s") 'insight-scroll-up-half-window)
 
-;;;; isearch-mode
+;;;; isearch-mode and replace
 
 (require 'isearch)
 
@@ -1324,22 +1324,6 @@ This is a variant off (hack on) the `bicycle-cycle-global'."
   (isearch-done)
   (when isearch-other-end
     (goto-char isearch-other-end)))
-
-(global-set-key (kbd "M-s") 'isearch-forward)
-(global-set-key (kbd "M-r") 'isearch-backward)
-(define-key isearch-mode-map (kbd "M-s") 'isearch-repeat-forward)
-(define-key isearch-mode-map (kbd "M-r") 'isearch-repeat-backward)
-
-(define-key isearch-mode-map (kbd "<prior>") 'isearch-beginning-of-buffer)
-(define-key isearch-mode-map (kbd "<next>") 'isearch-end-of-buffer)
-(define-key isearch-mode-map (kbd "C-y") 'isearch-yank-kill)
-(define-key isearch-mode-map (kbd "M-.") 'ta-isearch-yank-sexp-at-point)
-(define-key isearch-mode-map (kbd "M-i") 'ta-isearch-yank-word-at-point)
-(define-key isearch-mode-map (kbd "M-t") 'ta-isearch-other-end)
-(define-key isearch-mode-map (kbd "M-o") 'isearch-occur)
-(define-key isearch-mode-map (kbd "M-c") 'isearch-toggle-case-fold)
-(define-key isearch-mode-map (kbd "C-e") 'isearch-edit-string)
-(define-key isearch-mode-map (kbd "M-,") 'isearch-toggle-regexp)
 
 ;;;;; isearch outline headings
 
@@ -1378,6 +1362,26 @@ This function is intended to be used in the hook `isearch-mode-end-hook'."
 
 (global-set-key (kbd "M-a") 'ta-isearch-backward-outline)
 (global-set-key (kbd "M-e") 'ta-isearch-forward-outline)
+
+;;;;; isearch keybindings
+
+(global-set-key (kbd "M-s") 'isearch-forward)
+(global-set-key (kbd "M-r") 'isearch-backward)
+(define-key isearch-mode-map (kbd "M-s") 'isearch-repeat-forward)
+(define-key isearch-mode-map (kbd "M-r") 'isearch-repeat-backward)
+
+(define-key isearch-mode-map (kbd "<prior>") 'isearch-beginning-of-buffer)
+(define-key isearch-mode-map (kbd "<next>") 'isearch-end-of-buffer)
+(define-key isearch-mode-map (kbd "C-y") 'isearch-yank-kill)
+(define-key isearch-mode-map (kbd "M-.") 'ta-isearch-yank-sexp-at-point)
+(define-key isearch-mode-map (kbd "M-,") 'ta-isearch-yank-word-at-point)
+(define-key isearch-mode-map (kbd "M-t") 'ta-isearch-other-end)
+(define-key isearch-mode-map (kbd "M-o") 'isearch-occur)
+(define-key isearch-mode-map (kbd "M-c") 'isearch-toggle-case-fold)
+(define-key isearch-mode-map (kbd "C-e") 'isearch-edit-string)
+(define-key isearch-mode-map (kbd "M-e") 'isearch-toggle-regexp)
+(define-key isearch-mode-map (kbd "M-}") 'isearch-query-replace)
+(define-key isearch-mode-map (kbd "M-)") 'isearch-query-replace-regexp)
 
 ;;;; ivy and counsel
 
