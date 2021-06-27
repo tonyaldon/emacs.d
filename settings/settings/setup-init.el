@@ -1373,6 +1373,26 @@ This function is intended to be used in the hook `isearch-mode-end-hook'."
 (global-set-key (kbd "M-)") 'query-replace-regexp)
 
 ;;;;; mutiple buffers isearch
+
+(require 'misearch)
+
+(setq multi-isearch-pause nil)
+
+(defun ta-misearch-same-mode ()
+  "Isearch on live buffers with `major-mode' equal to current buffer."
+  (interactive)
+  (let* ((mode major-mode)
+         (multi-isearch-next-buffer-function
+          'multi-isearch-next-buffer-from-list)
+         (buffers (--filter
+                   (equal mode (with-current-buffer it major-mode))
+                   (buffer-list))))
+    (setq multi-isearch-buffer-list buffers)
+    (isearch-forward nil t)
+    (isearch-search-and-update)))
+
+(global-set-key (kbd "C-M-n") 'ta-misearch-same-mode)
+
 ;;;;; isearch keybindings
 
 (global-set-key (kbd "M-s") 'isearch-forward)
