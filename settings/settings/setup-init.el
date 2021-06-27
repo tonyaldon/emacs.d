@@ -1882,7 +1882,7 @@ nor a variable."
 
 (define-key dired-mode-map (kbd "+") 'dired-create-directory)
 
-(define-key dired-mode-map (kbd ".") 'dired-mark)
+(define-key dired-mode-map (kbd "~") 'dired-mark)
 (define-key dired-mode-map (kbd "t") 'dired-toggle-marks)
 (define-key dired-mode-map (kbd "u") 'dired-unmark)
 (define-key dired-mode-map (kbd "U") 'dired-unmark-all-marks)
@@ -1901,7 +1901,8 @@ nor a variable."
 (define-key dired-mode-map (kbd "g") 'revert-buffer)
 
 (define-key dired-mode-map (kbd "S") 'dired-toggle-sudo)
-(define-key dired-mode-map (kbd "TAB") 'dired-hide-details-mode)
+(define-key dired-mode-map (kbd "]") 'dired-hide-details-mode)
+
 (global-set-key (kbd "M-]") 'ta-dired)
 
 ;;;; refactor
