@@ -1936,9 +1936,26 @@ current dir instead of project root."
   (interactive)
   (rg-rerun-toggle-flag "--hidden"))
 
+;;;;; rg keybindings
 
-(define-key rg-mode-map (kbd "TAB") 'bicycle-cycle)
 (define-key rg-mode-map (kbd "C-o") nil)
+(define-key rg-mode-map (kbd "TAB") 'compilation-display-error)
+
+(define-key rg-mode-map (kbd "c") 'rg-rerun-toggle-case)
+(define-key rg-mode-map (kbd "i") 'rg-rerun-toggle-ignore)
+(define-key rg-mode-map (kbd "h") 'ta-rg-rerun-toggle-hidden)
+(define-key rg-mode-map (kbd "d") 'rg-rerun-change-dir)
+(define-key rg-mode-map (kbd "f") 'rg-rerun-change-files)
+(define-key rg-mode-map (kbd "r") 'rg-rerun-change-regexp)
+(define-key rg-mode-map (kbd "t") 'rg-rerun-change-literal)
+(define-key rg-mode-map (kbd "g") 'rg-recompile)
+
+(define-key rg-mode-map (kbd "-") 'rg-back-history)
+(define-key rg-mode-map (kbd "+") 'rg-forward-history)
+(define-key rg-mode-map (kbd "(") 'rg-prev-file)
+(define-key rg-mode-map (kbd ")") 'rg-next-file)
+(define-key rg-mode-map (kbd "p") 'previous-error-no-select)
+(define-key rg-mode-map (kbd "n") 'next-error-no-select)
 
 (global-set-key (kbd "C-M-p") 'ta-rg-ask)
 
