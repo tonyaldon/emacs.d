@@ -100,24 +100,15 @@ region if actived."
              wrap-beg
              wrap-end))))
 
-(defhydra hydra-ss
-  (:hint nil)
-
-  ;; ("d" istring-dashed-words :color blue)
-  ;; ("s" istring-snake-case :color blue)
-  ;; ("l" istring-lower-camel-case :color blue)
-  ;; ("r" istring-upper-camel-case :color blue)
-
+(defhydra hydra-istring (:hint nil)
   ("d" istring-dashed-words)
   ("s" istring-snake-case)
   ("l" istring-lower-camel-case)
   ("r" istring-upper-camel-case)
-  ;; ---
   ("<up>" istring-upcase :color blue)
   ("<down>" istring-downcase :color blue)
   ("t" istring-titleize :color blue)
   ("c" istring-capitalize :color blue)
-  ;; ---
   ("," istring-collapse-whitespace :color blue)
   ("e" ta-ss-wrap :color blue)
   ;; ---
