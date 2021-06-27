@@ -1933,7 +1933,6 @@ current dir instead of project root."
 (define-key rg-mode-map (kbd "TAB") 'bicycle-cycle)
 (define-key rg-mode-map (kbd "C-o") nil)
 
-(global-set-key (kbd "C-r") 'rg-dwim)
 (global-set-key (kbd "C-M-p") 'ta-rg-ask)
 
 ;;;; yasnippet
