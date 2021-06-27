@@ -1,6 +1,6 @@
 (require 's)
 
-(defun ta-ss-delete-region (region-beg region-end)
+(defun istring-delete-region (region-beg region-end)
   "Delete active region or `sexp-at-point', set `point' as
 `delete-region' does and return the deleted string."
   (interactive "r")
@@ -14,64 +14,64 @@
   (delete-region s-beg s-end)
   s-in-region)
 
-(defun ta-ss-s-lower-camel-case (region-beg region-end)
+(defun istring-lower-camel-case (region-beg region-end)
   "Make `s-lower-camel-case' interactive. Modify sexp at point or the
 region if actived."
   (interactive "r")
   (insert (s-lower-camel-case
-           (ta-ss-delete-region region-beg region-end))))
+           (istring-delete-region region-beg region-end))))
 
-(defun ta-ss-s-upper-camel-case (region-beg region-end)
+(defun istring-upper-camel-case (region-beg region-end)
   "Make `s-upper-camel-case' interactive. Modify sexp at point or the
 region if actived."
   (interactive "r")
   (insert (s-upper-camel-case
-           (ta-ss-delete-region region-beg region-end))))
+           (istring-delete-region region-beg region-end))))
 
-(defun ta-ss-s-snake-case (region-beg region-end)
+(defun istring-snake-case (region-beg region-end)
   "Make `s-snake-case' interactive. Modify sexp at point or the
 region if actived."
   (interactive "r")
   (insert (s-snake-case
-           (ta-ss-delete-region region-beg region-end))))
+           (istring-delete-region region-beg region-end))))
 
-(defun ta-ss-s-dashed-words (region-beg region-end)
+(defun istring-dashed-words (region-beg region-end)
   "Make `s-dashed-words' interactive. Modify sexp at point or the
 region if actived."
   (interactive "r")
   (insert (s-dashed-words
-           (ta-ss-delete-region region-beg region-end))))
+           (istring-delete-region region-beg region-end))))
 
 
-(defun ta-ss-s-upcase (region-beg region-end)
+(defun istring-upcase (region-beg region-end)
   "Make `s-upcase' interactive. Modify sexp at point or the
 region if actived."
   (interactive "r")
   (insert (s-upcase
-           (ta-ss-delete-region region-beg region-end))))
+           (istring-delete-region region-beg region-end))))
 
-(defun ta-ss-s-downcase (region-beg region-end)
+(defun istring-downcase (region-beg region-end)
   "Make `s-downcase' interactive. Modify sexp at point or the
 region if actived."
   (interactive "r")
   (insert (s-downcase
-           (ta-ss-delete-region region-beg region-end))))
+           (istring-delete-region region-beg region-end))))
 
-(defun ta-ss-s-capitalize (region-beg region-end)
+(defun istring-capitalize (region-beg region-end)
   "Make `s-capitalize' interactive. Modify sexp at point or the
 region if actived."
   (interactive "r")
   (insert (s-capitalize
-           (ta-ss-delete-region region-beg region-end))))
+           (istring-delete-region region-beg region-end))))
 
-(defun ta-ss-s-titleize (region-beg region-end)
+(defun istring-titleize (region-beg region-end)
   "Make `s-titleize' interactive. Modify sexp at point or the
 region if actived."
   (interactive "r")
   (insert (s-titleize
-           (ta-ss-delete-region region-beg region-end))))
+           (istring-delete-region region-beg region-end))))
 
-(defun ta-ss-s-collapse-whitespace ()
+(defun istring-collapse-whitespace ()
   "Apply `s-collapse-whitespace' on the current line."
   (interactive)
   (let ((s-beg
@@ -96,29 +96,29 @@ region if actived."
         (wrap-end (s-concat "\n" (car (cdr wrappers)))))
     (message "%s" wrap-end)
     (insert (s-wrap
-             (ta-ss-delete-region region-beg region-end)
+             (istring-delete-region region-beg region-end)
              wrap-beg
              wrap-end))))
 
 (defhydra hydra-ss
   (:hint nil)
 
-  ;; ("d" ta-ss-s-dashed-words :color blue)
-  ;; ("s" ta-ss-s-snake-case :color blue)
-  ;; ("l" ta-ss-s-lower-camel-case :color blue)
-  ;; ("r" ta-ss-s-upper-camel-case :color blue)
+  ;; ("d" istring-dashed-words :color blue)
+  ;; ("s" istring-snake-case :color blue)
+  ;; ("l" istring-lower-camel-case :color blue)
+  ;; ("r" istring-upper-camel-case :color blue)
 
-  ("d" ta-ss-s-dashed-words)
-  ("s" ta-ss-s-snake-case)
-  ("l" ta-ss-s-lower-camel-case)
-  ("r" ta-ss-s-upper-camel-case)
+  ("d" istring-dashed-words)
+  ("s" istring-snake-case)
+  ("l" istring-lower-camel-case)
+  ("r" istring-upper-camel-case)
   ;; ---
-  ("<up>" ta-ss-s-upcase :color blue)
-  ("<down>" ta-ss-s-downcase :color blue)
-  ("t" ta-ss-s-titleize :color blue)
-  ("c" ta-ss-s-capitalize :color blue)
+  ("<up>" istring-upcase :color blue)
+  ("<down>" istring-downcase :color blue)
+  ("t" istring-titleize :color blue)
+  ("c" istring-capitalize :color blue)
   ;; ---
-  ("," ta-ss-s-collapse-whitespace :color blue)
+  ("," istring-collapse-whitespace :color blue)
   ("e" ta-ss-wrap :color blue)
   ;; ---
   ("M--" undo)
