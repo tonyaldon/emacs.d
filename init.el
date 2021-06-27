@@ -28,7 +28,3 @@
 ;;; setup files
 
 (require 'setup-init)
-
-;;; key bindings files
-
-(require 'kb-mark)
