@@ -1922,10 +1922,10 @@ under project root directory.
 
 With \\[universal-argument] prefix, search is done in
 current dir instead of project root."
-  (interactive "P")
-  (cond
-   ((equal arg 4) (call-interactively 'ta-rg-ask-current-dir))
-   (t (call-interactively 'ta-rg-ask-project-dir))))
+  (interactive "p")
+  (if (equal arg 4)
+      (call-interactively 'ta-rg-ask-current-dir)
+    (call-interactively 'ta-rg-ask-project-dir)))
 
 (defadvice rg-run (before ta-rg-delete-other-windows activate)
   (delete-other-windows))
