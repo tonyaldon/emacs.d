@@ -1,5 +1,6 @@
 
 (depends-on "adaptive-wrap")
+(depends-on "rust-mode")
 (depends-on "aggressive-indent")
 (depends-on "avy")
 (depends-on "bicycle")
