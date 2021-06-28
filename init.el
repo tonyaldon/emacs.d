@@ -530,6 +530,8 @@ of the columns."
 (defalias 'next-error-no-select 'ta-next-error-no-select)
 (defalias 'previous-error-no-select 'ta-previous-error-no-select)
 
+(global-set-key (kbd "C-c e") 'next-error-select-buffer)
+
 ;;;; emacs-lisp-mode
 
 (require 'outline)
