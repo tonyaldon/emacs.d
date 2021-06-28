@@ -934,9 +934,10 @@ Intended to be used in the hook `makefile-gmake-mode-hook'."
 We use `bicycle-cycle' to cycle the visibility.
 See `outline-regexp' and `outline-level'."
   (interactive)
-  (if (outline-on-heading-p)
-      (call-interactively 'bicycle-cycle)
-    (insert "\t")))
+  (cond ((outline-on-heading-p) (call-interactively #'bicycle-cycle))
+        ((markdown-table-at-point-p)
+         (call-interactively #'markdown-table-forward-cell))
+        (t (indent-for-tab-command))))
 
 (defun ta-markdown-outline-level ()
   "Markdown mode `outline-level' function."
