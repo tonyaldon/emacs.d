@@ -321,7 +321,6 @@
         suspend-frame
         ta-avy-goto-end-of-line
         ta-dired-current-buffer-file-toggle
-        ta-find-file-notes
         ta-mouse-describe-thing-at-point
         ta-outline-toggle-global
         undefined

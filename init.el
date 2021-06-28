@@ -54,7 +54,7 @@
 (global-set-key (kbd "C-x C-e") 'ta-fzf-emacs-settings)
 (global-set-key (kbd "<up>") 'ta-fzf-dwim)
 
-(global-set-key (kbd "<f5>") 'ta-find-file-notes)
+(global-set-key (kbd "<f5>") 'ta-emacs-init)
 (key-chord-define-global ";;" 'counsel-M-x)
 (global-set-key (kbd "C->") 'delete-char)
 (global-set-key (kbd "<C-backspace>") 'backward-kill-word)
@@ -2251,6 +2251,6 @@ follow working well with the changes I made in `rg-filter'."
   (interactive)
   (kill-new (buffer-file-name)))
 
-(defun ta-find-file-notes ()
+(defun ta-emacs-init ()
   (interactive)
-  (find-file "~/work/notes.org"))
+  (find-file "~/work/settings/emacs.d/.emacs.d/init.el"))
