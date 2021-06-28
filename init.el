@@ -1930,7 +1930,7 @@ Intended to be use as advice before of `mouse-set-point'."
         ("contact" . "~/work/contact/contact.org")
         ("tmp" . "~/work/tmp/")
         ("tonyaldon.com" . "~/work/apps/tonyaldon.com/")
-        ("settings emacs" . "~/work/settings/emacs.d/.emacs.d/settings/")
+        ("emacs init file" . "~/work/settings/emacs.d/.emacs.d/init.el")
         ("settings linux" . "~/work/settings/")
         ("tricks/directory" . "~/work/learning/tricks/")
         ("tricks/ideas" . "~/work/learning/tricks/ideas.org")
