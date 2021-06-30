@@ -144,12 +144,12 @@
         hydra-smartparens-wrapping/sp-rewrap-sexp-and-exit
         hydra-smartparens/body
         hydra-smartparens/sp-end-of-sexp
-        hydra-ss/body
-        hydra-ss/istring-capitalize-and-exit
-        hydra-ss/istring-collapse-whitespace-and-exit
-        hydra-ss/istring-downcase-and-exit
-        hydra-ss/istring-snake-case-and-exit
-        hydra-ss/istring-upcase-and-exit
+        hydra-istring/body
+        hydra-istring/istring-capitalize-and-exit
+        hydra-istring/istring-collapse-whitespace-and-exit
+        hydra-istring/istring-downcase-and-exit
+        hydra-istring/istring-snake-case-and-exit
+        hydra-istring/istring-upcase-and-exit
         indent-new-comment-line
         keyboard-quit
         kill-region

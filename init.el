@@ -1851,7 +1851,7 @@ nor a variable."
   ("M--" undo)
   ("q" nil))
 
-(global-set-key (kbd "C-c s") 'hydra-ss/body)
+(global-set-key (kbd "C-c s") 'hydra-istring/body)
 
 ;;;; multiple-cursors, iedit, mark
 
