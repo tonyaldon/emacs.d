@@ -1806,9 +1806,8 @@ If called with universal argument, call `pp-eval-expression'."
 (require 'mouse)
 
 (defun ta-describe-thing-at-point ()
-  "Display the full documentation of the `thing-at-point'
+  "Display the full documentation of the `thing-at-point'.
 
-that is either a function or a variable.
 Return nil if the symbol of the `thing-at-point' is neither a function
 nor a variable."
   (interactive)
