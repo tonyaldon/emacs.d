@@ -1179,6 +1179,7 @@ to blank table field if we start typing just after using it as `org-cycle',
 (define-key org-mode-map (kbd "M-e") nil)
 (define-key org-mode-map (kbd "C-a") nil)
 (define-key org-mode-map (kbd "M-a") nil)
+(define-key org-mode-map (kbd "M-}") nil)
 
 (define-key org-mode-map (kbd "M-m") 'ta-org-table-previous-row)
 (define-key org-mode-map (kbd "C-<tab>") 'org-shifttab)
