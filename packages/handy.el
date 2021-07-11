@@ -261,6 +261,13 @@ If call two times consecutively mark inside pairs."
   (insert " ")
   (goto-char (- (point) 1)))
 
+(defun handy-zap-up-to-char-backward (char)
+  "`zap-up-to-char' but backward."
+  (interactive
+   (list (read-char-from-minibuffer
+          "Zap up to char backward: " nil 'read-char-history)))
+  (zap-up-to-char -1 char))
+
 ;;; Comments
 
 (comment ; plist-get, <, handy-sp-touch
