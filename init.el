@@ -787,7 +787,7 @@ With two \\[universal-argument] prefix, start fzf at from `fzf/directory-start'.
 (insight-use-cursor-color)
 
 (define-key insight-mode-map (kbd "t") 'handy-line/body)
-(key-chord-define-global "bn" 'insight-mode)
+(global-set-key (kbd "M-p") 'insight-mode)
 
 ;;;; js-mode
 ;;;;; Packages
@@ -1698,7 +1698,7 @@ Intented to be use in `text-mode-hook'"
   (interactive)
   (avy-goto-char ?\n))
 
-(global-set-key (kbd "C-M-b") 'avy-goto-char)
+(key-chord-define-global "bn" 'avy-goto-char)
 (global-set-key (kbd "M-b") 'avy-goto-line)
 (global-set-key (kbd "M-f") 'ta-avy-goto-end-of-line)
 
